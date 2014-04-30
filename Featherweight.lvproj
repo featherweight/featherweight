@@ -245,10 +245,15 @@
 			</Item>
 		</Item>
 		<Item Name="Dependencies" Type="Dependencies">
+			<Item Name="vi.lib" Type="Folder">
+				<Item Name="Match Regular Expression_ExecuteOffsets.vi" Type="VI" URL="/&lt;vilib&gt;/regexp/Match Regular Expression_ExecuteOffsets.vi"/>
+			</Item>
 			<Item Name="DOMUserDefRef.dll" Type="Document" URL="DOMUserDefRef.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
 			<Item Name="FTW-JSON-ToLabVIEW_0E3E72F634BF4A9AB33E22111E055A26_000.vi" Type="VI" URL="/&lt;instcachedir&gt;/0/FTW-JSON-ToLabVIEW_0E3E72F634BF4A9AB33E22111E055A26.lvgen/FTW-JSON-ToLabVIEW_0E3E72F634BF4A9AB33E22111E055A26_000.vi"/>
+			<Item Name="FTW-JSON-ToLabVIEW_0E3E72F634BF4A9AB33E22111E055A26_001.vi" Type="VI" URL="/&lt;instcachedir&gt;/0/FTW-JSON-ToLabVIEW_0E3E72F634BF4A9AB33E22111E055A26.lvgen/FTW-JSON-ToLabVIEW_0E3E72F634BF4A9AB33E22111E055A26_001.vi"/>
+			<Item Name="FTW-JSON-ToLabVIEW_0E3E72F634BF4A9AB33E22111E055A26_002.vi" Type="VI" URL="/&lt;instcachedir&gt;/0/FTW-JSON-ToLabVIEW_0E3E72F634BF4A9AB33E22111E055A26.lvgen/FTW-JSON-ToLabVIEW_0E3E72F634BF4A9AB33E22111E055A26_002.vi"/>
 			<Item Name="FTW-JSON-ToLabVIEW_0E3E72F634BF4A9AB33E22111E055A26_003.vi" Type="VI" URL="/&lt;instcachedir&gt;/0/FTW-JSON-ToLabVIEW_0E3E72F634BF4A9AB33E22111E055A26.lvgen/FTW-JSON-ToLabVIEW_0E3E72F634BF4A9AB33E22111E055A26_003.vi"/>
 			<Item Name="FTW-JSON-ToLabVIEW_0E3E72F634BF4A9AB33E22111E055A26_004.vi" Type="VI" URL="/&lt;instcachedir&gt;/0/FTW-JSON-ToLabVIEW_0E3E72F634BF4A9AB33E22111E055A26.lvgen/FTW-JSON-ToLabVIEW_0E3E72F634BF4A9AB33E22111E055A26_004.vi"/>
 			<Item Name="mscorlib" Type="VI" URL="mscorlib">
