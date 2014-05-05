@@ -79,6 +79,7 @@
 				<Item Name="FTW-JSON-Array-Serialize.vi" Type="VI" URL="../src/JSON/FTW-JSON-Array-Serialize.vi"/>
 				<Item Name="FTW-JSON-CompositeType.ctl" Type="VI" URL="../src/JSON/FTW-JSON-CompositeType.ctl"/>
 				<Item Name="FTW-JSON-Datatype.ctl" Type="VI" URL="../src/JSON/FTW-JSON-Datatype.ctl"/>
+				<Item Name="FTW-JSON-Deserialize.xnode" Type="XNode" URL="../src/JSON/FTW-JSON-Deserialize.xnode"/>
 				<Item Name="FTW-JSON-Escape.vi" Type="VI" URL="../src/JSON/FTW-JSON-Escape.vi"/>
 				<Item Name="FTW-JSON-Format-Boolean.vi" Type="VI" URL="../src/JSON/FTW-JSON-Format-Boolean.vi"/>
 				<Item Name="FTW-JSON-Format-Pair.vi" Type="VI" URL="../src/JSON/FTW-JSON-Format-Pair.vi"/>
@@ -90,7 +91,6 @@
 				<Item Name="FTW-JSON-ObjectManip-AddPair.vi" Type="VI" URL="../src/JSON/FTW-JSON-ObjectManip-AddPair.vi"/>
 				<Item Name="FTW-JSON-RegexHeader.vi" Type="VI" URL="../src/JSON/FTW-JSON-RegexHeader.vi"/>
 				<Item Name="FTW-JSON-RegexParse.vi" Type="VI" URL="../src/JSON/FTW-JSON-RegexParse.vi"/>
-				<Item Name="FTW-JSON-ToLabVIEW.vi" Type="VI" URL="../src/JSON/FTW-JSON-ToLabVIEW.vi"/>
 				<Item Name="FTW-JSON-Unescape.vi" Type="VI" URL="../src/JSON/FTW-JSON-Unescape.vi"/>
 				<Item Name="FTW-JSON-Validation.ctl" Type="VI" URL="../src/JSON/FTW-JSON-Validation.ctl"/>
 			</Item>
@@ -167,7 +167,13 @@
 				<Item Name="FTW-XML.lvclass" Type="LVClass" URL="../src/XML/FTW-XML.lvclass"/>
 			</Item>
 		</Item>
-		<Item Name="Dependencies" Type="Dependencies"/>
+		<Item Name="Dependencies" Type="Dependencies">
+			<Item Name="vi.lib" Type="Folder">
+				<Item Name="LVPositionTypeDef.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/miscctls.llb/LVPositionTypeDef.ctl"/>
+			</Item>
+			<Item Name="FTW-CodeGen-JSON-Deserialize.vi" Type="VI" URL="../utils/CodeGen/JSON/FTW-CodeGen-JSON-Deserialize.vi"/>
+			<Item Name="FTW-Image-ToPicture.vi" Type="VI" URL="../../UI/Image/FTW-Image-ToPicture.vi"/>
+		</Item>
 		<Item Name="Build Specifications" Type="Build">
 			<Property Name="NI.SortType" Type="Int">3</Property>
 		</Item>

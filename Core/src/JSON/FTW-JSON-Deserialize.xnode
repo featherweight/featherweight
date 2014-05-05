@@ -11,22 +11,22 @@
 	<Property Name="NI.XItem.Name" Type="Str">JSON</Property>
 	<Property Name="NI.XItem.SupportsFatalErrorOut" Type="Bool">false</Property>
 	<Property Name="NI.XNode.LazyLoad" Type="Bool">true</Property>
-	<Item Name="../FTW-JSON-CodeGen-State.ctl" Type="Ability VI" URL="../../../utils/CodeGen/JSON/FTW-JSON-CodeGen-State.ctl">
+	<Item Name="../FTW-JSON-CodeGen-State.ctl" Type="Ability VI" URL="../../../utils/CodeGen/JSON/FTW-CodeGen-JSON-State.ctl">
 		<Property Name="NI.XItem.Name" Type="Str">State</Property>
 	</Item>
-	<Item Name="../FTW-JSON-CodeGen-AdaptToInputs.vi" Type="Ability VI" URL="../../../utils/CodeGen/JSON/FTW-JSON-CodeGen-AdaptToInputs.vi">
+	<Item Name="../FTW-JSON-CodeGen-AdaptToInputs.vi" Type="Ability VI" URL="../../../utils/CodeGen/JSON/FTW-CodeGen-JSON-AdaptToInputs.vi">
 		<Property Name="NI.XItem.Name" Type="Str">AdaptToInputs</Property>
 	</Item>
-	<Item Name="../FTW-JSON-CodeGen-Bounds.vi" Type="Ability VI" URL="../../../utils/CodeGen/JSON/FTW-JSON-CodeGen-Bounds.vi">
+	<Item Name="../FTW-JSON-CodeGen-Bounds.vi" Type="Ability VI" URL="../../../utils/CodeGen/JSON/FTW-CodeGen-JSON-Bounds.vi">
 		<Property Name="NI.XItem.Name" Type="Str">Bounds</Property>
 	</Item>
-	<Item Name="../FTW-JSON-CodeGen-GenerateCode.vi" Type="Ability VI" URL="../../../utils/CodeGen/JSON/FTW-JSON-CodeGen-GenerateCode.vi">
+	<Item Name="../FTW-JSON-CodeGen-GenerateCode.vi" Type="Ability VI" URL="../../../utils/CodeGen/JSON/FTW-CodeGen-JSON-GenerateCode.vi">
 		<Property Name="NI.XItem.Name" Type="Str">GenerateCode</Property>
 	</Item>
-	<Item Name="../FTW-JSON-CodeGen-Image.vi" Type="Ability VI" URL="../../../utils/CodeGen/JSON/FTW-JSON-CodeGen-Image.vi">
+	<Item Name="../FTW-JSON-CodeGen-Image.vi" Type="Ability VI" URL="../../../utils/CodeGen/JSON/FTW-CodeGen-JSON-Image.vi">
 		<Property Name="NI.XItem.Name" Type="Str">Image</Property>
 	</Item>
-	<Item Name="FTW-JSON-CodeGen-GetTerms4.vi" Type="Ability VI" URL="../../../utils/CodeGen/JSON/FTW-JSON-CodeGen-GetTerms4.vi">
+	<Item Name="FTW-JSON-CodeGen-GetTerms4.vi" Type="Ability VI" URL="../../../utils/CodeGen/JSON/FTW-CodeGen-JSON-GetTerms4.vi">
 		<Property Name="NI.XItem.Name" Type="Str">GetTerms4</Property>
 	</Item>
 </XNode>
