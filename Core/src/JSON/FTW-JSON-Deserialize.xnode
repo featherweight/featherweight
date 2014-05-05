@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<XNode LVVersion="12008004">
+	<Property Name="NI.Lib.Icon" Type="Bin">%A#!"!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!*B!!!*Q(C=Z:1RDB."%%8`)A*3XQ!ZX&lt;#OY#PY"%AF!1&gt;Q/"P[#C6OY!1B1IM&lt;6%DK+TBU[/&amp;.4[VX6MQ;#6AN%NWOG:Z@V66PONMDN@:'?CV^P^IU(5HN-IZ`DN2^W"!TYX_9WC,G:_NS??S`,`^E`3@@Y'L\X`SXUT&lt;HHYZ0M`\&lt;[`\77`&lt;@G``(^5]P80^ZXX`;:PQ[4&gt;OP`NXDX_/O[`NT`Y*.OJ''?^]H&amp;JBDJM(6*XKC*XKC*XKC"XKA"XKA"XKA/\KD/\KD/\KD'\KB'\KB'\KBNYYO&gt;+%,H66*CC?&amp;EK2*AC19&amp;#78B#@B38A3(B[6]#1]#5`#E`!1II1HY5FY%J[%BWF+?"+?B#@B38B)V5CS&gt;82Y%B\3+_!*?!+?A#@AI;1#HA!A+"9E$J+!I=!:$!+?A#@A9;C!*_!*?!+?A!?X!J[!*_!*?!)?JL26C59T&gt;(2Y3#/(R_&amp;R?"Q?BY@5=HA=(I@(Y8&amp;Y+#?(R_&amp;R)*S#4H)1Z%RS!JQ(B]@BY3;(R_&amp;R?"Q?BQ&gt;8WS&amp;P+T01$"U&gt;(I0(Y$&amp;Y$"[$BR1S?!Q?A]@A-8B)+Y0(Y$&amp;Y$"[$BV)S?!Q?A]=!-9J38E9S9[)2:!A'$\^W7KTN5D13;VWKQ[M[F+L$JDJ%KM/BWH46:KIW3&lt;8YKE66,::K%61PJY*7Q;C+K#90A4JS07"\&lt;)&gt;NM1WWRF&lt;9%FM-5`^SY0&amp;YV/&amp;QU([`VW[XUX;\V7;TU8K^VGKVUH+ZV'+RO(S]XN,(&gt;H0Z,HXZV07@XX@^VQ`&gt;_&gt;P(\PS/:^I&gt;-=^JYX@J8`AW[J8'_W7.@A"A@9JW!!!!!!</Property>
+	<Property Name="NI.Lib.SourceVersion" Type="Int">302022660</Property>
+	<Property Name="NI.Lib.Version" Type="Str">1.0.0.0</Property>
+	<Property Name="NI.LV.All.SourceOnly" Type="Bool">true</Property>
+	<Property Name="NI.XClass.Loc.Name" Type="Str">JSON</Property>
+	<Property Name="NI.XClass.Name" Type="Str">JSON</Property>
+	<Property Name="NI.XItem.DeclaredLeakProof" Type="Bool">false</Property>
+	<Property Name="NI.XItem.Express" Type="Bool">false</Property>
+	<Property Name="NI.XItem.Name" Type="Str">JSON</Property>
+	<Property Name="NI.XItem.SupportsFatalErrorOut" Type="Bool">false</Property>
+	<Property Name="NI.XNode.LazyLoad" Type="Bool">true</Property>
+	<Item Name="../FTW-JSON-CodeGen-State.ctl" Type="Ability VI" URL="../../../utils/CodeGen/JSON/FTW-JSON-CodeGen-State.ctl">
+		<Property Name="NI.XItem.Name" Type="Str">State</Property>
+	</Item>
+	<Item Name="../FTW-JSON-CodeGen-AdaptToInputs.vi" Type="Ability VI" URL="../../../utils/CodeGen/JSON/FTW-JSON-CodeGen-AdaptToInputs.vi">
+		<Property Name="NI.XItem.Name" Type="Str">AdaptToInputs</Property>
+	</Item>
+	<Item Name="../FTW-JSON-CodeGen-Bounds.vi" Type="Ability VI" URL="../../../utils/CodeGen/JSON/FTW-JSON-CodeGen-Bounds.vi">
+		<Property Name="NI.XItem.Name" Type="Str">Bounds</Property>
+	</Item>
+	<Item Name="../FTW-JSON-CodeGen-GenerateCode.vi" Type="Ability VI" URL="../../../utils/CodeGen/JSON/FTW-JSON-CodeGen-GenerateCode.vi">
+		<Property Name="NI.XItem.Name" Type="Str">GenerateCode</Property>
+	</Item>
+	<Item Name="../FTW-JSON-CodeGen-Image.vi" Type="Ability VI" URL="../../../utils/CodeGen/JSON/FTW-JSON-CodeGen-Image.vi">
+		<Property Name="NI.XItem.Name" Type="Str">Image</Property>
+	</Item>
+	<Item Name="FTW-JSON-CodeGen-GetTerms4.vi" Type="Ability VI" URL="../../../utils/CodeGen/JSON/FTW-JSON-CodeGen-GetTerms4.vi">
+		<Property Name="NI.XItem.Name" Type="Str">GetTerms4</Property>
+	</Item>
+</XNode>

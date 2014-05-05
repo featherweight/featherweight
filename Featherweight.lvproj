@@ -91,6 +91,7 @@
 				<Item Name="FTW-JSON-Array-Serialize.vi" Type="VI" URL="../Core/src/JSON/FTW-JSON-Array-Serialize.vi"/>
 				<Item Name="FTW-JSON-CompositeType.ctl" Type="VI" URL="../Core/src/JSON/FTW-JSON-CompositeType.ctl"/>
 				<Item Name="FTW-JSON-Datatype.ctl" Type="VI" URL="../Core/src/JSON/FTW-JSON-Datatype.ctl"/>
+				<Item Name="FTW-JSON-Deserialize.xnode" Type="XNode" URL="../Core/src/JSON/FTW-JSON-Deserialize.xnode"/>
 				<Item Name="FTW-JSON-Escape.vi" Type="VI" URL="../Core/src/JSON/FTW-JSON-Escape.vi"/>
 				<Item Name="FTW-JSON-Format-Boolean.vi" Type="VI" URL="../Core/src/JSON/FTW-JSON-Format-Boolean.vi"/>
 				<Item Name="FTW-JSON-Format-Pair.vi" Type="VI" URL="../Core/src/JSON/FTW-JSON-Format-Pair.vi"/>
@@ -102,7 +103,6 @@
 				<Item Name="FTW-JSON-ObjectManip-AddPair.vi" Type="VI" URL="../Core/src/JSON/FTW-JSON-ObjectManip-AddPair.vi"/>
 				<Item Name="FTW-JSON-RegexHeader.vi" Type="VI" URL="../Core/src/JSON/FTW-JSON-RegexHeader.vi"/>
 				<Item Name="FTW-JSON-RegexParse.vi" Type="VI" URL="../Core/src/JSON/FTW-JSON-RegexParse.vi"/>
-				<Item Name="FTW-JSON-ToLabVIEW.vi" Type="VI" URL="../Core/src/JSON/FTW-JSON-ToLabVIEW.vi"/>
 				<Item Name="FTW-JSON-Unescape.vi" Type="VI" URL="../Core/src/JSON/FTW-JSON-Unescape.vi"/>
 				<Item Name="FTW-JSON-Validation.ctl" Type="VI" URL="../Core/src/JSON/FTW-JSON-Validation.ctl"/>
 			</Item>
@@ -256,13 +256,11 @@
 			</Item>
 		</Item>
 		<Item Name="Dependencies" Type="Dependencies">
-			<Item Name="mscorlib" Type="VI" URL="mscorlib">
-				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
+			<Item Name="vi.lib" Type="Folder">
+				<Item Name="LVPositionTypeDef.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/miscctls.llb/LVPositionTypeDef.ctl"/>
 			</Item>
+			<Item Name="FTW-CodeGen-JSON-Deserialize.vi" Type="VI" URL="../Core/utils/CodeGen/JSON/FTW-CodeGen-JSON-Deserialize.vi"/>
 			<Item Name="System" Type="VI" URL="System">
-				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
-			</Item>
-			<Item Name="System.Core" Type="Document" URL="System.Core">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
 		</Item>
