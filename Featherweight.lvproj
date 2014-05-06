@@ -256,9 +256,6 @@
 			</Item>
 		</Item>
 		<Item Name="Dependencies" Type="Dependencies">
-			<Item Name="vi.lib" Type="Folder">
-				<Item Name="LVPositionTypeDef.ctl" Type="VI" URL="/&lt;vilib&gt;/Utility/miscctls.llb/LVPositionTypeDef.ctl"/>
-			</Item>
 			<Item Name="FTW-CodeGen-JSON-Deserialize.vi" Type="VI" URL="../Core/utils/CodeGen/JSON/FTW-CodeGen-JSON-Deserialize.vi"/>
 			<Item Name="System" Type="VI" URL="System">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
