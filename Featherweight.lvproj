@@ -86,12 +86,15 @@
 				<Item Name="FTW-HTTP-ParseResponseHeaders.vi" Type="VI" URL="../Core/src/HTTP/FTW-HTTP-ParseResponseHeaders.vi"/>
 				<Item Name="FTW-HTTP-ResponseCode.ctl" Type="VI" URL="../Core/src/HTTP/FTW-HTTP-ResponseCode.ctl"/>
 			</Item>
+			<Item Name="Image" Type="Folder">
+				<Item Name="FTW-Image-ToPicture.vi" Type="VI" URL="../Core/src/Image/FTW-Image-ToPicture.vi"/>
+			</Item>
 			<Item Name="JSON" Type="Folder">
 				<Item Name="FTW-JSON-Array-Deserialize.vi" Type="VI" URL="../Core/src/JSON/FTW-JSON-Array-Deserialize.vi"/>
 				<Item Name="FTW-JSON-Array-Serialize.vi" Type="VI" URL="../Core/src/JSON/FTW-JSON-Array-Serialize.vi"/>
 				<Item Name="FTW-JSON-CompositeType.ctl" Type="VI" URL="../Core/src/JSON/FTW-JSON-CompositeType.ctl"/>
 				<Item Name="FTW-JSON-Datatype.ctl" Type="VI" URL="../Core/src/JSON/FTW-JSON-Datatype.ctl"/>
-				<Item Name="FTW-JSON-Deserialize.xnode" Type="XNode" URL="../Core/src/JSON/FTW-JSON-Deserialize.xnode"/>
+				<Item Name="FTW-JSON-Deserialize.xnode" Type="XNode" URL="../Core/utils/CodeGen/JSON Deserialize/FTW-JSON-Deserialize.xnode"/>
 				<Item Name="FTW-JSON-Escape.vi" Type="VI" URL="../Core/src/JSON/FTW-JSON-Escape.vi"/>
 				<Item Name="FTW-JSON-Format-Boolean.vi" Type="VI" URL="../Core/src/JSON/FTW-JSON-Format-Boolean.vi"/>
 				<Item Name="FTW-JSON-Format-Pair.vi" Type="VI" URL="../Core/src/JSON/FTW-JSON-Format-Pair.vi"/>
@@ -103,6 +106,7 @@
 				<Item Name="FTW-JSON-ObjectManip-AddPair.vi" Type="VI" URL="../Core/src/JSON/FTW-JSON-ObjectManip-AddPair.vi"/>
 				<Item Name="FTW-JSON-RegexHeader.vi" Type="VI" URL="../Core/src/JSON/FTW-JSON-RegexHeader.vi"/>
 				<Item Name="FTW-JSON-RegexParse.vi" Type="VI" URL="../Core/src/JSON/FTW-JSON-RegexParse.vi"/>
+				<Item Name="FTW-JSON-Serialize.xnode" Type="XNode" URL="../Core/utils/CodeGen/JSON Serialize/FTW-JSON-Serialize.xnode"/>
 				<Item Name="FTW-JSON-Unescape.vi" Type="VI" URL="../Core/src/JSON/FTW-JSON-Unescape.vi"/>
 				<Item Name="FTW-JSON-Validation.ctl" Type="VI" URL="../Core/src/JSON/FTW-JSON-Validation.ctl"/>
 			</Item>
@@ -190,9 +194,6 @@
 				<Item Name="FTW-FileSystem-OpenDirectoryOrParent.vi" Type="VI" URL="../UI/FileSystem/FTW-FileSystem-OpenDirectoryOrParent.vi"/>
 				<Item Name="FTW-FileSystem-OpenURIwithDefaultHandler.vi" Type="VI" URL="../UI/FileSystem/FTW-FileSystem-OpenURIwithDefaultHandler.vi"/>
 			</Item>
-			<Item Name="Image" Type="Folder">
-				<Item Name="FTW-Image-ToPicture.vi" Type="VI" URL="../UI/Image/FTW-Image-ToPicture.vi"/>
-			</Item>
 			<Item Name="Menu" Type="Folder">
 				<Item Name="FTW-Menu-BuildLevel.vi" Type="VI" URL="../UI/Menu/FTW-Menu-BuildLevel.vi"/>
 				<Item Name="FTW-Menu-DragDropDataAppend.vi" Type="VI" URL="../UI/Menu/FTW-Menu-DragDropDataAppend.vi"/>
@@ -219,29 +220,30 @@
 			<Item Name="Probes" Type="Folder">
 				<Item Name="FTW-Probe-String.vi" Type="VI" URL="../Utilities/Probes/FTW-Probe-String.vi"/>
 			</Item>
+			<Item Name="XNode" Type="Folder">
+				<Item Name="FTW-DevUtil-XNode-AddItem.vi" Type="VI" URL="../Utilities/XNode/FTW-DevUtil-XNode-AddItem.vi"/>
+			</Item>
 			<Item Name="FTW-DevUtil-CreateNewActor.vi" Type="VI" URL="../Utilities/FTW-DevUtil-CreateNewActor.vi"/>
 			<Item Name="FTW-DevUtil-FrontPanelCleanup.vi" Type="VI" URL="../Utilities/FTW-DevUtil-FrontPanelCleanup.vi"/>
 		</Item>
 		<Item Name="Windows" Type="Folder">
-			<Item Name="src" Type="Folder">
-				<Item Name="File" Type="Folder">
-					<Item Name="FTW-File-FileVersion.vi" Type="VI" URL="../Windows/src/File/FTW-File-FileVersion.vi"/>
-					<Item Name="FTW-File-GetShellIcon.vi" Type="VI" URL="../Windows/src/File/FTW-File-GetShellIcon.vi"/>
-				</Item>
-				<Item Name="Security" Type="Folder">
-					<Item Name="FTW-Crypto-AES256.vi" Type="VI" URL="../Windows/src/Security/FTW-Crypto-AES256.vi"/>
-					<Item Name="FTW-Crypto-FileHash.vi" Type="VI" URL="../Windows/src/Security/FTW-Crypto-FileHash.vi"/>
-					<Item Name="FTW-Crypto-HMAC-Hasher.vi" Type="VI" URL="../Windows/src/Security/FTW-Crypto-HMAC-Hasher.vi"/>
-					<Item Name="FTW-Crypto-PublicKeySignature-GenerateKeys.vi" Type="VI" URL="../Windows/src/Security/FTW-Crypto-PublicKeySignature-GenerateKeys.vi"/>
-					<Item Name="FTW-Crypto-PublicKeySignature-Sign.vi" Type="VI" URL="../Windows/src/Security/FTW-Crypto-PublicKeySignature-Sign.vi"/>
-					<Item Name="FTW-Crypto-PublicKeySignature-Verify.vi" Type="VI" URL="../Windows/src/Security/FTW-Crypto-PublicKeySignature-Verify.vi"/>
-					<Item Name="FTW-Crypto-String-Sign.vi" Type="VI" URL="../Windows/src/Security/FTW-Crypto-String-Sign.vi"/>
-					<Item Name="FTW-Crypto-String-Verify.vi" Type="VI" URL="../Windows/src/Security/FTW-Crypto-String-Verify.vi"/>
-				</Item>
-				<Item Name="String" Type="Folder">
-					<Item Name="FTW-STR-UTF8.vi" Type="VI" URL="../Windows/src/String/FTW-STR-UTF8.vi"/>
-					<Item Name="FTW-STR-UTF16.vi" Type="VI" URL="../Windows/src/String/FTW-STR-UTF16.vi"/>
-				</Item>
+			<Item Name="File" Type="Folder">
+				<Item Name="FTW-File-FileVersion.vi" Type="VI" URL="../Windows/src/File/FTW-File-FileVersion.vi"/>
+				<Item Name="FTW-File-GetShellIcon.vi" Type="VI" URL="../Windows/src/File/FTW-File-GetShellIcon.vi"/>
+			</Item>
+			<Item Name="Security" Type="Folder">
+				<Item Name="FTW-Crypto-AES256.vi" Type="VI" URL="../Windows/src/Security/FTW-Crypto-AES256.vi"/>
+				<Item Name="FTW-Crypto-FileHash.vi" Type="VI" URL="../Windows/src/Security/FTW-Crypto-FileHash.vi"/>
+				<Item Name="FTW-Crypto-HMAC-Hasher.vi" Type="VI" URL="../Windows/src/Security/FTW-Crypto-HMAC-Hasher.vi"/>
+				<Item Name="FTW-Crypto-PublicKeySignature-GenerateKeys.vi" Type="VI" URL="../Windows/src/Security/FTW-Crypto-PublicKeySignature-GenerateKeys.vi"/>
+				<Item Name="FTW-Crypto-PublicKeySignature-Sign.vi" Type="VI" URL="../Windows/src/Security/FTW-Crypto-PublicKeySignature-Sign.vi"/>
+				<Item Name="FTW-Crypto-PublicKeySignature-Verify.vi" Type="VI" URL="../Windows/src/Security/FTW-Crypto-PublicKeySignature-Verify.vi"/>
+				<Item Name="FTW-Crypto-String-Sign.vi" Type="VI" URL="../Windows/src/Security/FTW-Crypto-String-Sign.vi"/>
+				<Item Name="FTW-Crypto-String-Verify.vi" Type="VI" URL="../Windows/src/Security/FTW-Crypto-String-Verify.vi"/>
+			</Item>
+			<Item Name="String" Type="Folder">
+				<Item Name="FTW-STR-UTF8.vi" Type="VI" URL="../Windows/src/String/FTW-STR-UTF8.vi"/>
+				<Item Name="FTW-STR-UTF16.vi" Type="VI" URL="../Windows/src/String/FTW-STR-UTF16.vi"/>
 			</Item>
 			<Item Name="Transfer Client" Type="Folder">
 				<Item Name="dotNET" Type="Folder">
@@ -256,7 +258,6 @@
 			</Item>
 		</Item>
 		<Item Name="Dependencies" Type="Dependencies">
-			<Item Name="FTW-CodeGen-JSON-Deserialize.vi" Type="VI" URL="../Core/utils/CodeGen/JSON/FTW-CodeGen-JSON-Deserialize.vi"/>
 			<Item Name="System" Type="VI" URL="System">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
