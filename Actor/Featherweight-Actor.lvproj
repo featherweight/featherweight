@@ -29,8 +29,6 @@
 			<Item Name="FTW-ERR-NoErrorConstant.vi" Type="VI" URL="../../Core/src/Error/FTW-ERR-NoErrorConstant.vi"/>
 			<Item Name="FTW-ERR-ThrowGenericError.vi" Type="VI" URL="../../Core/src/Error/FTW-ERR-ThrowGenericError.vi"/>
 			<Item Name="FTW-ERR-ThrowImpossibleError.vi" Type="VI" URL="../../Core/src/Error/FTW-ERR-ThrowImpossibleError.vi"/>
-			<Item Name="FTW-JSON-ToLabVIEW.vi" Type="VI" URL="../../Core/src/JSON/FTW-JSON-ToLabVIEW.vi"/>
-			<Item Name="FTW-JSON-ToLabVIEW_0E3E72F634BF4A9AB33E22111E055A26_001.vi" Type="VI" URL="/&lt;instcachedir&gt;/0/FTW-JSON-ToLabVIEW_0E3E72F634BF4A9AB33E22111E055A26.lvgen/FTW-JSON-ToLabVIEW_0E3E72F634BF4A9AB33E22111E055A26_001.vi"/>
 		</Item>
 		<Item Name="Build Specifications" Type="Build">
 			<Item Name="Featherweight Actor Packed Library" Type="Packed Library">
@@ -49,7 +47,7 @@
 				<Property Name="Destination[1].path" Type="Path">../Builds</Property>
 				<Property Name="Destination[1].path.type" Type="Str">relativeToProject</Property>
 				<Property Name="DestinationCount" Type="Int">2</Property>
-				<Property Name="Source[0].itemID" Type="Str">{33D76BC3-4704-4371-91AD-B82BC51D8519}</Property>
+				<Property Name="Source[0].itemID" Type="Str">{3599962F-24AA-41F5-A9CA-E43616E901C8}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
 				<Property Name="Source[1].itemID" Type="Ref">/My Computer/Source/FTW-Actor.lvlib</Property>
@@ -71,7 +69,7 @@
 				<Property Name="TgtF_autoIncrement" Type="Bool">true</Property>
 				<Property Name="TgtF_companyName" Type="Str">Featherweight</Property>
 				<Property Name="TgtF_fileDescription" Type="Str">Featherweight Actor Packed Library</Property>
-				<Property Name="TgtF_fileVersion.build" Type="Int">346</Property>
+				<Property Name="TgtF_fileVersion.build" Type="Int">347</Property>
 				<Property Name="TgtF_fileVersion.minor" Type="Int">3</Property>
 				<Property Name="TgtF_internalName" Type="Str">FTW-Actor</Property>
 				<Property Name="TgtF_legalCopyright" Type="Str">featherweight.io</Property>
