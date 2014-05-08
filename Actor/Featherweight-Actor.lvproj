@@ -25,10 +25,66 @@
 			<Item Name="FTW-Actor.lvlib" Type="Library" URL="../src/FTW-Actor.lvlib"/>
 		</Item>
 		<Item Name="Dependencies" Type="Dependencies">
+			<Item Name="DOMUserDefRef.dll" Type="Document" URL="DOMUserDefRef.dll">
+				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
+			</Item>
+			<Item Name="FTW-App-StringVersionToString.vi" Type="VI" URL="../../Core/src/Application/FTW-App-StringVersionToString.vi"/>
+			<Item Name="FTW-App-VersionToString.vi" Type="VI" URL="../../Core/src/Application/FTW-App-VersionToString.vi"/>
+			<Item Name="FTW-Container.lvclass" Type="LVClass" URL="../../Core/src/Container/FTW-Container.lvclass"/>
+			<Item Name="FTW-ERR-CallChain.vi" Type="VI" URL="../../Core/src/Error/FTW-ERR-CallChain.vi"/>
 			<Item Name="FTW-ERR-Clear.vi" Type="VI" URL="../../Core/src/Error/FTW-ERR-Clear.vi"/>
+			<Item Name="FTW-ERR-ExceptionType.ctl" Type="VI" URL="../../Core/src/Error/FTW-ERR-ExceptionType.ctl"/>
 			<Item Name="FTW-ERR-NoErrorConstant.vi" Type="VI" URL="../../Core/src/Error/FTW-ERR-NoErrorConstant.vi"/>
+			<Item Name="FTW-ERR-SerializeForLog.vi" Type="VI" URL="../../Core/src/Error/FTW-ERR-SerializeForLog.vi"/>
+			<Item Name="FTW-ERR-StatusError.vi" Type="VI" URL="../../Core/src/Error/FTW-ERR-StatusError.vi"/>
+			<Item Name="FTW-ERR-StatusException.vi" Type="VI" URL="../../Core/src/Error/FTW-ERR-StatusException.vi"/>
+			<Item Name="FTW-ERR-StatusOK.vi" Type="VI" URL="../../Core/src/Error/FTW-ERR-StatusOK.vi"/>
+			<Item Name="FTW-ERR-ThrowError.vi" Type="VI" URL="../../Core/src/Error/FTW-ERR-ThrowError.vi"/>
 			<Item Name="FTW-ERR-ThrowGenericError.vi" Type="VI" URL="../../Core/src/Error/FTW-ERR-ThrowGenericError.vi"/>
 			<Item Name="FTW-ERR-ThrowImpossibleError.vi" Type="VI" URL="../../Core/src/Error/FTW-ERR-ThrowImpossibleError.vi"/>
+			<Item Name="FTW-File-CreateDirectory.vi" Type="VI" URL="../../Core/src/File/FTW-File-CreateDirectory.vi"/>
+			<Item Name="FTW-File-Directory-Exists.vi" Type="VI" URL="../../Core/src/File/FTW-File-Directory-Exists.vi"/>
+			<Item Name="FTW-File-GenerateLogFilename.vi" Type="VI" URL="../../Core/src/File/FTW-File-GenerateLogFilename.vi"/>
+			<Item Name="FTW-File-IsRelative.vi" Type="VI" URL="../../Core/src/File/FTW-File-IsRelative.vi"/>
+			<Item Name="FTW-File-ResolveSymbolicPaths.vi" Type="VI" URL="../../Core/src/File/FTW-File-ResolveSymbolicPaths.vi"/>
+			<Item Name="FTW-File-SystemDirectories.vi" Type="VI" URL="../../Core/src/File/FTW-File-SystemDirectories.vi"/>
+			<Item Name="FTW-File-TextWrite.vi" Type="VI" URL="../../Core/src/File/FTW-File-TextWrite.vi"/>
+			<Item Name="FTW-File-ValidateFilepath.vi" Type="VI" URL="../../Core/src/File/FTW-File-ValidateFilepath.vi"/>
+			<Item Name="FTW-Image-ToPicture.vi" Type="VI" URL="../../Core/src/Image/FTW-Image-ToPicture.vi"/>
+			<Item Name="FTW-JSON-CompositeType.ctl" Type="VI" URL="../../Core/src/JSON/FTW-JSON-CompositeType.ctl"/>
+			<Item Name="FTW-JSON-Datatype.ctl" Type="VI" URL="../../Core/src/JSON/FTW-JSON-Datatype.ctl"/>
+			<Item Name="FTW-JSON-Escape.vi" Type="VI" URL="../../Core/src/JSON/FTW-JSON-Escape.vi"/>
+			<Item Name="FTW-JSON-Format-Boolean.vi" Type="VI" URL="../../Core/src/JSON/FTW-JSON-Format-Boolean.vi"/>
+			<Item Name="FTW-JSON-Format-Pair.vi" Type="VI" URL="../../Core/src/JSON/FTW-JSON-Format-Pair.vi"/>
+			<Item Name="FTW-JSON-Format-String.vi" Type="VI" URL="../../Core/src/JSON/FTW-JSON-Format-String.vi"/>
+			<Item Name="FTW-JSON-Interpret-Boolean.vi" Type="VI" URL="../../Core/src/JSON/FTW-JSON-Interpret-Boolean.vi"/>
+			<Item Name="FTW-JSON-ObjectManip-AddPair.vi" Type="VI" URL="../../Core/src/JSON/FTW-JSON-ObjectManip-AddPair.vi"/>
+			<Item Name="FTW-JSON-RegexHeader.vi" Type="VI" URL="../../Core/src/JSON/FTW-JSON-RegexHeader.vi"/>
+			<Item Name="FTW-JSON-RegexParse.vi" Type="VI" URL="../../Core/src/JSON/FTW-JSON-RegexParse.vi"/>
+			<Item Name="FTW-JSON-Unescape.vi" Type="VI" URL="../../Core/src/JSON/FTW-JSON-Unescape.vi"/>
+			<Item Name="FTW-NUM-Counter.vi" Type="VI" URL="../../Core/src/Numeric/FTW-NUM-Counter.vi"/>
+			<Item Name="FTW-Regex-ReplaceAll.vi" Type="VI" URL="../../Core/src/Regex/FTW-Regex-ReplaceAll.vi"/>
+			<Item Name="FTW-Regex-ReplaceAndReturn.vi" Type="VI" URL="../../Core/src/Regex/FTW-Regex-ReplaceAndReturn.vi"/>
+			<Item Name="FTW-Regex.vi" Type="VI" URL="../../Core/src/Regex/FTW-Regex.vi"/>
+			<Item Name="FTW-STR-Array-Delimit.vi" Type="VI" URL="../../Core/src/String/FTW-STR-Array-Delimit.vi"/>
+			<Item Name="FTW-STR-Random-Hex.vi" Type="VI" URL="../../Core/src/String/FTW-STR-Random-Hex.vi"/>
+			<Item Name="FTW-STR-Repeat.vi" Type="VI" URL="../../Core/src/String/FTW-STR-Repeat.vi"/>
+			<Item Name="FTW-STR-ReplaceWhitespace.vi" Type="VI" URL="../../Core/src/String/FTW-STR-ReplaceWhitespace.vi"/>
+			<Item Name="FTW-Time-Display-Timestamp.vi" Type="VI" URL="../../Core/src/Time/FTW-Time-Display-Timestamp.vi"/>
+			<Item Name="FTW-Time-DisplayFormat-Timestamp.ctl" Type="VI" URL="../../Core/src/Time/FTW-Time-DisplayFormat-Timestamp.ctl"/>
+			<Item Name="FTW-Time-Elapse.vi" Type="VI" URL="../../Core/src/Time/FTW-Time-Elapse.vi"/>
+			<Item Name="FTW-Time-Timer.vi" Type="VI" URL="../../Core/src/Time/FTW-Time-Timer.vi"/>
+			<Item Name="FTW-VIServer-GetClassDefaultData.vi" Type="VI" URL="../../Core/src/VI Server/FTW-VIServer-GetClassDefaultData.vi"/>
+			<Item Name="FTW-XML-Construct.vi" Type="VI" URL="../../Core/src/XML/FTW-XML-Construct.vi"/>
+			<Item Name="FTW-XML-Destroy.vi" Type="VI" URL="../../Core/src/XML/FTW-XML-Destroy.vi"/>
+			<Item Name="FTW-XML-Element-Append.vi" Type="VI" URL="../../Core/src/XML/FTW-XML-Element-Append.vi"/>
+			<Item Name="FTW-XML-Element-GetFirstChild.vi" Type="VI" URL="../../Core/src/XML/FTW-XML-Element-GetFirstChild.vi"/>
+			<Item Name="FTW-XML-Element-GetNextSibling.vi" Type="VI" URL="../../Core/src/XML/FTW-XML-Element-GetNextSibling.vi"/>
+			<Item Name="FTW-XML-Element-GetValue.vi" Type="VI" URL="../../Core/src/XML/FTW-XML-Element-GetValue.vi"/>
+			<Item Name="FTW-XML-Query-Elements.vi" Type="VI" URL="../../Core/src/XML/FTW-XML-Query-Elements.vi"/>
+			<Item Name="FTW-XML-Query-ElementValue.vi" Type="VI" URL="../../Core/src/XML/FTW-XML-Query-ElementValue.vi"/>
+			<Item Name="FTW-XML-Query-FirstElement.vi" Type="VI" URL="../../Core/src/XML/FTW-XML-Query-FirstElement.vi"/>
+			<Item Name="FTW-XML-Query-UpdateFirstElementXML.vi" Type="VI" URL="../../Core/src/XML/FTW-XML-Query-UpdateFirstElementXML.vi"/>
 		</Item>
 		<Item Name="Build Specifications" Type="Build">
 			<Item Name="Featherweight Actor Packed Library" Type="Packed Library">
