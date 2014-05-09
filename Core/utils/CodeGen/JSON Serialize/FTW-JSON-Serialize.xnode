@@ -31,5 +31,4 @@
 	<Item Name="FTW-CodeGen-GetTerms4.vi" Type="Ability VI" URL="../FTW-CodeGen-GetTerms4.vi">
 		<Property Name="NI.XItem.Name" Type="Str">GetTerms4</Property>
 	</Item>
-	<Item Name="FTW-CodeGen-Prototype.vi" Type="VI" URL="../FTW-CodeGen-Prototype.vi"/>
 </XNode>
