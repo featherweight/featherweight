@@ -103,7 +103,15 @@
 				<Property Name="Destination[1].path" Type="Path">../Builds</Property>
 				<Property Name="Destination[1].path.type" Type="Str">relativeToProject</Property>
 				<Property Name="DestinationCount" Type="Int">2</Property>
-				<Property Name="Source[0].itemID" Type="Str">{22D557FB-5CB5-4ACB-B7EE-1E03B33F0A7B}</Property>
+				<Property Name="Source[0].Container.applyDestination" Type="Bool">true</Property>
+				<Property Name="Source[0].Container.applySaveSettings" Type="Bool">true</Property>
+				<Property Name="Source[0].destinationIndex" Type="Int">0</Property>
+				<Property Name="Source[0].itemID" Type="Str">{16115DC3-3A0F-4D94-9B9E-246E5B046984}</Property>
+				<Property Name="Source[0].properties[0].type" Type="Str">Remove front panel</Property>
+				<Property Name="Source[0].properties[0].value" Type="Bool">false</Property>
+				<Property Name="Source[0].properties[1].type" Type="Str">Remove block diagram</Property>
+				<Property Name="Source[0].properties[1].value" Type="Bool">false</Property>
+				<Property Name="Source[0].propertiesCount" Type="Int">2</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
 				<Property Name="Source[1].itemID" Type="Ref">/My Computer/Source/FTW-Actor.lvlib</Property>
@@ -126,7 +134,7 @@
 				<Property Name="TgtF_companyName" Type="Str">Featherweight</Property>
 				<Property Name="TgtF_enableDebugging" Type="Bool">true</Property>
 				<Property Name="TgtF_fileDescription" Type="Str">Featherweight Actor Packed Library</Property>
-				<Property Name="TgtF_fileVersion.build" Type="Int">349</Property>
+				<Property Name="TgtF_fileVersion.build" Type="Int">350</Property>
 				<Property Name="TgtF_fileVersion.minor" Type="Int">3</Property>
 				<Property Name="TgtF_internalName" Type="Str">FTW-Actor</Property>
 				<Property Name="TgtF_legalCopyright" Type="Str">featherweight.io</Property>
