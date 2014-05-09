@@ -103,7 +103,7 @@
 				<Property Name="Destination[1].path" Type="Path">../Builds</Property>
 				<Property Name="Destination[1].path.type" Type="Str">relativeToProject</Property>
 				<Property Name="DestinationCount" Type="Int">2</Property>
-				<Property Name="Source[0].itemID" Type="Str">{3599962F-24AA-41F5-A9CA-E43616E901C8}</Property>
+				<Property Name="Source[0].itemID" Type="Str">{22D557FB-5CB5-4ACB-B7EE-1E03B33F0A7B}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
 				<Property Name="Source[1].itemID" Type="Ref">/My Computer/Source/FTW-Actor.lvlib</Property>
@@ -124,8 +124,9 @@
 				<Property Name="SourceCount" Type="Int">3</Property>
 				<Property Name="TgtF_autoIncrement" Type="Bool">true</Property>
 				<Property Name="TgtF_companyName" Type="Str">Featherweight</Property>
+				<Property Name="TgtF_enableDebugging" Type="Bool">true</Property>
 				<Property Name="TgtF_fileDescription" Type="Str">Featherweight Actor Packed Library</Property>
-				<Property Name="TgtF_fileVersion.build" Type="Int">347</Property>
+				<Property Name="TgtF_fileVersion.build" Type="Int">349</Property>
 				<Property Name="TgtF_fileVersion.minor" Type="Int">3</Property>
 				<Property Name="TgtF_internalName" Type="Str">FTW-Actor</Property>
 				<Property Name="TgtF_legalCopyright" Type="Str">featherweight.io</Property>
