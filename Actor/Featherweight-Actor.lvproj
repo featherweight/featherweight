@@ -17,13 +17,11 @@
 		<Property Name="server.viscripting.showScriptingOperationsInContextHelp" Type="Bool">false</Property>
 		<Property Name="server.viscripting.showScriptingOperationsInEditor" Type="Bool">false</Property>
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
-		<Item Name="Source" Type="Folder">
-			<Item Name="ZMQ" Type="Folder">
-				<Item Name="FTW-ZMQ-Win32.dll" Type="Document" URL="../src/ZMQ/FTW-ZMQ-Win32.dll"/>
-				<Item Name="libzmq32.dll" Type="Document" URL="../src/ZMQ/libzmq32.dll"/>
-			</Item>
-			<Item Name="FTW-Actor.lvlib" Type="Library" URL="../src/FTW-Actor.lvlib"/>
+		<Item Name="ZMQ" Type="Folder">
+			<Item Name="FTW-ZMQ-Win32.dll" Type="Document" URL="../src/ZMQ/FTW-ZMQ-Win32.dll"/>
+			<Item Name="libzmq32.dll" Type="Document" URL="../src/ZMQ/libzmq32.dll"/>
 		</Item>
+		<Item Name="FTW-Actor.lvlib" Type="Library" URL="../src/FTW-Actor.lvlib"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="DOMUserDefRef.dll" Type="Document" URL="DOMUserDefRef.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
@@ -50,7 +48,6 @@
 			<Item Name="FTW-File-SystemDirectories.vi" Type="VI" URL="../../Core/src/File/FTW-File-SystemDirectories.vi"/>
 			<Item Name="FTW-File-TextWrite.vi" Type="VI" URL="../../Core/src/File/FTW-File-TextWrite.vi"/>
 			<Item Name="FTW-File-ValidateFilepath.vi" Type="VI" URL="../../Core/src/File/FTW-File-ValidateFilepath.vi"/>
-			<Item Name="FTW-Image-ToPicture.vi" Type="VI" URL="../../Core/src/Image/FTW-Image-ToPicture.vi"/>
 			<Item Name="FTW-JSON-CompositeType.ctl" Type="VI" URL="../../Core/src/JSON/FTW-JSON-CompositeType.ctl"/>
 			<Item Name="FTW-JSON-Datatype.ctl" Type="VI" URL="../../Core/src/JSON/FTW-JSON-Datatype.ctl"/>
 			<Item Name="FTW-JSON-Escape.vi" Type="VI" URL="../../Core/src/JSON/FTW-JSON-Escape.vi"/>
@@ -103,38 +100,19 @@
 				<Property Name="Destination[1].path" Type="Path">../Builds</Property>
 				<Property Name="Destination[1].path.type" Type="Str">relativeToProject</Property>
 				<Property Name="DestinationCount" Type="Int">2</Property>
-				<Property Name="Source[0].Container.applyDestination" Type="Bool">true</Property>
-				<Property Name="Source[0].Container.applySaveSettings" Type="Bool">true</Property>
 				<Property Name="Source[0].destinationIndex" Type="Int">0</Property>
-				<Property Name="Source[0].itemID" Type="Str">{16115DC3-3A0F-4D94-9B9E-246E5B046984}</Property>
-				<Property Name="Source[0].properties[0].type" Type="Str">Remove front panel</Property>
-				<Property Name="Source[0].properties[0].value" Type="Bool">false</Property>
-				<Property Name="Source[0].properties[1].type" Type="Str">Remove block diagram</Property>
-				<Property Name="Source[0].properties[1].value" Type="Bool">false</Property>
-				<Property Name="Source[0].propertiesCount" Type="Int">2</Property>
-				<Property Name="Source[0].type" Type="Str">Container</Property>
-				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
-				<Property Name="Source[1].itemID" Type="Ref">/My Computer/Source/FTW-Actor.lvlib</Property>
-				<Property Name="Source[1].Library.allowMissingMembers" Type="Bool">true</Property>
-				<Property Name="Source[1].Library.atomicCopy" Type="Bool">true</Property>
-				<Property Name="Source[1].Library.LVLIBPtopLevel" Type="Bool">true</Property>
-				<Property Name="Source[1].preventRename" Type="Bool">true</Property>
-				<Property Name="Source[1].sourceInclusion" Type="Str">TopLevel</Property>
-				<Property Name="Source[1].type" Type="Str">Library</Property>
-				<Property Name="Source[2].Container.applySaveSettings" Type="Bool">true</Property>
-				<Property Name="Source[2].itemID" Type="Ref">/My Computer/Source</Property>
-				<Property Name="Source[2].properties[0].type" Type="Str">Remove front panel</Property>
-				<Property Name="Source[2].properties[0].value" Type="Bool">false</Property>
-				<Property Name="Source[2].properties[1].type" Type="Str">Remove block diagram</Property>
-				<Property Name="Source[2].properties[1].value" Type="Bool">false</Property>
-				<Property Name="Source[2].propertiesCount" Type="Int">2</Property>
-				<Property Name="Source[2].type" Type="Str">Container</Property>
-				<Property Name="SourceCount" Type="Int">3</Property>
+				<Property Name="Source[0].itemID" Type="Str">{BFFF3F30-1069-4725-9AF7-029BBAB2037C}</Property>
+				<Property Name="Source[0].Library.allowMissingMembers" Type="Bool">true</Property>
+				<Property Name="Source[0].Library.atomicCopy" Type="Bool">true</Property>
+				<Property Name="Source[0].Library.LVLIBPtopLevel" Type="Bool">true</Property>
+				<Property Name="Source[0].preventRename" Type="Bool">true</Property>
+				<Property Name="Source[0].sourceInclusion" Type="Str">TopLevel</Property>
+				<Property Name="Source[0].type" Type="Str">Library</Property>
+				<Property Name="SourceCount" Type="Int">1</Property>
 				<Property Name="TgtF_autoIncrement" Type="Bool">true</Property>
 				<Property Name="TgtF_companyName" Type="Str">Featherweight</Property>
-				<Property Name="TgtF_enableDebugging" Type="Bool">true</Property>
 				<Property Name="TgtF_fileDescription" Type="Str">Featherweight Actor Packed Library</Property>
-				<Property Name="TgtF_fileVersion.build" Type="Int">350</Property>
+				<Property Name="TgtF_fileVersion.build" Type="Int">353</Property>
 				<Property Name="TgtF_fileVersion.minor" Type="Int">3</Property>
 				<Property Name="TgtF_internalName" Type="Str">FTW-Actor</Property>
 				<Property Name="TgtF_legalCopyright" Type="Str">featherweight.io</Property>
