@@ -25,6 +25,9 @@
 			</Item>
 			<Item Name="FTW-Actor.lvlib" Type="Library" URL="../Actor/src/FTW-Actor.lvlib"/>
 		</Item>
+		<Item Name="CodeGen" Type="Folder">
+			<Item Name="FTW-CodeGen.lvlib" Type="Library" URL="../Core/utils/CodeGen/FTW-CodeGen.lvlib"/>
+		</Item>
 		<Item Name="Core" Type="Folder">
 			<Item Name="Application" Type="Folder">
 				<Item Name="FTW-App-StringToVersion.vi" Type="VI" URL="../Core/src/Application/FTW-App-StringToVersion.vi"/>
@@ -36,6 +39,11 @@
 			</Item>
 			<Item Name="Container" Type="Folder">
 				<Item Name="FTW-Container.lvclass" Type="LVClass" URL="../Core/src/Container/FTW-Container.lvclass"/>
+			</Item>
+			<Item Name="Database" Type="Folder">
+				<Item Name="FTW-SQLite-Connector.lvclass" Type="LVClass" URL="../Core/src/Database/FTW-SQLite-Connector.lvclass"/>
+				<Item Name="FTW-SQLite-Fetch.xnode" Type="XNode" URL="../Core/utils/CodeGen/SQLite-Fetch/FTW-SQLite-Fetch.xnode"/>
+				<Item Name="sqlite3.dll" Type="Document" URL="../Core/src/Database/sqlite3.dll"/>
 			</Item>
 			<Item Name="Email" Type="Folder">
 				<Item Name="FTW-Email-AddressValidator.vi" Type="VI" URL="../Core/src/Email/FTW-Email-AddressValidator.vi"/>
@@ -111,9 +119,15 @@
 			</Item>
 			<Item Name="Numeric" Type="Folder">
 				<Item Name="FTW-NUM-Counter.vi" Type="VI" URL="../Core/src/Numeric/FTW-NUM-Counter.vi"/>
-				<Item Name="FTW-NUM-EnumItems.vi" Type="VI" URL="../Core/src/Numeric/FTW-NUM-EnumItems.vi"/>
 				<Item Name="FTW-NUM-Increment.vi" Type="VI" URL="../Core/src/Numeric/FTW-NUM-Increment.vi"/>
 				<Item Name="FTW-NUM-MovingAverage.vi" Type="VI" URL="../Core/src/Numeric/FTW-NUM-MovingAverage.vi"/>
+			</Item>
+			<Item Name="Reflection" Type="Folder">
+				<Item Name="FTW-Reflection-Array.vi" Type="VI" URL="../Core/src/Reflection/FTW-Reflection-Array.vi"/>
+				<Item Name="FTW-Reflection-Cluster.vi" Type="VI" URL="../Core/src/Reflection/FTW-Reflection-Cluster.vi"/>
+				<Item Name="FTW-Reflection-Enum.vi" Type="VI" URL="../Core/src/Reflection/FTW-Reflection-Enum.vi"/>
+				<Item Name="FTW-Reflection-Type.vi" Type="VI" URL="../Core/src/Reflection/FTW-Reflection-Type.vi"/>
+				<Item Name="FTW-Reflection-Types.ctl" Type="VI" URL="../Core/src/Reflection/FTW-Reflection-Types.ctl"/>
 			</Item>
 			<Item Name="Regex" Type="Folder">
 				<Item Name="FTW-Regex-FilterArray.vi" Type="VI" URL="../Core/src/Regex/FTW-Regex-FilterArray.vi"/>
@@ -187,6 +201,7 @@
 			<Item Name="FTW-Example-Actors.vi" Type="VI" URL="../Examples/FTW-Example-Actors.vi"/>
 			<Item Name="FTW-Example-Endpoints.vi" Type="VI" URL="../Examples/FTW-Example-Endpoints.vi"/>
 			<Item Name="FTW-Example-EventLogger.vi" Type="VI" URL="../Examples/FTW-Example-EventLogger.vi"/>
+			<Item Name="FTW-Example-SQLite.vi" Type="VI" URL="../Examples/FTW-Example-SQLite.vi"/>
 			<Item Name="FTW-Example-TransferClient.vi" Type="VI" URL="../Examples/FTW-Example-TransferClient.vi"/>
 		</Item>
 		<Item Name="UI" Type="Folder">
@@ -225,6 +240,7 @@
 			</Item>
 			<Item Name="FTW-DevUtil-CreateNewActor.vi" Type="VI" URL="../Utilities/FTW-DevUtil-CreateNewActor.vi"/>
 			<Item Name="FTW-DevUtil-FrontPanelCleanup.vi" Type="VI" URL="../Utilities/FTW-DevUtil-FrontPanelCleanup.vi"/>
+			<Item Name="FTW-DevUtil-RegisterProbes.vi" Type="VI" URL="../Utilities/FTW-DevUtil-RegisterProbes.vi"/>
 		</Item>
 		<Item Name="Windows" Type="Folder">
 			<Item Name="File" Type="Folder">
@@ -261,10 +277,14 @@
 			<Item Name="DOMUserDefRef.dll" Type="Document" URL="DOMUserDefRef.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
+			<Item Name="FTW-CodeGen-Prototype.vi" Type="VI" URL="../Core/utils/CodeGen/SQLite-Fetch/FTW-CodeGen-Prototype.vi"/>
 			<Item Name="mscorlib" Type="VI" URL="mscorlib">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
 			<Item Name="System" Type="VI" URL="System">
+				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
+			</Item>
+			<Item Name="System.Core" Type="Document" URL="System.Core">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
 		</Item>
