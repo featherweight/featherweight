@@ -43,7 +43,9 @@
 			<Item Name="Database" Type="Folder">
 				<Item Name="FTW-SQLite-Connector.lvclass" Type="LVClass" URL="../Core/src/Database/FTW-SQLite-Connector.lvclass"/>
 				<Item Name="FTW-SQLite-Fetch.xnode" Type="XNode" URL="../Core/utils/CodeGen/SQLite-Fetch/FTW-SQLite-Fetch.xnode"/>
-				<Item Name="sqlite3.dll" Type="Document" URL="../Core/src/Database/sqlite3.dll"/>
+				<Item Name="FTWLib-SQLite3-LinuxRT.so" Type="Document" URL="../Core/src/Database/FTWLib-SQLite3-LinuxRT.so"/>
+				<Item Name="FTWLib-SQLite3-Win32.dll" Type="Document" URL="../Core/src/Database/FTWLib-SQLite3-Win32.dll"/>
+				<Item Name="FTWLib-SQLite3-Win64.dll" Type="Document" URL="../Core/src/Database/FTWLib-SQLite3-Win64.dll"/>
 			</Item>
 			<Item Name="Email" Type="Folder">
 				<Item Name="FTW-Email-AddressValidator.vi" Type="VI" URL="../Core/src/Email/FTW-Email-AddressValidator.vi"/>
