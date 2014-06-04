@@ -69,11 +69,11 @@
 				<Item Name="FTW-File-CalculateRelativeFilepath.vi" Type="VI" URL="../Core/src/File/FTW-File-CalculateRelativeFilepath.vi"/>
 				<Item Name="FTW-File-CompareFilepaths.vi" Type="VI" URL="../Core/src/File/FTW-File-CompareFilepaths.vi"/>
 				<Item Name="FTW-File-CreateDirectory.vi" Type="VI" URL="../Core/src/File/FTW-File-CreateDirectory.vi"/>
-				<Item Name="FTW-File-DereferenceNamespace.vi" Type="VI" URL="../Core/src/File/FTW-File-DereferenceNamespace.vi"/>
 				<Item Name="FTW-File-Directory-Exists.vi" Type="VI" URL="../Core/src/File/FTW-File-Directory-Exists.vi"/>
 				<Item Name="FTW-File-Exists.vi" Type="VI" URL="../Core/src/File/FTW-File-Exists.vi"/>
 				<Item Name="FTW-File-Extension.vi" Type="VI" URL="../Core/src/File/FTW-File-Extension.vi"/>
 				<Item Name="FTW-File-FileInfo.vi" Type="VI" URL="../Core/src/File/FTW-File-FileInfo.vi"/>
+				<Item Name="FTW-File-FindLibrary.vi" Type="VI" URL="../Core/src/File/FTW-File-FindLibrary.vi"/>
 				<Item Name="FTW-File-GenerateLogFilename.vi" Type="VI" URL="../Core/src/File/FTW-File-GenerateLogFilename.vi"/>
 				<Item Name="FTW-File-IsRelative.vi" Type="VI" URL="../Core/src/File/FTW-File-IsRelative.vi"/>
 				<Item Name="FTW-File-ListDirectories.vi" Type="VI" URL="../Core/src/File/FTW-File-ListDirectories.vi"/>
@@ -283,6 +283,9 @@
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
 			<Item Name="System" Type="VI" URL="System">
+				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
+			</Item>
+			<Item Name="System.Core" Type="Document" URL="System.Core">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
 		</Item>
