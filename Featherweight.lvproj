@@ -37,9 +37,6 @@
 			<Item Name="Collection" Type="Folder">
 				<Item Name="FTW-Collection-KeyValuePair.ctl" Type="VI" URL="../Core/src/Collection/FTW-Collection-KeyValuePair.ctl"/>
 			</Item>
-			<Item Name="Container" Type="Folder">
-				<Item Name="FTW-Container.lvclass" Type="LVClass" URL="../Core/src/Container/FTW-Container.lvclass"/>
-			</Item>
 			<Item Name="Database" Type="Folder">
 				<Item Name="FTW-SQLite-Connector.lvclass" Type="LVClass" URL="../Core/src/Database/FTW-SQLite-Connector.lvclass"/>
 				<Item Name="FTW-SQLite-Fetch.xnode" Type="XNode" URL="../Core/utils/CodeGen/SQLite-Fetch/FTW-SQLite-Fetch.xnode"/>
@@ -206,7 +203,6 @@
 				<Item Name="FTW-XML-Query-FirstElement.vi" Type="VI" URL="../Core/src/XML/FTW-XML-Query-FirstElement.vi"/>
 				<Item Name="FTW-XML-Query-UpdateFirstElementXML.vi" Type="VI" URL="../Core/src/XML/FTW-XML-Query-UpdateFirstElementXML.vi"/>
 				<Item Name="FTW-XML-ValidateTagName.vi" Type="VI" URL="../Core/src/XML/FTW-XML-ValidateTagName.vi"/>
-				<Item Name="FTW-XML.lvclass" Type="LVClass" URL="../Core/src/XML/FTW-XML.lvclass"/>
 			</Item>
 		</Item>
 		<Item Name="Examples" Type="Folder">
