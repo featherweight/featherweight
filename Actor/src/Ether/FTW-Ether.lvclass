@@ -97,13 +97,13 @@
 		</Item>
 	</Item>
 	<Item Name="FTW-Ether-Construct.vi" Type="VI" URL="../FTW-Ether-Construct.vi">
-		<Property Name="NI.ClassItem.ConnectorPane" Type="Bin">%A#!"!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!%D!!!!#!!%!!!!7!$R!!!!!!!!!!)02F28,5&amp;D&gt;'^S,GRW&lt;'FC'U:56SV"9X2P=CV$&lt;WZG;7&gt;V=G&amp;U;7^O,G.U&lt;!!E1$$`````&amp;U:56S"&amp;&gt;'BF=C"$&lt;WZG;7&gt;V=G&amp;U;7^O!!R!)1:T&gt;'&amp;U&gt;8-!!!N!!Q!%9W^E:1!!%%!Q`````Q:T&lt;X6S9W5!!":!5!!$!!)!!Q!%#'6S=G^S)'FO!!!71&amp;!!!Q!#!!-!"!FF=H*P=C"P&gt;81!&lt;!$Q!"!!!!!!!!!!!!!!!!%!!!!!!!!!!!!!!!5!!!!!!!!!"A-!!1A!!!!!!!!!!!!!!!!!!!!!!!!!!!!"#A!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#A!!!!!!!!!!!!!!!!!!!!U,!!!!!1!(!!!!!!</Property>
+		<Property Name="NI.ClassItem.ConnectorPane" Type="Bin">%A#!"!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!%D!!!!#!!%!!!!7!$R!!!!!!!!!!)02F28,5&amp;D&gt;'^S,GRW&lt;'FC'U:56SV"9X2P=CV$&lt;WZG;7&gt;V=G&amp;U;7^O,G.U&lt;!!E1$$`````&amp;U:56S"&amp;&gt;'BF=C"$&lt;WZG;7&gt;V=G&amp;U;7^O!!R!)1:T&gt;'&amp;U&gt;8-!!!N!!Q!%9W^E:1!!%%!Q`````Q:T&lt;X6S9W5!!":!5!!$!!)!!Q!%#'6S=G^S)'FO!!!71&amp;!!!Q!#!!-!"!FF=H*P=C"P&gt;81!&lt;!$Q!"!!!!!!!!!!!!!!!!%!!!!!!!!!!!!!!!5!!!!!!!!!"A-!!1A!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#A!!!!!!!!!!!!!!!!!!!!U,!!!!!1!(!!!!!!</Property>
 		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
 		<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
 		<Property Name="NI.ClassItem.IsStaticMethod" Type="Bool">true</Property>
 		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
 		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-		<Property Name="NI.ClassItem.State" Type="Int">1107821072</Property>
+		<Property Name="NI.ClassItem.State" Type="Int">1082143248</Property>
 	</Item>
 	<Item Name="FTW-Ether-CreateClient.vi" Type="VI" URL="../FTW-Ether-CreateClient.vi">
 		<Property Name="NI.ClassItem.ConnectorPane" Type="Bin">%A#!"!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!&amp;6!!!!#1!%!!!!1%"Q!"Y!!#902F28,5&amp;D&gt;'^S,GRW&lt;'FC&amp;%:56SV&amp;&lt;G2Q&lt;WFO&gt;#ZM&gt;G.M98.T!!!01WRJ:7ZU)%6O:("P;7ZU!%I!]1!!!!!!!!!#$U:56SV"9X2P=CZM&gt;GRJ9B6'6&amp;=N17.U&lt;X)N172E=G6T=SZD&gt;'Q!(%!Q`````QZ4:8*W:8)A172E=G6T=Q!!$%!B"H.U982V=Q!!#U!$!!2D&lt;W2F!!!11$$`````"H.P&gt;8*D:1!!&amp;E"1!!-!!Q!%!!5):8*S&lt;X)A;7Y!!":!5!!$!!-!"!!&amp;#76S=G^S)'^V&gt;!"M!0!!%!!!!!!!!!!!!!%!!A!!!!!!!!!!!!!!"A!!!!!!!!!(!Q!"#!!!!!!!!!!!!!!!!!!!!!!!!!E!!!!1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!+!!!!!!!!!!!!!!!!!!!!$1M!!!!"!!A!!!!!</Property>
