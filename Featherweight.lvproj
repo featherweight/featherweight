@@ -60,6 +60,7 @@
 				<Item Name="FTW-ERR-ThrowError.vi" Type="VI" URL="../Core/src/Error/FTW-ERR-ThrowError.vi"/>
 				<Item Name="FTW-ERR-ThrowGenericError.vi" Type="VI" URL="../Core/src/Error/FTW-ERR-ThrowGenericError.vi"/>
 				<Item Name="FTW-ERR-ThrowImpossibleError.vi" Type="VI" URL="../Core/src/Error/FTW-ERR-ThrowImpossibleError.vi"/>
+				<Item Name="FTW-ERR-ThrowWarning.vi" Type="VI" URL="../Core/src/Error/FTW-ERR-ThrowWarning.vi"/>
 				<Item Name="FTW-ERR-UnknownParameter.vi" Type="VI" URL="../Core/src/Error/FTW-ERR-UnknownParameter.vi"/>
 			</Item>
 			<Item Name="File" Type="Folder">
