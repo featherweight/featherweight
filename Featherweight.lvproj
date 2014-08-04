@@ -19,10 +19,6 @@
 		<Property Name="server.viscripting.showScriptingOperationsInEditor" Type="Bool">true</Property>
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
 		<Item Name="Actor" Type="Folder">
-			<Item Name="ZMQ" Type="Folder">
-				<Item Name="FTW-ZMQ-Win32.dll" Type="Document" URL="../Actor/src/ZMQ/FTW-ZMQ-Win32.dll"/>
-				<Item Name="libzmq32.dll" Type="Document" URL="../Actor/src/ZMQ/libzmq32.dll"/>
-			</Item>
 			<Item Name="FTW-Actor.lvlib" Type="Library" URL="../Actor/src/FTW-Actor.lvlib"/>
 		</Item>
 		<Item Name="CodeGen" Type="Folder">
@@ -51,6 +47,7 @@
 				<Item Name="FTW-ERR-AbstractMethodCall.vi" Type="VI" URL="../Core/src/Error/FTW-ERR-AbstractMethodCall.vi"/>
 				<Item Name="FTW-ERR-CallChain.vi" Type="VI" URL="../Core/src/Error/FTW-ERR-CallChain.vi"/>
 				<Item Name="FTW-ERR-Clear.vi" Type="VI" URL="../Core/src/Error/FTW-ERR-Clear.vi"/>
+				<Item Name="FTW-ERR-ConditionalDisableAssertion.vi" Type="VI" URL="../Core/src/Error/FTW-ERR-ConditionalDisableAssertion.vi"/>
 				<Item Name="FTW-ERR-ExceptionType.ctl" Type="VI" URL="../Core/src/Error/FTW-ERR-ExceptionType.ctl"/>
 				<Item Name="FTW-ERR-NoErrorConstant.vi" Type="VI" URL="../Core/src/Error/FTW-ERR-NoErrorConstant.vi"/>
 				<Item Name="FTW-ERR-SerializeForLog.vi" Type="VI" URL="../Core/src/Error/FTW-ERR-SerializeForLog.vi"/>
@@ -210,10 +207,12 @@
 			<Item Name="FTW-Benchmark-JSON.vi" Type="VI" URL="../Examples/FTW-Benchmark-JSON.vi"/>
 			<Item Name="FTW-Benchmark-MessageTransports.vi" Type="VI" URL="../Examples/FTW-Benchmark-MessageTransports.vi"/>
 			<Item Name="FTW-Example-Actors.vi" Type="VI" URL="../Examples/FTW-Example-Actors.vi"/>
-			<Item Name="FTW-Example-Endpoints.vi" Type="VI" URL="../Examples/FTW-Example-Endpoints.vi"/>
 			<Item Name="FTW-Example-EventLogger.vi" Type="VI" URL="../Examples/FTW-Example-EventLogger.vi"/>
 			<Item Name="FTW-Example-SQLite.vi" Type="VI" URL="../Examples/FTW-Example-SQLite.vi"/>
 			<Item Name="FTW-Example-TransferClient.vi" Type="VI" URL="../Examples/FTW-Example-TransferClient.vi"/>
+		</Item>
+		<Item Name="Templates" Type="Folder">
+			<Item Name="FTW-ActorTemplate.vi" Type="VI" URL="../Core/templates/FTW-ActorTemplate.vi"/>
 		</Item>
 		<Item Name="UI" Type="Folder">
 			<Item Name="FileSystem" Type="Folder">
@@ -285,6 +284,12 @@
 			</Item>
 		</Item>
 		<Item Name="Dependencies" Type="Dependencies">
+			<Item Name="FTW-Endpoint-IncomingMessage-RequestCreate.vi" Type="VI" URL="../Actor/src/Endpoint/Incoming Message/FTW-Endpoint-IncomingMessage-RequestCreate.vi"/>
+			<Item Name="FTWLib-nanomsg-LinuxRT.vi" Type="VI" URL="../Actor/src/Endpoint/Core/FTWLib-nanomsg-LinuxRT.vi"/>
+			<Item Name="FTWLib-nanomsg-Win32.vi" Type="VI" URL="../Actor/src/Endpoint/Core/FTWLib-nanomsg-Win32.vi"/>
+			<Item Name="FTWLib-nanomsg-Win64.vi" Type="VI" URL="../Actor/src/Endpoint/Core/FTWLib-nanomsg-Win64.vi"/>
+			<Item Name="FTWLib-nanomsg32.so" Type="Document" URL="../Actor/src/Endpoint/Core/FTWLib-nanomsg32.so"/>
+			<Item Name="FTWLib-nanomsg64.dll" Type="Document" URL="../Actor/src/Endpoint/Core/FTWLib-nanomsg64.dll"/>
 			<Item Name="mscorlib" Type="VI" URL="mscorlib">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
