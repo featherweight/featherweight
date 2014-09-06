@@ -11,25 +11,11 @@
 		<Property Name="server.vi.propertiesEnabled" Type="Bool">true</Property>
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
 		<Item Name="FTW-TestRunner-WriteToStdOut.vi" Type="VI" URL="../FTW-TestRunner-WriteToStdOut.vi"/>
-		<Item Name="OGPIPE - VI TREE.vi" Type="VI" URL="../OpenG Pipes/ogpipe.llb/OGPIPE - VI TREE.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="FTW-Panel-FrontPanel-Close.vi" Type="VI" URL="../../../../ftw-vps/UI/Panel/FTW-Panel-FrontPanel-Close.vi"/>
 			<Item Name="kernel32.dll" Type="Document" URL="kernel32.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
-			<Item Name="OGPIPE Close Pipe.vi" Type="VI" URL="../OpenG Pipes/ogpipe.llb/OGPIPE Close Pipe.vi"/>
-			<Item Name="OGPIPE Execute System Command.vi" Type="VI" URL="../OpenG Pipes/ogpipe.llb/OGPIPE Execute System Command.vi"/>
-			<Item Name="OGPIPE Kill Process.vi" Type="VI" URL="../OpenG Pipes/ogpipe.llb/OGPIPE Kill Process.vi"/>
-			<Item Name="OGPIPE Open Pipe.vi" Type="VI" URL="../OpenG Pipes/ogpipe.llb/OGPIPE Open Pipe.vi"/>
-			<Item Name="OGPIPE Open System Command.vi" Type="VI" URL="../OpenG Pipes/ogpipe.llb/OGPIPE Open System Command.vi"/>
-			<Item Name="OGPIPE Open System Command.vi" Type="VI" URL="/Y/Downloads/pipe/source/ogpipe.llb/OGPIPE Open System Command.vi"/>
-			<Item Name="OGPIPE Read From Pipe.vi" Type="VI" URL="../OpenG Pipes/ogpipe.llb/OGPIPE Read From Pipe.vi"/>
-			<Item Name="OGPIPE RefNum.ctl" Type="VI" URL="../OpenG Pipes/ogpipe.llb/OGPIPE RefNum.ctl"/>
-			<Item Name="OGPIPE RefNum.ctl" Type="VI" URL="/Y/Downloads/pipe/source/ogpipe.llb/OGPIPE RefNum.ctl"/>
-			<Item Name="OGPIPE Write To Pipe.vi" Type="VI" URL="../OpenG Pipes/ogpipe.llb/OGPIPE Write To Pipe.vi"/>
-			<Item Name="OGPIPE Write To Pipe.vi" Type="VI" URL="/Y/Downloads/pipe/source/ogpipe.llb/OGPIPE Write To Pipe.vi"/>
-			<Item Name="ogpipes.dll" Type="Document" URL="../OpenG Pipes/ogpipes.dll"/>
-			<Item Name="ogpipes.dll" Type="Document" URL="/Y/Downloads/pipe/source/ogpipes.dll"/>
 			<Item Name="user32.dll" Type="Document" URL="user32.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>

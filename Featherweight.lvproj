@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='UTF-8'?>
-<Project Type="Project" LVVersion="12008004">
+<Project Type="Project" LVVersion="13008000">
 	<Property Name="NI.LV.All.SourceOnly" Type="Bool">true</Property>
 	<Property Name="NI.Project.Description" Type="Str"></Property>
 	<Item Name="My Computer" Type="My Computer">
@@ -20,6 +20,9 @@
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
 		<Item Name="Actor" Type="Folder">
 			<Item Name="FTW-Actor.lvlib" Type="Library" URL="../Actor/src/FTW-Actor.lvlib"/>
+			<Item Name="FTWLib-nanomsg-LinuxRT.vi" Type="VI" URL="../Actor/src/Endpoint/Core/FTWLib-nanomsg-LinuxRT.vi"/>
+			<Item Name="FTWLib-nanomsg-Win32.vi" Type="VI" URL="../Actor/src/Endpoint/Core/FTWLib-nanomsg-Win32.vi"/>
+			<Item Name="FTWLib-nanomsg-Win64.vi" Type="VI" URL="../Actor/src/Endpoint/Core/FTWLib-nanomsg-Win64.vi"/>
 		</Item>
 		<Item Name="CodeGen" Type="Folder">
 			<Item Name="FTW-CodeGen.lvlib" Type="Library" URL="../Core/utils/CodeGen/FTW-CodeGen.lvlib"/>
@@ -49,6 +52,7 @@
 				<Item Name="FTW-ERR-Clear.vi" Type="VI" URL="../Core/src/Error/FTW-ERR-Clear.vi"/>
 				<Item Name="FTW-ERR-ConditionalDisableAssertion.vi" Type="VI" URL="../Core/src/Error/FTW-ERR-ConditionalDisableAssertion.vi"/>
 				<Item Name="FTW-ERR-ExceptionType.ctl" Type="VI" URL="../Core/src/Error/FTW-ERR-ExceptionType.ctl"/>
+				<Item Name="FTW-ERR-Ignore.vi" Type="VI" URL="../Core/src/Error/FTW-ERR-Ignore.vi"/>
 				<Item Name="FTW-ERR-NoErrorConstant.vi" Type="VI" URL="../Core/src/Error/FTW-ERR-NoErrorConstant.vi"/>
 				<Item Name="FTW-ERR-SerializeForLog.vi" Type="VI" URL="../Core/src/Error/FTW-ERR-SerializeForLog.vi"/>
 				<Item Name="FTW-ERR-StatusError.vi" Type="VI" URL="../Core/src/Error/FTW-ERR-StatusError.vi"/>
@@ -59,6 +63,11 @@
 				<Item Name="FTW-ERR-ThrowImpossibleError.vi" Type="VI" URL="../Core/src/Error/FTW-ERR-ThrowImpossibleError.vi"/>
 				<Item Name="FTW-ERR-ThrowWarning.vi" Type="VI" URL="../Core/src/Error/FTW-ERR-ThrowWarning.vi"/>
 				<Item Name="FTW-ERR-UnknownParameter.vi" Type="VI" URL="../Core/src/Error/FTW-ERR-UnknownParameter.vi"/>
+			</Item>
+			<Item Name="Expression" Type="Folder">
+				<Item Name="FTW-Expression-ConstructLexicon.vi" Type="VI" URL="../Core/src/Expression/FTW-Expression-ConstructLexicon.vi"/>
+				<Item Name="FTW-Expression-Lexer.vi" Type="VI" URL="../Core/src/Expression/FTW-Expression-Lexer.vi"/>
+				<Item Name="FTW-Expression-Lexicon.txt" Type="Document" URL="../Core/src/Expression/FTW-Expression-Lexicon.txt"/>
 			</Item>
 			<Item Name="File" Type="Folder">
 				<Item Name="FTW-File-CalculateRelativeFilepath.vi" Type="VI" URL="../Core/src/File/FTW-File-CalculateRelativeFilepath.vi"/>
@@ -92,6 +101,7 @@
 				<Item Name="FTW-HTTP-ResponseCode.ctl" Type="VI" URL="../Core/src/HTTP/FTW-HTTP-ResponseCode.ctl"/>
 			</Item>
 			<Item Name="Image" Type="Folder">
+				<Item Name="FTW-Image-AppendToPicture.vi" Type="VI" URL="../Core/src/Image/FTW-Image-AppendToPicture.vi"/>
 				<Item Name="FTW-Image-ToPicture.vi" Type="VI" URL="../Core/src/Image/FTW-Image-ToPicture.vi"/>
 			</Item>
 			<Item Name="JSON" Type="Folder">
@@ -144,6 +154,7 @@
 				<Item Name="FTW-Regex-ReplaceAndReturn.vi" Type="VI" URL="../Core/src/Regex/FTW-Regex-ReplaceAndReturn.vi"/>
 				<Item Name="FTW-Regex-Replacements.vi" Type="VI" URL="../Core/src/Regex/FTW-Regex-Replacements.vi"/>
 				<Item Name="FTW-Regex.vi" Type="VI" URL="../Core/src/Regex/FTW-Regex.vi"/>
+				<Item Name="FTWLib-PCRE.dll" Type="Document" URL="../Core/src/Regex/FTWLib-PCRE.dll"/>
 			</Item>
 			<Item Name="String" Type="Folder">
 				<Item Name="FTW-STR-Array-Concatenate.vi" Type="VI" URL="../Core/src/String/FTW-STR-Array-Concatenate.vi"/>
@@ -187,29 +198,16 @@
 				<Item Name="FTW-VIServer-OSinfo.vi" Type="VI" URL="../Core/src/VI Server/FTW-VIServer-OSinfo.vi"/>
 				<Item Name="FTW-VIServer-VI-Metadata.vi" Type="VI" URL="../Core/src/VI Server/FTW-VIServer-VI-Metadata.vi"/>
 			</Item>
-			<Item Name="XML" Type="Folder">
-				<Item Name="FTW-XML-Construct.vi" Type="VI" URL="../Core/src/XML/FTW-XML-Construct.vi"/>
-				<Item Name="FTW-XML-Destroy.vi" Type="VI" URL="../Core/src/XML/FTW-XML-Destroy.vi"/>
-				<Item Name="FTW-XML-Element-Add.vi" Type="VI" URL="../Core/src/XML/FTW-XML-Element-Add.vi"/>
-				<Item Name="FTW-XML-Element-Append.vi" Type="VI" URL="../Core/src/XML/FTW-XML-Element-Append.vi"/>
-				<Item Name="FTW-XML-Element-GetFirstChild.vi" Type="VI" URL="../Core/src/XML/FTW-XML-Element-GetFirstChild.vi"/>
-				<Item Name="FTW-XML-Element-GetNextSibling.vi" Type="VI" URL="../Core/src/XML/FTW-XML-Element-GetNextSibling.vi"/>
-				<Item Name="FTW-XML-Element-GetValue.vi" Type="VI" URL="../Core/src/XML/FTW-XML-Element-GetValue.vi"/>
-				<Item Name="FTW-XML-Query-Elements.vi" Type="VI" URL="../Core/src/XML/FTW-XML-Query-Elements.vi"/>
-				<Item Name="FTW-XML-Query-ElementValue.vi" Type="VI" URL="../Core/src/XML/FTW-XML-Query-ElementValue.vi"/>
-				<Item Name="FTW-XML-Query-ElementXML.vi" Type="VI" URL="../Core/src/XML/FTW-XML-Query-ElementXML.vi"/>
-				<Item Name="FTW-XML-Query-FirstElement.vi" Type="VI" URL="../Core/src/XML/FTW-XML-Query-FirstElement.vi"/>
-				<Item Name="FTW-XML-Query-UpdateFirstElementXML.vi" Type="VI" URL="../Core/src/XML/FTW-XML-Query-UpdateFirstElementXML.vi"/>
-				<Item Name="FTW-XML-ValidateTagName.vi" Type="VI" URL="../Core/src/XML/FTW-XML-ValidateTagName.vi"/>
-			</Item>
 		</Item>
 		<Item Name="Examples" Type="Folder">
 			<Item Name="FTW-Benchmark-JSON.vi" Type="VI" URL="../Examples/FTW-Benchmark-JSON.vi"/>
 			<Item Name="FTW-Benchmark-MessageTransports.vi" Type="VI" URL="../Examples/FTW-Benchmark-MessageTransports.vi"/>
 			<Item Name="FTW-Example-Actors.vi" Type="VI" URL="../Examples/FTW-Example-Actors.vi"/>
+			<Item Name="FTW-Example-Endpoints.vi" Type="VI" URL="../Examples/FTW-Example-Endpoints.vi"/>
 			<Item Name="FTW-Example-EventLogger.vi" Type="VI" URL="../Examples/FTW-Example-EventLogger.vi"/>
-			<Item Name="FTW-Example-SQLite.vi" Type="VI" URL="../Examples/FTW-Example-SQLite.vi"/>
-			<Item Name="FTW-Example-TransferClient.vi" Type="VI" URL="../Examples/FTW-Example-TransferClient.vi"/>
+		</Item>
+		<Item Name="runner" Type="Folder">
+			<Item Name="FTW-TestRunner-WriteToStdOut.vi" Type="VI" URL="../test/runner/FTW-TestRunner-WriteToStdOut.vi"/>
 		</Item>
 		<Item Name="Templates" Type="Folder">
 			<Item Name="FTW-ActorTemplate.vi" Type="VI" URL="../Core/templates/FTW-ActorTemplate.vi"/>
@@ -252,48 +250,14 @@
 			<Item Name="FTW-DevUtil-FrontPanelCleanup.vi" Type="VI" URL="../Utilities/FTW-DevUtil-FrontPanelCleanup.vi"/>
 			<Item Name="FTW-DevUtil-RegisterProbes.vi" Type="VI" URL="../Utilities/FTW-DevUtil-RegisterProbes.vi"/>
 		</Item>
-		<Item Name="Windows" Type="Folder">
-			<Item Name="File" Type="Folder">
-				<Item Name="FTW-File-FileVersion.vi" Type="VI" URL="../Windows/src/File/FTW-File-FileVersion.vi"/>
-				<Item Name="FTW-File-GetShellIcon.vi" Type="VI" URL="../Windows/src/File/FTW-File-GetShellIcon.vi"/>
-			</Item>
-			<Item Name="Security" Type="Folder">
-				<Item Name="FTW-Crypto-AES256.vi" Type="VI" URL="../Windows/src/Security/FTW-Crypto-AES256.vi"/>
-				<Item Name="FTW-Crypto-FileHash.vi" Type="VI" URL="../Windows/src/Security/FTW-Crypto-FileHash.vi"/>
-				<Item Name="FTW-Crypto-HMAC-Hasher.vi" Type="VI" URL="../Windows/src/Security/FTW-Crypto-HMAC-Hasher.vi"/>
-				<Item Name="FTW-Crypto-PublicKeySignature-GenerateKeys.vi" Type="VI" URL="../Windows/src/Security/FTW-Crypto-PublicKeySignature-GenerateKeys.vi"/>
-				<Item Name="FTW-Crypto-PublicKeySignature-Sign.vi" Type="VI" URL="../Windows/src/Security/FTW-Crypto-PublicKeySignature-Sign.vi"/>
-				<Item Name="FTW-Crypto-PublicKeySignature-Verify.vi" Type="VI" URL="../Windows/src/Security/FTW-Crypto-PublicKeySignature-Verify.vi"/>
-				<Item Name="FTW-Crypto-String-Sign.vi" Type="VI" URL="../Windows/src/Security/FTW-Crypto-String-Sign.vi"/>
-				<Item Name="FTW-Crypto-String-Verify.vi" Type="VI" URL="../Windows/src/Security/FTW-Crypto-String-Verify.vi"/>
-			</Item>
-			<Item Name="String" Type="Folder">
-				<Item Name="FTW-STR-UTF8.vi" Type="VI" URL="../Windows/src/String/FTW-STR-UTF8.vi"/>
-				<Item Name="FTW-STR-UTF16.vi" Type="VI" URL="../Windows/src/String/FTW-STR-UTF16.vi"/>
-			</Item>
-			<Item Name="Transfer Client" Type="Folder">
-				<Item Name="dotNET" Type="Folder">
-					<Item Name="FTW-TransferClient-dotNET.lvclass" Type="LVClass" URL="../Windows/src/Transfer Client/dotNET/FTW-TransferClient-dotNET.lvclass"/>
-				</Item>
-				<Item Name="S3" Type="Folder">
-					<Item Name="FTW-TransferClient-S3.lvclass" Type="LVClass" URL="../Windows/src/Transfer Client/S3/FTW-TransferClient-S3.lvclass"/>
-				</Item>
-				<Item Name="FTW-TransferClient-TransferProgress.ctl" Type="VI" URL="../Windows/src/Transfer Client/FTW-TransferClient-TransferProgress.ctl"/>
-				<Item Name="FTW-TransferClient-TransferStatus.ctl" Type="VI" URL="../Windows/src/Transfer Client/FTW-TransferClient-TransferStatus.ctl"/>
-				<Item Name="FTW-TransferClient.lvclass" Type="LVClass" URL="../Windows/src/Transfer Client/FTW-TransferClient.lvclass"/>
-			</Item>
-		</Item>
 		<Item Name="Dependencies" Type="Dependencies">
-			<Item Name="FTW-Endpoint-IncomingMessage-RequestCreate.vi" Type="VI" URL="../Actor/src/Endpoint/Incoming Message/FTW-Endpoint-IncomingMessage-RequestCreate.vi"/>
-			<Item Name="FTWLib-nanomsg-LinuxRT.vi" Type="VI" URL="../Actor/src/Endpoint/Core/FTWLib-nanomsg-LinuxRT.vi"/>
-			<Item Name="FTWLib-nanomsg-Win32.vi" Type="VI" URL="../Actor/src/Endpoint/Core/FTWLib-nanomsg-Win32.vi"/>
-			<Item Name="FTWLib-nanomsg-Win64.vi" Type="VI" URL="../Actor/src/Endpoint/Core/FTWLib-nanomsg-Win64.vi"/>
+			<Item Name="FTWLib-nanomsg32.dll" Type="Document" URL="../../ftw-nanomsg/builds/Debug/FTWLib-nanomsg32.dll"/>
 			<Item Name="FTWLib-nanomsg32.so" Type="Document" URL="../Actor/src/Endpoint/Core/FTWLib-nanomsg32.so"/>
 			<Item Name="FTWLib-nanomsg64.dll" Type="Document" URL="../Actor/src/Endpoint/Core/FTWLib-nanomsg64.dll"/>
-			<Item Name="mscorlib" Type="VI" URL="mscorlib">
+			<Item Name="kernel32.dll" Type="Document" URL="kernel32.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
-			<Item Name="System" Type="VI" URL="System">
+			<Item Name="user32.dll" Type="Document" URL="user32.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
 		</Item>

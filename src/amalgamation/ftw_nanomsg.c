@@ -21,7 +21,7 @@
 */
 
 
-#include "../ftw_nanomsg.h"
+#include "ftw_nanomsg.h"
 #include "../utils/sleep.h"
 #include "../utils/alloc.h"
 #include "../reqrep.h"
