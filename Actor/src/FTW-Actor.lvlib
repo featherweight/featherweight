@@ -17,10 +17,10 @@
 	<Item Name="FTW-ActorInstance.lvclass" Type="LVClass" URL="../Instance/FTW-ActorInstance.lvclass"/>
 	<Item Name="FTW-Endpoint.lvclass" Type="LVClass" URL="../Endpoint/FTW-Endpoint.lvclass"/>
 	<Item Name="FTW-Ether.lvclass" Type="LVClass" URL="../Ether/FTW-Ether.lvclass"/>
-	<Item Name="FTW-JobSequencer.lvclass" Type="LVClass" URL="../JobSequencer/FTW-JobSequencer.lvclass"/>
 	<Item Name="FTW-Logger-Core.lvclass" Type="LVClass" URL="../EventLogger/Core/FTW-Logger-Core.lvclass"/>
 	<Item Name="FTW-Logger.lvclass" Type="LVClass" URL="../EventLogger/FTW-Logger.lvclass"/>
 	<Item Name="FTW-Message.lvclass" Type="LVClass" URL="../Message/FTW-Message.lvclass"/>
 	<Item Name="FTW-Request.lvclass" Type="LVClass" URL="../Request/FTW-Request.lvclass"/>
 	<Item Name="FTW-Router.lvclass" Type="LVClass" URL="../Router/FTW-Router.lvclass"/>
+	<Item Name="FTW-Scheduler.lvclass" Type="LVClass" URL="../Scheduler/FTW-Scheduler.lvclass"/>
 </Library>
