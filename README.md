@@ -1,4 +1,4 @@
-ftw-master
-==========
+Featherweight: Application Framework for LabVIEW™
+=================================================
 
-Featherweight Pilot Program master repository
+Application Framework for LabVIEW™
