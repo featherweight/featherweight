@@ -186,6 +186,15 @@
 			<Item Name="FTW-URI-EscapeURL.vi" Type="VI" URL="../core/uri/FTW-URI-EscapeURL.vi"/>
 			<Item Name="FTW-URI-FromFilepath.vi" Type="VI" URL="../core/uri/FTW-URI-FromFilepath.vi"/>
 		</Item>
+		<Item Name="Utils" Type="Folder">
+			<Item Name="probes" Type="Folder">
+				<Item Name="FTW-Probe-String.vi" Type="VI" URL="../../utils/probes/FTW-Probe-String.vi"/>
+			</Item>
+			<Item Name="FTW-DevUtil-CreateNewActor.vi" Type="VI" URL="../../utils/FTW-DevUtil-CreateNewActor.vi"/>
+			<Item Name="FTW-DevUtil-FrontPanelCleanup.vi" Type="VI" URL="../../utils/FTW-DevUtil-FrontPanelCleanup.vi"/>
+			<Item Name="FTW-DevUtil-RegisterProbes.vi" Type="VI" URL="../../utils/FTW-DevUtil-RegisterProbes.vi"/>
+			<Item Name="FTW-DevUtil-XNode-AddItem.vi" Type="VI" URL="../../utils/FTW-DevUtil-XNode-AddItem.vi"/>
+		</Item>
 		<Item Name="VI Server" Type="Folder">
 			<Item Name="FTW-VIServer-AsyncCallOptions.vi" Type="VI" URL="../core/viserver/FTW-VIServer-AsyncCallOptions.vi"/>
 			<Item Name="FTW-VIServer-GetClassDefaultData.vi" Type="VI" URL="../core/viserver/FTW-VIServer-GetClassDefaultData.vi"/>
