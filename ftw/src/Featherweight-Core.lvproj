@@ -19,14 +19,12 @@
 		<Property Name="server.viscripting.showScriptingOperationsInEditor" Type="Bool">true</Property>
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
 		<Item Name="Actor" Type="Folder">
-			<Property Name="NI.SortType" Type="Int">3</Property>
 			<Item Name="Support" Type="Folder">
 				<Item Name="FTW-Actor-DynamicLaunchOptions.vi" Type="VI" URL="../core/actor/support/FTW-Actor-DynamicLaunchOptions.vi"/>
 				<Item Name="FTW-Actor-ValidateAddress.vi" Type="VI" URL="../core/actor/support/FTW-Actor-ValidateAddress.vi"/>
 			</Item>
 			<Item Name="FTW-Actor-Connector.lvclass" Type="LVClass" URL="../core/actor/connector/FTW-Actor-Connector.lvclass"/>
 			<Item Name="FTW-Actor-Context.lvclass" Type="LVClass" URL="../core/actor/context/FTW-Actor-Context.lvclass"/>
-			<Item Name="FTW-Actor-Endpoint.lvclass" Type="LVClass" URL="../core/actor/endpoint/FTW-Actor-Endpoint.lvclass"/>
 			<Item Name="FTW-Actor-Instance.lvclass" Type="LVClass" URL="../core/actor/instance/FTW-Actor-Instance.lvclass"/>
 			<Item Name="FTW-Logger-Instance.lvclass" Type="LVClass" URL="../core/actor/logger/instance/FTW-Logger-Instance.lvclass"/>
 			<Item Name="FTW-Logger.lvclass" Type="LVClass" URL="../core/actor/logger/FTW-Logger.lvclass"/>
@@ -34,6 +32,7 @@
 			<Item Name="FTW-Request.lvclass" Type="LVClass" URL="../core/actor/request/FTW-Request.lvclass"/>
 			<Item Name="FTW-Router.lvclass" Type="LVClass" URL="../core/actor/router/FTW-Router.lvclass"/>
 			<Item Name="FTW-Scheduler.lvclass" Type="LVClass" URL="../core/actor/scheduler/FTW-Scheduler.lvclass"/>
+			<Item Name="FTW-Socket.lvclass" Type="LVClass" URL="../core/actor/socket/FTW-Socket.lvclass"/>
 		</Item>
 		<Item Name="Application" Type="Folder">
 			<Item Name="FTW-App-StringToVersion.vi" Type="VI" URL="../core/application/FTW-App-StringToVersion.vi"/>
@@ -212,15 +211,16 @@
 			<Item Name="FTW-JSON-Escape.vi" Type="VI" URL="../../sandbox/deprecated/FTW-JSON-Escape.vi"/>
 			<Item Name="FTW-JSON-Format-String.vi" Type="VI" URL="../../sandbox/deprecated/FTW-JSON-Format-String.vi"/>
 			<Item Name="FTW-JSON-Type.ctl" Type="VI" URL="../core/json/lib/FTW-JSON-Type.ctl"/>
+			<Item Name="FTW-Socket-Core-LibraryFilepath.vi" Type="VI" URL="../core/actor/socket/FTW-Socket-Core-LibraryFilepath.vi"/>
 			<Item Name="FTWLib-Jansson-LinuxRT.so" Type="Document" URL="../core/json/lib/FTWLib-Jansson-LinuxRT.so"/>
 			<Item Name="FTWLib-Jansson-Win32.dll" Type="Document" URL="../core/json/lib/FTWLib-Jansson-Win32.dll"/>
 			<Item Name="FTWLib-Jansson-Win64.dll" Type="Document" URL="../core/json/lib/FTWLib-Jansson-Win64.dll"/>
-			<Item Name="FTWLib-nanomsg-LinuxRT.vi" Type="VI" URL="../core/actor/endpoint/lib/FTWLib-nanomsg-LinuxRT.vi"/>
-			<Item Name="FTWLib-nanomsg-Win32.vi" Type="VI" URL="../core/actor/endpoint/lib/FTWLib-nanomsg-Win32.vi"/>
-			<Item Name="FTWLib-nanomsg-Win64.vi" Type="VI" URL="../core/actor/endpoint/lib/FTWLib-nanomsg-Win64.vi"/>
-			<Item Name="FTWLib-nanomsg32.dll" Type="Document" URL="../../../../ftw-nanomsg/builds/Debug/FTWLib-nanomsg32.dll"/>
-			<Item Name="FTWLib-nanomsg32.so" Type="Document" URL="../core/actor/endpoint/lib/FTWLib-nanomsg32.so"/>
-			<Item Name="FTWLib-nanomsg64.dll" Type="Document" URL="../core/actor/endpoint/lib/FTWLib-nanomsg64.dll"/>
+			<Item Name="FTWLib-nanomsg-LinuxRT.vi" Type="VI" URL="../../lib/nanomsg/FTWLib-nanomsg-LinuxRT.vi"/>
+			<Item Name="FTWLib-nanomsg-Win32.vi" Type="VI" URL="../../lib/nanomsg/FTWLib-nanomsg-Win32.vi"/>
+			<Item Name="FTWLib-nanomsg-Win64.vi" Type="VI" URL="../../lib/nanomsg/FTWLib-nanomsg-Win64.vi"/>
+			<Item Name="FTWLib-nanomsg32.dll" Type="Document" URL="../../lib/nanomsg/FTWLib-nanomsg32.dll"/>
+			<Item Name="FTWLib-nanomsg32.so" Type="Document" URL="../../lib/nanomsg/FTWLib-nanomsg32.so"/>
+			<Item Name="FTWLib-nanomsg64.dll" Type="Document" URL="../../lib/nanomsg/FTWLib-nanomsg64.dll"/>
 			<Item Name="FTWLib-SQLite3-LinuxRT.so" Type="Document" URL="../core/database/lib/FTWLib-SQLite3-LinuxRT.so"/>
 			<Item Name="FTWLib-SQLite3-Win32.dll" Type="Document" URL="../core/database/lib/FTWLib-SQLite3-Win32.dll"/>
 			<Item Name="FTWLib-SQLite3-Win64.dll" Type="Document" URL="../core/database/lib/FTWLib-SQLite3-Win64.dll"/>
