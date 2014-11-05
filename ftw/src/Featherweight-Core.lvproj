@@ -33,6 +33,7 @@
 			<Item Name="FTW-Router.lvclass" Type="LVClass" URL="../core/actor/router/FTW-Router.lvclass"/>
 			<Item Name="FTW-Scheduler.lvclass" Type="LVClass" URL="../core/actor/scheduler/FTW-Scheduler.lvclass"/>
 			<Item Name="FTW-Socket.lvclass" Type="LVClass" URL="../core/actor/socket/FTW-Socket.lvclass"/>
+			<Item Name="FTW-Subscription.lvclass" Type="LVClass" URL="../core/actor/subscription/FTW-Subscription.lvclass"/>
 		</Item>
 		<Item Name="Application" Type="Folder">
 			<Item Name="FTW-App-StringToVersion.vi" Type="VI" URL="../core/application/FTW-App-StringToVersion.vi"/>
@@ -127,6 +128,7 @@
 			<Item Name="FTW-STR-Encode-Base64.vi" Type="VI" URL="../core/string/FTW-STR-Encode-Base64.vi"/>
 			<Item Name="FTW-STR-Encode-Hex.vi" Type="VI" URL="../core/string/FTW-STR-Encode-Hex.vi"/>
 			<Item Name="FTW-STR-EncodingDirection.ctl" Type="VI" URL="../core/string/FTW-STR-EncodingDirection.ctl"/>
+			<Item Name="FTW-STR-Explode.vi" Type="VI" URL="../core/string/FTW-STR-Explode.vi"/>
 			<Item Name="FTW-STR-Indent.vi" Type="VI" URL="../core/string/FTW-STR-Indent.vi"/>
 			<Item Name="FTW-STR-Random-Bytes.vi" Type="VI" URL="../core/string/FTW-STR-Random-Bytes.vi"/>
 			<Item Name="FTW-STR-Random-Hex.vi" Type="VI" URL="../core/string/FTW-STR-Random-Hex.vi"/>
