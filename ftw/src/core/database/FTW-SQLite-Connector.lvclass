@@ -24,41 +24,32 @@
 		<Item Name="FTW-SQLite-Construct.vi" Type="VI" URL="../FTW-SQLite-Construct.vi">
 			<Property Name="NI.ClassItem.ConnectorPane" Type="Bin">%Q#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!)2!!!!$!!71$$`````$%2B&gt;'&amp;C98.F)&amp;6331!!"!!!!'9!]1!!!!!!!!!#(%:56SV455RJ&gt;'5N1W^O&lt;G6D&gt;'^S,GRW9WRB=X-&lt;2F28,6.24'FU:3V%982B9G&amp;T:62Z='5O9X2M!#6!&amp;A!#"%2J=WM'476N&lt;X*Z!!V%982B9G&amp;T:3"5?8"F!$J!=!!?!!!?(%:56SV455RJ&gt;'5N1W^O&lt;G6D&gt;'^S,GRW9WRB=X-!!""455RJ&gt;'5A1W^O&lt;G6D&gt;'^S!!"Y!0%!!!!!!!!!!BR'6&amp;=N5V&amp;-;82F,5.P&lt;GZF9X2P=CZM&gt;G.M98.T'5:56SV455RJ&gt;'5N17.D:8.T47^E:3ZD&gt;'Q!/5!7!!-%5G6B:!J3:7&amp;E,V&gt;S;82F%6*F971P6X*J&gt;'5P1X*F982F!!N"9W.F=X-A47^E:1!91$$`````$F.24'FU:3"7:8*T;7^O!!!-1#%'=X2B&gt;(6T!!!,1!-!"'.P:'5!!""!-0````]'=W^V=G.F!!!71&amp;!!!Q!'!!=!#!BF=H*P=C"J&lt;A!!&amp;E"1!!-!"A!(!!A*:8*S&lt;X)A&lt;X6U!'Q!]!!1!!!!!1!#!!%!!Q!%!!5!!1!"!!%!!1!*!!%!!1!"!!I$!!%)!!!1!!!!!!!!!"!!!!!!!!!!#1!!!"!!!!!*!!!!!!!!!!!!!!!!!!!!!!!!!!I!!!!!!!!!!!!!!!!!!!!.#Q!!!!%!#Q!!!!!</Property>
 			<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-			<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
+			<Property Name="NI.ClassItem.Flags" Type="Int">1090519168</Property>
 			<Property Name="NI.ClassItem.IsStaticMethod" Type="Bool">true</Property>
 			<Property Name="NI.ClassItem.MethodScope" Type="UInt">3</Property>
 			<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-			<Property Name="NI.ClassItem.State" Type="Int">1342710291</Property>
+			<Property Name="NI.ClassItem.State" Type="Int">1082143248</Property>
 		</Item>
 	</Item>
 	<Item Name="SQLite Framework Codegen" Type="Folder">
 		<Property Name="NI.LibItem.Scope" Type="Int">1</Property>
-		<Item Name="FTW-SQLite-LibraryFilepath.vi" Type="VI" URL="../FTW-SQLite-LibraryFilepath.vi">
-			<Property Name="NI.ClassItem.ConnectorPane" Type="Bin">%Q#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!%$!!!!#A!-1#%'=X2B&gt;(6T!!!,1!-!"'.P:'5!!""!-0````]'=W^V=G.F!!!71&amp;!!!Q!!!!%!!AFF=H*P=C"P&gt;81!'%!Q`````QZ455RJ&gt;'5A6G6S=WFP&lt;A!!)%!S`````R&gt;455RJ&gt;'5A4'FC=G&amp;S?3"';7RF='&amp;U;!!%!!!!&amp;E"1!!-!!!!"!!)):8*S&lt;X)A;7Y!!"B!)2.3:72J=W.P&gt;G6S)'RJ9H*B=HE`!&amp;1!]!!-!!-!"!!&amp;!!9!"A!'!!9!"A!(!!9!#!!'!Q!!?!!!$1A!!!E!!!!*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!+!!!!!!!!!!)!!!!!!!!!!!%!#1!!!!!</Property>
-			<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-			<Property Name="NI.ClassItem.Flags" Type="Int">128</Property>
-			<Property Name="NI.ClassItem.IsStaticMethod" Type="Bool">true</Property>
-			<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
-			<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-			<Property Name="NI.ClassItem.State" Type="Int">1082130960</Property>
-		</Item>
 		<Item Name="FTW-SQLite-LibraryReturnValue.vi" Type="VI" URL="../FTW-SQLite-LibraryReturnValue.vi">
 			<Property Name="NI.ClassItem.ConnectorPane" Type="Bin">%Q#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!$?!!!!#!!-1#%'=X2B&gt;(6T!!!,1!-!"'.P:'5!!""!-0````]'=W^V=G.F!!!71&amp;!!!Q!!!!%!!ABF=H*P=C"J&lt;A!!"!!!!":!5!!$!!!!!1!##76S=G^S)'^V&gt;!!41!-!$&amp;*F&gt;(6S&lt;C"797RV:1!!&lt;!$Q!"!!!Q!%!!1!"!!&amp;!!1!"!!'!!1!"!!%!!1!"!!%!!1!"!-!!1A!!!I!!!!!!!!!!!!!!!!!!!!.!!!!!!!!!!!!!!!1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1!(!!!!!!</Property>
 			<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-			<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
+			<Property Name="NI.ClassItem.Flags" Type="Int">16777344</Property>
 			<Property Name="NI.ClassItem.IsStaticMethod" Type="Bool">true</Property>
 			<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
 			<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-			<Property Name="NI.ClassItem.State" Type="Int">1082130960</Property>
+			<Property Name="NI.ClassItem.State" Type="Int">1082143248</Property>
 		</Item>
 		<Item Name="FTW-SQLite-PrepareStatement.vi" Type="VI" URL="../FTW-SQLite-PrepareStatement.vi">
 			<Property Name="NI.ClassItem.ConnectorPane" Type="Bin">%Q#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!(#!!!!$1![1(!!(A!!(BR'6&amp;=N5V&amp;-;82F,5.P&lt;GZF9X2P=CZM&gt;G.M98.T!!!15V&amp;-;82F)%.P&lt;GZF9X2P=A!!"!!!!$Z!=!!?!!!?(%:56SV455RJ&gt;'5N1W^O&lt;G6D&gt;'^S,GRW9WRB=X-!!"2455RJ&gt;'5A1W^O&lt;G6D&gt;'^S)'^V&gt;!!!&amp;E!Q`````QV455QA5X2B&gt;'6N:7ZU!"^!"!!:5(*F='&amp;S:71A5X2B&gt;'6N:7ZU)%BB&lt;G2M:1!A1%!!!@````]!"".1=G6Q98*F:#"4&gt;'&amp;U:7VF&lt;H2T!"F!#A!46'FN:3"U&lt;S"$&lt;WVQ;7RF)&amp;.24!!-1#%'=X2B&gt;(6T!!!,1!-!"'.P:'5!!""!-0````]'=W^V=G.F!!!71&amp;!!!Q!(!!A!#1BF=H*P=C"J&lt;A!!&amp;E"1!!-!"Q!)!!E*:8*S&lt;X)A&lt;X6U!(U!]!!1!!!!!1!"!!%!!A!$!!5!!1!'!!%!!1!+!!%!!1!"!!M$!!%)!!!1!!!!!!!!!!!!!!!!!!!!$1!!!"!!!!!*!!!!!!!!!!E!!!!!!!!!!!!!!!I!!!!!!!!!!!!!!!!!!!!.#Q!2!!!!!!%!!!!!!!!!!!!!!!!!!1!-!!!!!!</Property>
 			<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-			<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
+			<Property Name="NI.ClassItem.Flags" Type="Int">16777344</Property>
 			<Property Name="NI.ClassItem.IsStaticMethod" Type="Bool">true</Property>
 			<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
 			<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-			<Property Name="NI.ClassItem.State" Type="Int">1082130960</Property>
+			<Property Name="NI.ClassItem.State" Type="Int">1082143248</Property>
 		</Item>
 	</Item>
 	<Item Name="FTW-SQLite-AccessMode.ctl" Type="VI" URL="../FTW-SQLite-AccessMode.ctl">
@@ -73,20 +64,20 @@
 	<Item Name="FTW-SQLite-CloseConnection.vi" Type="VI" URL="../FTW-SQLite-CloseConnection.vi">
 		<Property Name="NI.ClassItem.ConnectorPane" Type="Bin">%Q#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!%&amp;!!!!#!![1(!!(A!!(BR'6&amp;=N5V&amp;-;82F,5.P&lt;GZF9X2P=CZM&gt;G.M98.T!!!15V&amp;-;82F)%.P&lt;GZF9X2P=A!!"!!!!!R!)1:T&gt;'&amp;U&gt;8-!!!N!!Q!%9W^E:1!!%%!Q`````Q:T&lt;X6S9W5!!":!5!!$!!)!!Q!%#'6S=G^S)'FO!!!71&amp;!!!Q!#!!-!"!FF=H*P=C"P&gt;81!&lt;!$Q!"!!!!!"!!%!!1!"!!%!!1!"!!%!!1!"!!5!!1!"!!%!"A-!!1A!!!A!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#A!!!!!!!!!!!!!!!!!!!!U,!!!!!1!(!!!!!!</Property>
 		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
+		<Property Name="NI.ClassItem.Flags" Type="Int">16777344</Property>
 		<Property Name="NI.ClassItem.IsStaticMethod" Type="Bool">true</Property>
 		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
 		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-		<Property Name="NI.ClassItem.State" Type="Int">1342710290</Property>
+		<Property Name="NI.ClassItem.State" Type="Int">1082143248</Property>
 	</Item>
 	<Item Name="FTW-SQLite-CreateEphemeralDatabase.vi" Type="VI" URL="../FTW-SQLite-CreateEphemeralDatabase.vi">
 		<Property Name="NI.ClassItem.ConnectorPane" Type="Bin">%Q#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!&amp;L!!!!#1"G!0%!!!!!!!!!!BR'6&amp;=N5V&amp;-;82F,5.P&lt;GZF9X2P=CZM&gt;G.M98.T'U:56SV455RJ&gt;'5N2'&amp;U97*B=W65?8"F,G.U&lt;!!F1"9!!A2%;8.L"EVF&lt;7^S?1!.2'&amp;U97*B=W5A6(FQ:1!%!!!!/E"Q!"Y!!"Y=2F28,6.24'FU:3V$&lt;WZO:7.U&lt;X)O&lt;(:D&lt;'&amp;T=Q!!%&amp;.24'FU:3"$&lt;WZO:7.U&lt;X)!!!R!)1:T&gt;'&amp;U&gt;8-!!!N!!Q!%9W^E:1!!%%!Q`````Q:T&lt;X6S9W5!!":!5!!$!!-!"!!&amp;#'6S=G^S)'FO!!!71&amp;!!!Q!$!!1!"1FF=H*P=C"P&gt;81!&lt;!$Q!"!!!!!"!!%!!1!#!!%!!1!"!!%!!1!"!!9!!1!"!!%!"Q-!!1A!!"!!!!!!!!!!!!!!!!!!!!!*!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#A!!!!!!!!!!!!!!!!!!!!U,!!!!!1!)!!!!!!</Property>
 		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
+		<Property Name="NI.ClassItem.Flags" Type="Int">16777344</Property>
 		<Property Name="NI.ClassItem.IsStaticMethod" Type="Bool">true</Property>
 		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
 		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-		<Property Name="NI.ClassItem.State" Type="Int">1342710288</Property>
+		<Property Name="NI.ClassItem.State" Type="Int">1082143248</Property>
 	</Item>
 	<Item Name="FTW-SQLite-DatabaseType.ctl" Type="VI" URL="../FTW-SQLite-DatabaseType.ctl">
 		<Property Name="NI.ClassItem.ConnectorPane" Type="Bin">%Q#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!##!!!!!1"[!0%!!!!!!!!!!BR'6&amp;=N5V&amp;-;82F,5.P&lt;GZF9X2P=CZM&gt;G.M98.T'U:56SV455RJ&gt;'5N2'&amp;U97*B=W65?8"F,G.U&lt;!!Z1"9!!Q23:7&amp;E#F*F971P6X*J&gt;'525G6B:#^8=GFU:3^$=G6B&gt;'5!#U&amp;D9W6T=S".&lt;W2F!!%!!!!!!!!</Property>
@@ -109,28 +100,28 @@
 	<Item Name="FTW-SQLite-ExecuteScript.vi" Type="VI" URL="../FTW-SQLite-ExecuteScript.vi">
 		<Property Name="NI.ClassItem.ConnectorPane" Type="Bin">%Q#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!'?!!!!$!![1(!!(A!!(BR'6&amp;=N5V&amp;-;82F,5.P&lt;GZF9X2P=CZM&gt;G.M98.T!!!15V&amp;-;82F)%.P&lt;GZF9X2P=A!!"!!!!$Z!=!!?!!!?(%:56SV455RJ&gt;'5N1W^O&lt;G6D&gt;'^S,GRW9WRB=X-!!"2455RJ&gt;'5A1W^O&lt;G6D&gt;'^S)'^V&gt;!!!&amp;%!Q`````QJ455QA5W.S;8"U!!!&gt;1!I!&amp;V2J&lt;75A&gt;']A28BF9X6U:3N$&lt;WVQ;7RF!"F!#A!46'FN:3"U&lt;S"$&lt;WVQ;7RF)&amp;.24!!-1#%'=X2B&gt;(6T!!!,1!-!"'.P:'5!!""!-0````]'=W^V=G.F!!!71&amp;!!!Q!'!!=!#!BF=H*P=C"J&lt;A!!&amp;E"1!!-!"A!(!!A*:8*S&lt;X)A&lt;X6U!(U!]!!1!!!!!1!"!!%!!A!$!!1!!1!&amp;!!%!!1!*!!%!!1!"!!I$!!%)!!!1!!!!!!!!!!!!!!!!!!!!$1!!!"!!!!!*!!!!!!!!!!E!!!!!!!!!!!!!!!I!!!!!!!!!!!!!!!!!!!!.#Q!2!!!!!!%!!!!!!!!!!!!!!!!!!1!,!!!!!!</Property>
 		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
+		<Property Name="NI.ClassItem.Flags" Type="Int">16777344</Property>
 		<Property Name="NI.ClassItem.IsStaticMethod" Type="Bool">true</Property>
 		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
 		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-		<Property Name="NI.ClassItem.State" Type="Int">1082130960</Property>
+		<Property Name="NI.ClassItem.State" Type="Int">1082143248</Property>
 	</Item>
 	<Item Name="FTW-SQLite-OpenConnection-Path.vi" Type="VI" URL="../FTW-SQLite-OpenConnection-Path.vi">
 		<Property Name="NI.ClassItem.ConnectorPane" Type="Bin">%Q#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!'8!!!!#A!%!!!!/E"Q!"Y!!"Y=2F28,6.24'FU:3V$&lt;WZO:7.U&lt;X)O&lt;(:D&lt;'&amp;T=Q!!%&amp;.24'FU:3"$&lt;WZO:7.U&lt;X)!!"J!-P````]22'&amp;U97*B=W5A2GFM:8"B&gt;'A!?!$R!!!!!!!!!!)=2F28,6.24'FU:3V$&lt;WZO:7.U&lt;X)O&lt;(:D&lt;'&amp;T=RF'6&amp;=N5V&amp;-;82F,5&amp;D9W6T=UVP:'5O9X2M!$F!&amp;A!$"&amp;*F971+5G6B:#^8=GFU:2&amp;3:7&amp;E,V&gt;S;82F,U.S:7&amp;U:1!,17.D:8.T)%VP:'5!$%!B"H.U982V=Q!!#U!$!!2D&lt;W2F!!!11$$`````"H.P&gt;8*D:1!!&amp;E"1!!-!"!!&amp;!!9):8*S&lt;X)A;7Y!!":!5!!$!!1!"1!'#76S=G^S)'^V&gt;!"M!0!!%!!!!!!!!!!!!!%!!A!!!!-!!!!!!!!!"Q!!!!!!!!!)!Q!"#!!!!!!!!!!!!!!!!!!!!!!!!!E!!!!1!!!!!!!!!!A!!!!!!!!!!!!!!!!!!!!+!!!!!!!!!!!!!!!!!!!!$1M!!!!"!!E!!!!!</Property>
 		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
+		<Property Name="NI.ClassItem.Flags" Type="Int">16777344</Property>
 		<Property Name="NI.ClassItem.IsStaticMethod" Type="Bool">true</Property>
 		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
 		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-		<Property Name="NI.ClassItem.State" Type="Int">1342710288</Property>
+		<Property Name="NI.ClassItem.State" Type="Int">1082143248</Property>
 	</Item>
 	<Item Name="FTW-SQLite-RandomBLOB.vi" Type="VI" URL="../FTW-SQLite-RandomBLOB.vi">
 		<Property Name="NI.ClassItem.ConnectorPane" Type="Bin">%Q#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!$U!!!!#1!61!-!$UZV&lt;7*F=C"P:C"#?82F=Q!%!!!!&amp;%!Q`````QN397ZE&lt;WUA1ER01A!-1#%'=X2B&gt;(6T!!!,1!-!"'.P:'5!!""!-0````]'=W^V=G.F!!!71&amp;!!!Q!$!!1!"1BF=H*P=C"J&lt;A!!&amp;E"1!!-!!Q!%!!5*:8*S&lt;X)A&lt;X6U!'Q!]!!1!!!!!1!"!!%!!A!"!!%!!1!"!!%!!1!'!!%!!1!"!!=$!!%)!!!1!!!!!!!!!!!!!!!!!!!!#1!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!I!!!!!!!!!!!!!!!!!!!!.#Q!!!!%!#!!!!!!</Property>
 		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
+		<Property Name="NI.ClassItem.Flags" Type="Int">16777344</Property>
 		<Property Name="NI.ClassItem.IsStaticMethod" Type="Bool">true</Property>
 		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
 		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
-		<Property Name="NI.ClassItem.State" Type="Int">1342710290</Property>
+		<Property Name="NI.ClassItem.State" Type="Int">1082143248</Property>
 	</Item>
 </LVClass>

@@ -18,6 +18,26 @@
 		<Property Name="server.viscripting.showScriptingOperationsInContextHelp" Type="Bool">false</Property>
 		<Property Name="server.viscripting.showScriptingOperationsInEditor" Type="Bool">true</Property>
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
+		<Item Name="_lib" Type="Folder">
+			<Item Name="jansson" Type="Folder">
+				<Item Name="FTWLib-Jansson32.dll" Type="Document" URL="../../lib/jansson/FTWLib-Jansson32.dll"/>
+				<Item Name="FTWLib-Jansson32.so" Type="Document" URL="../../lib/jansson/FTWLib-Jansson32.so"/>
+				<Item Name="FTWLib-Jansson64.dll" Type="Document" URL="../../lib/jansson/FTWLib-Jansson64.dll"/>
+				<Item Name="FTWLib-JSON-LibraryFilepath.vi" Type="VI" URL="../../lib/jansson/FTWLib-JSON-LibraryFilepath.vi"/>
+			</Item>
+			<Item Name="nanomsg" Type="Folder">
+				<Item Name="FTWLib-nanomsg32.dll" Type="Document" URL="../../lib/nanomsg/FTWLib-nanomsg32.dll"/>
+				<Item Name="FTWLib-nanomsg32.so" Type="Document" URL="../../lib/nanomsg/FTWLib-nanomsg32.so"/>
+				<Item Name="FTWLib-nanomsg64.dll" Type="Document" URL="../../lib/nanomsg/FTWLib-nanomsg64.dll"/>
+				<Item Name="FTWLib-Socket-LibraryFilepath.vi" Type="VI" URL="../../lib/nanomsg/FTWLib-Socket-LibraryFilepath.vi"/>
+			</Item>
+			<Item Name="sqlite" Type="Folder">
+				<Item Name="FTWLib-SQLite-LibraryFilepath.vi" Type="VI" URL="../../lib/sqlite/FTWLib-SQLite-LibraryFilepath.vi"/>
+				<Item Name="FTWLib-SQLite32.dll" Type="Document" URL="../../lib/sqlite/FTWLib-SQLite32.dll"/>
+				<Item Name="FTWLib-SQLite32.so" Type="Document" URL="../../lib/sqlite/FTWLib-SQLite32.so"/>
+				<Item Name="FTWLib-SQLite64.dll" Type="Document" URL="../../lib/sqlite/FTWLib-SQLite64.dll"/>
+			</Item>
+		</Item>
 		<Item Name="Actor" Type="Folder">
 			<Item Name="Support" Type="Folder">
 				<Item Name="FTW-Actor-DynamicLaunchOptions.vi" Type="VI" URL="../core/actor/support/FTW-Actor-DynamicLaunchOptions.vi"/>
@@ -74,7 +94,6 @@
 			<Item Name="FTW-File-Exists.vi" Type="VI" URL="../core/file/FTW-File-Exists.vi"/>
 			<Item Name="FTW-File-Extension.vi" Type="VI" URL="../core/file/FTW-File-Extension.vi"/>
 			<Item Name="FTW-File-FileInfo.vi" Type="VI" URL="../core/file/FTW-File-FileInfo.vi"/>
-			<Item Name="FTW-File-FindLibrary.vi" Type="VI" URL="../core/file/FTW-File-FindLibrary.vi"/>
 			<Item Name="FTW-File-GenerateLogFilename.vi" Type="VI" URL="../core/file/FTW-File-GenerateLogFilename.vi"/>
 			<Item Name="FTW-File-IsRelative.vi" Type="VI" URL="../core/file/FTW-File-IsRelative.vi"/>
 			<Item Name="FTW-File-ListDirectories.vi" Type="VI" URL="../core/file/FTW-File-ListDirectories.vi"/>
@@ -209,23 +228,9 @@
 			<Item Name="FTW-JSON-Core-ElementType.vi" Type="VI" URL="../core/json/lib/FTW-JSON-Core-ElementType.vi"/>
 			<Item Name="FTW-JSON-Core-GetFlattenedValue.vi" Type="VI" URL="../core/json/lib/FTW-JSON-Core-GetFlattenedValue.vi"/>
 			<Item Name="FTW-JSON-Core-LibraryError.vi" Type="VI" URL="../core/json/lib/FTW-JSON-Core-LibraryError.vi"/>
-			<Item Name="FTW-JSON-Core-LibraryFilepath.vi" Type="VI" URL="../core/json/lib/FTW-JSON-Core-LibraryFilepath.vi"/>
 			<Item Name="FTW-JSON-Escape.vi" Type="VI" URL="../../sandbox/deprecated/FTW-JSON-Escape.vi"/>
 			<Item Name="FTW-JSON-Format-String.vi" Type="VI" URL="../../sandbox/deprecated/FTW-JSON-Format-String.vi"/>
 			<Item Name="FTW-JSON-Type.ctl" Type="VI" URL="../core/json/lib/FTW-JSON-Type.ctl"/>
-			<Item Name="FTW-Socket-Core-LibraryFilepath.vi" Type="VI" URL="../core/actor/socket/FTW-Socket-Core-LibraryFilepath.vi"/>
-			<Item Name="FTWLib-Jansson-LinuxRT.so" Type="Document" URL="../core/json/lib/FTWLib-Jansson-LinuxRT.so"/>
-			<Item Name="FTWLib-Jansson-Win32.dll" Type="Document" URL="../core/json/lib/FTWLib-Jansson-Win32.dll"/>
-			<Item Name="FTWLib-Jansson-Win64.dll" Type="Document" URL="../core/json/lib/FTWLib-Jansson-Win64.dll"/>
-			<Item Name="FTWLib-nanomsg-LinuxRT.vi" Type="VI" URL="../../lib/nanomsg/FTWLib-nanomsg-LinuxRT.vi"/>
-			<Item Name="FTWLib-nanomsg-Win32.vi" Type="VI" URL="../../lib/nanomsg/FTWLib-nanomsg-Win32.vi"/>
-			<Item Name="FTWLib-nanomsg-Win64.vi" Type="VI" URL="../../lib/nanomsg/FTWLib-nanomsg-Win64.vi"/>
-			<Item Name="FTWLib-nanomsg32.dll" Type="Document" URL="../../lib/nanomsg/FTWLib-nanomsg32.dll"/>
-			<Item Name="FTWLib-nanomsg32.so" Type="Document" URL="../../lib/nanomsg/FTWLib-nanomsg32.so"/>
-			<Item Name="FTWLib-nanomsg64.dll" Type="Document" URL="../../lib/nanomsg/FTWLib-nanomsg64.dll"/>
-			<Item Name="FTWLib-SQLite3-LinuxRT.so" Type="Document" URL="../core/database/lib/FTWLib-SQLite3-LinuxRT.so"/>
-			<Item Name="FTWLib-SQLite3-Win32.dll" Type="Document" URL="../core/database/lib/FTWLib-SQLite3-Win32.dll"/>
-			<Item Name="FTWLib-SQLite3-Win64.dll" Type="Document" URL="../core/database/lib/FTWLib-SQLite3-Win64.dll"/>
 		</Item>
 		<Item Name="Build Specifications" Type="Build"/>
 	</Item>
