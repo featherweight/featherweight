@@ -61,6 +61,15 @@
 		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
 		<Property Name="NI.ClassItem.State" Type="Int">1082130946</Property>
 	</Item>
+	<Item Name="FTW-SQLite-Backup.vi" Type="VI" URL="../FTW-SQLite-Backup.vi">
+		<Property Name="NI.ClassItem.ConnectorPane" Type="Bin">%Q#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!'0!!!!#Q![1(!!(A!!(BR'6&amp;=N5V&amp;-;82F,5.P&lt;GZF9X2P=CZM&gt;G.M98.T!!!15V&amp;-;82F)%.P&lt;GZF9X2P=A!!"!!!!$Z!=!!?!!!?(%:56SV455RJ&gt;'5N1W^O&lt;G6D&gt;'^S,GRW9WRB=X-!!"2455RJ&gt;'5A1W^O&lt;G6D&gt;'^S)'^V&gt;!!!*E!S`````RV%:8.U;7ZB&gt;'FP&lt;C"%982B9G&amp;T:3"';7RF='&amp;U;!!61!I!$V2J&lt;75A&gt;']A28BF9X6U:1!-1#%'=X2B&gt;(6T!!!,1!-!"'.P:'5!!""!-0````]'=W^V=G.F!!!71&amp;!!!Q!&amp;!!9!"QBF=H*P=C"J&lt;A!!&amp;E"1!!-!"1!'!!=*:8*S&lt;X)A&lt;X6U!(U!]!!1!!!!!1!"!!%!!A!$!!1!!1!"!!%!!1!)!!%!!1!"!!E$!!%)!!!1!!!!!!!!!!!!!!!!!!!!$1!!!"!!!!!*!!!!!!!!!!!!!!!!!!!!!!!!!!I!!!!!!!!!!!!!!!!!!!!.#Q!2!!!!!!%!!!!!!!!!!!!!!!!!!1!+!!!!!!</Property>
+		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
+		<Property Name="NI.ClassItem.Flags" Type="Int">0</Property>
+		<Property Name="NI.ClassItem.IsStaticMethod" Type="Bool">true</Property>
+		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
+		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
+		<Property Name="NI.ClassItem.State" Type="Int">1074536976</Property>
+	</Item>
 	<Item Name="FTW-SQLite-CloseConnection.vi" Type="VI" URL="../FTW-SQLite-CloseConnection.vi">
 		<Property Name="NI.ClassItem.ConnectorPane" Type="Bin">%Q#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!%&amp;!!!!#!![1(!!(A!!(BR'6&amp;=N5V&amp;-;82F,5.P&lt;GZF9X2P=CZM&gt;G.M98.T!!!15V&amp;-;82F)%.P&lt;GZF9X2P=A!!"!!!!!R!)1:T&gt;'&amp;U&gt;8-!!!N!!Q!%9W^E:1!!%%!Q`````Q:T&lt;X6S9W5!!":!5!!$!!)!!Q!%#'6S=G^S)'FO!!!71&amp;!!!Q!#!!-!"!FF=H*P=C"P&gt;81!&lt;!$Q!"!!!!!"!!%!!1!"!!%!!1!"!!%!!1!"!!5!!1!"!!%!"A-!!1A!!!A!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!#A!!!!!!!!!!!!!!!!!!!!U,!!!!!1!(!!!!!!</Property>
 		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
