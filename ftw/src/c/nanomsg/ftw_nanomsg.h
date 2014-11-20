@@ -1,24 +1,24 @@
 /*
-    Copyright (c) 2014 Wirebird Labs LLC. All rights reserved.
+	Copyright (c) 2014 Wirebird Labs LLC. All rights reserved.
 
-    Permission is hereby granted, free of charge, to any person obtaining a copy
-    of this software and associated documentation files (the "Software"),
-    to deal in the Software without restriction, including without limitation
-    the rights to use, copy, modify, merge, publish, distribute, sublicense,
-    and/or sell copies of the Software, and to permit persons to whom
-    the Software is furnished to do so, subject to the following conditions:
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"),
+	to deal in the Software without restriction, including without limitation
+	the rights to use, copy, modify, merge, publish, distribute, sublicense,
+	and/or sell copies of the Software, and to permit persons to whom
+	the Software is furnished to do so, subject to the following conditions:
 
-    The above copyright notice and this permission notice shall be included
-    in all copies or substantial portions of the Software.
+	The above copyright notice and this permission notice shall be included
+	in all copies or substantial portions of the Software.
 
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
-    IN THE SOFTWARE.
-*/
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+	THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+	FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+	IN THE SOFTWARE.
+	*/
 
 #ifndef FTW_H_INCLUDED
 #define FTW_H_INCLUDED
@@ -28,10 +28,11 @@
 extern "C" {
 #endif
 
-/* This is in the LabVIEW directory */
-//#include <extcode.h>
+	/* This is in the LabVIEW directory */
+#include <extcode.h>
 #include "utils/thread.h"
 #include "nn.h"
+#include "utils/err.h"
 
 #if   defined _WIN32
 #     define FTW_EXPORT __declspec(dllexport)
@@ -43,22 +44,47 @@ extern "C" {
 #     define FTW_EXPORT
 #endif
 
-//typedef struct {
-//	int frontend;
-//	int backend;
-//} ftw_nanomsg_router_worker_inputs;
+#define LV_USER_ERROR 5000
 
-FTW_EXPORT const char *ftw_nanomsg_error (int *error_code);
-FTW_EXPORT const char *ftw_nanomsg_version (void);
-FTW_EXPORT int ftw_nanomsg_send (int s, const void *buf, size_t length, int timeout, int flags);
-FTW_EXPORT int ftw_nanomsg_recv (int s, void *buf, size_t length, int timeout, int flags);
-FTW_EXPORT int ftw_nanomsg_connect (int s, const char *addr);
-FTW_EXPORT int ftw_nanomsg_bind (int s, const char *addr);
-FTW_EXPORT int ftw_nanomsg_close (int s);
+#define ftw_nanomsg_timeout(rc) ((rc == EAGAIN || rc == ETIMEDOUT) ? LVBooleanTrue : LVBooleanFalse)
 
-FTW_EXPORT int ftw_nanomsg_router_start (const char *addr);
-FTW_EXPORT int ftw_nanomsg_router_recv (int router_id, void *incoming_msg_body, size_t *incoming_body_size, void *incoming_msg_header, size_t *incoming_header_size, int timeout);
-FTW_EXPORT int ftw_nanomsg_router_stop (int router_id);
+#define ftw_assert(x) nn_assert(x)
+
+#define NN_INVALID_SOCKET_ID -1
+#define ftw_nanomsg_instance_new(inst)	if(!*inst) *inst = (SocketInstanceDataPtr)DSNewPClr(sizeof(SocketInstanceData))
+#define ftw_nanomsg_instance_set(inst, inst_id) (*inst)->id = inst_id
+#define ftw_nanomsg_instance_is_valid(inst) (*inst)->id != NN_INVALID_SOCKET_ID
+
+	/*  InstanceDataPtr types for nanomsg sockets  */
+	typedef struct {
+		int id;
+	} SocketInstanceData, *SocketInstanceDataPtr;
+
+	/*  Callbacks invoked by LabVIEW by individual instances of Call Library Function Nodes  */
+	FTW_EXPORT MgErr ftw_nanomsg_reserve(SocketInstanceDataPtr *inst);
+	FTW_EXPORT MgErr ftw_nanomsg_unreserve(SocketInstanceDataPtr *inst);
+	FTW_EXPORT MgErr ftw_nanomsg_abort(SocketInstanceDataPtr *inst);
+
+	/*  nanomsg library support methods  */
+	FTW_EXPORT int ftw_nanomsg_error(LStrHandle error_message);
+	FTW_EXPORT const char *ftw_nanomsg_version(void);
+
+	/*  Socket, endpoint, and connection methods  */
+	FTW_EXPORT int ftw_nanomsg_socket(SocketInstanceDataPtr *inst, const int scalability_protocol, const LVBoolean *raw, const int linger, const int sndbuf, const int rcvbuf);
+	FTW_EXPORT int ftw_nanomsg_connect(const int socket_id, const char *addr);
+	FTW_EXPORT int ftw_nanomsg_bind(const int socket_id, const char *addr);
+	FTW_EXPORT int ftw_nanomsg_close(const int socket_id);
+
+	/*  Blocking I/O methods  */
+	FTW_EXPORT int ftw_nanomsg_send(SocketInstanceDataPtr *inst, const int socket_id, const int timeout, const LStrHandle outgoing_msg, LVBoolean *timed_out);
+	FTW_EXPORT int ftw_nanomsg_recv(SocketInstanceDataPtr *inst, const int socket_id, const int timeout, LStrHandle incoming_msg, LVBoolean *timed_out);
+	FTW_EXPORT int ftw_nanomsg_ask(SocketInstanceDataPtr *inst, const int socket_id, const int send_timeout, const int recv_timeout, const LStrHandle request, LStrHandle response, LVBoolean *timed_out);
+
+	/*  FTW Actor Message Router framework  */
+	FTW_EXPORT int ftw_nanomsg_router_start(SocketInstanceDataPtr *inst, const char *addr);
+	FTW_EXPORT int ftw_nanomsg_router_recv(SocketInstanceDataPtr *inst, const int router_id, const int timeout, LStrHandle backtrace, LStrHandle incoming_request, LVBoolean *message_received, LVBoolean *shutdown);
+	FTW_EXPORT int ftw_nanomsg_router_reply(SocketInstanceDataPtr *inst, const int router_id, const int timeout, const LStrHandle backtrace, const LStrHandle response, LVBoolean *timed_out);
+	FTW_EXPORT int ftw_nanomsg_router_stop(const int router_id);
 
 #ifdef __cplusplus
 }
