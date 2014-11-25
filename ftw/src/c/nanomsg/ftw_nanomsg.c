@@ -18,389 +18,408 @@
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
     IN THE SOFTWARE.
-*/
+    */
 
-#include "../ftw_nanomsg.h"
-#include "../reqrep.h"
-#include "../pubsub.h"
-#include "../pipeline.h"
-#include "../survey.h"
-#include "../pair.h"
-#include "../bus.h"
+#include "ftw_nanomsg.h"
+#include "reqrep.h"
+#include "pubsub.h"
+#include "pipeline.h"
+#include "survey.h"
+#include "pair.h"
+#include "bus.h"
 #include <stdlib.h>
+
+//#include "utils/sleep.h"
+#include "utils/chunk.h"
 
 static MgErr ftw_support_copy_to_LStrHandle(LStrHandle dest, const void *src, size_t length)
 {
-	MgErr resize_err;
+    MgErr resize_err;
 
-	resize_err = NumericArrayResize(uB, 1, (UHandle *) &dest, length);
-	if (resize_err == mgNoErr) {
-		MoveBlock(src, LHStrBuf(dest), length);
-		LStrLen(*dest) = length;
-	}
-	return resize_err;
+    resize_err = NumericArrayResize(uB, 1, (UHandle *)&dest, length);
+    if (resize_err == mgNoErr) {
+        MoveBlock(src, LHStrBuf(dest), length);
+        LStrLen(*dest) = length;
+    }
+    return resize_err;
 }
-
 
 int ftw_nanomsg_error(LStrHandle error_message)
 {
-	const char* human_readable_error;
-	int current_error;
+    const char* human_readable_error;
+    int current_error;
 
-	current_error = errno;
+    current_error = errno;
 
-	/*  The FTW library will explicitly handle a few errors, since "socket" could be a less misleading term than "file descriptors"  */
-	switch (current_error)
-	{
-	case EBADF:
-		human_readable_error = "Invalid socket";
-		break;
-	case EMFILE:
-		human_readable_error = "Too many open sockets";
-		break;
-	default:
-		human_readable_error = nn_strerror(current_error);
-	}
+    /*  The FTW library will explicitly handle a few errors, since "socket"
+        could be a less misleading term than "file descriptors". */
+    switch (current_error)
+    {
+    case EBADF:
+        human_readable_error = "Invalid socket";
+        break;
+    case EMFILE:
+        human_readable_error = "Too many open sockets";
+        break;
+    default:
+        human_readable_error = nn_strerror(current_error);
+    }
 
-	ftw_support_copy_to_LStrHandle(error_message, human_readable_error, strlen(human_readable_error));
-	
-	return errno;
+    ftw_support_copy_to_LStrHandle(error_message, human_readable_error, strlen(human_readable_error));
+
+    return errno;
 }
 
-const char *ftw_nanomsg_version (void)
+const char *ftw_nanomsg_version(void)
 {
-	return "0.4.1-1003";
+    return "0.5.0-1004";
 }
 
-int ftw_nanomsg_socket(SocketInstanceDataPtr *inst, const int scalability_protocol, const LVBoolean *raw, const int linger, const int sndbuf, const int rcvbuf)
+int ftw_nanomsg_socket(SocketInstanceDataPtr *inst, const int scalability_protocol,
+    const LVBoolean *raw, const int linger, const int sndbuf, const int rcvbuf)
 {
-	int socket_id;
+    int socket_id;
+    int domain;
+    int protocol;
 
-	int available_protocols[10] = { NN_REP, NN_REQ, NN_PUB, NN_SUB, NN_PUSH, NN_PULL, NN_SURVEYOR, NN_RESPONDENT, NN_PAIR, NN_BUS };
+    int available_protocols[10] = { NN_REP, NN_REQ, NN_PUB, NN_SUB, NN_PUSH, NN_PULL, NN_SURVEYOR, NN_RESPONDENT, NN_PAIR, NN_BUS };
 
-	ftw_assert(*inst);
+    ftw_assert(*inst);
 
-	if (scalability_protocol < 0 || scalability_protocol >= sizeof(available_protocols) / sizeof(available_protocols[0]))
-	{
-		errno = EINVAL;
-		return -1;
-	}
+    if (scalability_protocol < 0 || scalability_protocol >= sizeof(available_protocols) / sizeof(available_protocols[0]))
+    {
+        errno = EINVAL;
+        return -1;
+    }
 
-	socket_id = nn_socket((*raw == LVBooleanFalse ? AF_SP : AF_SP_RAW), available_protocols[scalability_protocol]);
+    domain = (*raw == LVBooleanFalse) ? AF_SP : AF_SP_RAW;
+    protocol = available_protocols[scalability_protocol];
 
-	if (socket_id >= 0)
-	{
-		if (nn_setsockopt(socket_id, NN_SOL_SOCKET, NN_LINGER, &linger, sizeof(linger)) < 0)
-			return -1;
-		if (nn_setsockopt(socket_id, NN_SOL_SOCKET, NN_SNDBUF, &sndbuf, sizeof(sndbuf)) < 0)
-			return -1;
-		if (nn_setsockopt(socket_id, NN_SOL_SOCKET, NN_RCVBUF, &rcvbuf, sizeof(rcvbuf)) < 0)
-			return -1;
-	}
+    socket_id = nn_socket(domain, protocol);
 
-	return socket_id;
+    if (socket_id >= 0)
+    {
+        if (nn_setsockopt(socket_id, NN_SOL_SOCKET, NN_LINGER, &linger, sizeof(linger)) < 0)
+            return -1;
+        if (nn_setsockopt(socket_id, NN_SOL_SOCKET, NN_SNDBUF, &sndbuf, sizeof(sndbuf)) < 0)
+            return -1;
+        if (nn_setsockopt(socket_id, NN_SOL_SOCKET, NN_RCVBUF, &rcvbuf, sizeof(rcvbuf)) < 0)
+            return -1;
+    }
+
+    return socket_id;
 }
 
 int ftw_nanomsg_connect(const int socket_id, const char *addr)
 {
-	int connection_id;
-	
-	connection_id = nn_connect(socket_id, addr);
+    int connection_id;
 
-	return connection_id;
+    connection_id = nn_connect(socket_id, addr);
+
+    return connection_id;
 }
 
 int ftw_nanomsg_bind(const int socket_id, const char *addr)
 {
-	int binding_id;
+    int binding_id;
 
-	binding_id = nn_bind(socket_id, addr);
+    binding_id = nn_bind(socket_id, addr);
 
-	return binding_id;
+    return binding_id;
 }
 
-int ftw_nanomsg_send(SocketInstanceDataPtr *inst, const int socket_id, const int timeout, const LStrHandle outgoing_msg, LVBoolean *timed_out)
+int ftw_nanomsg_send(SocketInstanceDataPtr *inst, const int socket_id, const int timeout,
+    const LStrHandle outgoing_msg, LVBoolean *timed_out)
 {
-	int rc;
-	struct nn_iovec iov;
-	struct nn_msghdr hdr;
+    int rc;
+    struct nn_iovec iov;
+    struct nn_msghdr hdr;
 
-	ftw_assert(*inst);
+    ftw_assert(*inst);
 
-	iov.iov_base = LHStrBuf(outgoing_msg);
-	iov.iov_len = LHStrLen(outgoing_msg);
+    iov.iov_base = LHStrBuf(outgoing_msg);
+    iov.iov_len = LHStrLen(outgoing_msg);
 
-	memset(&hdr, 0, sizeof(hdr));
-	hdr.msg_iov = &iov;
-	hdr.msg_iovlen = 1;
-	hdr.msg_control = NULL;
-	hdr.msg_controllen = 0;
+    memset(&hdr, 0, sizeof(hdr));
+    hdr.msg_iov = &iov;
+    hdr.msg_iovlen = 1;
+    hdr.msg_control = NULL;
+    hdr.msg_controllen = 0;
 
-	nn_setsockopt(socket_id, NN_SOL_SOCKET, NN_SNDTIMEO, &timeout, sizeof(timeout));
+    nn_setsockopt(socket_id, NN_SOL_SOCKET, NN_SNDTIMEO, &timeout, sizeof(timeout));
 
-	/*  Prepare LabVIEW Execution System for blocking call, in case abort() is called  */
-	ftw_nanomsg_instance_set(inst, socket_id);
-	rc = nn_sendmsg(socket_id, &hdr, NN_NOFLAGS);
-	ftw_nanomsg_instance_set(inst, NN_INVALID_SOCKET_ID);
+    /*  Prepare LabVIEW Execution System for blocking call, in case abort() is called  */
+    ftw_nanomsg_instance_set(inst, socket_id);
+    rc = nn_sendmsg(socket_id, &hdr, 0);
+    ftw_nanomsg_instance_set(inst, NN_INVALID_SOCKET_ID);
 
-	*timed_out = ftw_nanomsg_timeout(rc);
+    *timed_out = ftw_nanomsg_timeout(rc);
 
-	return rc;
+    return rc;
 }
 
-int ftw_nanomsg_recv(SocketInstanceDataPtr *inst, const int socket_id, const int timeout, LStrHandle incoming_msg, LVBoolean *timed_out)
+int ftw_nanomsg_recv(SocketInstanceDataPtr *inst, const int socket_id, const int timeout,
+    LStrHandle incoming_msg, LVBoolean *timed_out)
 {
-	int rc;
-	struct nn_iovec iov;
-	struct nn_msghdr hdr;
-	void *recv_buf = NULL;
-	MgErr resize_err;
+    int rc;
+    struct nn_iovec iov;
+    struct nn_msghdr hdr;
+    void *recv_buf;
+    MgErr resize_err;
 
-	ftw_assert(*inst);
+    ftw_assert(*inst);
 
-	iov.iov_base = &recv_buf;
-	iov.iov_len = NN_MSG;
+    recv_buf = NULL;
+    iov.iov_base = &recv_buf;
+    iov.iov_len = NN_MSG;
 
-	memset(&hdr, 0, sizeof(hdr));
-	hdr.msg_iov = &iov;
-	hdr.msg_iovlen = 1;
-	hdr.msg_control = NULL;
-	hdr.msg_controllen = 0;
-	
-	nn_setsockopt(socket_id, NN_SOL_SOCKET, NN_RCVTIMEO, &timeout, sizeof(timeout));
+    memset(&hdr, 0, sizeof(hdr));
+    hdr.msg_iov = &iov;
+    hdr.msg_iovlen = 1;
+    hdr.msg_control = NULL;
+    hdr.msg_controllen = 0;
 
-	/*  Prepare LabVIEW Execution System for blocking call, in case abort() is called  */
-	ftw_nanomsg_instance_set(inst, socket_id);
-	rc = nn_recvmsg(socket_id, &hdr, NN_NOFLAGS);
-	ftw_nanomsg_instance_set(inst, NN_INVALID_SOCKET_ID);
-	
-	if (rc >= 0) {
-		resize_err = ftw_support_copy_to_LStrHandle(incoming_msg, recv_buf, rc);
-		if (resize_err != mgNoErr) {
-			errno = resize_err + LV_USER_ERROR;
-			rc = -1;
-		}
-	}
+    nn_setsockopt(socket_id, NN_SOL_SOCKET, NN_RCVTIMEO, &timeout, sizeof(timeout));
 
-	if (recv_buf)
-		nn_freemsg(recv_buf);
+    /*  Prepare LabVIEW Execution System for blocking call, in case abort() is called  */
+    ftw_nanomsg_instance_set(inst, socket_id);
+    rc = nn_recvmsg(socket_id, &hdr, 0);
+    ftw_nanomsg_instance_set(inst, NN_INVALID_SOCKET_ID);
 
-	*timed_out = ftw_nanomsg_timeout(rc);
+    if (rc >= 0) {
+        resize_err = ftw_support_copy_to_LStrHandle(incoming_msg, recv_buf, rc);
+        if (resize_err != mgNoErr) {
+            errno = resize_err + LV_USER_ERROR;
+            rc = -1;
+        }
+    }
 
-	return rc;
+    if (recv_buf)
+        nn_freemsg(recv_buf);
+
+    *timed_out = ftw_nanomsg_timeout(rc);
+
+    return rc;
 }
 
-int ftw_nanomsg_ask(SocketInstanceDataPtr *inst, const int socket_id, const int send_timeout, const int recv_timeout, const LStrHandle request, LStrHandle response, LVBoolean *timed_out)
+int ftw_nanomsg_ask(SocketInstanceDataPtr *inst, const int socket_id, const int send_timeout,
+    const int recv_timeout, const LStrHandle request, LStrHandle response, LVBoolean *timed_out)
 {
-	int rc;
-	struct nn_iovec iov;
-	struct nn_msghdr hdr;
-	void *recv_buf = NULL;
-	MgErr resize_err;
+    int rc;
+    struct nn_iovec iov;
+    struct nn_msghdr hdr;
+    void *recv_buf;
+    MgErr resize_err;
 
-	ftw_assert(*inst);
+    ftw_assert(*inst);
 
-	iov.iov_base = LHStrBuf(request);
-	iov.iov_len = LHStrLen(request);
+    iov.iov_base = LHStrBuf(request);
+    iov.iov_len = LHStrLen(request);
 
-	memset(&hdr, 0, sizeof(hdr));
-	hdr.msg_iov = &iov;
-	hdr.msg_iovlen = 1;
-	hdr.msg_control = NULL;
-	hdr.msg_controllen = 0;
+    hdr.msg_iov = &iov;
+    hdr.msg_iovlen = 1;
+    hdr.msg_control = NULL;
+    hdr.msg_controllen = 0;
 
-	nn_setsockopt(socket_id, NN_SOL_SOCKET, NN_SNDTIMEO, &send_timeout, sizeof(send_timeout));
+    nn_setsockopt(socket_id, NN_SOL_SOCKET, 1, &send_timeout, sizeof(send_timeout));
 
-	/*  Prepare LabVIEW Execution System for blocking call, in case abort() is called  */
-	ftw_nanomsg_instance_set(inst, socket_id);
-	rc = nn_sendmsg(socket_id, &hdr, NN_NOFLAGS);
-	ftw_nanomsg_instance_set(inst, NN_INVALID_SOCKET_ID);
+    /*  Prepare LabVIEW Execution System for blocking call, in case abort() is called  */
+    ftw_nanomsg_instance_set(inst, socket_id);
+    rc = nn_sendmsg(socket_id, &hdr, 0);
+    ftw_nanomsg_instance_set(inst, NN_INVALID_SOCKET_ID);
 
-	if (rc >= 0)
-	{
-		iov.iov_base = &recv_buf;
-		iov.iov_len = NN_MSG;
+    if (rc >= 0) {
+        recv_buf = NULL;
+        iov.iov_base = &recv_buf;
+        iov.iov_len = NN_MSG;
 
-		memset(&hdr, 0, sizeof(hdr));
-		hdr.msg_iov = &iov;
-		hdr.msg_iovlen = 1;
-		hdr.msg_control = NULL;
-		hdr.msg_controllen = 0;
+        hdr.msg_iov = &iov;
+        hdr.msg_iovlen = 1;
+        hdr.msg_control = NULL;
+        hdr.msg_controllen = 0;
 
-		nn_setsockopt(socket_id, NN_SOL_SOCKET, NN_RCVTIMEO, &recv_timeout, sizeof(recv_timeout));
+        nn_setsockopt(socket_id, NN_SOL_SOCKET, NN_RCVTIMEO, &recv_timeout, sizeof(recv_timeout));
 
-		/*  Prepare LabVIEW Execution System for blocking call, in case abort() is called  */
-		ftw_nanomsg_instance_set(inst, socket_id);
-		rc = nn_recvmsg(socket_id, &hdr, NN_NOFLAGS);
-		ftw_nanomsg_instance_set(inst, NN_INVALID_SOCKET_ID);
+        /*  Prepare LabVIEW Execution System for blocking call, in case abort() is called  */
+        ftw_nanomsg_instance_set(inst, socket_id);
+        rc = nn_recvmsg(socket_id, &hdr, 0);
+        ftw_nanomsg_instance_set(inst, NN_INVALID_SOCKET_ID);
 
-		if (rc >= 0)
-		{
-			resize_err = ftw_support_copy_to_LStrHandle(response, recv_buf, rc);
-			if (resize_err != mgNoErr) {
-				errno = resize_err + LV_USER_ERROR;
-				rc = -1;
-			}
-		}
-	}
+        if (rc >= 0) {
+            resize_err = ftw_support_copy_to_LStrHandle(response, recv_buf, rc);
+            if (resize_err != mgNoErr) {
+                errno = resize_err + LV_USER_ERROR;
+                rc = -1;
+            }
+        }
 
-	if (recv_buf)
-		nn_freemsg(recv_buf);
+        if (recv_buf)
+            nn_freemsg(recv_buf);
+    }
 
-	*timed_out = ftw_nanomsg_timeout(rc);
+    *timed_out = ftw_nanomsg_timeout(rc);
 
-	return rc;
+    return rc;
 }
 
 int ftw_nanomsg_router_start(SocketInstanceDataPtr *inst, const char *addr)
 {
-	int router_id;
+    int router_id;
 
-	ftw_assert(*inst && !ftw_nanomsg_instance_is_valid(inst));
+    ftw_assert(*inst && !ftw_nanomsg_instance_is_valid(inst));
 
-	router_id = nn_socket(AF_SP_RAW, NN_PAIR);
+    router_id = nn_socket(AF_SP_RAW, NN_REP);
 
-	if (router_id >= 0) {
-		if (ftw_nanomsg_bind(router_id, addr) >= 0) {
-//			ftw_nanomsg_set_instance(inst, router_id);
-		}
-		else {
-			ftw_nanomsg_close(router_id);
-			router_id = -1;
-		}
-	}
+    if (router_id >= 0) {
+        if (ftw_nanomsg_bind(router_id, addr) >= 0) {
+            //			ftw_nanomsg_set_instance(inst, router_id);
+        }
+        else {
+            ftw_nanomsg_close(router_id);
+            router_id = -1;
+        }
+    }
 
-	return router_id;
+//    nn_sleep(200);
+
+    return router_id;
 }
 
-int ftw_nanomsg_router_recv(SocketInstanceDataPtr *inst, const int router_id, const int timeout, LStrHandle backtrace, LStrHandle incoming_request, LVBoolean *message_received, LVBoolean *shutdown)
+int ftw_nanomsg_router_recv(SocketInstanceDataPtr *inst, const int router_id, const int timeout,
+    LStrHandle backtrace, LStrHandle incoming_request, LVBoolean *message_received, LVBoolean *shutdown)
 {
-	struct nn_iovec iov;
-	struct nn_msghdr hdr;
-	void *recv_buf = NULL;
-	void *hdr_buf = NULL;
-	int msg_size;
-	MgErr resize_err;
+    struct nn_iovec iov;
+    struct nn_msghdr msg;
+    void *recv_buf;
+    void *hdr_buf;
+    size_t hdr_len;
+    int msg_size;
+    MgErr resize_err;
 
-	ftw_assert(*inst);
+    ftw_assert(*inst);
 
-	iov.iov_base = &recv_buf;
-	iov.iov_len = NN_MSG;
+    recv_buf = NULL;
+    hdr_buf = NULL;
+    iov.iov_base = &recv_buf;
+    iov.iov_len = NN_MSG;
 
-	memset(&hdr, 0, sizeof(hdr));
-	hdr.msg_iov = &iov;
-	hdr.msg_iovlen = 1;
-	hdr.msg_control = &hdr_buf;
-	hdr.msg_controllen = NN_MSG;
-	
-	nn_setsockopt(router_id, NN_SOL_SOCKET, NN_RCVTIMEO, &timeout, sizeof(timeout));
+    msg.msg_iov = &iov;
+    msg.msg_iovlen = 1;
+    msg.msg_control = &hdr_buf;
+    msg.msg_controllen = NN_MSG;
 
-	/*  Prepare LabVIEW Execution System for blocking call, in case abort() is called  */
-	ftw_nanomsg_instance_set(inst, router_id);
-	msg_size = nn_recvmsg(router_id, &hdr, NN_NOFLAGS);
-	ftw_nanomsg_instance_set(inst, NN_INVALID_SOCKET_ID);
+    nn_setsockopt(router_id, NN_SOL_SOCKET, NN_RCVTIMEO, &timeout, sizeof(timeout));
 
-	if (msg_size >= 0) {
-		resize_err = ftw_support_copy_to_LStrHandle(incoming_request, recv_buf, msg_size);
-		if (resize_err != mgNoErr) {
-			errno = resize_err + LV_USER_ERROR;
-			msg_size = -1;
-		}
+    /*  Prepare LabVIEW Execution System for blocking call, in case abort() is called  */
+    ftw_nanomsg_instance_set(inst, router_id);
+    msg_size = nn_recvmsg(router_id, &msg, 0);
+    ftw_nanomsg_instance_set(inst, NN_INVALID_SOCKET_ID);
 
-		resize_err = ftw_support_copy_to_LStrHandle(backtrace, hdr_buf, hdr.msg_controllen);
-		if (resize_err != mgNoErr) {
-			errno = resize_err + LV_USER_ERROR;
-			msg_size = -1;
-		}
+    if (msg_size >= 0) {
+        resize_err = ftw_support_copy_to_LStrHandle(incoming_request, recv_buf, msg_size);
+        if (resize_err != mgNoErr) {
+            errno = resize_err + LV_USER_ERROR;
+            msg_size = -1;
+        }
 
-		*message_received = LVBooleanTrue;
-	}
+        hdr_len = nn_chunk_size(hdr_buf);
 
-	if (recv_buf)
-		nn_freemsg(recv_buf);
-	if (hdr_buf)
-		nn_freemsg(hdr_buf);
-	
-	/*  This is the expected shutdown condition  */
-	if (msg_size < 0 || errno == -EINTR)
-	{
-		*shutdown = LVBooleanTrue;
-		return 0;
-	}
+        resize_err = ftw_support_copy_to_LStrHandle(backtrace, hdr_buf, hdr_len);
+        if (resize_err != mgNoErr) {
+            errno = resize_err + LV_USER_ERROR;
+            msg_size = -1;
+        }
 
-	return msg_size;
+        *message_received = LVBooleanTrue;
+    }
+
+    if (recv_buf)
+        nn_freemsg(recv_buf);
+    if (hdr_buf)
+        nn_freemsg(hdr_buf);
+
+    /*  This is the expected shutdown condition  */
+    if (msg_size < 0 || errno == -EINTR)
+    {
+        errno = 0;
+        *shutdown = LVBooleanTrue;
+        return 0;
+    }
+
+    return msg_size;
 }
 
-int ftw_nanomsg_router_reply(SocketInstanceDataPtr *inst, const int router_id, const int timeout, const LStrHandle backtrace, const LStrHandle response, LVBoolean *timed_out)
+int ftw_nanomsg_router_reply(SocketInstanceDataPtr *inst, const int router_id, const int timeout,
+    const LStrHandle backtrace, const LStrHandle response, LVBoolean *timed_out)
 {
-	int rc;
-	struct nn_iovec iov;
-	struct nn_msghdr hdr;
+    int rc;
+    struct nn_iovec iov;
+    struct nn_msghdr hdr;
 
-	ftw_assert(*inst);
+    ftw_assert(*inst);
 
-	iov.iov_base = LHStrBuf(response);
-	iov.iov_len = LHStrLen(response);
+    iov.iov_base = LHStrBuf(response);
+    iov.iov_len = LHStrLen(response);
 
-	hdr.msg_iov = &iov;
-	hdr.msg_iovlen = 1;
-	hdr.msg_control = LHStrBuf(backtrace);
-	hdr.msg_controllen = LHStrLen(backtrace);
+    hdr.msg_iov = &iov;
+    hdr.msg_iovlen = 1;
+    hdr.msg_control = LHStrBuf(backtrace);
+    hdr.msg_controllen = LHStrLen(backtrace);
 
-	nn_setsockopt(router_id, NN_SOL_SOCKET, NN_SNDTIMEO, &timeout, sizeof(timeout));
+    nn_setsockopt(router_id, NN_SOL_SOCKET, NN_SNDTIMEO, &timeout, sizeof(timeout));
 
-	/*  Prepare LabVIEW Execution System for blocking call, in case abort() is called  */
-	ftw_nanomsg_instance_set(inst, router_id);
-	rc = nn_sendmsg(router_id, &hdr, NN_NOFLAGS);
-	ftw_nanomsg_instance_set(inst, NN_INVALID_SOCKET_ID);
+    /*  Prepare LabVIEW Execution System for blocking call, in case abort() is called  */
+    ftw_nanomsg_instance_set(inst, router_id);
+    rc = nn_sendmsg(router_id, &hdr, 0);
+    ftw_nanomsg_instance_set(inst, NN_INVALID_SOCKET_ID);
 
-	return rc;
+    return rc;
 }
 
-int ftw_nanomsg_router_stop (const int router_id)
+int ftw_nanomsg_router_stop(const int router_id)
 {
-	return ftw_nanomsg_close (router_id);
+    return ftw_nanomsg_close(router_id);
 }
 
-int ftw_nanomsg_close (const int socket_id)
+int ftw_nanomsg_close(const int socket_id)
 {
-	/*  It is safe to call this function repeatedly; however, subsequent calls
-	    on a socket that is already closed will return a benign error  */
-	return nn_close(socket_id);
+    /*  It is safe to call this function repeatedly; however, subsequent calls
+        on a socket that is already closed will return a benign error  */
+    return nn_close(socket_id);
 }
 
 MgErr ftw_nanomsg_reserve(SocketInstanceDataPtr *inst)
 {
-	if(!*inst)
-		*inst = (SocketInstanceDataPtr)DSNewPClr(sizeof(SocketInstanceData));
+    if (!*inst)
+        *inst = (SocketInstanceDataPtr)DSNewPClr(sizeof(SocketInstanceData));
 
-	ftw_assert(*inst);
+    ftw_assert(*inst);
 
-	ftw_nanomsg_instance_set(inst, NN_INVALID_SOCKET_ID);
+    ftw_nanomsg_instance_set(inst, NN_INVALID_SOCKET_ID);
 
-	ftw_assert(!ftw_nanomsg_instance_is_valid(inst));
+    ftw_assert(!ftw_nanomsg_instance_is_valid(inst));
 
-	return mgNoErr;
+    return mgNoErr;
 }
 
 MgErr ftw_nanomsg_unreserve(SocketInstanceDataPtr *inst)
 {
-	ftw_assert(*inst);
+    ftw_assert(*inst);
 
-	//JRD - Enabling the following line causes crashes, and I don't know why.
-	//      For now, allow this tiny memory leak to exist (a few bytes per API method instance)
-	//ftw_assert(DSDisposePtr(*inst) == mgNoErr);
+    //JRD - Enabling the following line causes crashes, and I don't know why.
+    //      For now, allow this tiny memory leak to exist (a few bytes per API method instance)
+    //ftw_assert(DSDisposePtr(*inst) == mgNoErr);
 
-	return mgNoErr;
+    return mgNoErr;
 }
 
 MgErr ftw_nanomsg_abort(SocketInstanceDataPtr *inst)
 {
-	if (ftw_nanomsg_instance_is_valid(inst))
-	{
-		ftw_nanomsg_close((*inst)->id);
-		ftw_nanomsg_instance_set(inst, NN_INVALID_SOCKET_ID);
-	}
+    if (ftw_nanomsg_instance_is_valid(inst))
+    {
+        ftw_nanomsg_close((*inst)->id);
+        ftw_nanomsg_instance_set(inst, NN_INVALID_SOCKET_ID);
+    }
 
-	return mgNoErr;
+    return mgNoErr;
 }
