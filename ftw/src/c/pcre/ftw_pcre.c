@@ -1,4 +1,4 @@
-#include "ftw-pcre.h"
+#include "ftw_pcre.h"
 
 static int ftw_pcre_callout(pcre_callout_block *callout_data);
 
