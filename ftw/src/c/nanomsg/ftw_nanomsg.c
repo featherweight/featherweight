@@ -29,8 +29,11 @@
 #include "bus.h"
 #include <stdlib.h>
 
-//#include "utils/sleep.h"
 #include "utils/chunk.h"
+#include "utils/alloc.h"
+#include "utils/sleep.h"
+
+static void ftw_nanomsg_router_thread(void *arg);
 
 static MgErr ftw_support_copy_to_LStrHandle(LStrHandle dest, const void *src, size_t length)
 {
@@ -75,7 +78,7 @@ const char *ftw_nanomsg_version(void)
     return "0.5.0-1004";
 }
 
-int ftw_nanomsg_socket(SocketInstanceDataPtr *inst, const int scalability_protocol,
+intptr_t ftw_nanomsg_socket(SocketInstance ***inst, const int scalability_protocol,
     const LVBoolean *raw, const int linger, const int sndbuf, const int rcvbuf)
 {
     int socket_id;
@@ -83,8 +86,6 @@ int ftw_nanomsg_socket(SocketInstanceDataPtr *inst, const int scalability_protoc
     int protocol;
 
     int available_protocols[10] = { NN_REP, NN_REQ, NN_PUB, NN_SUB, NN_PUSH, NN_PULL, NN_SURVEYOR, NN_RESPONDENT, NN_PAIR, NN_BUS };
-
-    ftw_assert(*inst);
 
     if (scalability_protocol < 0 || scalability_protocol >= sizeof(available_protocols) / sizeof(available_protocols[0]))
     {
@@ -128,14 +129,12 @@ int ftw_nanomsg_bind(const int socket_id, const char *addr)
     return binding_id;
 }
 
-int ftw_nanomsg_send(SocketInstanceDataPtr *inst, const int socket_id, const int timeout,
+int ftw_nanomsg_send(SocketInstance ***inst, const int socket_id, const int timeout,
     const LStrHandle outgoing_msg, LVBoolean *timed_out)
 {
     int rc;
     struct nn_iovec iov;
     struct nn_msghdr hdr;
-
-    ftw_assert(*inst);
 
     iov.iov_base = LHStrBuf(outgoing_msg);
     iov.iov_len = LHStrLen(outgoing_msg);
@@ -158,7 +157,7 @@ int ftw_nanomsg_send(SocketInstanceDataPtr *inst, const int socket_id, const int
     return rc;
 }
 
-int ftw_nanomsg_recv(SocketInstanceDataPtr *inst, const int socket_id, const int timeout,
+int ftw_nanomsg_recv(SocketInstance ***inst, const int socket_id, const int timeout,
     LStrHandle incoming_msg, LVBoolean *timed_out)
 {
     int rc;
@@ -166,8 +165,6 @@ int ftw_nanomsg_recv(SocketInstanceDataPtr *inst, const int socket_id, const int
     struct nn_msghdr hdr;
     void *recv_buf;
     MgErr resize_err;
-
-    ftw_assert(*inst);
 
     recv_buf = NULL;
     iov.iov_base = &recv_buf;
@@ -202,7 +199,7 @@ int ftw_nanomsg_recv(SocketInstanceDataPtr *inst, const int socket_id, const int
     return rc;
 }
 
-int ftw_nanomsg_ask(SocketInstanceDataPtr *inst, const int socket_id, const int send_timeout,
+int ftw_nanomsg_ask(SocketInstance ***inst, const int socket_id, const int send_timeout,
     const int recv_timeout, const LStrHandle request, LStrHandle response, LVBoolean *timed_out)
 {
     int rc;
@@ -210,8 +207,6 @@ int ftw_nanomsg_ask(SocketInstanceDataPtr *inst, const int socket_id, const int 
     struct nn_msghdr hdr;
     void *recv_buf;
     MgErr resize_err;
-
-    ftw_assert(*inst);
 
     iov.iov_base = LHStrBuf(request);
     iov.iov_len = LHStrLen(request);
@@ -262,101 +257,109 @@ int ftw_nanomsg_ask(SocketInstanceDataPtr *inst, const int socket_id, const int 
     return rc;
 }
 
-int ftw_nanomsg_router_start(SocketInstanceDataPtr *inst, const char *addr)
-{
-    int router_id;
-
-    ftw_assert(*inst && !ftw_nanomsg_instance_is_valid(inst));
-
-    router_id = nn_socket(AF_SP_RAW, NN_REP);
-
-    if (router_id >= 0) {
-        if (ftw_nanomsg_bind(router_id, addr) >= 0) {
-            //			ftw_nanomsg_set_instance(inst, router_id);
-        }
-        else {
-            ftw_nanomsg_close(router_id);
-            router_id = -1;
-        }
-    }
-
-//    nn_sleep(200);
-
-    return router_id;
-}
-
-int ftw_nanomsg_router_recv(SocketInstanceDataPtr *inst, const int router_id, const int timeout,
-    LStrHandle backtrace, LStrHandle incoming_request, LVBoolean *message_received, LVBoolean *shutdown)
+static void ftw_nanomsg_router_thread(void *arg)
 {
     struct nn_iovec iov;
     struct nn_msghdr msg;
-    void *recv_buf;
-    void *hdr_buf;
-    size_t hdr_len;
-    int msg_size;
-    MgErr resize_err;
+    struct lv_incoming_msg lv_msg;
+    int router_id;
+    LVUserEventRef lv_event;
 
-    ftw_assert(*inst);
+    MgErr lv_err;
+    int rc;
 
-    recv_buf = NULL;
-    hdr_buf = NULL;
-    iov.iov_base = &recv_buf;
-    iov.iov_len = NN_MSG;
+    ftw_assert(arg);
 
-    msg.msg_iov = &iov;
-    msg.msg_iovlen = 1;
-    msg.msg_control = &hdr_buf;
-    msg.msg_controllen = NN_MSG;
+    /*  Create local copy of arguments and notify launching process
+        this thread is constructed. */
+    router_id = ((struct ftw_router_args *) arg)->router_id;
+    lv_event = ((struct ftw_router_args *) arg)->lv_event;
+    nn_sem_post(&((struct ftw_router_args *) arg)->initialized);
 
-    nn_setsockopt(router_id, NN_SOL_SOCKET, NN_RCVTIMEO, &timeout, sizeof(timeout));
+    lv_err = mgNoErr;
+    
+    /*  This broker relays messages from the nanomsg socket into the LabVIEW incoming message queue. */
+    while (lv_err == mgNoErr) {
 
-    /*  Prepare LabVIEW Execution System for blocking call, in case abort() is called  */
-    ftw_nanomsg_instance_set(inst, router_id);
-    msg_size = nn_recvmsg(router_id, &msg, 0);
-    ftw_nanomsg_instance_set(inst, NN_INVALID_SOCKET_ID);
+        memset(&lv_msg, 0, sizeof(lv_msg));
 
-    if (msg_size >= 0) {
-        resize_err = ftw_support_copy_to_LStrHandle(incoming_request, recv_buf, msg_size);
-        if (resize_err != mgNoErr) {
-            errno = resize_err + LV_USER_ERROR;
-            msg_size = -1;
-        }
+        iov.iov_base = &lv_msg.msg;
+        iov.iov_len = NN_MSG;
 
-        hdr_len = nn_chunk_size(hdr_buf);
+        msg.msg_iov = &iov;
+        msg.msg_iovlen = 1;
+        msg.msg_control = &lv_msg.hdr;
+        msg.msg_controllen = NN_MSG;
 
-        resize_err = ftw_support_copy_to_LStrHandle(backtrace, hdr_buf, hdr_len);
-        if (resize_err != mgNoErr) {
-            errno = resize_err + LV_USER_ERROR;
-            msg_size = -1;
-        }
+        rc = nn_recvmsg(router_id, &msg, 0);
 
-        *message_received = LVBooleanTrue;
+        if (rc < 0)
+            break;
+
+        lv_msg.router_id = router_id;
+        lv_msg.msg_len = (uInt64) nn_chunk_size((void *)lv_msg.msg);
+        lv_msg.hdr_len = (uInt64) nn_chunk_size((void *)lv_msg.hdr);
+
+        /*  On the LabVIEW side, the handler is a callback VI (rather than an Event
+            Handler Structure). For this reason, this function is blocked for the
+            duration of the callback, enabling LabVIEW to apply backpressure when
+            the message queue is congested. This important semantic is desirable since
+            that backpressure may be relayed all the way back to originating endpoints,
+            synchronously relaying information about the remote's ability to handle
+            messages it is sending. */
+        lv_err = PostLVUserEvent(lv_event , &lv_msg);
+
+        if (lv_msg.msg)
+            nn_freemsg((void *)lv_msg.msg);
+        if (lv_msg.hdr)
+            nn_freemsg((void *)lv_msg.hdr);
     }
 
-    if (recv_buf)
-        nn_freemsg(recv_buf);
-    if (hdr_buf)
-        nn_freemsg(hdr_buf);
-
-    /*  This is the expected shutdown condition  */
-    if (msg_size < 0 || errno == -EINTR)
-    {
-        errno = 0;
-        *shutdown = LVBooleanTrue;
-        return 0;
-    }
-
-    return msg_size;
+    return;
 }
 
-int ftw_nanomsg_router_reply(SocketInstanceDataPtr *inst, const int router_id, const int timeout,
+int ftw_nanomsg_router_start(LVUserEventRef *lv_event, const char *addr)
+{
+    struct ftw_router_args arg;
+    struct nn_thread self;
+    int rcb;
+    int rcs;
+
+    rcs = nn_socket(AF_SP_RAW, NN_REP);
+
+    /*  Socket creation failure? */
+    if (rcs < 0)
+        return rcs;
+
+    rcb = ftw_nanomsg_bind(rcs, addr);
+
+    /*  Endpoint creation failure? */
+    if (rcb < 0) {
+        ftw_nanomsg_close(rcs);
+        return rcb;
+    }
+
+    arg.lv_event = *lv_event;
+    arg.router_id = rcs;
+
+    /*  Create mutex which is unlocked by the thread after initialization. */
+    nn_sem_init (&arg.initialized);
+
+    nn_thread_init(&self, ftw_nanomsg_router_thread, &arg);
+
+    /*  Block until lock may be reclaimed. */
+    nn_sem_wait(&arg.initialized);
+    nn_sem_term(&arg.initialized);
+
+    return rcs;
+}
+
+int ftw_nanomsg_router_reply(SocketInstance ***inst, const int router_id, const int timeout,
     const LStrHandle backtrace, const LStrHandle response, LVBoolean *timed_out)
 {
     int rc;
     struct nn_iovec iov;
     struct nn_msghdr hdr;
-
-    ftw_assert(*inst);
 
     iov.iov_base = LHStrBuf(response);
     iov.iov_len = LHStrLen(response);
@@ -365,6 +368,7 @@ int ftw_nanomsg_router_reply(SocketInstanceDataPtr *inst, const int router_id, c
     hdr.msg_iovlen = 1;
     hdr.msg_control = LHStrBuf(backtrace);
     hdr.msg_controllen = LHStrLen(backtrace);
+    //hdr.msg_controllen = NN_MSG;
 
     nn_setsockopt(router_id, NN_SOL_SOCKET, NN_SNDTIMEO, &timeout, sizeof(timeout));
 
@@ -372,6 +376,8 @@ int ftw_nanomsg_router_reply(SocketInstanceDataPtr *inst, const int router_id, c
     ftw_nanomsg_instance_set(inst, router_id);
     rc = nn_sendmsg(router_id, &hdr, 0);
     ftw_nanomsg_instance_set(inst, NN_INVALID_SOCKET_ID);
+
+    *timed_out = ftw_nanomsg_timeout(rc);
 
     return rc;
 }
@@ -388,36 +394,31 @@ int ftw_nanomsg_close(const int socket_id)
     return nn_close(socket_id);
 }
 
-MgErr ftw_nanomsg_reserve(SocketInstanceDataPtr *inst)
+MgErr ftw_nanomsg_reserve(SocketInstance ***inst)
 {
-    if (!*inst)
-        *inst = (SocketInstanceDataPtr)DSNewPClr(sizeof(SocketInstanceData));
-
-    ftw_assert(*inst);
-
-    ftw_nanomsg_instance_set(inst, NN_INVALID_SOCKET_ID);
-
-    ftw_assert(!ftw_nanomsg_instance_is_valid(inst));
+    /*  Create SocketInstance on first run of a CLFN callsite. */
+    if (DSCheckHandle(*inst) != mgNoErr); {
+        *inst = (SocketInstance **)DSNewHClr(sizeof(SocketInstance));
+        ftw_nanomsg_instance_set(inst, NN_INVALID_SOCKET_ID);
+    }
 
     return mgNoErr;
 }
 
-MgErr ftw_nanomsg_unreserve(SocketInstanceDataPtr *inst)
+MgErr ftw_nanomsg_unreserve(SocketInstance ***inst)
 {
-    ftw_assert(*inst);
-
-    //JRD - Enabling the following line causes crashes, and I don't know why.
-    //      For now, allow this tiny memory leak to exist (a few bytes per API method instance)
-    //ftw_assert(DSDisposePtr(*inst) == mgNoErr);
-
+    if (DSCheckHandle(*inst) == mgNoErr) {
+        ftw_assert(DSDisposeHandle(*inst) == mgNoErr);
+    }
     return mgNoErr;
 }
 
-MgErr ftw_nanomsg_abort(SocketInstanceDataPtr *inst)
+MgErr ftw_nanomsg_abort(SocketInstance ***inst)
 {
-    if (ftw_nanomsg_instance_is_valid(inst))
-    {
-        ftw_nanomsg_close((*inst)->id);
+    ftw_assert(DSCheckHandle(*inst) == mgNoErr);
+
+    if ((*(*inst))->id != NN_INVALID_SOCKET_ID) {
+        ftw_nanomsg_close((*(*inst))->id);
         ftw_nanomsg_instance_set(inst, NN_INVALID_SOCKET_ID);
     }
 

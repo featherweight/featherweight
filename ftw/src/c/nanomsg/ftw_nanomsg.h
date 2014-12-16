@@ -33,6 +33,7 @@ extern "C" {
 #include "utils/thread.h"
 #include "nn.h"
 #include "utils/err.h"
+#include "utils/sem.h"
 
 #if   defined _WIN32
 #     define FTW_EXPORT __declspec(dllexport)
@@ -46,49 +47,64 @@ extern "C" {
 
 #define LV_USER_ERROR 5000
 
-#define ftw_nanomsg_timeout(rc) ((rc == EAGAIN || rc == ETIMEDOUT) ? LVBooleanTrue : LVBooleanFalse)
+#define ftw_nanomsg_timeout(rc) ((rc < 0 && (errno == EAGAIN || errno == ETIMEDOUT)) ? LVBooleanTrue : LVBooleanFalse)
 
 #define ftw_assert(x) nn_assert(x)
 
 #define NN_INVALID_SOCKET_ID -1
-#define ftw_nanomsg_instance_new(inst)	if(!*inst) *inst = (SocketInstanceDataPtr)DSNewPClr(sizeof(SocketInstanceData))
-#define ftw_nanomsg_instance_set(inst, inst_id) (*inst)->id = inst_id
-#define ftw_nanomsg_instance_is_valid(inst) (*inst)->id != NN_INVALID_SOCKET_ID
+#define ftw_nanomsg_instance_set(inst, inst_id) ((*(*inst))->id = inst_id)
+#define ftw_nanomsg_instance_is_valid(inst) ((*(*inst))->id != NN_INVALID_SOCKET_ID)
 
-	/*  InstanceDataPtr types for nanomsg sockets  */
+	/*  InstanceDataPtr types for nanomsg sockets. */
 	typedef struct {
 		int id;
-	} SocketInstanceData, *SocketInstanceDataPtr;
+    } SocketInstance;
+
+    /*  Router thread arguments. */
+    struct ftw_router_args {
+        int router_id;
+        LVUserEventRef lv_event;
+        struct nn_sem initialized;
+    };
+
+    /*  Use LabVIEW-safe types. */
+    struct lv_incoming_msg {
+        uInt64 router_id;
+        uInt64 msg_len;
+        uInt64 msg;
+        uInt64 hdr_len;
+        uInt64 hdr;
+    };
 
 	/*  Callbacks invoked by LabVIEW by individual instances of Call Library Function Nodes  */
-	FTW_EXPORT MgErr ftw_nanomsg_reserve(SocketInstanceDataPtr *inst);
-	FTW_EXPORT MgErr ftw_nanomsg_unreserve(SocketInstanceDataPtr *inst);
-	FTW_EXPORT MgErr ftw_nanomsg_abort(SocketInstanceDataPtr *inst);
+    FTW_EXPORT MgErr ftw_nanomsg_reserve(SocketInstance ***inst);
+    FTW_EXPORT MgErr ftw_nanomsg_unreserve(SocketInstance ***inst);
+    FTW_EXPORT MgErr ftw_nanomsg_abort(SocketInstance ***inst);
 
 	/*  nanomsg library support methods  */
 	FTW_EXPORT int ftw_nanomsg_error(LStrHandle error_message);
 	FTW_EXPORT const char *ftw_nanomsg_version(void);
 
 	/*  Socket, endpoint, and connection methods  */
-	FTW_EXPORT int ftw_nanomsg_socket(SocketInstanceDataPtr *inst, const int scalability_protocol,
+    FTW_EXPORT int ftw_nanomsg_socket(SocketInstance ***inst, const int scalability_protocol,
         const LVBoolean *raw, const int linger, const int sndbuf, const int rcvbuf);
 	FTW_EXPORT int ftw_nanomsg_connect(const int socket_id, const char *addr);
 	FTW_EXPORT int ftw_nanomsg_bind(const int socket_id, const char *addr);
 	FTW_EXPORT int ftw_nanomsg_close(const int socket_id);
 
 	/*  Blocking I/O methods  */
-	FTW_EXPORT int ftw_nanomsg_send(SocketInstanceDataPtr *inst, const int socket_id, const int timeout,
+    FTW_EXPORT int ftw_nanomsg_send(SocketInstance ***inst, const int socket_id, const int timeout,
         const LStrHandle outgoing_msg, LVBoolean *timed_out);
-	FTW_EXPORT int ftw_nanomsg_recv(SocketInstanceDataPtr *inst, const int socket_id, const int timeout,
+    FTW_EXPORT int ftw_nanomsg_recv(SocketInstance ***inst, const int socket_id, const int timeout,
         LStrHandle incoming_msg, LVBoolean *timed_out);
-	FTW_EXPORT int ftw_nanomsg_ask(SocketInstanceDataPtr *inst, const int socket_id, const int send_timeout,
+    FTW_EXPORT int ftw_nanomsg_ask(SocketInstance ***inst, const int socket_id, const int send_timeout,
         const int recv_timeout, const LStrHandle request, LStrHandle response, LVBoolean *timed_out);
 
 	/*  FTW Actor Message Router framework  */
-	FTW_EXPORT int ftw_nanomsg_router_start(SocketInstanceDataPtr *inst, const char *addr);
-	FTW_EXPORT int ftw_nanomsg_router_recv(SocketInstanceDataPtr *inst, const int router_id, const int timeout,
-        LStrHandle backtrace, LStrHandle incoming_request, LVBoolean *message_received, LVBoolean *shutdown);
-	FTW_EXPORT int ftw_nanomsg_router_reply(SocketInstanceDataPtr *inst, const int router_id, const int timeout,
+    FTW_EXPORT int ftw_nanomsg_router_start(LVUserEventRef *lv_event, const char *addr);
+    FTW_EXPORT int ftw_nanomsg_router_recv(SocketInstance ***inst, const int router_id, const int timeout,
+        LStrHandle backtrace, LStrHandle incoming_request, LVBoolean *message_received, LVBoolean *shutdown, LVUserEventRef *lv_event);
+    FTW_EXPORT int ftw_nanomsg_router_reply(SocketInstance ***inst, const int router_id, const int timeout,
         const LStrHandle backtrace, const LStrHandle response, LVBoolean *timed_out);
 	FTW_EXPORT int ftw_nanomsg_router_stop(const int router_id);
 
