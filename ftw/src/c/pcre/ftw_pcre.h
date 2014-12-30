@@ -38,10 +38,13 @@ struct ftw_callout_args {
     int32_t  num_elements_increment;
 };
 
-PCRE_EXP_DECL char *ftw_pcre_version(void);
+PCRE_EXP_DECL const char *ftw_pcre_version(void);
 
 PCRE_EXP_DECL pcre *ftw_pcre_compile(const char *regex, int options, LStrHandle error_string,
-    int *error_offset_in_regex, LStrHandleArray **named_capturing_groups);
+    int32_t *error_offset_in_regex);
+
+PCRE_EXP_DECL int32_t ftw_pcre_capture_groups(const pcre *compiled_regex,
+    LStrHandleArray **named_capturing_groups);
 
 PCRE_EXP_DECL intptr_t ftw_pcre_exec(const pcre *compiled_regex, const LStrHandle subject,
     int32_t startoffset, int32_t options, int32_t *match_begin, int32_t *match_end,

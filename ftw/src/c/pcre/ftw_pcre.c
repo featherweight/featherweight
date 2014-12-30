@@ -2,7 +2,7 @@
 
 static int ftw_pcre_callout(pcre_callout_block *callout_data);
 
-char *ftw_pcre_version(void)
+const char *ftw_pcre_version(void)
 {
     return pcre_version();
 }
@@ -20,21 +20,10 @@ static MgErr ftw_support_copy_to_LStrHandle(LStrHandle dest, const void *src, si
 }
 
 pcre *ftw_pcre_compile(const char *regex, int options, LStrHandle error_string,
-    int *error_offset_in_regex, LStrHandleArray **named_capturing_groups)
+    int32_t *error_offset_in_regex)
 {
     pcre *compiled_regex;
     char *err;
-    int namecount;
-    int num_submatches;
-    int namesize;
-    int i;
-    const uChar *offset;
-    LStrHandle element;
-    size_t buf_size;
-    size_t name_len;
-    uChar *nametable;
-    uInt16 submatch_index;
-    MgErr lv_err;
 
     pcre_callout = ftw_pcre_callout;
 
@@ -45,29 +34,47 @@ pcre *ftw_pcre_compile(const char *regex, int options, LStrHandle error_string,
         return NULL;
     }
 
-    if (pcre_fullinfo(compiled_regex, NULL, PCRE_INFO_NAMECOUNT, &namecount))
-        return NULL;
-    if (pcre_fullinfo(compiled_regex, NULL, PCRE_INFO_NAMEENTRYSIZE, &namesize))
-        return NULL;
-    if (pcre_fullinfo(compiled_regex, NULL, PCRE_INFO_NAMETABLE, &nametable))
-        return NULL;
-    if (pcre_fullinfo(compiled_regex, NULL, PCRE_INFO_CAPTURECOUNT, &num_submatches))
-        return NULL;
+    return compiled_regex;
+}
+
+int32_t ftw_pcre_capture_groups(const pcre *compiled_regex, LStrHandleArray **capture_groups)
+{
+    int i;
+    int rc;
+    int namecount;
+    int namesize;
+    int num_submatches;
+    uChar *nametable;
+    const uChar *offset;
+    MgErr lv_err;
+    size_t buf_size;
+    size_t name_len;
+    uInt16 submatch_index;
+    LStrHandle element;
+
+    rc = pcre_fullinfo(compiled_regex, NULL, PCRE_INFO_NAMECOUNT, &namecount);
+    if (rc)
+        return rc;
+
+    rc = pcre_fullinfo(compiled_regex, NULL, PCRE_INFO_NAMEENTRYSIZE, &namesize);
+    if (rc)
+        return rc;
+
+    rc = pcre_fullinfo(compiled_regex, NULL, PCRE_INFO_NAMETABLE, &nametable);
+    if (rc)
+        return rc;
+
+    rc = pcre_fullinfo(compiled_regex, NULL, PCRE_INFO_CAPTURECOUNT, &num_submatches);
+    if (rc)
+        return rc;
 
     buf_size = Offset(LStrHandleArray, element) + sizeof(LStrHandle) * num_submatches;
-    lv_err = DSSetHSzClr(named_capturing_groups, buf_size);
+    lv_err = DSSetHSzClr(capture_groups, buf_size);
 
-    if (lv_err != mgNoErr) {
-        err = "LabVIEW unable to allocate enough memory.";
-        ftw_support_copy_to_LStrHandle(error_string, err, StrLen(err));
-        return NULL;
-    }
+    if (lv_err != mgNoErr)
+        return -lv_err;
 
-    /*  Return early if no submatches. */
-    if (num_submatches == 0)
-        return compiled_regex;
-
-    (*named_capturing_groups)->dimsize = num_submatches;
+    (*capture_groups)->dimsize = num_submatches;
 
     for (i = 0; i < namecount; i++) {
         offset = nametable + i * namesize;
@@ -79,12 +86,12 @@ pcre *ftw_pcre_compile(const char *regex, int options, LStrHandle error_string,
         element = (LStrHandle)DSNewHandle(buf_size);
         assert(element);
 
-        ((*named_capturing_groups)->element)[submatch_index] = element;
+        ((*capture_groups)->element)[submatch_index] = element;
         (*element)->cnt = name_len;
         MoveBlock(offset, (*element)->str, name_len);
     }
 
-    return compiled_regex;
+    return num_submatches;
 }
 
 intptr_t ftw_pcre_exec(const pcre *compiled_regex, const LStrHandle subject,
@@ -149,7 +156,7 @@ intptr_t ftw_pcre_exec(const pcre *compiled_regex, const LStrHandle subject,
 
         /*  Multiply by two, since array is begin/end pair. */
         num_submatches = (rc - 1) * 2;
-        sz = sizeof(int32_t) * num_submatches;
+        sz = sizeof(int32_t) * num_submatches * 2;
 
         /*  Shift array to  account for first two indices of whole match. */
         MoveBlock(&((*submatch_buffer)->element[2]), &((*submatch_buffer)->element[0]), sz);
