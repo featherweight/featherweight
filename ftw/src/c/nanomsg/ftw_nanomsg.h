@@ -28,21 +28,21 @@
 extern "C" {
 #endif
 
-	/* This is in the LabVIEW directory */
+/* This is in the LabVIEW directory */
 #include "labview/extcode.h"
 #include "utils/thread.h"
 #include "nn.h"
 #include "utils/err.h"
 #include "utils/sem.h"
 
-#if   defined _WIN32
-#     define FTW_EXPORT __declspec(dllexport)
+#if defined _WIN32
+    #define FTW_EXPORT __declspec(dllexport)
 #elif defined __SUNPRO_C
-#     define FTW_EXPORT __global
+    #define FTW_EXPORT __global
 #elif (defined __GNUC__ && __GNUC__ >= 4) || defined __INTEL_COMPILER || defined __clang__
-#     define FTW_EXPORT __attribute__ ((visibility("default")))
+    #define FTW_EXPORT __attribute__ ((visibility("default")))
 #else
-#     define FTW_EXPORT
+    #define FTW_EXPORT
 #endif
 
 #define LV_USER_ERROR 5000
@@ -65,6 +65,7 @@ extern "C" {
         int router_id;
         LVUserEventRef lv_event;
         struct nn_sem initialized;
+        SocketInstance **inst;
     };
 
     /*  Use LabVIEW-safe types. */
@@ -101,7 +102,7 @@ extern "C" {
         const int recv_timeout, const LStrHandle request, LStrHandle response, LVBoolean *timed_out);
 
 	/*  FTW Actor Message Router framework  */
-    FTW_EXPORT int ftw_nanomsg_router_start(LVUserEventRef *lv_event, const char *addr);
+    FTW_EXPORT int ftw_nanomsg_router_start(SocketInstance ***inst, LVUserEventRef *lv_event, const char *addr);
     FTW_EXPORT int ftw_nanomsg_router_recv(SocketInstance ***inst, const int router_id, const int timeout,
         LStrHandle backtrace, LStrHandle incoming_request, LVBoolean *message_received, LVBoolean *shutdown, LVUserEventRef *lv_event);
     FTW_EXPORT int ftw_nanomsg_router_reply(SocketInstance ***inst, const int router_id, const int timeout,
