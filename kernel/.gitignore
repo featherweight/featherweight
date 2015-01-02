@@ -1,0 +1,12 @@
+pcre/upstream/doc/
+pcre/upstream/sljit/
+pcre/upstream/pcre32_*.c
+pcre/upstream/libpcre16.pc.in
+pcre/upstream/libpcre32.pc.in
+pcre/upstream/libpcrecpp.pc.in
+pcre/upstream/pcre16_*.c
+pcre/upstream/pcrecpp*
+pcre/upstream/pcregexp.pas
+pcre/upstream/perltest.pl
+pcre/upstream/pcre*jit*
+pcre/upstream/pcre_*.cc
