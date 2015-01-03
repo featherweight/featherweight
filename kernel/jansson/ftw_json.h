@@ -27,6 +27,7 @@
 extern "C" {
 #endif
 
+#include "../ftw.h"
 
 
 #ifdef __cplusplus
