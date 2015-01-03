@@ -20,8 +20,8 @@
     IN THE SOFTWARE.
 */
 
+#include "../ftw.h"
 #include "upstream/pcre.h"
-#include "extcode.h"
 #include <assert.h>
 
 typedef struct {
