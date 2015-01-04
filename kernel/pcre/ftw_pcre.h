@@ -23,23 +23,17 @@
 #ifndef FTW_PCRE_H_INCLUDED
 #define FTW_PCRE_H_INCLUDED
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /*  Suppress exporting PCRE functions since they are statically linked. */
 #define PCRE_EXP_DECL
 
 #include "../ftw.h"
 #include "upstream/pcre.h"
 
-
-typedef struct {
-    int32_t dimsize;
-    LStrHandle element[1];
-} LStrHandleArray;
-
-typedef struct {
-    int32_t dimsize;
-    int32_t element[1];
-} I32Array;
-
+/*  FTW-PCRE types. */
 struct ftw_pcre_callout_data {
     int32_t callout_id;
     int32_t subject_current_pos;
@@ -66,6 +60,7 @@ struct ftw_callout_args {
     int32_t  num_elements_increment;
 };
 
+/*  FTW-PCRE exported functions. */
 FTW_EXPORT const char *ftw_pcre_version(void);
 
 FTW_EXPORT pcre *ftw_pcre_compile(const char *regex, int options, LStrHandle error_string,
@@ -79,5 +74,9 @@ FTW_EXPORT intptr_t ftw_pcre_exec(const pcre *compiled_regex, const LStrHandle s
     I32Array **submatch_buffer, CalloutAccumulator **callout);
 
 FTW_EXPORT void ftw_pcre_free(pcre *compiled_regex);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

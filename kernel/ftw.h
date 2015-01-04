@@ -33,8 +33,9 @@ extern "C" {
 #include "labview/extcode.h"
     
 #define FTW_DEBUG_WINDOW 0
+#define LV_USER_ERROR 5000
 
-
+/*  Featherweight export declarations. */
 #if defined _WIN32
     #define FTW_EXPORT __declspec(dllexport)
 #elif (defined __GNUC__ && __GNUC__ >= 4) || defined __INTEL_COMPILER || defined __clang__
@@ -43,6 +44,7 @@ extern "C" {
     #error
 #endif
 
+/*  Featherweight support macros. */
 #define ftw_debug(fmt,...) if (FTW_DEBUG_WINDOW) DbgPrintf(fmt,__VA_ARGS__)
 #define ftw_assert(x) \
     do {\
@@ -54,8 +56,19 @@ extern "C" {
                 }\
         } while (0)
 
-    /*  Featherweight support functions. */
-    MgErr ftw_support_copy_to_LStrHandle (LStrHandle dest, const void *src, size_t length);
+/*  Featherweight support functions. */
+MgErr ftw_support_copy_to_LStrHandle (LStrHandle dest, const void *src, size_t length);
+
+/*  Featherweight support types. */
+typedef struct {
+    int32_t dimsize;
+    LStrHandle element[1];
+} LStrHandleArray;
+
+typedef struct {
+    int32_t dimsize;
+    int32_t element[1];
+} I32Array;
 
 #ifdef __cplusplus
 }
