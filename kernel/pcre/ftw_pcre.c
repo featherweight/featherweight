@@ -106,7 +106,7 @@ int32_t ftw_pcre_capture_groups(const pcre *compiled_regex, LStrHandleArray **ca
         name_len = StrLen(offset);
         buf_size = Offset(LStr, str) + name_len;
         element = (LStrHandle)DSNewHandle(buf_size);
-        assert(element);
+        ftw_assert(element);
 
         ((*capture_groups)->element)[submatch_index] = element;
         (*element)->cnt = name_len;
@@ -149,7 +149,7 @@ intptr_t ftw_pcre_exec(const pcre *compiled_regex, const LStrHandle subject,
         options, (*submatch_buffer)->element, (*submatch_buffer)->dimsize);
 
     /*  Sanity check return value.  */
-    assert(rc <= max_rc);
+    ftw_assert(rc <= max_rc);
 
     /*  Sanity check array size.  */
     assert(arg.index >= 0 && (*arg.accumulator)->dimsize >= 0);
