@@ -30,7 +30,24 @@ extern "C" {
 #include "../ftw.h"
 
 #include "upstream/sqlite3.h"
+#include "upstream/sqlite3.c"
 
+/*  Thin wrappers for SQLite functions to export. */
+FTW_EXPORT int ftw_sqlite_initialize(void);
+FTW_EXPORT const char *ftw_sqlite_libversion(void);
+FTW_EXPORT const char *ftw_sqlite_errstr(int rc);
+
+FTW_EXPORT int ftw_sqlite_open(const char *filename, sqlite3 **ppDb, int flags, const char *zVfs);
+FTW_EXPORT int ftw_sqlite_close(sqlite3 *db);
+FTW_EXPORT int ftw_sqlite_prepare(sqlite3 *db, const char *zSql, int nBytes, sqlite3_stmt **ppStmt, const char **pzTail);
+FTW_EXPORT int ftw_sqlite_step(sqlite3_stmt *pStmt);
+FTW_EXPORT int ftw_sqlite_finalize(sqlite3_stmt *pStmt);
+
+FTW_EXPORT sqlite3_backup *ftw_sqlite_backup_init(sqlite3* pDestDb, const char *zDestDb, sqlite3* pSrcDb, const char *zSrcDb);
+FTW_EXPORT int ftw_sqlite_backup_step(sqlite3_backup *p, int nPage);
+FTW_EXPORT int ftw_sqlite_backup_finish(sqlite3_backup *p);
+
+FTW_EXPORT void ftw_sqlite_randomness(int N, void *pBuf);
 
 #ifdef __cplusplus
 }
