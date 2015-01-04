@@ -1,5 +1,6 @@
 pcre/upstream/doc/
 pcre/upstream/sljit/
+pcre/upstream/config.h
 pcre/upstream/pcre32_*.c
 pcre/upstream/libpcre16.pc.in
 pcre/upstream/libpcre32.pc.in
@@ -8,5 +9,18 @@ pcre/upstream/pcre16_*.c
 pcre/upstream/pcrecpp*
 pcre/upstream/pcregexp.pas
 pcre/upstream/perltest.pl
-pcre/upstream/pcre*jit*
 pcre/upstream/pcre_*.cc
+pcre/upstream/pcre_test.bat
+pcre/upstream/pcre_test.sh
+pcre/upstream/pcre_grep_test.sh
+pcre/upstream/pcregrep.dir/
+pcre/upstream/pcretest.dir/
+pcre/upstream/Debug/
+pcre/upstream/Release/
+build/
+*.tlog
+*.stamp.depend
+*.lastbuildstate
+*.cmake
+*.ctest
+*generate.stamp
