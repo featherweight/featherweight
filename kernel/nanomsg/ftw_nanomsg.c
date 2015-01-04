@@ -18,7 +18,7 @@
     LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
     FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
     IN THE SOFTWARE.
-    */
+*/
 
 #include "ftw_nanomsg.h"
 
@@ -31,25 +31,10 @@
 
 #include "upstream/src/utils/chunk.h"
 
-#define ftw_debug(fmt,...) if (FTW_NN_DEBUG) DbgPrintf(fmt,__VA_ARGS__)
-
 static int FTW_NN_ROUTERS = 0;
 static int FTW_NN_SOCKETS = 0;
-static int FTW_NN_DEBUG = 1;
 
 static void ftw_nanomsg_router_thread(void *arg);
-
-static MgErr ftw_support_copy_to_LStrHandle(LStrHandle dest, const void *src, size_t length)
-{
-    MgErr resize_err;
-
-    resize_err = NumericArrayResize(uB, 1, (UHandle *)&dest, length);
-    if (resize_err == mgNoErr) {
-        MoveBlock(src, LHStrBuf(dest), length);
-        LStrLen(*dest) = length;
-    }
-    return resize_err;
-}
 
 int ftw_nanomsg_error(LStrHandle error_message)
 {

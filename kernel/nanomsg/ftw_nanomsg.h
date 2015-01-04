@@ -1,5 +1,5 @@
 /*
-	Copyright (c) 2014 Wirebird Labs LLC. All rights reserved.
+    Copyright (c) 2014-2015 Wirebird Labs LLC. All rights reserved.
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files (the "Software"),
@@ -18,17 +18,14 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 	FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 	IN THE SOFTWARE.
-	*/
+*/
 
-#ifndef FTW_H_INCLUDED
-#define FTW_H_INCLUDED
-#define NN_NO_EXPORTS
+#ifndef FTW_NANOMSG_H_INCLUDED
+#define FTW_NANOMSG_H_INCLUDED
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-/* This is in the LabVIEW directory */
 
 #include "../ftw.h"
 #include "upstream/src/utils/thread.h"
@@ -36,21 +33,9 @@ extern "C" {
 #include "upstream/src/utils/err.h"
 #include "upstream/src/utils/sem.h"
 
-#if defined _WIN32
-    #define FTW_EXPORT __declspec(dllexport)
-#elif defined __SUNPRO_C
-    #define FTW_EXPORT __global
-#elif (defined __GNUC__ && __GNUC__ >= 4) || defined __INTEL_COMPILER || defined __clang__
-    #define FTW_EXPORT __attribute__ ((visibility("default")))
-#else
-    #define FTW_EXPORT
-#endif
-
 #define LV_USER_ERROR 5000
 
 #define ftw_nanomsg_timeout(rc) ((rc < 0 && (errno == EAGAIN || errno == ETIMEDOUT)) ? LVBooleanTrue : LVBooleanFalse)
-
-#define ftw_assert(x) nn_assert(x)
 
 #define NN_INVALID_SOCKET_ID -1
 #define ftw_nanomsg_instance_set(inst, inst_id) ((*(*inst))->id = inst_id)

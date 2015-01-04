@@ -21,3 +21,15 @@
 */
 
 #include "ftw.h"
+
+MgErr ftw_support_copy_to_LStrHandle(LStrHandle dest, const void *src, size_t length)
+{
+    MgErr resize_err;
+
+    resize_err = NumericArrayResize(uB, 1, (UHandle *)&dest, length);
+    if (resize_err == mgNoErr) {
+        MoveBlock(src, LHStrBuf(dest), length);
+        LStrLen(*dest) = length;
+    }
+    return resize_err;
+}
