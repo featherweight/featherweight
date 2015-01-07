@@ -27,6 +27,9 @@
 extern "C" {
 #endif
 
+/*  Export all SQLite functions. */
+#define SQLITE_API FTW_EXPORT
+
 #include "../ftw.h"
 
 #include "upstream/sqlite3.h"
