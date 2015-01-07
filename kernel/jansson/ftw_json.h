@@ -27,8 +27,25 @@
 extern "C" {
 #endif
 
+/*  Include jansson first to avoid redefinition warnings. */
+#include "upstream/src/jansson.h"
 #include "../ftw.h"
 
+/*  Object join modes. */
+enum json_join_mode {
+    UPSERT, /*  Update or insert. */
+    UPDATE, /*  Update existing keys, and silently skip creating new keys. */
+    INSERT  /*  Insert new keys, and silently skip updating existing keys. */
+};
+
+FTW_EXPORT void ftw_json_get_integer (const char *key, int64_t *value, LVBoolean *exists);
+FTW_EXPORT void ftw_json_get_boolean (const char *key, LVBoolean *value, LVBoolean *exists);
+FTW_EXPORT void ftw_json_get_float64 (const char *key, float64 *value, LVBoolean *exists);
+FTW_EXPORT void ftw_json_get_string (const char *key, LStrHandle value, LVBoolean *exists);
+
+FTW_EXPORT int ftw_json_object_join (json_t *object, json_t *obj_to_join, enum json_join_mode mode);
+FTW_EXPORT void ftw_json_object_equal (json_t *object, json_t *other, LVBoolean *equal);
+FTW_EXPORT int ftw_json_object_keys (json_t *object, LStrHandleArray **keys);
 
 #ifdef __cplusplus
 }
