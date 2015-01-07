@@ -1,6 +1,6 @@
 [submodule "jansson/upstream"]
-	path = jansson/upstream
-	url = https://github.com/akheron/jansson.git
+    path = jansson/upstream
+    url = https://github.com/akheron/jansson.git
 [submodule "nanomsg/upstream"]
-	path = nanomsg/upstream
-	url = https://github.com/nanomsg/nanomsg.git
+    path = nanomsg/upstream
+    url=https://github.com/wirebirdlabs/featherweight-nanomsg.git
