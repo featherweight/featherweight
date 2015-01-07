@@ -1,0 +1,133 @@
+#
+#    Copyright (c) 2014-2015 Wirebird Labs LLC. All rights reserved.
+#
+#    Permission is hereby granted, free of charge, to any person obtaining a copy
+#    of this software and associated documentation files (the "Software"),
+#    to deal in the Software without restriction, including without limitation
+#    the rights to use, copy, modify, merge, publish, distribute, sublicense,
+#    and/or sell copies of the Software, and to permit persons to whom
+#    the Software is furnished to do so, subject to the following conditions:
+#
+#    The above copyright notice and this permission notice shall be included
+#    in all copies or substantial portions of the Software.
+#
+#    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+#    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+#    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+#    THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+#    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+#    FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+#    IN THE SOFTWARE.
+#
+
+cmake_minimum_required (VERSION 2.8)
+include (CheckIncludeFiles)
+include (CheckSymbolExists)
+include (CheckCSourceCompiles)
+
+project (featherweight C)
+
+# Ensures that we do an out of source build
+string (COMPARE EQUAL "${CMAKE_SOURCE_DIR}" "${CMAKE_BINARY_DIR}" insource)
+get_filename_component (PARENTDIR ${CMAKE_SOURCE_DIR} PATH)
+string (COMPARE EQUAL "${CMAKE_SOURCE_DIR}" "${PARENTDIR}" insourcesubdir)
+if(insource OR insourcesubdir)
+    message (FATAL_ERROR "${CMAKE_PROJECT_NAME} requires an out of source build.")
+endif()
+
+enable_testing ()
+
+set (JANSSON_DIR "${CMAKE_CURRENT_SOURCE_DIR}/jansson/upstream")
+set (NANOMSG_DIR "${CMAKE_CURRENT_SOURCE_DIR}/nanomsg/upstream")
+set (PCRE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/pcre/upstream")
+
+### Jansson
+    set (JANSSON_BUILD_DOCS OFF)
+    add_subdirectory (${JANSSON_DIR} ${JANSSON_DIR}/builds)
+
+### PCRE
+    set (PCRE_BUILD_PCRECPP OFF CACHE BOOL "Featherweight skips building the PCRE C++ library (pcrecpp).")
+    set (PCRE_SUPPORT_PCREGREP_JIT OFF CACHE BOOL "Featherweight skips building Just-in-time compiling in pcregrep.")
+    add_subdirectory (${PCRE_DIR} ${PCRE_DIR})
+    
+    # Unit test #2 provides guidance to increase the stack size to 8MB. Remove this line to observe test failure with RUN_TESTS in MSVC.
+    if (MSVC)
+        set_target_properties(pcretest PROPERTIES LINK_FLAGS "/STACK:8000000")
+    endif()
+
+### nanomsg
+    add_subdirectory (${NANOMSG_DIR} ${NANOMSG_DIR}/builds)
+
+    #  Build chain settings, and suppress exporting nanomsg functions (since library functionality is curated and exported as ftw-nanomsg functions).
+    if (MSVC)
+        set (NANOMSG_COMPILE_DEFS -DNN_NO_EXPORTS -DNN_HAVE_WINDOWS -DNN_USE_LITERAL_IFADDR -D_CRT_SECURE_NO_WARNINGS)
+    elseif (MINGW)
+        set (NANOMSG_COMPILE_DEFS -DNN_NO_EXPORTS -DNN_HAVE_MINGW -DNN_HAVE_STDINT -D_WIN32_WINNT=0x0600)
+    else ()
+        set (NANOMSG_COMPILE_DEFS -DNN_NO_EXPORTS -DNN_USE_SIOCGIFADDR)
+        message (FATAL_ERROR "ERROR: CMake build system not yet supported for *NIX platforms." )
+    endif ()
+
+    get_target_property (NANOMSG_SRC_FILES_TMP nanomsg SOURCES)
+    get_target_property (NANOMSG_LINK_LIBS nanomsg LINK_LIBRARIES)
+
+    set (NANOMSG_SRC_DIR "${NANOMSG_DIR}/src")
+
+    # Provide same folder structure in MSVC project as on disk
+    foreach(f ${NANOMSG_SRC_FILES_TMP})
+        # Get the path of the file relative to source directory
+        if (IS_ABSOLUTE "${f}")
+            file (RELATIVE_PATH f ${NANOMSG_SRC_DIR} ${f})
+        endif ()
+        set (SRC_GROUP "${f}")
+        set (f "${NANOMSG_SRC_DIR}/${f}")
+
+        # Remove the filename part
+        string (REGEX REPLACE "(.*)(/[^/]*)$" "\\1" SRC_GROUP ${SRC_GROUP})
+
+        # CMake source_group expects \\, not /
+        string (REPLACE / \\ SRC_GROUP ${SRC_GROUP})
+        source_group ("${SRC_GROUP}" FILES ${f})
+
+        list (APPEND NANOMSG_SRC_FILES ${f})
+        #message( STATUS "${SRC_GROUP} -- ${f}")
+    endforeach()
+
+    add_library (ftwnanomsg STATIC ${NANOMSG_SRC_FILES})
+    target_compile_definitions (ftwnanomsg PUBLIC ${NANOMSG_COMPILE_DEFS})
+    target_link_libraries (ftwnanomsg ${NANOMSG_LINK_LIBS})
+
+### SQLite
+    # SQLite has no CMakeLists.txt, hence no need for this section.
+    # The SQLite amalgamation is included directly in ftw_sqlite.h
+
+### featherweight amalgamation
+    set (FTW_SRC_FILES
+
+        ftw.h
+        ftw.c
+
+        jansson/ftw_json.h
+        jansson/ftw_json.c
+        ${JANSSON_DIR}/src/jansson.def
+
+        nanomsg/ftw_nanomsg.h
+        nanomsg/ftw_nanomsg.c
+
+        pcre/ftw_pcre.h
+        pcre/ftw_pcre.c
+
+        sqlite/ftw_sqlite.h
+        sqlite/ftw_sqlite.c
+    )
+
+    add_library (${CMAKE_PROJECT_NAME} SHARED ${FTW_SRC_FILES})
+
+    target_link_libraries (${CMAKE_PROJECT_NAME} jansson)
+    target_link_libraries (${CMAKE_PROJECT_NAME} pcre)
+    target_link_libraries (${CMAKE_PROJECT_NAME} ftwnanomsg)
+    target_link_libraries (${CMAKE_PROJECT_NAME} ../labview/labviewv)
+
+    # Link to headers generated by the CMake build.
+    get_target_property (JANSSON_INCLUDE_DIRS jansson INCLUDE_DIRECTORIES)
+    include_directories (${JANSSON_INCLUDE_DIRS})
