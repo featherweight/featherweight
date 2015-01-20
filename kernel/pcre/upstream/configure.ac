@@ -1032,14 +1032,10 @@ AM_CONDITIONAL([WITH_GCOV],[test "x$enable_coverage" = "xyes"])
 AC_CONFIG_FILES(
 	Makefile
 	libpcre.pc
-	libpcre16.pc
-	libpcre32.pc
 	libpcreposix.pc
-	libpcrecpp.pc
 	pcre-config
 	pcre.h
 	pcre_stringpiece.h
-	pcrecpparg.h
 )
 
 # Make the generated script files executable.
