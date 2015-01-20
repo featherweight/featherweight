@@ -70,6 +70,9 @@ typedef struct {
     int32_t element[1];
 } I32Array;
 
+/*  Featherweight exported functions. */
+FTW_EXPORT const char *ftw_version(void);
+
 #ifdef __cplusplus
 }
 #endif

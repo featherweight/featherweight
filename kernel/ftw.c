@@ -33,3 +33,8 @@ MgErr ftw_support_copy_to_LStrHandle(LStrHandle dest, const void *src, size_t le
     }
     return resize_err;
 }
+
+const char *ftw_version(void)
+{
+    return "0.1.0";
+}
