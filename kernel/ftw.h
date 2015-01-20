@@ -55,6 +55,13 @@ extern "C" {
             abort ();\
                 }\
         } while (0)
+#define ftw_assert_impossible(s) \
+    do {\
+            fprintf (stderr, "This should never happen! Here's why: %s (%s:%d)\n", #s, \
+                __FILE__, __LINE__);\
+            fflush (stderr);\
+            abort ();\
+            } while (0)
 
 /*  Featherweight support functions. */
 MgErr ftw_support_copy_to_LStrHandle (LStrHandle dest, const void *src, size_t length);
