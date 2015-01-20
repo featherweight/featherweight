@@ -23,11 +23,12 @@ The short tutorials below walk through building the featherweight library on cur
   1. Install build toolchain: `opkg install packagegroup-core-buildessential-dev`
   1. Install git in order to clone the repository: `opkg install git`
   1. Install root Certificate Authories in order to trust HTTPS SSL cert when cloning from GitHub: `opkg install ca-certificates`
+  1. It may be necessary to install additional Perl modules: `opkg install perl-modules`
 
 #### Build process
   1. From an SSH command-line session, navigate to your home directory: `cd ~`
   1. Clone this repository with the `--recursive` flag to ensure all submodules are cloned: `git clone --recursive https://github.com/wirebirdlabs/featherweight-lib.git`
-  1. Invoke build system generation: `autoreconf -i`
+  1. Invoke build system generation: `./autogen.sh`
   1. Configure library for your system: `./configure`
   1. Build library: `make`
   1. Run unit tests: `make check`
