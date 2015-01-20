@@ -1,3 +1,5 @@
+pcre/upstream/.deps/
+pcre/upstream/autom4te.cache/
 pcre/upstream/doc/
 pcre/upstream/sljit/
 pcre/upstream/config.h
