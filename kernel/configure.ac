@@ -24,11 +24,17 @@
 
 AC_PREREQ([2.69])
 AC_INIT([ftw], [0.0.1], [featherweight.io])
+
 AC_CONFIG_SRCDIR([ftw.c])
 AC_CONFIG_HEADERS([config.h])
+AC_CONFIG_MACRO_DIR([m4])
+AC_CONFIG_AUX_DIR([.])
+
+AM_INIT_AUTOMAKE([1.6 foreign -Wall])
 
 # Checks for programs.
 AC_PROG_CC
+AM_PROG_AR
 
 # Checks for libraries.
 # Featherweight has no external dependencies!
@@ -83,15 +89,16 @@ AC_CHECK_FUNCS([strerror])
 AC_CHECK_FUNCS([strstr])
 AC_CHECK_FUNCS([utime])
 
-AC_CONFIG_FILES([
-    Makefile
-])
+AC_CONFIG_FILES([Makefile])
 
-# Add additional submodules to this configuration
+Add additional submodules to this configuration
 AC_CONFIG_SUBDIRS([
     jansson/upstream
     nanomsg/upstream
     pcre/upstream
 ])
+
+LT_INIT
+LT_OUTPUT
 
 AC_OUTPUT
