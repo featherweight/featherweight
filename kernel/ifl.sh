@@ -22,8 +22,16 @@
 
 # The "I'm Feeling Lucky" script ifl.sh - entire build process in one script!
 
+# Configure this script to exit on error, skipping downstream commands
+set -e
+
+# Invoke build system creation
 ./autogen.sh
+
+# Configure for this platform
 ./configure
+
+# Generate libraries
 make
 
 # Print list of exported functions for debugging
