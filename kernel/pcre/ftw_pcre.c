@@ -29,18 +29,6 @@ const char *ftw_pcre_version(void)
     return pcre_version();
 }
 
-static MgErr ftw_support_copy_to_LStrHandle(LStrHandle dest, const void *src, size_t length)
-{
-    MgErr resize_err;
-
-    resize_err = NumericArrayResize(uB, 1, (UHandle *)&dest, length);
-    if (resize_err == mgNoErr) {
-        MoveBlock(src, LHStrBuf(dest), length);
-        LStrLen(*dest) = length;
-    }
-    return resize_err;
-}
-
 pcre *ftw_pcre_compile(const char *regex, int options, LStrHandle error_string,
     int32_t *error_offset_in_regex)
 {
