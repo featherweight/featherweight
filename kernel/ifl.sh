@@ -25,3 +25,6 @@
 ./autogen.sh
 ./configure
 make
+
+# Print list of exported functions for debugging
+readelf --symbols ftw.o
