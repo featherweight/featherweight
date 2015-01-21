@@ -21,14 +21,16 @@
 #
 
 # Process this file with autoconf to produce a configure script.
-
 AC_PREREQ([2.69])
+
 AC_INIT([ftw], [0.0.1], [featherweight.io])
 
-AC_CONFIG_SRCDIR([ftw.c])
+AC_CONFIG_SRCDIR([ftw.h])
 AC_CONFIG_HEADERS([config.h])
-AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_AUX_DIR([.])
+
+# Featherweight currently does not have any m4 macros
+# AC_CONFIG_MACRO_DIR([m4])
 
 AM_INIT_AUTOMAKE([1.6 foreign -Wall])
 
