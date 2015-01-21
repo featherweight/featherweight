@@ -23,7 +23,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ([2.69])
 
-AC_INIT([ftw], [0.0.1], [featherweight.io])
+AC_INIT([libftw], [0.0.1], [featherweight.io])
 
 AC_CONFIG_SRCDIR([ftw.h])
 AC_CONFIG_HEADERS([config.h])
@@ -36,6 +36,7 @@ AM_INIT_AUTOMAKE([1.6 foreign -Wall])
 
 # Checks for programs.
 AC_PROG_CC
+AC_PROG_CXX
 AM_PROG_AR
 
 # Checks for libraries.
@@ -51,6 +52,8 @@ AC_CHECK_HEADERS([stddef.h])
 AC_CHECK_HEADERS([stdlib.h])
 AC_CHECK_HEADERS([string.h])
 AC_CHECK_HEADERS([sys/file.h])
+AC_CHECK_HEADERS([sys/ioctl.h])
+AC_CHECK_HEADERS([sys/mman.h])
 AC_CHECK_HEADERS([sys/mount.h])
 AC_CHECK_HEADERS([sys/param.h])
 AC_CHECK_HEADERS([sys/statvfs.h])
@@ -91,12 +94,20 @@ AC_CHECK_FUNCS([strerror])
 AC_CHECK_FUNCS([strstr])
 AC_CHECK_FUNCS([utime])
 
-AC_CONFIG_FILES([Makefile])
+AC_CHECK_FUNCS([mremap], [
+    CPPFLAGS="$CPPFLAGS -D_GNU_SOURCE"
+])
 
-Add additional submodules to this configuration
+AC_CONFIG_FILES([
+    Makefile
+    jansson/Makefile
+    pcre/Makefile
+    sqlite/Makefile
+])
+
+# Add additional submodules to this configuration
 AC_CONFIG_SUBDIRS([
     jansson/upstream
-    nanomsg/upstream
     pcre/upstream
 ])
 
