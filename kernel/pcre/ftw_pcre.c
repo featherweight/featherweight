@@ -33,7 +33,7 @@ pcre *ftw_pcre_compile(const char *regex, int options, LStrHandle error_string,
     int32_t *error_offset_in_regex)
 {
     pcre *compiled_regex;
-    char *err;
+    const char *err;
 
     pcre_callout = ftw_pcre_callout;
 
