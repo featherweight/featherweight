@@ -20,5 +20,4 @@
 #    IN THE SOFTWARE.
 #
 
-libtoolize
 autoreconf -ifv
