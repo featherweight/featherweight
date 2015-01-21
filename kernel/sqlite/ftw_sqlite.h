@@ -32,7 +32,6 @@ extern "C" {
 
 #include "../ftw.h"
 
-#include "upstream/sqlite3.h"
 #include "upstream/sqlite3.c"
 
 /*  Thin wrappers for SQLite functions to export. */
