@@ -35,4 +35,4 @@ set -e
 make
 
 # Print list of exported functions for debugging
-readelf --symbols ftw.o
+readelf -Ws .libs/libftw.so | awk '$4 == "FUNC"'
