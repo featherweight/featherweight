@@ -1,7 +1,8 @@
 # Build submodule libraries first.
 SUBDIRS = jansson/upstream
 
-ACLOCAL_AMFLAGS = -I m4
+# Featherweight currently does not have any m4 macros
+# ACLOCAL_AMFLAGS = -I m4
 
 # Include submodule headers when compiling featherweight
 AM_CPPFLAGS = -I$(srcdir)/jansson/upstream
