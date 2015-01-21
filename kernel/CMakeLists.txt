@@ -42,7 +42,7 @@ set (NANOMSG_DIR "${CMAKE_CURRENT_SOURCE_DIR}/nanomsg/upstream")
 set (PCRE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/pcre/upstream")
 
 ### Jansson
-    set (JANSSON_BUILD_DOCS OFF)
+    set (JANSSON_BUILD_DOCS OFF CACHE BOOL "Featherweight skips building the Jansson documentation.")
     add_subdirectory (${JANSSON_DIR} ${JANSSON_DIR}/builds)
 
 ### PCRE
