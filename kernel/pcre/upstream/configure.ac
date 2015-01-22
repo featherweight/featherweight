@@ -365,7 +365,7 @@ fi
 # enable_cpp copies the value of enable_pcre8 by default
 if test "x$enable_cpp" = "xunset"
 then
-  enable_cpp=$enable_pcre8
+  enable_cpp=no
 fi
 
 # Make sure that if enable_cpp was set, that enable_pcre8 support is enabled
