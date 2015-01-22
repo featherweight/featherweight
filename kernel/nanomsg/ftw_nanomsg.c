@@ -501,9 +501,13 @@ static void ftw_nanomsg_shutdown_active_sockets(struct ftw_socket_callsite *call
 {
     struct ftw_socket *sock;
     struct nn_list_item *it;
-    int rc;
+    int clean;
+    int unclean;
 
     nn_mutex_lock(&callsite->sync);
+
+    clean = 0;
+    unclean = 0;
 
     while (!nn_list_empty(&callsite->active_sockets)) {
         it = nn_list_erase(&callsite->active_sockets, nn_list_begin(&callsite->active_sockets));
@@ -511,14 +515,19 @@ static void ftw_nanomsg_shutdown_active_sockets(struct ftw_socket_callsite *call
             continue;
         sock = nn_cont(it, struct ftw_socket, item);
         ftw_debug("Cleaning up socket: %04d", sock->id);
-        rc = nn_socket_term(sock->id);
+        if (nn_socket_term(sock->id) == 0) {
+            clean++;
+        }
+        else {
+            unclean++;
+        }
     }
 
     nn_list_term(&callsite->active_sockets);
 
     nn_mutex_unlock(&callsite->sync);
 
-    ftw_debug("All sockets cleaned up.");
+    ftw_debug("Terminated %d sockets cleanly, %d sockets uncleanly.", clean, unclean);
 
     return;
 }
