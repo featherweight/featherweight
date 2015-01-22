@@ -24,21 +24,23 @@
 
 # Build submodule libraries first.
 SUBDIRS = \
+    jansson/upstream \
     jansson \
+    nanomsg/upstream \
+    nanomsg \
+    pcre/upstream \
     pcre \
     sqlite
 
 # Featherweight currently does not have any m4 macros
 # ACLOCAL_AMFLAGS = -I m4
 
-# Include submodule headers when compiling featherweight
-# AM_CPPFLAGS = -I$(srcdir)/jansson/upstream
-
 lib_LTLIBRARIES = libftw.la
 libftw_la_SOURCES = ftw.c
 
 libftw_la_LIBADD = \
     jansson/libftw_json.la \
+    nanomsg/libftw_nanomsg.la \
     pcre/libftw_pcre.la \
     sqlite/libftw_sqlite.la
 
