@@ -323,6 +323,8 @@ int ftw_nanomsg_async_recv(struct ftw_socket *sock, LVUserEventRef *lv_event)
 {
     int rc;
 
+    rc = 0;
+
     return rc;
 }
 
