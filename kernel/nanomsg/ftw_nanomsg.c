@@ -67,7 +67,7 @@ const char *ftw_nanomsg_version(void)
     return "0.5.0-1005";
 }
 
-intptr_t ftw_nanomsg_socket(struct ftw_socket_callsite **callsite, const int scalability_protocol,
+int ftw_nanomsg_socket(struct ftw_socket_callsite **callsite, const int scalability_protocol,
     const LVBoolean *raw, const int linger, const int sndbuf, const int rcvbuf)
 {
     int rcs;
