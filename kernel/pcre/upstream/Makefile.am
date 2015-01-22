@@ -3,80 +3,10 @@
 ACLOCAL_AMFLAGS = -I m4
 
 dist_doc_DATA = \
-  doc/pcre.txt \
-  doc/pcre-config.txt \
-  doc/pcregrep.txt \
-  doc/pcretest.txt \
   AUTHORS \
   COPYING \
-  ChangeLog \
   LICENCE \
-  NEWS \
   README
-
-# Note that pcrecpp.html is not in this list; it is listed separately below.
-
-dist_html_DATA = \
-  doc/html/NON-AUTOTOOLS-BUILD.txt \
-  doc/html/README.txt \
-  doc/html/index.html \
-  doc/html/pcre-config.html \
-  doc/html/pcre.html \
-  doc/html/pcre16.html \
-  doc/html/pcre32.html \
-  doc/html/pcre_assign_jit_stack.html \
-  doc/html/pcre_compile.html \
-  doc/html/pcre_compile2.html \
-  doc/html/pcre_config.html \
-  doc/html/pcre_copy_named_substring.html \
-  doc/html/pcre_copy_substring.html \
-  doc/html/pcre_dfa_exec.html \
-  doc/html/pcre_exec.html \
-  doc/html/pcre_free_study.html \
-  doc/html/pcre_free_substring.html \
-  doc/html/pcre_free_substring_list.html \
-  doc/html/pcre_fullinfo.html \
-  doc/html/pcre_get_named_substring.html \
-  doc/html/pcre_get_stringnumber.html \
-  doc/html/pcre_get_stringtable_entries.html \
-  doc/html/pcre_get_substring.html \
-  doc/html/pcre_get_substring_list.html \
-  doc/html/pcre_jit_exec.html \
-  doc/html/pcre_jit_stack_alloc.html \
-  doc/html/pcre_jit_stack_free.html \
-  doc/html/pcre_maketables.html \
-  doc/html/pcre_pattern_to_host_byte_order.html \
-  doc/html/pcre_refcount.html \
-  doc/html/pcre_study.html \
-  doc/html/pcre_utf16_to_host_byte_order.html \
-  doc/html/pcre_utf32_to_host_byte_order.html \
-  doc/html/pcre_version.html \
-  doc/html/pcreapi.html \
-  doc/html/pcrebuild.html \
-  doc/html/pcrecallout.html \
-  doc/html/pcrecompat.html \
-  doc/html/pcredemo.html \
-  doc/html/pcregrep.html \
-  doc/html/pcrejit.html \
-  doc/html/pcrelimits.html \
-  doc/html/pcrematching.html \
-  doc/html/pcrepartial.html \
-  doc/html/pcrepattern.html \
-  doc/html/pcreperform.html \
-  doc/html/pcreposix.html \
-  doc/html/pcreprecompile.html \
-  doc/html/pcresample.html \
-  doc/html/pcrestack.html \
-  doc/html/pcresyntax.html \
-  doc/html/pcretest.html \
-  doc/html/pcreunicode.html
-
-pcrecpp_html = doc/html/pcrecpp.html
-dist_noinst_DATA = $(pcrecpp_html)
-
-if WITH_PCRE_CPP
-html_DATA = $(pcrecpp_html)
-endif
 
 # The Libtool libraries to install.  We'll add to this later.
 lib_LTLIBRARIES =
@@ -675,57 +605,6 @@ endif
 
 # Note that pcrecpp.3 is not in this list, but is included separately below.
 
-dist_man_MANS = \
-  doc/pcre-config.1 \
-  doc/pcre.3 \
-  doc/pcre16.3 \
-  doc/pcre32.3 \
-  doc/pcre_assign_jit_stack.3 \
-  doc/pcre_compile.3 \
-  doc/pcre_compile2.3 \
-  doc/pcre_config.3 \
-  doc/pcre_copy_named_substring.3 \
-  doc/pcre_copy_substring.3 \
-  doc/pcre_dfa_exec.3 \
-  doc/pcre_exec.3 \
-  doc/pcre_free_study.3 \
-  doc/pcre_free_substring.3 \
-  doc/pcre_free_substring_list.3 \
-  doc/pcre_fullinfo.3 \
-  doc/pcre_get_named_substring.3 \
-  doc/pcre_get_stringnumber.3 \
-  doc/pcre_get_stringtable_entries.3 \
-  doc/pcre_get_substring.3 \
-  doc/pcre_get_substring_list.3 \
-  doc/pcre_jit_exec.3 \
-  doc/pcre_jit_stack_alloc.3 \
-  doc/pcre_jit_stack_free.3 \
-  doc/pcre_maketables.3 \
-  doc/pcre_pattern_to_host_byte_order.3 \
-  doc/pcre_refcount.3 \
-  doc/pcre_study.3 \
-  doc/pcre_utf16_to_host_byte_order.3 \
-  doc/pcre_utf32_to_host_byte_order.3 \
-  doc/pcre_version.3 \
-  doc/pcreapi.3 \
-  doc/pcrebuild.3 \
-  doc/pcrecallout.3 \
-  doc/pcrecompat.3 \
-  doc/pcredemo.3 \
-  doc/pcregrep.1 \
-  doc/pcrejit.3 \
-  doc/pcrelimits.3 \
-  doc/pcrematching.3 \
-  doc/pcrepartial.3 \
-  doc/pcrepattern.3 \
-  doc/pcreperform.3 \
-  doc/pcreposix.3 \
-  doc/pcreprecompile.3 \
-  doc/pcresample.3 \
-  doc/pcrestack.3 \
-  doc/pcresyntax.3 \
-  doc/pcretest.1 \
-  doc/pcreunicode.3
 
 # Arrange for the per-function man pages to have 16- and 32-bit names as well.
 install-data-hook:
