@@ -94,6 +94,7 @@ AC_CHECK_FUNCS([strerror])
 AC_CHECK_FUNCS([strstr])
 AC_CHECK_FUNCS([utime])
 
+# Required for sqlite
 AC_CHECK_FUNCS([mremap], [
     CPPFLAGS="$CPPFLAGS -D_GNU_SOURCE"
 ])
@@ -101,6 +102,7 @@ AC_CHECK_FUNCS([mremap], [
 AC_CONFIG_FILES([
     Makefile
     jansson/Makefile
+    nanomsg/Makefile
     pcre/Makefile
     sqlite/Makefile
 ])
@@ -108,6 +110,7 @@ AC_CONFIG_FILES([
 # Add additional submodules to this configuration
 AC_CONFIG_SUBDIRS([
     jansson/upstream
+    nanomsg/upstream
     pcre/upstream
 ])
 
