@@ -35,4 +35,4 @@ set -e
 make
 
 # Print list of exported functions for debugging
-readelf -Ws .libs/libftw.so | awk '$4 == "FUNC"'
+readelf -Ws .libs/libftw.so | awk '$4 == "FUNC" && $5 == "GLOBAL" && $7 != "UND"'
