@@ -24,11 +24,8 @@
 
 # Build submodule libraries first.
 SUBDIRS = \
-    jansson/upstream \
     jansson \
-    nanomsg/upstream \
     nanomsg \
-    pcre/upstream \
     pcre \
     sqlite
 
@@ -44,4 +41,4 @@ libftw_la_LIBADD = \
     pcre/libftw_pcre.la \
     sqlite/libftw_sqlite.la
 
-libftw_la_LDFLAGS = -L/usr/local/natinst/labview -l:liblvrt.so.13.0
+libftw_la_LDFLAGS = -L/usr/local/natinst/labview -l:liblvrt.so.13.0 -no-undefined -version-info 1:0:0
