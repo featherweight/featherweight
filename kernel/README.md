@@ -1,5 +1,6 @@
 # featherweight-dev
 
+
 This repository is intended for Featherweight developers and contributors. If you're just looking to use Featherweight, check out https://github.com/wirebirdlabs/featherweight.
 
 Featherweight ships with a library (ftw32.dll, ftw64.dll, or ftw32.so, depending on target) which is used by VIs written in LabVIEW. This library wraps strategic open-source libraries written in C and exports their functionality for use in G.
@@ -7,6 +8,16 @@ Featherweight ships with a library (ftw32.dll, ftw64.dll, or ftw32.so, depending
 The short tutorials below walk through building the featherweight library on currently-supported targets.
 
 **Note:** Featherweight contributors and developers working in G typically will not need the build instructions below. The latest released version of the featherweight library ships with the main featherweight framework in G.
+
+## Automated Build Status
+
+Each time a commit is pushed to this repository, automated builds on supported platforms are triggered. Click the badges to view the full report of the most recent build and to browse the build history.
+
+#### Release Branch
+[![Win32 status](https://ci.appveyor.com/api/projects/status/kkmx5uptnx147ugu?svg=true)](https://ci.appveyor.com/project/wirebirdlabs/featherweight-lib)
+
+#### Active Development Branch
+[![Win32 status](https://ci.appveyor.com/api/projects/status/kkmx5uptnx147ugu?svg=true)](https://ci.appveyor.com/project/wirebirdlabs/featherweight-lib)
 
 ## Building for NI Linux Real-Time
 
