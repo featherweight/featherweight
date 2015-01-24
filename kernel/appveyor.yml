@@ -7,5 +7,5 @@ before_build:
   - cmake -G "Visual Studio 12" %APPVEYOR_BUILD_FOLDER%
 build_script:
   - msbuild "%APPVEYOR_BUILD_FOLDER%\build\featherweight.sln" /target:ALL_BUILD
-test-script:
+test_script:
   - msbuild "%APPVEYOR_BUILD_FOLDER%\build\featherweight.sln" /target:RUN_TESTS /logger:"%ProgramFiles%\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
