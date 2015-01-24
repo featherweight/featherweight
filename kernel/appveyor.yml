@@ -7,4 +7,4 @@ before_build:
 build_script:
   - msbuild "%APPVEYOR_BUILD_FOLDER%\build\featherweight.sln" /target:ALL_BUILD /p:Configuration=Debug /logger:"%ProgramFiles%\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 test_script:
-  - msbuild "%APPVEYOR_BUILD_FOLDER%\build\featherweight.sln" /target:RUN_TESTS /p:Configuration=Debug /logger:"%ProgramFiles%\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
+  - cmake.exe --build . --target RUN_TESTS --config release
