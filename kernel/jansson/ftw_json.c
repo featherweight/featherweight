@@ -22,4 +22,37 @@
 
 #include "ftw_json.h"
 
+void ftw_json_get_integer (const char *key, int64_t *value, LVBoolean *exists)
+{
+    return;
+}
 
+void ftw_json_get_boolean (const char *key, LVBoolean *value, LVBoolean *exists)
+{
+    return;
+}
+
+void ftw_json_get_float64 (const char *key, float64 *value, LVBoolean *exists)
+{
+    return;
+}
+
+void ftw_json_get_string (const char *key, LStrHandle value, LVBoolean *exists)
+{
+    return;
+}
+
+int ftw_json_object_join (json_t *object, json_t *obj_to_join, enum json_join_mode mode)
+{
+    return 0;
+}
+
+void ftw_json_object_equal (json_t *object, json_t *other, LVBoolean *equal)
+{
+    return;
+}
+
+int ftw_json_object_keys (json_t *object, LStrHandleArray **keys)
+{
+    return 0;
+}
