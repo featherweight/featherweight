@@ -22,22 +22,33 @@
 
 #include "ftw_json.h"
 
-void ftw_json_get_integer (const char *key, int64_t *value, LVBoolean *exists)
+void ftw_json_get_integer(const json_t *obj, const char *key, int64_t *value, LVBoolean *exists)
+{
+    json_t *element;
+
+    element = json_object_get(obj, key);
+
+    if (element == NULL) {
+        *exists = LVBooleanTrue;
+        return;
+    }
+
+    *value = json_integer_value(element);
+
+    return;
+}
+
+void ftw_json_get_boolean(const json_t *obj, const char *key, LVBoolean *value, LVBoolean *exists)
 {
     return;
 }
 
-void ftw_json_get_boolean (const char *key, LVBoolean *value, LVBoolean *exists)
+void ftw_json_get_float64(const json_t *obj, const char *key, float64 *value, LVBoolean *exists)
 {
     return;
 }
 
-void ftw_json_get_float64 (const char *key, float64 *value, LVBoolean *exists)
-{
-    return;
-}
-
-void ftw_json_get_string (const char *key, LStrHandle value, LVBoolean *exists)
+void ftw_json_get_string(const json_t *obj, const char *key, LStrHandle value, LVBoolean *exists)
 {
     return;
 }
