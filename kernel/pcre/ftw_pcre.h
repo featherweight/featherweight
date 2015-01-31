@@ -27,10 +27,9 @@
 extern "C" {
 #endif
 
-/*  Suppress exporting PCRE functions since they are statically linked. */
-#define PCRE_EXP_DECL
-
 #include "../ftw.h"
+#include "upstream/config.h"
+#include "upstream/pcre_internal.h"
 #include "upstream/pcre.h"
 
 /*  FTW-PCRE types. */
