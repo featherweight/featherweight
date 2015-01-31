@@ -40,3 +40,6 @@ make
 #readelf -Ws .libs/libftw.so | awk '$4 == "FUNC" && $5 == "GLOBAL" && $7 != "UND"'
 # OS X
 nm -gU .libs/libftw.dylib
+
+# Run tests
+make check
