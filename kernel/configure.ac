@@ -32,7 +32,7 @@ AC_CONFIG_AUX_DIR([.])
 # Featherweight currently does not have any m4 macros
 # AC_CONFIG_MACRO_DIR([m4])
 
-AM_INIT_AUTOMAKE([1.6 foreign -Wall])
+AM_INIT_AUTOMAKE([1.6 foreign subdir-objects -Wall])
 
 # Checks for programs.
 AC_PROG_CC
@@ -99,13 +99,7 @@ AC_CHECK_FUNCS([mremap], [
     CPPFLAGS="$CPPFLAGS -D_GNU_SOURCE"
 ])
 
-AC_CONFIG_FILES([
-    Makefile
-    jansson/Makefile
-    nanomsg/Makefile
-    pcre/Makefile
-    sqlite/Makefile
-])
+AC_CONFIG_FILES([Makefile])
 
 # Add additional submodules to this configuration
 AC_CONFIG_SUBDIRS([

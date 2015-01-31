@@ -24,21 +24,26 @@
 
 # Build submodule libraries first.
 SUBDIRS = \
-    jansson \
-    nanomsg \
-    pcre \
-    sqlite
+    jansson/upstream \
+    nanomsg/upstream \
+    pcre/upstream \
+    .
 
 # Featherweight currently does not have any m4 macros
 # ACLOCAL_AMFLAGS = -I m4
 
 lib_LTLIBRARIES = libftw.la
-libftw_la_SOURCES = ftw.c
+
+libftw_la_SOURCES = \
+    jansson/ftw_json.c \
+    nanomsg/ftw_nanomsg.c \
+    pcre/ftw_pcre.c \
+    sqlite/ftw_sqlite.c \
+    ftw.c
 
 libftw_la_LIBADD = \
-    jansson/libftw_json.la \
-    nanomsg/libftw_nanomsg.la \
-    pcre/libftw_pcre.la \
-    sqlite/libftw_sqlite.la
+    jansson/upstream/src/libjansson.la \
+    nanomsg/upstream/libnanomsg.la \
+    pcre/upstream/libpcre.la
 
 libftw_la_LDFLAGS = -L/usr/local/natinst/labview -l:liblvrt.so.13.0 -no-undefined -version-info 1:0:0
