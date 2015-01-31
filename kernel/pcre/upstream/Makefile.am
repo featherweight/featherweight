@@ -9,7 +9,7 @@ dist_doc_DATA = \
   README
 
 # The Libtool libraries to install.  We'll add to this later.
-lib_LTLIBRARIES =
+noinst_LTLIBRARIES =
 
 # Unit tests you want to run when people type 'make check'.
 # TESTS is for binary unit tests, check_SCRIPTS for script-based tests
@@ -152,7 +152,7 @@ BUILT_SOURCES = pcre_chartables.c
 
 # Build the 8 bit library if it is enabled.
 if WITH_PCRE8
-lib_LTLIBRARIES += libpcre.la
+noinst_LTLIBRARIES += libpcre.la
 
 libpcre_la_SOURCES = \
   pcre_byte_order.c \
@@ -192,7 +192,7 @@ endif # WITH_PCRE8
 
 # Build the 16 bit library if it is enabled.
 if WITH_PCRE16
-lib_LTLIBRARIES += libpcre16.la
+noinst_LTLIBRARIES += libpcre16.la
 libpcre16_la_SOURCES = \
   pcre16_byte_order.c \
   pcre16_chartables.c \
@@ -231,7 +231,7 @@ endif # WITH_PCRE16
 
 # Build the 32 bit library if it is enabled.
 if WITH_PCRE32
-lib_LTLIBRARIES += libpcre32.la
+noinst_LTLIBRARIES += libpcre32.la
 libpcre32_la_SOURCES = \
   pcre32_byte_order.c \
   pcre32_chartables.c \
@@ -359,7 +359,7 @@ endif # WITH_JIT
 ## A version of the main pcre library that has a posix re API.
 if WITH_PCRE8
 
-lib_LTLIBRARIES += libpcreposix.la
+noinst_LTLIBRARIES += libpcreposix.la
 libpcreposix_la_SOURCES = \
   pcreposix.c
 libpcreposix_la_CFLAGS = $(VISIBILITY_CFLAGS) $(AM_CFLAGS)
@@ -375,7 +375,7 @@ endif # WITH_PCRE8
 ## There's a C++ library as well.
 if WITH_PCRE_CPP
 
-lib_LTLIBRARIES += libpcrecpp.la
+noinst_LTLIBRARIES += libpcrecpp.la
 libpcrecpp_la_SOURCES = \
   pcrecpp_internal.h \
   pcrecpp.cc \
