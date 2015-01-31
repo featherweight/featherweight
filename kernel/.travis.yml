@@ -12,4 +12,4 @@ compiler:
   - gcc
   - clang
   
-script: ./build-ftw.sh
+script: "./build-ftw.sh"
