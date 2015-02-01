@@ -14,10 +14,14 @@ The short tutorials below walk through building the featherweight library on cur
 Each time a commit is pushed to this repository, automated builds on supported platforms are triggered. Click the badges to view the full report of the most recent build and to browse the build history.
 
 #### Release Branch
-[![Win32 status](https://ci.appveyor.com/api/projects/status/kkmx5uptnx147ugu?svg=true)](https://ci.appveyor.com/project/wirebirdlabs/featherweight-lib)
+Linux: [![Linux Status](https://travis-ci.org/wirebirdlabs/featherweight-lib.svg?branch=master)](https://travis-ci.org/wirebirdlabs/featherweight-lib)
+
+Win32: [![Win32 status](https://ci.appveyor.com/api/projects/status/kkmx5uptnx147ugu?svg=true)](https://ci.appveyor.com/project/wirebirdlabs/featherweight-lib)
 
 #### Active Development Branch
-[![Win32 status](https://ci.appveyor.com/api/projects/status/kkmx5uptnx147ugu?svg=true)](https://ci.appveyor.com/project/wirebirdlabs/featherweight-lib)
+Linux: [![Linux Status](https://travis-ci.org/wirebirdlabs/featherweight-lib.svg?branch=master)](https://travis-ci.org/wirebirdlabs/featherweight-lib)
+
+Win32: [![Win32 status](https://ci.appveyor.com/api/projects/status/kkmx5uptnx147ugu?svg=true)](https://ci.appveyor.com/project/wirebirdlabs/featherweight-lib)
 
 ## Building for NI Linux Real-Time
 
