@@ -14,5 +14,6 @@ compiler:
 
 install:
   - autoconf --version
+  - ./.travis.install.sh
 
 script: "./build-ftw.sh"
