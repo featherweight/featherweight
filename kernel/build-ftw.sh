@@ -37,9 +37,9 @@ make
 #TODO: Automatically detect which method to dispatch to print exported symbols
 # Print list of exported functions for debugging
 # LinuxRT
-#readelf -Ws .libs/libftw.so | awk '$4 == "FUNC" && $5 == "GLOBAL" && $7 != "UND"'
+readelf -Ws .libs/libftw.so | awk '$4 == "FUNC" && $5 == "GLOBAL" && $7 != "UND"'
 # OS X
-nm -gU .libs/libftw.dylib
+# nm -gU .libs/libftw.dylib
 
 # Run tests
 make check
