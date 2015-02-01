@@ -15,5 +15,6 @@ compiler:
 install:
   - sudo apt-get update
   - sudo apt-get install autoconf
+  - autoconf --version
 
 script: "./build-ftw.sh"
