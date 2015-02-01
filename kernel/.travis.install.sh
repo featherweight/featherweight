@@ -26,6 +26,7 @@
 set -e
 
 # Needed to convert Red Hat to Debian package
+sudo apt-get update
 sudo apt-get install alien
 
 mkdir download && \
