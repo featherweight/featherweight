@@ -25,7 +25,7 @@
 # Configure this script to exit on error, skipping downstream commands
 set -e
 
-md download && \
+mkdir download && \
 cd download && \
 wget http://ftp.ni.com/support/softlib/labview/labview_runtime/2014/Linux/LabVIEW2014RTE_Linux64.tgz -O lvrte.tgz && \
 tar -xzf lvrte.tgz && \
