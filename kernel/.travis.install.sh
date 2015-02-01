@@ -35,6 +35,6 @@ wget http://ftp.ni.com/support/softlib/labview/labview_runtime/2014/Linux/LabVIE
 tar -xzf lvrte.tgz && \
 ls && \
 sudo alien --install --scripts labview-2014-rte-14.0.0-1.x86_64.rpm && \
-ls /usr/local/natinst/labview
+ls /usr/local/lib
 # sudo rpm -Uvh *.rpm
 
