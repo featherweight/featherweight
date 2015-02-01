@@ -51,14 +51,14 @@ libftw_la_CPPFLAGS = -DNN_HAVE_OSX
 #libftw_la_CPPFLAGS = -DNN_HAVE_SEMAPHORE
 
 # TODO: Linux vs OS X selection
-#libftw_la_LDFLAGS = \
-#    -version-info 1:0:0 \
-#    -L/usr/local/natinst/labview \
-#    -l:liblvrt.so.13.0 \
-#    -no-undefined
-
 libftw_la_LDFLAGS = \
     -version-info 1:0:0 \
-    -Wl,-F,/Library/Frameworks \
-    -Wl,-framework,"LabVIEW 14.0 Runtime" \
+    -L/usr/local/natinst/labview \
+    -l:liblvrt.so.14.0 \
     -no-undefined
+
+#libftw_la_LDFLAGS = \
+#    -version-info 1:0:0 \
+#    -Wl,-F,/Library/Frameworks \
+#    -Wl,-framework,"LabVIEW 14.0 Runtime" \
+#    -no-undefined
