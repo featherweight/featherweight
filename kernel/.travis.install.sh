@@ -29,5 +29,6 @@ mkdir download && \
 cd download && \
 wget http://ftp.ni.com/support/softlib/labview/labview_runtime/2014/Linux/LabVIEW2014RTE_Linux64.tgz -O lvrte.tgz && \
 tar -xzf lvrte.tgz && \
-sudo rpm -Uvh *.rpm
+ls
+# sudo rpm -Uvh *.rpm
 
