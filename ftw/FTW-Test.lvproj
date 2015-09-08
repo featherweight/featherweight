@@ -55,6 +55,11 @@
 				<Item Name="FTW-App-StringVersionToString.vi" Type="VI" URL="../src/core/application/FTW-App-StringVersionToString.vi"/>
 				<Item Name="FTW-App-VersionToString.vi" Type="VI" URL="../src/core/application/FTW-App-VersionToString.vi"/>
 			</Item>
+			<Item Name="array" Type="Folder">
+				<Item Name="shuffle" Type="Folder">
+					<Item Name="FTW-Array-Shuffle.xnode" Type="XNode" URL="../src/core/array/shuffle/FTW-Array-Shuffle.xnode"/>
+				</Item>
+			</Item>
 			<Item Name="database" Type="Folder">
 				<Item Name="FTW-SQLite-Fetch" Type="Folder">
 					<Item Name="FTW-SQLite-Fetch.xnode" Type="XNode" URL="../src/core/database/FTW-SQLite-Fetch/FTW-SQLite-Fetch.xnode"/>
@@ -158,6 +163,11 @@
 				<Item Name="FTW-STR-ReplaceAll.vi" Type="VI" URL="../src/core/string/FTW-STR-ReplaceAll.vi"/>
 				<Item Name="FTW-STR-ReplaceWhitespace.vi" Type="VI" URL="../src/core/string/FTW-STR-ReplaceWhitespace.vi"/>
 			</Item>
+			<Item Name="sync" Type="Folder">
+				<Item Name="barrier" Type="Folder">
+					<Item Name="FTW-Sync-Synchronizer.xnode" Type="XNode" URL="../src/core/sync/barrier/FTW-Sync-Synchronizer.xnode"/>
+				</Item>
+			</Item>
 			<Item Name="system" Type="Folder">
 				<Item Name="FTW-System-CommandLineExecute.vi" Type="VI" URL="../src/core/system/FTW-System-CommandLineExecute.vi"/>
 			</Item>
@@ -222,14 +232,29 @@
 			</Item>
 		</Item>
 		<Item Name="FTW-Test.vi" Type="VI" URL="../tests/FTW-Test.vi"/>
-		<Item Name="WriteToStdOut.vi" Type="VI" URL="../sandbox/WriteToStdOut.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
+				<Item Name="imagedata.ctl" Type="VI" URL="/&lt;vilib&gt;/picture/picture.llb/imagedata.ctl"/>
+				<Item Name="Picture to Pixmap.vi" Type="VI" URL="/&lt;vilib&gt;/picture/pictutil.llb/Picture to Pixmap.vi"/>
 				<Item Name="Rendezvous RefNum" Type="VI" URL="/&lt;vilib&gt;/Utility/rendezvs.llb/Rendezvous RefNum"/>
 				<Item Name="Semaphore RefNum" Type="VI" URL="/&lt;vilib&gt;/Utility/semaphor.llb/Semaphore RefNum"/>
 			</Item>
-			<Item Name="FTW-CodeGen.lvlib" Type="Library" URL="../src/codegen/FTW-CodeGen.lvlib"/>
+			<Item Name="FTW-ActorTemplate.vi" Type="VI" URL="../templates/FTW-ActorTemplate.vi"/>
+			<Item Name="FTW-CodeGen-FindGObject.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-FindGObject.vi"/>
+			<Item Name="FTW-CodeGen-FindGObjects-Callback.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-FindGObjects-Callback.vi"/>
+			<Item Name="FTW-CodeGen-FindGObjects.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-FindGObjects.vi"/>
+			<Item Name="FTW-CodeGen-FindGObjectTaggedForScripting.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-FindGObjectTaggedForScripting.vi"/>
+			<Item Name="FTW-CodeGen-FindTerminalByID.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-FindTerminalByID.vi"/>
+			<Item Name="FTW-CodeGen-GetTerminals.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-GetTerminals.vi"/>
+			<Item Name="FTW-CodeGen-GetTypeInfo.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-GetTypeInfo.vi"/>
+			<Item Name="FTW-CodeGen-GetTypeInfoRemote.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-GetTypeInfoRemote.vi"/>
+			<Item Name="FTW-CodeGen-RelinkTerminals.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-RelinkTerminals.vi"/>
+			<Item Name="FTW-CodeGen-XNodeReply.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-XNodeReply.vi"/>
+			<Item Name="FTW-CodeGen-XNodeReplyType.ctl" Type="VI" URL="../src/codegen/FTW-CodeGen-XNodeReplyType.ctl"/>
+			<Item Name="FTW-CodeGen-XNodeUpdateState.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-XNodeUpdateState.vi"/>
 			<Item Name="FTW-Collection-KeyValuePair.ctl" Type="VI" URL="../sandbox/deprecated/FTW-Collection-KeyValuePair.ctl"/>
+			<Item Name="FTW-Image-Rectangle.vi" Type="VI" URL="../src/core/ui/image/FTW-Image-Rectangle.vi"/>
+			<Item Name="FTW-JSON-Core-EncodingFlags.vi" Type="VI" URL="../src/core/json/lib/FTW-JSON-Core-EncodingFlags.vi"/>
 			<Item Name="FTW-JSON-Escape.vi" Type="VI" URL="../sandbox/deprecated/FTW-JSON-Escape.vi"/>
 			<Item Name="FTW-JSON-Format-String.vi" Type="VI" URL="../sandbox/deprecated/FTW-JSON-Format-String.vi"/>
 			<Item Name="FTW-LibraryFilepath.vi" Type="VI" URL="../lib/FTW-LibraryFilepath.vi"/>
@@ -243,9 +268,6 @@
 			<Item Name="FTWLib-SQLite32.so" Type="Document" URL="../lib/sqlite/FTWLib-SQLite32.so"/>
 			<Item Name="FTWLib-SQLite64.dll" Type="Document" URL="../lib/sqlite/FTWLib-SQLite64.dll"/>
 			<Item Name="kernel32.dll" Type="Document" URL="kernel32.dll">
-				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
-			</Item>
-			<Item Name="user32.dll" Type="Document" URL="user32.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
 		</Item>
@@ -274,7 +296,7 @@
 				<Property Name="Source[0].itemID" Type="Str">{BFCBE92A-C429-477E-8F7E-1FA9DDEFF2FE}</Property>
 				<Property Name="Source[0].type" Type="Str">Container</Property>
 				<Property Name="Source[1].destinationIndex" Type="Int">0</Property>
-				<Property Name="Source[1].itemID" Type="Ref">/My Computer/WriteToStdOut.vi</Property>
+				<Property Name="Source[1].itemID" Type="Ref"></Property>
 				<Property Name="Source[1].type" Type="Str">VI</Property>
 				<Property Name="Source[2].destinationIndex" Type="Int">0</Property>
 				<Property Name="Source[2].itemID" Type="Ref">/My Computer/FTW-Test.vi</Property>

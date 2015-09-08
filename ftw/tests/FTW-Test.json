@@ -1,0 +1,36 @@
+{
+  "Tests Directory":       "<DirOfThisVI>:\\.",
+  "Test Worker Pool Size": 32,
+  "Show UI":               true,
+  "Randomize Test Order":  true,
+  "Excellent Adventure":   false,
+  "Test Configuration": {
+    "Default": {
+      "Enable":     true,
+      "Iterations": 10
+    },
+    "Actor-Stress": {
+      "Enable":     true,
+      "Iterations": 1
+    },
+    "Array-Shuffle": {
+      "Enable":     true,
+      "Iterations": 10
+    },
+    "JSON-Parallelization": {
+      "Enable":     true,
+      "Iterations": 10
+    },
+    "MessageTransports": {
+      "Enable":     false,
+      "Iterations": 1
+    },
+    "Reflection-Datatypes": {
+      "Enable":     true,
+      "Iterations": 15
+    },
+    "SQLite-BasicQuery": {
+      "Enable":     true
+    }
+  }
+}
