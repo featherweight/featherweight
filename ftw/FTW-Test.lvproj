@@ -185,6 +185,7 @@
 			<Item Name="ui" Type="Folder">
 				<Item Name="image" Type="Folder">
 					<Item Name="FTW-Image-AppendToPicture.vi" Type="VI" URL="../src/core/ui/image/FTW-Image-AppendToPicture.vi"/>
+					<Item Name="FTW-Image-Rectangle.vi" Type="VI" URL="../src/core/ui/image/FTW-Image-Rectangle.vi"/>
 					<Item Name="FTW-Image-ToPicture.vi" Type="VI" URL="../src/core/ui/image/FTW-Image-ToPicture.vi"/>
 				</Item>
 				<Item Name="menu" Type="Folder">
@@ -251,7 +252,6 @@
 			<Item Name="FTW-CodeGen-XNodeReplyType.ctl" Type="VI" URL="../src/codegen/FTW-CodeGen-XNodeReplyType.ctl"/>
 			<Item Name="FTW-CodeGen-XNodeUpdateState.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-XNodeUpdateState.vi"/>
 			<Item Name="FTW-Collection-KeyValuePair.ctl" Type="VI" URL="../sandbox/deprecated/FTW-Collection-KeyValuePair.ctl"/>
-			<Item Name="FTW-Image-Rectangle.vi" Type="VI" URL="../src/core/ui/image/FTW-Image-Rectangle.vi"/>
 			<Item Name="FTW-JSON-Core-EncodingFlags.vi" Type="VI" URL="../src/core/json/lib/FTW-JSON-Core-EncodingFlags.vi"/>
 			<Item Name="FTW-JSON-Escape.vi" Type="VI" URL="../sandbox/deprecated/FTW-JSON-Escape.vi"/>
 			<Item Name="FTW-JSON-Format-String.vi" Type="VI" URL="../sandbox/deprecated/FTW-JSON-Format-String.vi"/>
