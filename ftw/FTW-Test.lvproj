@@ -115,15 +115,41 @@
 				<Item Name="FTW-File-ValidateFilepath.vi" Type="VI" URL="../src/core/file/FTW-File-ValidateFilepath.vi"/>
 			</Item>
 			<Item Name="json" Type="Folder">
-				<Item Name="lib" Type="Folder">
-					<Item Name="FTW-JSON-Core-ElementType.vi" Type="VI" URL="../src/core/json/lib/FTW-JSON-Core-ElementType.vi"/>
-					<Item Name="FTW-JSON-Core-GetFlattenedValue.vi" Type="VI" URL="../src/core/json/lib/FTW-JSON-Core-GetFlattenedValue.vi"/>
-					<Item Name="FTW-JSON-Core-LibraryError.vi" Type="VI" URL="../src/core/json/lib/FTW-JSON-Core-LibraryError.vi"/>
-					<Item Name="FTW-JSON-Type.ctl" Type="VI" URL="../src/core/json/lib/FTW-JSON-Type.ctl"/>
+				<Item Name="core" Type="Folder">
+					<Item Name="FTW-JSON-Core-ElementType.vi" Type="VI" URL="../src/core/json/core/FTW-JSON-Core-ElementType.vi"/>
+					<Item Name="FTW-JSON-Core-EncodingFlags.vi" Type="VI" URL="../src/core/json/core/FTW-JSON-Core-EncodingFlags.vi"/>
+					<Item Name="FTW-JSON-Core-GetFlattenedValue.vi" Type="VI" URL="../src/core/json/core/FTW-JSON-Core-GetFlattenedValue.vi"/>
+					<Item Name="FTW-JSON-Core-LibraryError.vi" Type="VI" URL="../src/core/json/core/FTW-JSON-Core-LibraryError.vi"/>
+					<Item Name="FTW-JSON-Core-Serialize.vi" Type="VI" URL="../src/core/json/core/FTW-JSON-Core-Serialize.vi"/>
+					<Item Name="FTW-JSON-Core-Structure.ctl" Type="VI" URL="../src/core/json/core/FTW-JSON-Core-Structure.ctl"/>
+					<Item Name="FTW-JSON-Core-Type.ctl" Type="VI" URL="../src/core/json/core/FTW-JSON-Core-Type.ctl"/>
 				</Item>
-				<Item Name="FTW-JSON-Deserialize.xnode" Type="XNode" URL="../src/core/json/FTW-JSON-Deserialize/FTW-JSON-Deserialize.xnode"/>
+				<Item Name="FTW-JSON-Deserialize" Type="Folder">
+					<Item Name="FTW-JSON-Deserialize.xnode" Type="XNode" URL="../src/core/json/FTW-JSON-Deserialize/FTW-JSON-Deserialize.xnode"/>
+				</Item>
+				<Item Name="FTW-JSON-CompareEquality.vi" Type="VI" URL="../src/core/json/FTW-JSON-CompareEquality.vi"/>
+				<Item Name="FTW-JSON-Construct-FromBuffer.vi" Type="VI" URL="../src/core/json/FTW-JSON-Construct-FromBuffer.vi"/>
+				<Item Name="FTW-JSON-Destroy.vi" Type="VI" URL="../src/core/json/FTW-JSON-Destroy.vi"/>
+				<Item Name="FTW-JSON-Duplicate.vi" Type="VI" URL="../src/core/json/FTW-JSON-Duplicate.vi"/>
+				<Item Name="FTW-JSON-KeyExists.vi" Type="VI" URL="../src/core/json/FTW-JSON-KeyExists.vi"/>
+				<Item Name="FTW-JSON-Object-DeleteAllElements.vi" Type="VI" URL="../src/core/json/FTW-JSON-Object-DeleteAllElements.vi"/>
+				<Item Name="FTW-JSON-Object-DeleteElement.vi" Type="VI" URL="../src/core/json/FTW-JSON-Object-DeleteElement.vi"/>
+				<Item Name="FTW-JSON-Object-GetElement-Bool.vi" Type="VI" URL="../src/core/json/FTW-JSON-Object-GetElement-Bool.vi"/>
+				<Item Name="FTW-JSON-Object-GetElement-DBL.vi" Type="VI" URL="../src/core/json/FTW-JSON-Object-GetElement-DBL.vi"/>
+				<Item Name="FTW-JSON-Object-GetElement-Integer.vi" Type="VI" URL="../src/core/json/FTW-JSON-Object-GetElement-Integer.vi"/>
+				<Item Name="FTW-JSON-Object-GetElement-String.vi" Type="VI" URL="../src/core/json/FTW-JSON-Object-GetElement-String.vi"/>
+				<Item Name="FTW-JSON-Object-Join.vi" Type="VI" URL="../src/core/json/FTW-JSON-Object-Join.vi"/>
+				<Item Name="FTW-JSON-Object-Keys.vi" Type="VI" URL="../src/core/json/FTW-JSON-Object-Keys.vi"/>
+				<Item Name="FTW-JSON-Object-SetElement-Bool.vi" Type="VI" URL="../src/core/json/FTW-JSON-Object-SetElement-Bool.vi"/>
+				<Item Name="FTW-JSON-Object-SetElement-DBL.vi" Type="VI" URL="../src/core/json/FTW-JSON-Object-SetElement-DBL.vi"/>
+				<Item Name="FTW-JSON-Object-SetElement-Integer.vi" Type="VI" URL="../src/core/json/FTW-JSON-Object-SetElement-Integer.vi"/>
+				<Item Name="FTW-JSON-Object-SetElement-String.vi" Type="VI" URL="../src/core/json/FTW-JSON-Object-SetElement-String.vi"/>
+				<Item Name="FTW-JSON-Object-Update.vi" Type="VI" URL="../src/core/json/FTW-JSON-Object-Update.vi"/>
 				<Item Name="FTW-JSON-ObjectManip-AddPair.vi" Type="VI" URL="../src/core/json/FTW-JSON-ObjectManip-AddPair.vi"/>
-				<Item Name="FTW-JSON.lvclass" Type="LVClass" URL="../src/core/json/FTW-JSON.lvclass"/>
+				<Item Name="FTW-JSON-Serialize.vi" Type="VI" URL="../src/core/json/FTW-JSON-Serialize.vi"/>
+				<Item Name="FTW-JSON-SerializeElement.vi" Type="VI" URL="../src/core/json/FTW-JSON-SerializeElement.vi"/>
+				<Item Name="FTW-JSON-SetFlags-Encoding.vi" Type="VI" URL="../src/core/json/FTW-JSON-SetFlags-Encoding.vi"/>
+				<Item Name="FTW-JSON-UpdateMode.ctl" Type="VI" URL="../src/core/json/FTW-JSON-UpdateMode.ctl"/>
 			</Item>
 			<Item Name="numeric" Type="Folder">
 				<Item Name="FTW-NUM-Counter.vi" Type="VI" URL="../src/core/numeric/FTW-NUM-Counter.vi"/>
@@ -252,7 +278,6 @@
 			<Item Name="FTW-CodeGen-XNodeReplyType.ctl" Type="VI" URL="../src/codegen/FTW-CodeGen-XNodeReplyType.ctl"/>
 			<Item Name="FTW-CodeGen-XNodeUpdateState.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-XNodeUpdateState.vi"/>
 			<Item Name="FTW-Collection-KeyValuePair.ctl" Type="VI" URL="../sandbox/deprecated/FTW-Collection-KeyValuePair.ctl"/>
-			<Item Name="FTW-JSON-Core-EncodingFlags.vi" Type="VI" URL="../src/core/json/lib/FTW-JSON-Core-EncodingFlags.vi"/>
 			<Item Name="FTW-JSON-Escape.vi" Type="VI" URL="../sandbox/deprecated/FTW-JSON-Escape.vi"/>
 			<Item Name="FTW-JSON-Format-String.vi" Type="VI" URL="../sandbox/deprecated/FTW-JSON-Format-String.vi"/>
 			<Item Name="FTW-LibraryFilepath.vi" Type="VI" URL="../lib/FTW-LibraryFilepath.vi"/>
