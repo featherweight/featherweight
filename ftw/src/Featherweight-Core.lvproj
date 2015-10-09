@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='UTF-8'?>
-<Project Type="Project" LVVersion="13008000">
+<Project Type="Project" LVVersion="14008000">
 	<Property Name="NI.LV.All.SourceOnly" Type="Bool">true</Property>
 	<Property Name="NI.Project.Description" Type="Str"></Property>
 	<Item Name="My Computer" Type="My Computer">
@@ -223,14 +223,35 @@
 			<Item Name="FTW-VIServer-VI-Metadata.vi" Type="VI" URL="../core/viserver/FTW-VIServer-VI-Metadata.vi"/>
 		</Item>
 		<Item Name="Dependencies" Type="Dependencies">
-			<Item Name="FTW-CodeGen.lvlib" Type="Library" URL="../codegen/FTW-CodeGen.lvlib"/>
+			<Item Name="FTW-CodeGen-FindGObject.vi" Type="VI" URL="../codegen/FTW-CodeGen-FindGObject.vi"/>
+			<Item Name="FTW-CodeGen-FindGObjects-Callback.vi" Type="VI" URL="../codegen/FTW-CodeGen-FindGObjects-Callback.vi"/>
+			<Item Name="FTW-CodeGen-FindGObjects.vi" Type="VI" URL="../codegen/FTW-CodeGen-FindGObjects.vi"/>
+			<Item Name="FTW-CodeGen-FindGObjectTaggedForScripting.vi" Type="VI" URL="../codegen/FTW-CodeGen-FindGObjectTaggedForScripting.vi"/>
+			<Item Name="FTW-CodeGen-FindTerminalByID.vi" Type="VI" URL="../codegen/FTW-CodeGen-FindTerminalByID.vi"/>
+			<Item Name="FTW-CodeGen-GetTerminals.vi" Type="VI" URL="../codegen/FTW-CodeGen-GetTerminals.vi"/>
+			<Item Name="FTW-CodeGen-RelinkTerminals.vi" Type="VI" URL="../codegen/FTW-CodeGen-RelinkTerminals.vi"/>
+			<Item Name="FTW-CodeGen-XNodeReply.vi" Type="VI" URL="../codegen/FTW-CodeGen-XNodeReply.vi"/>
+			<Item Name="FTW-CodeGen-XNodeReplyType.ctl" Type="VI" URL="../codegen/FTW-CodeGen-XNodeReplyType.ctl"/>
+			<Item Name="FTW-CodeGen-XNodeUpdateState.vi" Type="VI" URL="../codegen/FTW-CodeGen-XNodeUpdateState.vi"/>
 			<Item Name="FTW-Collection-KeyValuePair.ctl" Type="VI" URL="../../sandbox/deprecated/FTW-Collection-KeyValuePair.ctl"/>
-			<Item Name="FTW-JSON-Core-ElementType.vi" Type="VI" URL="../core/json/lib/FTW-JSON-Core-ElementType.vi"/>
-			<Item Name="FTW-JSON-Core-GetFlattenedValue.vi" Type="VI" URL="../core/json/lib/FTW-JSON-Core-GetFlattenedValue.vi"/>
-			<Item Name="FTW-JSON-Core-LibraryError.vi" Type="VI" URL="../core/json/lib/FTW-JSON-Core-LibraryError.vi"/>
+			<Item Name="FTW-ERR-ThrowInfo.vi" Type="VI" URL="../core/error/FTW-ERR-ThrowInfo.vi"/>
+			<Item Name="FTW-JSON-Construct-FromBuffer.vi" Type="VI" URL="../core/json/FTW-JSON-Construct-FromBuffer.vi"/>
+			<Item Name="FTW-JSON-Core-ElementType.vi" Type="VI" URL="../core/json/core/FTW-JSON-Core-ElementType.vi"/>
+			<Item Name="FTW-JSON-Core-EncodingFlags.vi" Type="VI" URL="../core/json/core/FTW-JSON-Core-EncodingFlags.vi"/>
+			<Item Name="FTW-JSON-Core-GetFlattenedValue.vi" Type="VI" URL="../core/json/core/FTW-JSON-Core-GetFlattenedValue.vi"/>
+			<Item Name="FTW-JSON-Core-LibraryError.vi" Type="VI" URL="../core/json/core/FTW-JSON-Core-LibraryError.vi"/>
+			<Item Name="FTW-JSON-Core-Serialize.vi" Type="VI" URL="../core/json/core/FTW-JSON-Core-Serialize.vi"/>
+			<Item Name="FTW-JSON-Core-Structure.ctl" Type="VI" URL="../core/json/core/FTW-JSON-Core-Structure.ctl"/>
+			<Item Name="FTW-JSON-Core-Type.ctl" Type="VI" URL="../core/json/core/FTW-JSON-Core-Type.ctl"/>
+			<Item Name="FTW-JSON-Destroy.vi" Type="VI" URL="../core/json/FTW-JSON-Destroy.vi"/>
 			<Item Name="FTW-JSON-Escape.vi" Type="VI" URL="../../sandbox/deprecated/FTW-JSON-Escape.vi"/>
 			<Item Name="FTW-JSON-Format-String.vi" Type="VI" URL="../../sandbox/deprecated/FTW-JSON-Format-String.vi"/>
-			<Item Name="FTW-JSON-Type.ctl" Type="VI" URL="../core/json/lib/FTW-JSON-Type.ctl"/>
+			<Item Name="FTW-JSON-Object-GetElement-String.vi" Type="VI" URL="../core/json/FTW-JSON-Object-GetElement-String.vi"/>
+			<Item Name="FTW-JSON-Object-SetElement-Integer.vi" Type="VI" URL="../core/json/FTW-JSON-Object-SetElement-Integer.vi"/>
+			<Item Name="FTW-JSON-Object-SetElement-String.vi" Type="VI" URL="../core/json/FTW-JSON-Object-SetElement-String.vi"/>
+			<Item Name="FTW-JSON-Serialize.vi" Type="VI" URL="../core/json/FTW-JSON-Serialize.vi"/>
+			<Item Name="FTW-LibraryFilepath.vi" Type="VI" URL="../../lib/FTW-LibraryFilepath.vi"/>
+			<Item Name="ftw32.dll" Type="Document" URL="../../lib/ftw32.dll"/>
 		</Item>
 		<Item Name="Build Specifications" Type="Build"/>
 	</Item>
