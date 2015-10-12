@@ -1,3 +1,5 @@
+sudo: true
+
 os:
   - linux
   - osx
