@@ -14,12 +14,12 @@ The short tutorials below walk through building the featherweight library on cur
 Each time a commit is pushed to this repository, automated builds on supported platforms are triggered. Click the badges to view the full report of the most recent build and to browse the build history.
 
 #### Release Branch
-Linux: [![Linux Status](https://travis-ci.org/wirebirdlabs/featherweight-lib.svg?branch=master)](https://travis-ci.org/wirebirdlabs/featherweight-lib)
+Linux: [![Linux Status](https://api.travis-ci.org/featherweight/ftw-kernel.svg?branch=master)](https://travis-ci.org/featherweight/ftw-kernel)
 
 Win32: [![Win32 status](https://ci.appveyor.com/api/projects/status/kkmx5uptnx147ugu?svg=true)](https://ci.appveyor.com/project/wirebirdlabs/featherweight-lib)
 
 #### Active Development Branch
-Linux: [![Linux Status](https://travis-ci.org/wirebirdlabs/featherweight-lib.svg?branch=master)](https://travis-ci.org/wirebirdlabs/featherweight-lib)
+Linux: [![Linux Status](https://api.travis-ci.org/featherweight/ftw-kernel.svg?branch=master)](https://travis-ci.org/featherweight/ftw-kernel)
 
 Win32: [![Win32 status](https://ci.appveyor.com/api/projects/status/kkmx5uptnx147ugu?svg=true)](https://ci.appveyor.com/project/wirebirdlabs/featherweight-lib)
 
@@ -56,7 +56,7 @@ Win32: [![Win32 status](https://ci.appveyor.com/api/projects/status/kkmx5uptnx14
   1. CMake 2.8.12 or higher
   1. Microsoft Visual Studio 2010 or higher (Visual Studio Express is freely available for open source projects like Featherweight)
   1. NI LabVIEW 2013 or higher
-  
+
 #### Build process
   1. Clone this repository with the `--recursive` flag to ensure all submodules are cloned: `git clone --recursive https://github.com/wirebirdlabs/featherweight-lib.git`
   1. Navigate to the root and create a build directory: `md builds`
