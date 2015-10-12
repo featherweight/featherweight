@@ -1,4 +1,4 @@
-sudo: true
+sudo: required
 
 os:
   - linux
@@ -19,3 +19,7 @@ install:
   - ./.travis.install.sh
 
 script: "./build-ftw.sh"
+
+matrix:
+  allow_failures:
+    - os: osx
