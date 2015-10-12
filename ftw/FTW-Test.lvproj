@@ -282,10 +282,6 @@
 			<Item Name="FTW-JSON-Format-String.vi" Type="VI" URL="../sandbox/deprecated/FTW-JSON-Format-String.vi"/>
 			<Item Name="FTW-LibraryFilepath.vi" Type="VI" URL="../lib/FTW-LibraryFilepath.vi"/>
 			<Item Name="ftw32.dll" Type="Document" URL="../lib/ftw32.dll"/>
-			<Item Name="FTWLib-Jansson32.dll" Type="Document" URL="../lib/jansson/FTWLib-Jansson32.dll"/>
-			<Item Name="FTWLib-Jansson32.so" Type="Document" URL="../lib/jansson/FTWLib-Jansson32.so"/>
-			<Item Name="FTWLib-Jansson64.dll" Type="Document" URL="../lib/jansson/FTWLib-Jansson64.dll"/>
-			<Item Name="FTWLib-JSON-LibraryFilepath.vi" Type="VI" URL="../lib/jansson/FTWLib-JSON-LibraryFilepath.vi"/>
 			<Item Name="FTWLib-SQLite-LibraryFilepath.vi" Type="VI" URL="../lib/sqlite/FTWLib-SQLite-LibraryFilepath.vi"/>
 			<Item Name="FTWLib-SQLite32.dll" Type="Document" URL="../lib/sqlite/FTWLib-SQLite32.dll"/>
 			<Item Name="FTWLib-SQLite32.so" Type="Document" URL="../lib/sqlite/FTWLib-SQLite32.so"/>
