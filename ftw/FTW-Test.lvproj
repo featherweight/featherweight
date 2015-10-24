@@ -61,13 +61,27 @@
 				</Item>
 			</Item>
 			<Item Name="database" Type="Folder">
+				<Item Name="core" Type="Folder">
+					<Item Name="FTW-SQLite-Core-AccessMode.ctl" Type="VI" URL="../src/core/database/core/FTW-SQLite-Core-AccessMode.ctl"/>
+					<Item Name="FTW-SQLite-Core-Construct.vi" Type="VI" URL="../src/core/database/core/FTW-SQLite-Core-Construct.vi"/>
+					<Item Name="FTW-SQLite-Core-DatabaseType.ctl" Type="VI" URL="../src/core/database/core/FTW-SQLite-Core-DatabaseType.ctl"/>
+					<Item Name="FTW-SQLite-Core-LibraryReturnValue.vi" Type="VI" URL="../src/core/database/core/FTW-SQLite-Core-LibraryReturnValue.vi"/>
+					<Item Name="FTW-SQLite-Core-PrepareStatement.vi" Type="VI" URL="../src/core/database/core/FTW-SQLite-Core-PrepareStatement.vi"/>
+					<Item Name="FTW-SQLite-Core-QueryDebug.vi" Type="VI" URL="../src/core/database/core/FTW-SQLite-Core-QueryDebug.vi"/>
+					<Item Name="FTW-SQLite-Core-Structure.ctl" Type="VI" URL="../src/core/database/core/FTW-SQLite-Core-Structure.ctl"/>
+				</Item>
 				<Item Name="FTW-SQLite-Fetch" Type="Folder">
 					<Item Name="FTW-SQLite-Fetch.xnode" Type="XNode" URL="../src/core/database/FTW-SQLite-Fetch/FTW-SQLite-Fetch.xnode"/>
 				</Item>
 				<Item Name="FTW-SQLite-Insert" Type="Folder">
 					<Item Name="FTW-SQLite-Insert.xnode" Type="XNode" URL="../src/core/database/FTW-SQLite-Insert/FTW-SQLite-Insert.xnode"/>
 				</Item>
-				<Item Name="FTW-SQLite-Connector.lvclass" Type="LVClass" URL="../src/core/database/FTW-SQLite-Connector.lvclass"/>
+				<Item Name="FTW-SQLite-Backup.vi" Type="VI" URL="../src/core/database/FTW-SQLite-Backup.vi"/>
+				<Item Name="FTW-SQLite-CloseConnection.vi" Type="VI" URL="../src/core/database/FTW-SQLite-CloseConnection.vi"/>
+				<Item Name="FTW-SQLite-CreateEphemeralDatabase.vi" Type="VI" URL="../src/core/database/FTW-SQLite-CreateEphemeralDatabase.vi"/>
+				<Item Name="FTW-SQLite-ExecuteScript.vi" Type="VI" URL="../src/core/database/FTW-SQLite-ExecuteScript.vi"/>
+				<Item Name="FTW-SQLite-OpenConnection-Path.vi" Type="VI" URL="../src/core/database/FTW-SQLite-OpenConnection-Path.vi"/>
+				<Item Name="FTW-SQLite-RandomBLOB.vi" Type="VI" URL="../src/core/database/FTW-SQLite-RandomBLOB.vi"/>
 			</Item>
 			<Item Name="email" Type="Folder">
 				<Item Name="FTW-Email-AddressValidator.vi" Type="VI" URL="../src/core/email/FTW-Email-AddressValidator.vi"/>
@@ -282,10 +296,6 @@
 			<Item Name="FTW-JSON-Format-String.vi" Type="VI" URL="../sandbox/deprecated/FTW-JSON-Format-String.vi"/>
 			<Item Name="FTW-LibraryFilepath.vi" Type="VI" URL="../lib/FTW-LibraryFilepath.vi"/>
 			<Item Name="ftw32.dll" Type="Document" URL="../lib/ftw32.dll"/>
-			<Item Name="FTWLib-SQLite-LibraryFilepath.vi" Type="VI" URL="../lib/sqlite/FTWLib-SQLite-LibraryFilepath.vi"/>
-			<Item Name="FTWLib-SQLite32.dll" Type="Document" URL="../lib/sqlite/FTWLib-SQLite32.dll"/>
-			<Item Name="FTWLib-SQLite32.so" Type="Document" URL="../lib/sqlite/FTWLib-SQLite32.so"/>
-			<Item Name="FTWLib-SQLite64.dll" Type="Document" URL="../lib/sqlite/FTWLib-SQLite64.dll"/>
 			<Item Name="kernel32.dll" Type="Document" URL="kernel32.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
