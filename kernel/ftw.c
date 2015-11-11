@@ -22,19 +22,64 @@
 
 #include "ftw.h"
 
-MgErr ftw_support_copy_to_LStrHandle(LStrHandle dest, const void *src, size_t length)
+MgErr ftw_support_buffer_to_LStrHandle(LStrHandle *dest, const void *src, size_t length)
 {
-    MgErr resize_err;
+    MgErr lv_err;
 
-    resize_err = NumericArrayResize(uB, 1, (UHandle *)&dest, length);
-    if (resize_err == mgNoErr) {
-        MoveBlock(src, LHStrBuf(dest), length);
-        LStrLen(*dest) = length;
+    if (src == NULL)
+        return mgArgErr;
+
+    lv_err = NumericArrayResize(uB, 1, (UHandle *)dest, length);
+    if (lv_err == mgNoErr) {
+        MoveBlock(src, LHStrBuf(*dest), length);
+        LStrLen(**dest) = length;
     }
-    return resize_err;
+    return lv_err;
 }
 
-const char *ftw_version(void)
+MgErr ftw_support_CStr_to_LStrHandle(LStrHandle *dest, const char *src)
 {
-    return "0.1.0";
+    MgErr lv_err;
+    size_t len;
+
+    if (src == NULL)
+        return mgArgErr;
+
+    len = StrLen(src);
+    lv_err = ftw_support_buffer_to_LStrHandle(dest, src, len);
+
+    return lv_err;
+}
+
+MgErr ftw_support_resize_PointerArray(PointerArray **arr, size_t elements)
+{
+    MgErr rc;
+    size_t bytes;
+
+    if (arr == NULL || *arr == NULL)
+        return mgArgErr;
+
+    bytes = ftw_support_sizeof_array(PointerArray, elements);
+
+    rc = NumericArrayResize(uB, 1, (UHandle *)&arr, bytes);
+
+    if (rc == mgNoErr)
+        (*arr)->dimsize = (int32_t)elements;
+
+    return rc;
+}
+
+MgErr ftw_support_resize_LStrHandleArray(LStrHandleArray **arr, size_t elements)
+{
+    MgErr rc;
+
+    if (arr == NULL || *arr == NULL)
+        return mgArgErr;
+
+    rc = NumericArrayResize(uL, 1, (UHandle *)&arr, elements);
+
+    if (rc == mgNoErr)
+        (*arr)->dimsize = (int32_t)elements;
+
+    return rc;
 }

@@ -30,9 +30,10 @@ extern "C" {
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
+#include <stdint.h>
 
 #include "labview/extcode.h"
-    
+
 #define FTW_DEBUG_WINDOW 0
 #define LV_USER_ERROR 5000
 
@@ -45,8 +46,21 @@ extern "C" {
     #error
 #endif
 
+/*  Performance optimization for inlining functions. */
+#ifdef __cplusplus
+    #define FTW_INLINE inline
+#else
+    #define FTW_INLINE __inline
+#endif
+#define FTW_PRIVATE_SUPPORT static FTW_INLINE
+
 /*  Featherweight support macros. */
-#define ftw_debug(fmt,...) if (FTW_DEBUG_WINDOW) DbgPrintf(fmt,__VA_ARGS__)
+#if FTW_DEBUG_WINDOW
+    #define ftw_debug(fmt,...) DbgPrintf(fmt,__VA_ARGS__)
+#else
+    #define ftw_debug(fmt,...)
+#endif
+
 #define ftw_assert(x) \
     do {\
         if (!(x)) {\
@@ -64,22 +78,37 @@ extern "C" {
             abort ();\
             } while (0)
 
-/*  Featherweight support functions. */
-MgErr ftw_support_copy_to_LStrHandle (LStrHandle dest, const void *src, size_t length);
+/*  IEEE 754 macros for checking NaN and Inf (from value.c in Jansson). */
+#ifndef isnan
+    FTW_PRIVATE_SUPPORT int isnan(double x) { return x != x; }
+#endif
+#ifndef isinf
+    FTW_PRIVATE_SUPPORT int isinf(double x) { return !isnan(x) && isnan(x - x); }
+#endif
 
 /*  Featherweight support types. */
 typedef struct {
-    int32_t dimsize;
+    int32 dimsize;
     LStrHandle element[1];
 } LStrHandleArray;
 
 typedef struct {
-    int32_t dimsize;
-    int32_t element[1];
+    int32 dimsize;
+    int32 element[1];
 } I32Array;
 
-/*  Featherweight exported functions. */
-FTW_EXPORT const char *ftw_version(void);
+typedef struct {
+    int32 dimsize;
+    intptr_t element[1];
+} PointerArray;
+
+#define ftw_support_sizeof_array(arr_type,len) Offset(arr_type, element) + sizeof(arr_type) * len
+
+/*  Featherweight support functions. */
+MgErr ftw_support_buffer_to_LStrHandle(LStrHandle *dest, const void *src, size_t length);
+MgErr ftw_support_CStr_to_LStrHandle(LStrHandle *dest, const char *src);
+MgErr ftw_support_resize_PointerArray(PointerArray **arr, size_t elements);
+MgErr ftw_support_resize_LStrHandleArray(LStrHandleArray **arr, size_t elements);
 
 #ifdef __cplusplus
 }
