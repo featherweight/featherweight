@@ -108,6 +108,9 @@ set (PCRE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/pcre/upstream")
         ftw.h
         ftw.c
 
+        framework/ftw_framework.h
+        framework/ftw_framework.c
+
         jansson/ftw_json.h
         jansson/ftw_json.c
         ${JANSSON_DIR}/src/jansson.def
