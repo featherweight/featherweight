@@ -129,9 +129,22 @@ set (PCRE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/pcre/upstream")
     target_link_libraries (${CMAKE_PROJECT_NAME} ftwnanomsg)
     target_link_libraries (${CMAKE_PROJECT_NAME} ../labview/labviewv)
 
-    # This is required for 'Visual Studio 12' and higher, apparently because
-    # labviewv.lib as of LV2013 is compiled without safe exception handlers.
+    # Name the output library
+    if (WIN32)
+      if ( "${CMAKE_SIZEOF_VOID_P}" EQUAL "8" )
+        set_target_properties("${CMAKE_PROJECT_NAME}" PROPERTIES OUTPUT_NAME "ftw64")
+      elseif ( "${CMAKE_SIZEOF_VOID_P}" EQUAL "4" )
+        set_target_properties("${CMAKE_PROJECT_NAME}" PROPERTIES OUTPUT_NAME "ftw32")
+      else ()
+        message (FATAL_ERROR "${CMAKE_PROJECT_NAME} could not detect Windows bitness.")
+      endif ()
+    else ()
+          message (FATAL_ERROR "${CMAKE_PROJECT_NAME} is not supported on this architecture.")
+    endif ()
+
     if (MSVC)
+        # This is required for 'Visual Studio 12' and higher, apparently because
+        # labviewv.lib as of LV2013 is compiled without safe exception handlers.
         set_target_properties("${CMAKE_PROJECT_NAME}" PROPERTIES LINK_FLAGS "/SAFESEH:NO")
     endif()
     
