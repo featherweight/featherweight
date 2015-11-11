@@ -62,12 +62,12 @@ Win32: [![Win32 status](https://ci.appveyor.com/api/projects/status/kkmx5uptnx14
   1. Navigate to the root and create a build directory: `md builds`
   1. Enter this new build directory: `cd builds`
   1. Invoke build system generation: `cmake ..`
+    - alternatively, specify the backend generator, such as `cmake -G "Visual Studio 12" ..`
   1. Open the newly generated MSVS solution: `featherweight.sln`
   1. Build the `ALL_BUILD` project to generate the library and tests
   1. Build `RUN_TESTS` to ensure unit tests pass
   1. Optionally, configure the `featherweight` project to more convenient settings while specifically developing:
-    - /General/Output Directory: `..\..\ftw-master\ftw\lib\`
-    - /General/Target Name: `ftw32`
-    - /Debugging/Command: `"C:\Program Files (x86)\National Instruments\LabVIEW 2013\LabVIEW.exe"`
-    - /Debugging/Command Arguments: `"C:\Users\Jack\repo\ftw-master\ftw\examples\FTW-Example-Actors.vi"`
-    - /Linker/Advanced/Image Has Safe Exception Handlers: `No (/SAFESEH:NO)` (may be required due to labviewv.lib)
+    - "Set as StartUp Project" for `featherweight` project
+    - /General/Output Directory: `..\..\ftw-master\lib\`
+    - /Debugging/Command: `"C:\Program Files (x86)\National Instruments\LabVIEW 2015\LabVIEW.exe"`
+    - /Debugging/Command Arguments: `"..\..\ftw-master\FTW-Test.lvproj"`
