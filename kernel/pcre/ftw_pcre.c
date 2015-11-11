@@ -40,7 +40,7 @@ pcre *ftw_pcre_compile(const char *regex, int options, LStrHandle error_string,
     compiled_regex = pcre_compile(regex, options, &err, error_offset_in_regex, NULL);
 
     if (compiled_regex == NULL) {
-        ftw_support_copy_to_LStrHandle(error_string, err, StrLen ((const uChar *)err));
+        ftw_support_buffer_to_LStrHandle(&error_string, err, StrLen ((const uChar *)err));
         return NULL;
     }
 
