@@ -43,13 +43,14 @@ set (PCRE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/pcre/upstream")
 
 ### Jansson
     set (JANSSON_BUILD_DOCS OFF CACHE BOOL "Featherweight skips building the Jansson documentation.")
+    set (JANSSON_EXAMPLES OFF CACHE BOOL "Featherweight skips building the Jansson examples.")
     add_subdirectory (${JANSSON_DIR} ${JANSSON_DIR}/builds)
 
 ### PCRE
     set (PCRE_BUILD_PCRECPP OFF CACHE BOOL "Featherweight skips building the PCRE C++ library (pcrecpp).")
     set (PCRE_SUPPORT_PCREGREP_JIT OFF CACHE BOOL "Featherweight skips building Just-in-time compiling in pcregrep.")
     add_subdirectory (${PCRE_DIR} ${PCRE_DIR})
-    
+
     # Unit test #2 provides guidance to increase the stack size to 8MB. Remove this line to observe test failure with RUN_TESTS in MSVC.
     if (MSVC)
         set_target_properties(pcretest PROPERTIES LINK_FLAGS "/STACK:8000000")
