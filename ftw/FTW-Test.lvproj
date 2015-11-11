@@ -10,45 +10,45 @@
 		<Property Name="server.vi.callsEnabled" Type="Bool">true</Property>
 		<Property Name="server.vi.propertiesEnabled" Type="Bool">true</Property>
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
+		<Item Name="_codegen" Type="Folder">
+			<Item Name="FTW-CodeGen-ChooseImplementation.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-ChooseImplementation.vi"/>
+			<Item Name="FTW-CodeGen-CleanUpWire.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-CleanUpWire.vi"/>
+			<Item Name="FTW-CodeGen-FindGObject.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-FindGObject.vi"/>
+			<Item Name="FTW-CodeGen-FindGObjects-Callback.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-FindGObjects-Callback.vi"/>
+			<Item Name="FTW-CodeGen-FindGObjects.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-FindGObjects.vi"/>
+			<Item Name="FTW-CodeGen-FindGObjectTaggedForScripting.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-FindGObjectTaggedForScripting.vi"/>
+			<Item Name="FTW-CodeGen-FindTerminalByID.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-FindTerminalByID.vi"/>
+			<Item Name="FTW-CodeGen-FindTerminalTypeByID.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-FindTerminalTypeByID.vi"/>
+			<Item Name="FTW-CodeGen-GetTerminals.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-GetTerminals.vi"/>
+			<Item Name="FTW-CodeGen-GetTypeInfo.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-GetTypeInfo.vi"/>
+			<Item Name="FTW-CodeGen-GetTypeInfoRemote.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-GetTypeInfoRemote.vi"/>
+			<Item Name="FTW-CodeGen-RelinkTerminals.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-RelinkTerminals.vi"/>
+			<Item Name="FTW-CodeGen-SetConstantValue.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-SetConstantValue.vi"/>
+			<Item Name="FTW-CodeGen-XNodeReply.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-XNodeReply.vi"/>
+			<Item Name="FTW-CodeGen-XNodeReplyType.ctl" Type="VI" URL="../src/codegen/FTW-CodeGen-XNodeReplyType.ctl"/>
+			<Item Name="FTW-CodeGen-XNodeUpdateState.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-XNodeUpdateState.vi"/>
+		</Item>
+		<Item Name="_kernel" Type="Folder">
+			<Item Name="FTW-LibraryFilepath.vi" Type="VI" URL="../lib/FTW-LibraryFilepath.vi"/>
+			<Item Name="ftw32.dll" Type="Document" URL="../lib/ftw32.dll"/>
+		</Item>
 		<Item Name="ftw" Type="Folder">
 			<Item Name="actor" Type="Folder">
-				<Item Name="connector" Type="Folder">
-					<Item Name="FTW-Actor-Connector.lvclass" Type="LVClass" URL="../src/core/actor/connector/FTW-Actor-Connector.lvclass"/>
-				</Item>
-				<Item Name="context" Type="Folder">
-					<Item Name="FTW-Actor-Context.lvclass" Type="LVClass" URL="../src/core/actor/context/FTW-Actor-Context.lvclass"/>
-				</Item>
-				<Item Name="instance" Type="Folder">
-					<Item Name="FTW-Actor-Instance.lvclass" Type="LVClass" URL="../src/core/actor/instance/FTW-Actor-Instance.lvclass"/>
-				</Item>
-				<Item Name="logger" Type="Folder">
-					<Item Name="instance" Type="Folder">
-						<Item Name="FTW-Logger-Instance.lvclass" Type="LVClass" URL="../src/core/actor/logger/instance/FTW-Logger-Instance.lvclass"/>
-					</Item>
-					<Item Name="FTW-Logger.lvclass" Type="LVClass" URL="../src/core/actor/logger/FTW-Logger.lvclass"/>
-				</Item>
-				<Item Name="message" Type="Folder">
-					<Item Name="FTW-Message.lvclass" Type="LVClass" URL="../src/core/actor/message/FTW-Message.lvclass"/>
-				</Item>
 				<Item Name="request" Type="Folder">
-					<Item Name="FTW-Request.lvclass" Type="LVClass" URL="../src/core/actor/request/FTW-Request.lvclass"/>
-				</Item>
-				<Item Name="router" Type="Folder">
-					<Item Name="FTW-Router.lvclass" Type="LVClass" URL="../src/core/actor/router/FTW-Router.lvclass"/>
-				</Item>
-				<Item Name="scheduler" Type="Folder">
-					<Item Name="FTW-Scheduler.lvclass" Type="LVClass" URL="../src/core/actor/scheduler/FTW-Scheduler.lvclass"/>
-				</Item>
-				<Item Name="socket" Type="Folder">
-					<Item Name="FTW-Socket.lvclass" Type="LVClass" URL="../src/core/actor/socket/FTW-Socket.lvclass"/>
-				</Item>
-				<Item Name="subscription" Type="Folder">
-					<Item Name="FTW-Subscription.lvclass" Type="LVClass" URL="../src/core/actor/subscription/FTW-Subscription.lvclass"/>
+					<Item Name="FTW-Request-AddExceptionToResponse.vi" Type="VI" URL="../src/core/actor/request/FTW-Request-AddExceptionToResponse.vi"/>
+					<Item Name="FTW-Request-Receive.vi" Type="VI" URL="../src/core/actor/request/FTW-Request-Receive.vi"/>
+					<Item Name="FTW-Request-Reply.vi" Type="VI" URL="../src/core/actor/request/FTW-Request-Reply.vi"/>
+					<Item Name="FTW-Request-Unknown.vi" Type="VI" URL="../src/core/actor/request/FTW-Request-Unknown.vi"/>
 				</Item>
 				<Item Name="support" Type="Folder">
 					<Item Name="FTW-Actor-DynamicLaunchOptions.vi" Type="VI" URL="../src/core/actor/support/FTW-Actor-DynamicLaunchOptions.vi"/>
-					<Item Name="FTW-Actor-ValidateAddress.vi" Type="VI" URL="../src/core/actor/support/FTW-Actor-ValidateAddress.vi"/>
 				</Item>
+				<Item Name="FTW-Actor-Connector.lvclass" Type="LVClass" URL="../src/core/actor/connector/FTW-Actor-Connector.lvclass"/>
+				<Item Name="FTW-Actor-Context.lvclass" Type="LVClass" URL="../src/core/actor/context/FTW-Actor-Context.lvclass"/>
+				<Item Name="FTW-Actor-Instance.lvclass" Type="LVClass" URL="../src/core/actor/instance/FTW-Actor-Instance.lvclass"/>
+				<Item Name="FTW-Logger-Instance.lvclass" Type="LVClass" URL="../src/core/actor/logger/instance/FTW-Logger-Instance.lvclass"/>
+				<Item Name="FTW-Logger.lvclass" Type="LVClass" URL="../src/core/actor/logger/FTW-Logger.lvclass"/>
+				<Item Name="FTW-Scheduler.lvclass" Type="LVClass" URL="../src/core/actor/scheduler/FTW-Scheduler.lvclass"/>
 			</Item>
 			<Item Name="application" Type="Folder">
 				<Item Name="FTW-App-StringToVersion.vi" Type="VI" URL="../src/core/application/FTW-App-StringToVersion.vi"/>
@@ -82,6 +82,9 @@
 				<Item Name="FTW-SQLite-ExecuteScript.vi" Type="VI" URL="../src/core/database/FTW-SQLite-ExecuteScript.vi"/>
 				<Item Name="FTW-SQLite-OpenConnection-Path.vi" Type="VI" URL="../src/core/database/FTW-SQLite-OpenConnection-Path.vi"/>
 				<Item Name="FTW-SQLite-RandomBLOB.vi" Type="VI" URL="../src/core/database/FTW-SQLite-RandomBLOB.vi"/>
+			</Item>
+			<Item Name="dataflow" Type="Folder">
+				<Item Name="FTW-Dataflow-Parallelize.vi" Type="VI" URL="../src/core/dataflow/FTW-Dataflow-Parallelize.vi"/>
 			</Item>
 			<Item Name="email" Type="Folder">
 				<Item Name="FTW-Email-AddressValidator.vi" Type="VI" URL="../src/core/email/FTW-Email-AddressValidator.vi"/>
@@ -133,19 +136,15 @@
 					<Item Name="FTW-JSON-Core-ElementType.vi" Type="VI" URL="../src/core/json/core/FTW-JSON-Core-ElementType.vi"/>
 					<Item Name="FTW-JSON-Core-EncodingFlags.vi" Type="VI" URL="../src/core/json/core/FTW-JSON-Core-EncodingFlags.vi"/>
 					<Item Name="FTW-JSON-Core-GetFlattenedValue.vi" Type="VI" URL="../src/core/json/core/FTW-JSON-Core-GetFlattenedValue.vi"/>
-					<Item Name="FTW-JSON-Core-LibraryError.vi" Type="VI" URL="../src/core/json/core/FTW-JSON-Core-LibraryError.vi"/>
 					<Item Name="FTW-JSON-Core-Serialize.vi" Type="VI" URL="../src/core/json/core/FTW-JSON-Core-Serialize.vi"/>
 					<Item Name="FTW-JSON-Core-Structure.ctl" Type="VI" URL="../src/core/json/core/FTW-JSON-Core-Structure.ctl"/>
 					<Item Name="FTW-JSON-Core-Type.ctl" Type="VI" URL="../src/core/json/core/FTW-JSON-Core-Type.ctl"/>
 				</Item>
-				<Item Name="FTW-JSON-Deserialize" Type="Folder">
-					<Item Name="FTW-JSON-Deserialize.xnode" Type="XNode" URL="../src/core/json/FTW-JSON-Deserialize/FTW-JSON-Deserialize.xnode"/>
-				</Item>
 				<Item Name="FTW-JSON-CompareEquality.vi" Type="VI" URL="../src/core/json/FTW-JSON-CompareEquality.vi"/>
 				<Item Name="FTW-JSON-Construct-FromBuffer.vi" Type="VI" URL="../src/core/json/FTW-JSON-Construct-FromBuffer.vi"/>
+				<Item Name="FTW-JSON-Deserialize.xnode" Type="XNode" URL="../src/core/json/FTW-JSON-Deserialize/FTW-JSON-Deserialize.xnode"/>
 				<Item Name="FTW-JSON-Destroy.vi" Type="VI" URL="../src/core/json/FTW-JSON-Destroy.vi"/>
 				<Item Name="FTW-JSON-Duplicate.vi" Type="VI" URL="../src/core/json/FTW-JSON-Duplicate.vi"/>
-				<Item Name="FTW-JSON-KeyExists.vi" Type="VI" URL="../src/core/json/FTW-JSON-KeyExists.vi"/>
 				<Item Name="FTW-JSON-Object-DeleteAllElements.vi" Type="VI" URL="../src/core/json/FTW-JSON-Object-DeleteAllElements.vi"/>
 				<Item Name="FTW-JSON-Object-DeleteElement.vi" Type="VI" URL="../src/core/json/FTW-JSON-Object-DeleteElement.vi"/>
 				<Item Name="FTW-JSON-Object-GetElement-Bool.vi" Type="VI" URL="../src/core/json/FTW-JSON-Object-GetElement-Bool.vi"/>
@@ -157,12 +156,14 @@
 				<Item Name="FTW-JSON-Object-SetElement-Bool.vi" Type="VI" URL="../src/core/json/FTW-JSON-Object-SetElement-Bool.vi"/>
 				<Item Name="FTW-JSON-Object-SetElement-DBL.vi" Type="VI" URL="../src/core/json/FTW-JSON-Object-SetElement-DBL.vi"/>
 				<Item Name="FTW-JSON-Object-SetElement-Integer.vi" Type="VI" URL="../src/core/json/FTW-JSON-Object-SetElement-Integer.vi"/>
+				<Item Name="FTW-JSON-Object-SetElement-null.vi" Type="VI" URL="../src/core/json/FTW-JSON-Object-SetElement-null.vi"/>
 				<Item Name="FTW-JSON-Object-SetElement-String.vi" Type="VI" URL="../src/core/json/FTW-JSON-Object-SetElement-String.vi"/>
 				<Item Name="FTW-JSON-Object-Update.vi" Type="VI" URL="../src/core/json/FTW-JSON-Object-Update.vi"/>
 				<Item Name="FTW-JSON-ObjectManip-AddPair.vi" Type="VI" URL="../src/core/json/FTW-JSON-ObjectManip-AddPair.vi"/>
 				<Item Name="FTW-JSON-Serialize.vi" Type="VI" URL="../src/core/json/FTW-JSON-Serialize.vi"/>
 				<Item Name="FTW-JSON-SerializeElement.vi" Type="VI" URL="../src/core/json/FTW-JSON-SerializeElement.vi"/>
 				<Item Name="FTW-JSON-SetFlags-Encoding.vi" Type="VI" URL="../src/core/json/FTW-JSON-SetFlags-Encoding.vi"/>
+				<Item Name="FTW-JSON-Type.ctl" Type="VI" URL="../src/core/json/FTW-JSON-Type.ctl"/>
 				<Item Name="FTW-JSON-UpdateMode.ctl" Type="VI" URL="../src/core/json/FTW-JSON-UpdateMode.ctl"/>
 			</Item>
 			<Item Name="numeric" Type="Folder">
@@ -185,6 +186,56 @@
 				<Item Name="FTW-Regex-ReplaceAndReturn.vi" Type="VI" URL="../src/core/regex/FTW-Regex-ReplaceAndReturn.vi"/>
 				<Item Name="FTW-Regex-Replacements.vi" Type="VI" URL="../src/core/regex/FTW-Regex-Replacements.vi"/>
 				<Item Name="FTW-Regex.vi" Type="VI" URL="../src/core/regex/FTW-Regex.vi"/>
+			</Item>
+			<Item Name="socket" Type="Folder">
+				<Item Name="connector" Type="Folder">
+					<Item Name="core" Type="Folder">
+						<Item Name="FTW-Connector-Core-Type.ctl" Type="VI" URL="../src/core/socket/connector/core/FTW-Connector-Core-Type.ctl"/>
+					</Item>
+					<Item Name="FTW-Connector-Ask.vi" Type="VI" URL="../src/core/socket/connector/FTW-Connector-Ask.vi"/>
+					<Item Name="FTW-Connector-Construct.vi" Type="VI" URL="../src/core/socket/connector/FTW-Connector-Construct.vi"/>
+					<Item Name="FTW-Connector-Destroy.vi" Type="VI" URL="../src/core/socket/connector/FTW-Connector-Destroy.vi"/>
+				</Item>
+				<Item Name="inbox" Type="Folder">
+					<Item Name="core" Type="Folder">
+						<Item Name="FTW-Inbox-Core-Callback.vi" Type="VI" URL="../src/core/socket/inbox/core/FTW-Inbox-Core-Callback.vi"/>
+						<Item Name="FTW-Inbox-Core-CallbackParameters.ctl" Type="VI" URL="../src/core/socket/inbox/core/FTW-Inbox-Core-CallbackParameters.ctl"/>
+						<Item Name="FTW-Inbox-Core-IncomingMessageHeader.ctl" Type="VI" URL="../src/core/socket/inbox/core/FTW-Inbox-Core-IncomingMessageHeader.ctl"/>
+						<Item Name="FTW-Inbox-Core-RoutingRule.ctl" Type="VI" URL="../src/core/socket/inbox/core/FTW-Inbox-Core-RoutingRule.ctl"/>
+						<Item Name="FTW-Inbox-Core-Type.ctl" Type="VI" URL="../src/core/socket/inbox/core/FTW-Inbox-Core-Type.ctl"/>
+					</Item>
+					<Item Name="FTW-Inbox-Construct.vi" Type="VI" URL="../src/core/socket/inbox/FTW-Inbox-Construct.vi"/>
+					<Item Name="FTW-Inbox-Destroy.vi" Type="VI" URL="../src/core/socket/inbox/FTW-Inbox-Destroy.vi"/>
+				</Item>
+				<Item Name="publisher" Type="Folder">
+					<Item Name="core" Type="Folder">
+						<Item Name="FTW-Publisher-Core-Type.ctl" Type="VI" URL="../src/core/socket/publisher/core/FTW-Publisher-Core-Type.ctl"/>
+					</Item>
+					<Item Name="FTW-Publisher-Construct.vi" Type="VI" URL="../src/core/socket/publisher/FTW-Publisher-Construct.vi"/>
+					<Item Name="FTW-Publisher-Destroy.vi" Type="VI" URL="../src/core/socket/publisher/FTW-Publisher-Destroy.vi"/>
+					<Item Name="FTW-Publisher-Publish.vi" Type="VI" URL="../src/core/socket/publisher/FTW-Publisher-Publish.vi"/>
+				</Item>
+				<Item Name="subscriber" Type="Folder">
+					<Item Name="core" Type="Folder">
+						<Item Name="FTW-Subscriber-Core-Type.ctl" Type="VI" URL="../src/core/socket/subscriber/core/FTW-Subscriber-Core-Type.ctl"/>
+					</Item>
+					<Item Name="FTW-Subscriber-Construct.vi" Type="VI" URL="../src/core/socket/subscriber/FTW-Subscriber-Construct.vi"/>
+					<Item Name="FTW-Subscriber-Destroy.vi" Type="VI" URL="../src/core/socket/subscriber/FTW-Subscriber-Destroy.vi"/>
+				</Item>
+				<Item Name="support" Type="Folder">
+					<Item Name="FTW-Socket-Core-LibraryError.vi" Type="VI" URL="../src/core/socket/support/FTW-Socket-Core-LibraryError.vi"/>
+					<Item Name="FTW-Socket-Core-TransportScheme.ctl" Type="VI" URL="../src/core/socket/support/FTW-Socket-Core-TransportScheme.ctl"/>
+					<Item Name="FTW-Socket-Core-ValidateAddress.vi" Type="VI" URL="../src/core/socket/support/FTW-Socket-Core-ValidateAddress.vi"/>
+				</Item>
+				<Item Name="syncserver" Type="Folder">
+					<Item Name="core" Type="Folder">
+						<Item Name="FTW-SyncServer-Core-Type.ctl" Type="VI" URL="../src/core/socket/syncserver/core/FTW-SyncServer-Core-Type.ctl"/>
+					</Item>
+					<Item Name="FTW-SyncServer-Await.vi" Type="VI" URL="../src/core/socket/syncserver/FTW-SyncServer-Await.vi"/>
+					<Item Name="FTW-SyncServer-Construct.vi" Type="VI" URL="../src/core/socket/syncserver/FTW-SyncServer-Construct.vi"/>
+					<Item Name="FTW-SyncServer-Destroy.vi" Type="VI" URL="../src/core/socket/syncserver/FTW-SyncServer-Destroy.vi"/>
+					<Item Name="FTW-SyncServer-Reply.vi" Type="VI" URL="../src/core/socket/syncserver/FTW-SyncServer-Reply.vi"/>
+				</Item>
 			</Item>
 			<Item Name="string" Type="Folder">
 				<Item Name="FTW-STR-Array-Concatenate.vi" Type="VI" URL="../src/core/string/FTW-STR-Array-Concatenate.vi"/>
@@ -210,6 +261,7 @@
 			</Item>
 			<Item Name="system" Type="Folder">
 				<Item Name="FTW-System-CommandLineExecute.vi" Type="VI" URL="../src/core/system/FTW-System-CommandLineExecute.vi"/>
+				<Item Name="FTW-System-CurrentMemoryStatistics.vi" Type="VI" URL="../src/core/system/FTW-System-CurrentMemoryStatistics.vi"/>
 			</Item>
 			<Item Name="time" Type="Folder">
 				<Item Name="FTW-Time-Display-Elapsed.vi" Type="VI" URL="../src/core/time/FTW-Time-Display-Elapsed.vi"/>
@@ -272,6 +324,7 @@
 				<Property Name="NI.DISK" Type="Bool">true</Property>
 			</Item>
 		</Item>
+		<Item Name="FTW-Test.json" Type="Document" URL="../tests/FTW-Test.json"/>
 		<Item Name="FTW-Test.vi" Type="VI" URL="../tests/FTW-Test.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="vi.lib" Type="Folder">
@@ -279,23 +332,8 @@
 				<Item Name="Semaphore RefNum" Type="VI" URL="/&lt;vilib&gt;/Utility/semaphor.llb/Semaphore RefNum"/>
 			</Item>
 			<Item Name="FTW-ActorTemplate.vi" Type="VI" URL="../templates/FTW-ActorTemplate.vi"/>
-			<Item Name="FTW-CodeGen-FindGObject.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-FindGObject.vi"/>
-			<Item Name="FTW-CodeGen-FindGObjects-Callback.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-FindGObjects-Callback.vi"/>
-			<Item Name="FTW-CodeGen-FindGObjects.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-FindGObjects.vi"/>
-			<Item Name="FTW-CodeGen-FindGObjectTaggedForScripting.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-FindGObjectTaggedForScripting.vi"/>
-			<Item Name="FTW-CodeGen-FindTerminalByID.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-FindTerminalByID.vi"/>
-			<Item Name="FTW-CodeGen-GetTerminals.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-GetTerminals.vi"/>
-			<Item Name="FTW-CodeGen-GetTypeInfo.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-GetTypeInfo.vi"/>
-			<Item Name="FTW-CodeGen-GetTypeInfoRemote.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-GetTypeInfoRemote.vi"/>
-			<Item Name="FTW-CodeGen-RelinkTerminals.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-RelinkTerminals.vi"/>
-			<Item Name="FTW-CodeGen-XNodeReply.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-XNodeReply.vi"/>
-			<Item Name="FTW-CodeGen-XNodeReplyType.ctl" Type="VI" URL="../src/codegen/FTW-CodeGen-XNodeReplyType.ctl"/>
-			<Item Name="FTW-CodeGen-XNodeUpdateState.vi" Type="VI" URL="../src/codegen/FTW-CodeGen-XNodeUpdateState.vi"/>
-			<Item Name="FTW-Collection-KeyValuePair.ctl" Type="VI" URL="../sandbox/deprecated/FTW-Collection-KeyValuePair.ctl"/>
 			<Item Name="FTW-JSON-Escape.vi" Type="VI" URL="../sandbox/deprecated/FTW-JSON-Escape.vi"/>
 			<Item Name="FTW-JSON-Format-String.vi" Type="VI" URL="../sandbox/deprecated/FTW-JSON-Format-String.vi"/>
-			<Item Name="FTW-LibraryFilepath.vi" Type="VI" URL="../lib/FTW-LibraryFilepath.vi"/>
-			<Item Name="ftw32.dll" Type="Document" URL="../lib/ftw32.dll"/>
 			<Item Name="kernel32.dll" Type="Document" URL="kernel32.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
