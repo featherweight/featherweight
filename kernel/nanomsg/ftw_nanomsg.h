@@ -35,17 +35,13 @@ extern "C" {
 #include "upstream/src/utils/list.h"
 #include "upstream/src/utils/mutex.h"
 
-#define ftw_nanomsg_timeout(rc) ((rc < 0 && (errno == EAGAIN || errno == ETIMEDOUT)) ? LVBooleanTrue : LVBooleanFalse)
-
-#define NN_INVALID_SOCKET_ID -1
-
 /*  InstanceDataPtr types for nanomsg sockets. The list keeps up with all active
     sockets created per each callsite. This bookkeeping ensures each socket created
     is properly terminated and deallocated when a LabVIEW VI is aborted or finishes
     executing without explicitly closing the socket. */
 struct ftw_socket_callsite {
 
-    /*  Callsite ID assigned by LabVIEW CLFN. */
+    /*  Callsite ID assigned by FTW. */
     int id;
 
     /*  List of sockets created by this callsite. */
@@ -53,19 +49,22 @@ struct ftw_socket_callsite {
 
     /*  Protect manipulation of active socket list across threads. */
     struct nn_mutex sync;
+
+    /*  Total number of lifetime sockets created. */
+    int lifetime_sockets;
 };
 
-
-/*  Opaque type for socket bookkeeping. */
+/*  Opaque type for Actor Router bookkeeping. */
 struct ftw_socket {
 
     /*  Socket ID assigned by nanomsg. */
     int id;
 
-    /*  Callsite ID assigned by LabVIEW CLFN. */
+    /*  Callsite ID on reserve of LabVIEW CLFN. */
     struct ftw_socket_callsite *callsite;
 
-    /*  Parameters used for sockets with asynchronous receive. */
+    /*  Asynchronous receive parameters. */
+    int is_async;
     LVUserEventRef lv_event;
     struct nn_sem init_sem;
     struct nn_thread thread;
@@ -90,32 +89,40 @@ FTW_EXPORT MgErr ftw_nanomsg_abort(struct ftw_socket_callsite **inst);
 
 /*  nanomsg library support methods. */
 FTW_EXPORT int ftw_nanomsg_error(LStrHandle error_message);
-FTW_EXPORT const char *ftw_nanomsg_version(void);
-
-/*  Socket, endpoint, and connection methods. */
-FTW_EXPORT int ftw_nanomsg_socket(struct ftw_socket_callsite **callsite, const int scalability_protocol,
-    const LVBoolean *raw, const int linger, const int sndbuf, const int rcvbuf);
-FTW_EXPORT int ftw_nanomsg_setsockopt(const int socket_id, int level, int option,
-    const void *value, size_t length);
-FTW_EXPORT int ftw_nanomsg_connect(const int socket_id, const char *addr);
-FTW_EXPORT int ftw_nanomsg_bind(const int socket_id, const char *addr);
-FTW_EXPORT int ftw_nanomsg_close(const int socket_id);
-
-/*  Blocking I/O methods. */
-FTW_EXPORT int ftw_nanomsg_send(const int socket_id, const int timeout,
-    const LStrHandle outgoing_msg, LVBoolean *timed_out);
-FTW_EXPORT int ftw_nanomsg_recv(const int socket_id, const int timeout,
-    LStrHandle incoming_msg, LVBoolean *timed_out);
-FTW_EXPORT int ftw_nanomsg_ask(const int socket_id, const int send_timeout,
-    const int recv_timeout, const LStrHandle request, LStrHandle response, LVBoolean *timed_out);
-FTW_EXPORT int ftw_nanomsg_async_recv(struct ftw_socket *sock, LVUserEventRef *lv_event);
 
 /*  FTW Actor Message Router framework. */
 FTW_EXPORT int ftw_nanomsg_router_start(struct ftw_socket_callsite **callsite, LVUserEventRef *lv_event,
-    const char *addr, struct ftw_socket **router);
-FTW_EXPORT int ftw_nanomsg_router_reply(const struct ftw_socket * const router, const int timeout,
-    const LStrHandle backtrace, const LStrHandle response, LVBoolean *timed_out);
-FTW_EXPORT int ftw_nanomsg_router_stop(struct ftw_socket *router);
+    const char *addr, int linger, int max_recv_size, struct ftw_socket **sock);
+FTW_EXPORT int ftw_nanomsg_router_reply(struct ftw_socket ** const sock, const int timeout,
+    const LStrHandle backtrace, const LStrHandle response);
+FTW_EXPORT int ftw_nanomsg_router_stop(struct ftw_socket ** const sock);
+
+/*  FTW Actor Synchronous Server framework. */
+FTW_EXPORT int ftw_nanomsg_sync_server_start(struct ftw_socket_callsite **callsite,
+    const char *addr, int linger, int max_recv_size, struct ftw_socket **sock);
+FTW_EXPORT int ftw_nanomsg_sync_server_await(struct ftw_socket ** const sock,
+    const int timeout, LStrHandle request);
+FTW_EXPORT int ftw_nanomsg_sync_server_reply(struct ftw_socket ** const sock,
+    const int timeout, const LStrHandle response);
+FTW_EXPORT int ftw_nanomsg_sync_server_stop(struct ftw_socket ** const sock);
+
+/*  FTW Actor Connector framework. */
+FTW_EXPORT int ftw_nanomsg_connector_connect(struct ftw_socket_callsite **callsite, const char *addr,
+    int linger, int max_recv_size, struct ftw_socket **sock);
+FTW_EXPORT int ftw_nanomsg_connector_ask(struct ftw_socket ** const sock, int send_timeout,
+    int recv_timeout, const LStrHandle request, LStrHandle response);
+FTW_EXPORT int ftw_nanomsg_connector_disconnect(struct ftw_socket ** const sock);
+
+/*  FTW Publisher framework. */
+FTW_EXPORT int ftw_publisher_construct(struct ftw_socket_callsite **callsite, const char *addr,
+    int linger, struct ftw_socket **sock);
+FTW_EXPORT int ftw_publisher_publish(struct ftw_socket ** const sock, int send_timeout, ConstLStrH message);
+FTW_EXPORT int ftw_publisher_destroy(struct ftw_socket ** const sock);
+
+/*  FTW Subscriber framework. */
+FTW_EXPORT int ftw_subscriber_construct(struct ftw_socket_callsite **callsite, LVUserEventRef *lv_event,
+    const char *addr, int linger, int max_recv_size, struct ftw_socket **sock);
+FTW_EXPORT int ftw_subscriber_destroy(struct ftw_socket ** const sock);
 
 #ifdef __cplusplus
 }
