@@ -698,6 +698,21 @@ int ftw_subscriber_destroy(struct ftw_socket ** const sock)
     return ftw_socket_destroy(sock);
 }
 
+int ftw_socket_close(struct ftw_socket * const sock)
+{
+    int rc;
+    if (sock->is_async) {
+        rc = nn_socket_term(sock->id);
+        nn_thread_term(&sock->thread);
+        nn_sem_term(&sock->init_sem);
+    }
+    else {
+        //rc = nn_socket_term(sock->id);
+        rc = nn_close(sock->id);
+    }
+    return rc;
+}
+
 int ftw_socket_destroy(struct ftw_socket ** const sock)
 {
     struct ftw_socket *s;
@@ -712,15 +727,7 @@ int ftw_socket_destroy(struct ftw_socket ** const sock)
     }
     else {
         nn_mutex_lock(&(s->callsite)->sync);
-        if (s->is_async) {
-            rc = nn_socket_term(s->id);
-            nn_thread_term(&s->thread);
-            nn_sem_term(&s->init_sem);
-        }
-        else {
-            rc = nn_socket_term(s->id);
-            rc = nn_close(s->id);
-        }
+        rc = ftw_socket_close(s);
         nn_list_erase(&(s->callsite)->active_sockets, &s->item);
         nn_mutex_unlock(&(s->callsite)->sync);
         nn_free(s);
@@ -795,8 +802,8 @@ static void ftw_nanomsg_shutdown_active_sockets(struct ftw_socket_callsite *call
     while (it != NULL) {
         sock = nn_cont(it, struct ftw_socket, item);
         ftw_debug("Cleaning up active socket: %04d", sock->id);
-        ftw_socket_destroy(&sock);
-        //it = nn_list_erase(&callsite->active_sockets, it);
+        ftw_socket_close(sock);
+        it = nn_list_erase(&callsite->active_sockets, it);
     }
 
     nn_list_term(&callsite->active_sockets);
