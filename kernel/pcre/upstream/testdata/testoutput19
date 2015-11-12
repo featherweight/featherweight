@@ -1,108 +1,100 @@
-/-- This set of tests is for Unicode property support, relevant only to the
-    16- and 32-bit library. --/
+# This set of tests exercises the serialization/deserialization functions in
+# the library. It does not use UTF or JIT.
+
+#forbid_utf
+
+# Compile several patterns, push them onto the stack, and then write them
+# all to a file.
+
+#pattern push
+
+/(?<NAME>(?&NAME_PAT))\s+(?<ADDR>(?&ADDRESS_PAT))
+  (?(DEFINE)
+  (?<NAME_PAT>[a-z]+)
+  (?<ADDRESS_PAT>\d+)
+  )/x
+/^(?:((.)(?1)\2|)|((.)(?3)\4|.))$/i
+
+#save testsaved1
+
+# Do it again for some more patterns.
+
+/(*MARK:A)(*SKIP:B)(C|X)/mark
+** Ignored when compiled pattern is stacked with 'push': mark
+/(?:(?<n>foo)|(?<n>bar))\k<n>/dupnames
+
+#save testsaved2
+#pattern -push
+
+# Reload the patterns, then pop them one by one and check them.
+
+#load testsaved1
+#load testsaved2
+
+#pop info
+Capturing subpattern count = 2
+Max back reference = 2
+Named capturing subpatterns:
+  n   1
+  n   2
+Options: dupnames
+Starting code units: b f 
+Subject length lower bound = 6
+    foofoo             
+ 0: foofoo
+ 1: foo
+    barbar
+ 0: barbar
+ 1: <unset>
+ 2: bar
     
-/A\x{391}\x{10427}\x{ff3a}\x{1fb0}/8iDZ
-------------------------------------------------------------------
-        Bra
-     /i A\x{391}\x{10427}\x{ff3a}\x{1fb0}
-        Ket
-        End
-------------------------------------------------------------------
-Capturing subpattern count = 0
-Options: caseless utf
-First char = 'A' (caseless)
-Need char = \x{1fb0} (caseless)
+#pop mark
+    C
+ 0: C
+ 1: C
+MK: A
+    D 
+No match, mark = A
+    
+#pop
+    AmanaplanacanalPanama   
+ 0: AmanaplanacanalPanama
+ 1: <unset>
+ 2: <unset>
+ 3: AmanaplanacanalPanama
+ 4: A
 
-/A\x{391}\x{10427}\x{ff3a}\x{1fb0}/8DZ
-------------------------------------------------------------------
-        Bra
-        A\x{391}\x{10427}\x{ff3a}\x{1fb0}
-        Ket
-        End
-------------------------------------------------------------------
-Capturing subpattern count = 0
-Options: utf
-First char = 'A'
-Need char = \x{1fb0}
+#pop info
+Capturing subpattern count = 4
+Named capturing subpatterns:
+  ADDR          2
+  ADDRESS_PAT   4
+  NAME          1
+  NAME_PAT      3
+Options: extended
+Subject length lower bound = 3
+    metcalfe 33
+ 0: metcalfe 33
+ 1: metcalfe
+ 2: 33
+    
+# Check for an error when different tables are used.
 
-/AB\x{1fb0}/8DZ
-------------------------------------------------------------------
-        Bra
-        AB\x{1fb0}
-        Ket
-        End
-------------------------------------------------------------------
-Capturing subpattern count = 0
-Options: utf
-First char = 'A'
-Need char = \x{1fb0}
+/abc/push,tables=1
+/xyz/push,tables=2
+#save testsaved1
+Serialization failed: error -30: patterns do not all use the same character tables
 
-/AB\x{1fb0}/8DZi
-------------------------------------------------------------------
-        Bra
-     /i AB\x{1fb0}
-        Ket
-        End
-------------------------------------------------------------------
-Capturing subpattern count = 0
-Options: caseless utf
-First char = 'A' (caseless)
-Need char = \x{1fb0} (caseless)
+#pop
+    xyz
+ 0: xyz
 
-/\x{401}\x{420}\x{421}\x{422}\x{423}\x{424}\x{425}\x{426}\x{427}\x{428}\x{429}\x{42a}\x{42b}\x{42c}\x{42d}\x{42e}\x{42f}/8iSI
-Capturing subpattern count = 0
-Options: caseless utf
-First char = \x{401} (caseless)
-Need char = \x{42f} (caseless)
-Subject length lower bound = 17
-No starting char list
-    \x{401}\x{420}\x{421}\x{422}\x{423}\x{424}\x{425}\x{426}\x{427}\x{428}\x{429}\x{42a}\x{42b}\x{42c}\x{42d}\x{42e}\x{42f}
- 0: \x{401}\x{420}\x{421}\x{422}\x{423}\x{424}\x{425}\x{426}\x{427}\x{428}\x{429}\x{42a}\x{42b}\x{42c}\x{42d}\x{42e}\x{42f}
-    \x{451}\x{440}\x{441}\x{442}\x{443}\x{444}\x{445}\x{446}\x{447}\x{448}\x{449}\x{44a}\x{44b}\x{44c}\x{44d}\x{44e}\x{44f}
- 0: \x{451}\x{440}\x{441}\x{442}\x{443}\x{444}\x{445}\x{446}\x{447}\x{448}\x{449}\x{44a}\x{44b}\x{44c}\x{44d}\x{44e}\x{44f}
+#pop
+    abc
+ 0: abc
 
-/[ⱥ]/8iBZ
-------------------------------------------------------------------
-        Bra
-     /i \x{2c65}
-        Ket
-        End
-------------------------------------------------------------------
+#pop should give an error
+** Can't pop off an empty stack
+    pqr
 
-/[^ⱥ]/8iBZ
-------------------------------------------------------------------
-        Bra
-     /i [^\x{2c65}]
-        Ket
-        End
-------------------------------------------------------------------
-
-/[[:blank:]]/WBZ
-------------------------------------------------------------------
-        Bra
-        [\x09 \xa0\x{1680}\x{180e}\x{2000}-\x{200a}\x{202f}\x{205f}\x{3000}]
-        Ket
-        End
-------------------------------------------------------------------
-
-/\x{212a}+/i8SI
-Capturing subpattern count = 0
-Options: caseless utf
-No first char
-No need char
-Subject length lower bound = 1
-Starting chars: K k \xff 
-    KKkk\x{212a}
- 0: KKkk\x{212a}
-
-/s+/i8SI
-Capturing subpattern count = 0
-Options: caseless utf
-No first char
-No need char
-Subject length lower bound = 1
-Starting chars: S s \xff 
-    SSss\x{17f}
- 0: SSss\x{17f}
-
-/-- End of testinput19 --/ 
+# End of testinput19 

@@ -1,28 +1,62 @@
-/-- This set of tests is for Unicode property support, relevant only to the
-    16- and 32-bit library. --/
+# This set of tests exercises the serialization/deserialization functions in
+# the library. It does not use UTF or JIT.
+
+#forbid_utf
+
+# Compile several patterns, push them onto the stack, and then write them
+# all to a file.
+
+#pattern push
+
+/(?<NAME>(?&NAME_PAT))\s+(?<ADDR>(?&ADDRESS_PAT))
+  (?(DEFINE)
+  (?<NAME_PAT>[a-z]+)
+  (?<ADDRESS_PAT>\d+)
+  )/x
+/^(?:((.)(?1)\2|)|((.)(?3)\4|.))$/i
+
+#save testsaved1
+
+# Do it again for some more patterns.
+
+/(*MARK:A)(*SKIP:B)(C|X)/mark
+/(?:(?<n>foo)|(?<n>bar))\k<n>/dupnames
+
+#save testsaved2
+#pattern -push
+
+# Reload the patterns, then pop them one by one and check them.
+
+#load testsaved1
+#load testsaved2
+
+#pop info
+    foofoo             
+    barbar
     
-/A\x{391}\x{10427}\x{ff3a}\x{1fb0}/8iDZ
+#pop mark
+    C
+    D 
+    
+#pop
+    AmanaplanacanalPanama   
 
-/A\x{391}\x{10427}\x{ff3a}\x{1fb0}/8DZ
+#pop info
+    metcalfe 33
+    
+# Check for an error when different tables are used.
 
-/AB\x{1fb0}/8DZ
+/abc/push,tables=1
+/xyz/push,tables=2
+#save testsaved1
 
-/AB\x{1fb0}/8DZi
+#pop
+    xyz
 
-/\x{401}\x{420}\x{421}\x{422}\x{423}\x{424}\x{425}\x{426}\x{427}\x{428}\x{429}\x{42a}\x{42b}\x{42c}\x{42d}\x{42e}\x{42f}/8iSI
-    \x{401}\x{420}\x{421}\x{422}\x{423}\x{424}\x{425}\x{426}\x{427}\x{428}\x{429}\x{42a}\x{42b}\x{42c}\x{42d}\x{42e}\x{42f}
-    \x{451}\x{440}\x{441}\x{442}\x{443}\x{444}\x{445}\x{446}\x{447}\x{448}\x{449}\x{44a}\x{44b}\x{44c}\x{44d}\x{44e}\x{44f}
+#pop
+    abc
 
-/[ⱥ]/8iBZ
+#pop should give an error
+    pqr
 
-/[^ⱥ]/8iBZ
-
-/[[:blank:]]/WBZ
-
-/\x{212a}+/i8SI
-    KKkk\x{212a}
-
-/s+/i8SI
-    SSss\x{17f}
-
-/-- End of testinput19 --/ 
+# End of testinput19 
