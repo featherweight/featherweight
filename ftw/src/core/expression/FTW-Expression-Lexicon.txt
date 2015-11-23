@@ -4,81 +4,66 @@
   ###                              of the tokens themselves, rather than the whole sequence. Each supressed callout must not match more than its
   ###                              constituent submatches, since this would cause misalignment in token boundaries when indexing the callout results.
   ###
-  ### Submatch naming of Operators: These submactch names follow the pattern "namespace_opNN_operatorname...", where "namespace" is the type of
-  ###                               expression the operator is meant for, and "NN" represented as two decimal digits defines the precedence of the
+  ### Submatch naming of Operators: These submatch names follow the pattern "namespace_opNN_operatorname...", where "namespace" is the type of
+  ###                               value on which the operator can act, and "NN" represented as two decimal digits defines the precedence of the
   ###                               operator as defined by http://en.cppreference.com/w/cpp/language/operator_precedence
 
   ### 'format' tokens define human-readable structure
-  (?'format_sp'   ()                       \s*                                                                                                                    (?C001)) ### format_sp
-  (?'format_boundary'()                    \b ) #Suppress callout of token boundaries;  this zero-width assertion, therefore unnecessary for string extraction    (?C002)) ### format_boundary
-  (?'format_comment_open'()                \\\*                                                                                                                   (?C003)) ### format_comment_open
-  (?'format_comment_close'()               \*\\                                                                                                                   (?C004)) ### format_comment_close
-  (?'format_valid_comment'()                                                                                                                                      (?C005)) ### format_valid_comment
-
+    (?'format_sp'                       \s*                                                                                                                    (?C'format_sp'))
+    (?'format_boundary'                 \b ) #Suppress callout of token boundaries; this zero-width assertion does not affect string extraction                (?C'format_boundary'))
+    (?'format_comment_open'             \\\*                                                                                                                   (?C'format_comment_open'))
+    (?'format_comment_close'            \*\\                                                                                                                   (?C'format_comment_close'))
+    (?'format_valid_comment'                                                                                                                                   (?C'format_valid_comment'))
   ### grammar boundaries for each discrete statement and script
-  (?'grammar_script_begin'()               \A                                                                                                                     (?C006)) ### grammar_script_begin
-  (?'grammar_script_end'()                 \z                                                                                                                     (?C007)) ### grammar_script_end
-  (?'grammar_statement_begin'()            \A                                                                                                                     (?C008)) ### grammar_statement_begin
-  (?'grammar_statement_end'     ()         \z                                                                                                                     (?C009)) ### grammar_statement_end
-
-  ### scope modifiers within a statement
-  (?'scope_open'                  ()       \(                                                                                                                     (?C010)) ### scope_open
-  (?'scope_close'                ()        \)                                                                                                                     (?C011)) ### scope_close
-
+    (?'grammar_script_begin'            \A                                                                                                                     (?C'grammar_script_begin'))
+    (?'grammar_script_end'              \z                                                                                                                     (?C'grammar_script_end'))
+    (?'grammar_statement_begin'         (?: \A | \v) \h*                                                                                                       (?C'grammar_statement_begin'))
+    (?'grammar_statement_end'           \h* (?: \v | \z)                                                                                                       (?C'grammar_statement_end'))
+  ### scope modifiers within an expression
+    (?'scope_open'                      \(                                                                                                                     (?C'scope_open'))
+    (?'scope_close'                     \)                                                                                                                     (?C'scope_close'))
   ### variable identifiers
-  (?'value_variable_discrete'    ()        \$ [A-Za-z0-9\-\_]+                                                                                                    (?C012)) ### value_variable_discrete
-  (?'value_variable_analog'      ()        @ [A-Za-z0-9\-\_]+                                                                                                     (?C013)) ### value_variable_analog
-  (?'value_variable_boolexpr'    ()        \[ [A-Z a-z 0-9 \- \_]+ \]                                                                                             (?C014)) ### value_variable_boolexpr
-
-  ### constants
-  (?'value_const_undefined'      ()        (?&format_boundary) (?: UNDEFINED  |  UNKNOWN  |  INDETERMINATE ) (?&format_boundary)                                  (?C015)) ### value_const_undefined
-  (?'value_const_discrete1'      ()        (?&format_boundary) (?: 1 | HI|HIGH | YES | TRUE|T  ) (?&format_boundary)                                              (?C016)) ### value_const_discrete1
-  (?'value_const_discrete0'      ()        (?&format_boundary) (?: 0 | LO|LOW  | NO  | FALSE|F ) (?&format_boundary)                                              (?C017)) ### value_const_discrete0
-  (?'value_const_boolexpr_true'   ()       (?&format_boundary) (?: ALWAYS  | IMMEDIATELY|IMMEDIATE ) (?&format_boundary)                                          (?C018)) ### value_const_boolexpr_true
-  (?'value_const_boolexpr_false'   ()      (?&format_boundary) (?: NEVER )  (?&format_boundary)                                                                   (?C019)) ### value_const_boolexpr_false
-
+    (?'address_variable'                (?: \$ [A-Za-z0-9\-\_]+ (?&format_boundary) )                                                                          (?C'address_variable'))
   ### variable assignment
-  (?'op15_infix_variable_assign'  ()       (?: = )                                                                                                                (?C020)) ### op15_infix_variable_assign
-
-  ### units of time for calculating duration of Boolean Expressions
-  (?'unit_time'                 ()         (?: seconds|second|sec|s  |  milliseconds|msec|ms  |  minutes|min  | hours|hr ) (?&format_boundary)                    (?C021)) ### unit_time
-
-  ### lexicon and grammar of operations on discrete values
-  (?'grammar_value_discrete'       ()      (?: (?&value_const_discrete1) | (?&value_const_discrete0) )                                                            (?C022)) ### grammar_value_discrete
-  (?'grammar_operand_discrete'      ()     (?: (?&value_variable_discrete) | (?&grammar_value_discrete) )                                                         (?C023)) ### grammar_operand_discrete
-  (?'op09_infix_discrete_equal'     ()     (?: == | (?&format_boundary)EQUALS(?&format_boundary) | (?&format_boundary)IS(?!\s*NOT)(?&format_boundary) )           (?C024)) ### op09_infix_discrete_equal
-  (?'op09_infix_discrete_noteql'     ()    (?: != | <> | (?&format_boundary)IS\s*NOT(?&format_boundary) )                                                         (?C025)) ### op09_infix_discrete_noteql
-  (?'grammar_op_infix_discrete'      ()    (?: (?&op09_infix_discrete_equal) | (?&op09_infix_discrete_noteql) )                                                   (?C026)) ### grammar_op_infix_discrete
-  (?'grammar_expr_discrete_comparison'  () (?&grammar_operand_discrete) (?&format_sp) (?&grammar_op_infix_discrete) (?&format_sp) (?&grammar_operand_discrete)    (?C027)) ### grammar_expr_discrete_comparison
-
+  ### constants
+    (?'grammar_literal'                 (?: (?&literal_undefined) | (?&grammar_literal_booleanish) | (?&grammar_literal_numberish) )                           (?C'grammar_literal'))
+    (?'grammar_literal_booleanish'      (?: (?&literal_true) | (?&literal_false) )                                                                             (?C'grammar_literal_booleanish'))
+    (?'grammar_literal_numberish'       (?: (?&literal_decimal) | (?&literal_hex) | (?&literal_inf_pos) | (?&literal_inf_neg) | (?&literal_nan) )              (?C'grammar_literal_numberish'))
+    (?'literal_undefined'               (?&format_boundary) (?: UNDEFINED  |  UNKNOWN  |  INDETERMINATE ) (?&format_boundary)                                  (?C'literal_undefined'))
+    (?'literal_true'                    (?&format_boundary) (?: TRUE  ) (?&format_boundary)                                                                    (?C'literal_true'))
+    (?'literal_false'                   (?&format_boundary) (?: FALSE ) (?&format_boundary)                                                                    (?C'literal_false'))
+    (?'literal_decimal'                 (?&format_boundary) (?: (\+|-)?([0-9]+(\.[0-9]*)?|\.[0-9]+)(?: [Ee](\+|-)?[0-9]+)? ) (?&format_boundary)               (?C'literal_decimal'))
+    (?'literal_hex'                     (?&format_boundary) (?: 0x[0-9A-F]+ ) (?&format_boundary)                                                              (?C'literal_hex'))
+    (?'literal_inf_pos'                 (?&format_boundary) (?: \+?INF ) (?&format_boundary)                                                                   (?C'literal_inf_pos'))
+    (?'literal_inf_neg'                 (?&format_boundary) (?: -INF ) (?&format_boundary)                                                                     (?C'literal_inf_neg'))
+    (?'literal_nan'                     (?&format_boundary) (?: NaN ) (?&format_boundary)                                                                      (?C'literal_nan'))
   ### lexicon and grammar of Boolean Expressions
-  (?'grammar_value_boolexpr'       ()      (?: (?&value_const_boolexpr_true) | (?&value_const_boolexpr_false) | (?&value_const_undefined) )                       (?C028)) ### grammar_value_boolexpr
-  (?'grammar_boolexpr_operand'     ()      (?: (?&value_variable_boolexpr) | (?&grammar_value_boolexpr) )                                                         (?C029)) ### grammar_boolexpr_operand
-  (?'op03_prefix_boolexpr_not'     ()      (?: NOT | !)                                                                                                           (?C030)) ### op03_prefix_boolexpr_not
-  (?'grammar_boolexpr_op_prefix'    ()     (?: (?&op03_prefix_boolexpr_not) )                                                                                     (?C031)) ### grammar_boolexpr_op_prefix
-  (?'op13_infix_boolexpr_and'         ()   (?: AND | &&)                                                                                                          (?C032)) ### op13_infix_boolexpr_and
-  (?'op14_infix_boolexpr_or'       ()      (?: OR | \|\| | \|)                                                                                                    (?C033)) ### op14_infix_boolexpr_or
-  (?'op09_infix_boolexpr_xor'      ()      (?: XOR | !=)                                                                                                          (?C034)) ### op09_infix_boolexpr_xor
-  (?'grammar_boolexpr_op_infix'   ()      (?: (?&op13_infix_boolexpr_and) | (?&op14_infix_boolexpr_or) | (?&op09_infix_boolexpr_xor) )                           (?C035)) ### grammar_boolexpr_op_infix
+    (?'grammar_expression_boolean'      (?&grammar_subexpr_bool) (?:(?&format_sp) (?&grammar_op_infix_booleanish) (?&format_sp) (?&grammar_subexpr_bool))* (?&format_sp) (?C'grammar_expression_boolean'))
+    (?'grammar_subexpr_scoped'          (?&scope_open) (?&format_sp) (?&grammar_expression) (?&format_sp) (?&scope_close)                                      (?C'grammar_subexpr_scoped'))
+    (?'grammar_subexpr_bool'            (?&grammar_op_prefix_booleanish)? (?&format_sp) (?: (?C'try_subexpr_scoped')(?&grammar_subexpr_scoped)| (?C'try_operation_assignment')(?&grammar_operation_assignment)|(?C'try_operation_bool')(?&grammar_operation_bool) )  (?C'grammar_subexpr_bool'))
+    (?'grammar_operation_bool'          (?&format_sp) (?&grammar_operand_booleanish) (?: (?&format_sp) (?&grammar_op_infix_booleanish) (?&format_sp) (?&grammar_operand_booleanish))*  (?C'grammar_operation_bool'))
+    (?'grammar_operand_booleanish'      (?: (?C'try_address_variable') (?&address_variable) | (?C'try_literal_booleanish') (?&grammar_literal_booleanish) )    (?C'grammar_operand_booleanish'))
+    (?'grammar_op_prefix_booleanish'    (?: (?&op_03_prefix_not) )                                                                                             (?C'grammar_op_prefix_booleanish'))
+    (?'grammar_op_infix_equality'       (?: (?&op_09_infix_equal) | (?&op_09_infix_noteql) )                                                                   (?C'grammar_op_infix_equality'))
+    (?'grammar_op_infix_booleanish'     (?: (?&op_13_infix_and) | (?&op_14_infix_or) | (?&op_09_infix_xor) | (?&grammar_op_infix_equality) )                   (?C'grammar_op_infix_booleanish'))
+    (?'op_03_prefix_not'                (?: NOT | !)                                                                                                           (?C'op_03_prefix_not'))
+    (?'op_09_infix_xor'                 (?: XOR | !=)                                                                                                          (?C'op_09_infix_xor'))
+    (?'op_09_infix_equal'               (?: == | (?&format_boundary)EQUALS(?&format_boundary) | (?&format_boundary)IS(?!\s*NOT)(?&format_boundary) )           (?C'op_09_infix_equal'))
+    (?'op_09_infix_noteql'              (?: != | <> | (?&format_boundary)IS\s*NOT(?&format_boundary) )                                                         (?C'op_09_infix_noteql'))
+    (?'op_13_infix_and'                 (?: AND | &&)                                                                                                          (?C'op_13_infix_and'))
+    (?'op_14_infix_or'                  (?: OR | \|\| )                                                                                                        (?C'op_14_infix_or'))
+    (?'op_15_infix_assign'              (?: =(?!=) )                                                                                                           (?C'op_15_infix_assign'))
+  ### lexicon and grammar of Boolean Expressions
+    (?'grammar_expression_numeric'      (?&grammar_literal_numberish)                                                                                          (?C'grammar_expression_numeric'))
+  ### grammar of Expressions
+    (?'grammar_operation_assignment'    \$ [A-Za-z0-9\-\_]+ \s* =(?!=) (?C'op_15_infix_assign') (?&format_sp) (?&grammar_expression)                          (?C'grammar_operation_assignment'))
+    (?'grammar_expression'              (?: (?C'try_expression_boolean') (?&grammar_expression_boolean) | (?C'try_expression_numeric') (?&grammar_expression_numeric))                               (?C'grammar_expression'))
+    (?'grammar_statement'               (?&grammar_statement_begin) (?&grammar_expression) (?&grammar_statement_end)                                           (?C'grammar_statement'))
+)
 
-  ### lexicon and grammar of Boolean Expression timers
-  (?'op16_boolexpr_timer'        ()        (?&format_boundary) FOR (?&format_boundary)                                                                            (?C036)) ### op16_boolexpr_timer
-  (?'value_boolexpr_timer'           ()    [0-9]*\.?[0-9]+                                                                                                        (?C037)) ### value_boolexpr_timer
-  (?'grammar_boolexpr_cond_timer'    ()    (?&op16_boolexpr_timer) (?&format_sp) (?&value_boolexpr_timer) (?&format_sp) (?&unit_time)                             (?C038)) ### grammar_boolexpr_cond_timer
-  (?'grammar_boolexpr_postcondition'   ()  (?: (?&grammar_boolexpr_cond_timer) )                                                                                  (?C039)) ### grammar_boolexpr_postcondition
-
-  ### grammar of Boolean Expression evaluation
-  (?'grammar_boolexpr_postconditions'  ()  (?&grammar_boolexpr_postcondition) (?: (?&format_sp) (?&grammar_boolexpr_op_infix) (?&format_sp) (?&grammar_boolexpr_postcondition) )*           (?C040)) ### grammar_boolexpr_postconditions
-  (?'grammar_boolexpr_evaluation'     ()   (?&grammar_boolexpr_op_prefix)? (?&format_sp) (?:(?&grammar_expr_discrete_comparison)|(?&grammar_boolexpr_operand)|(?&grammar_boolexpr_scoped))  (?C041)) ### grammar_boolexpr_evaluation
-  (?'grammar_boolexpr_eval_chain'    ()    (?&grammar_boolexpr_evaluation) (?:(?&format_sp) (?&grammar_boolexpr_op_infix) (?&format_sp) (?&grammar_boolexpr_evaluation))*                   (?C042)) ### grammar_boolexpr_eval_chain
-  (?'grammar_boolexpr_scoped'      ()      (?&scope_open) (?&format_sp) (?&grammar_boolexpr_eval_chain) (?&format_sp) (?&scope_close)                                                       (?C043)) ### grammar_boolexpr_scoped
-  (?'grammar_boolexpr'             ()      (?&grammar_boolexpr_eval_chain)  (?: (?&format_sp) (?&grammar_boolexpr_postconditions) )?                                                        (?C044)) ### grammar_boolexpr
-  )
-  
 ### grammar of the entire script, where a valid lexing regular expression should ALWAYS match exactly one alternative below
-
 (?:
-  (?'grammar_script_valid'()(?&grammar_script_begin)(?&grammar_boolexpr)(?&grammar_script_end) (?C046))
- |
-  (?'grammar_script_invalid'() (?C048))
-)()
+  (?'grammar_script_valid' (?&grammar_script_begin)(?&grammar_statement)*(?&grammar_script_end) (?C'grammar_script_valid'))
+   |
+  (?'grammar_script_invalid' (?C'grammar_script_invalid'))
+)
