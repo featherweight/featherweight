@@ -40,8 +40,8 @@ json_t *ftw_json_new_from_string(const LStrHandle string, size_t flags, int64 *e
         *err_line = err.line;
         *err_column = err.column;
         *err_position = err.position;
-        ftw_support_CStr_to_LStrHandle(&err_source, err.source);
-        ftw_support_CStr_to_LStrHandle(&err_hint, err.text);
+        ftw_support_CStr_to_LStrHandle(&err_source, err.source, sizeof(err.source));
+        ftw_support_CStr_to_LStrHandle(&err_hint, err.text, sizeof(err.text));
     }
 
     return parsed;
@@ -195,7 +195,7 @@ int32 ftw_json_object_keys(json_t *object, LStrHandleArray **keys)
     int count;
     const char *key;
     void *iterator;
-    MgErr resize_err;
+    MgErr lv_err;
 
     iterator = json_object_iter(object);
 
@@ -212,9 +212,9 @@ int32 ftw_json_object_keys(json_t *object, LStrHandleArray **keys)
     if (count == 0)
         return -1;
 
-    resize_err = ftw_support_resize_LStrHandleArray (keys, count);
+    lv_err = ftw_support_expand_LStrHandleArray(&keys, count);
 
-    if (resize_err != mgNoErr)
+    if (lv_err)
         return -1;
 
     count = 0;
@@ -225,9 +225,9 @@ int32 ftw_json_object_keys(json_t *object, LStrHandleArray **keys)
         key = json_object_iter_key(iterator);
         ftw_assert(key != NULL);
 
-        resize_err = ftw_support_CStr_to_LStrHandle(&(*keys)->element[count], key);
+        lv_err = ftw_support_CStr_to_LStrHandle(&(*keys)->element[count], key, StrLen(key));
 
-        if (resize_err != mgNoErr)
+        if (lv_err)
             break;
 
         count++;
@@ -262,7 +262,7 @@ int32 ftw_json_serialize_element(const json_t *json, size_t flags, LStrHandle se
 
     length = StrLen(buffer);
 
-    ftw_support_CStr_to_LStrHandle(&serialized, buffer);
+    ftw_support_CStr_to_LStrHandle(&serialized, buffer, length);
 
     free(buffer);
 
@@ -302,8 +302,8 @@ int32_t ftw_json_array_elements(const json_t *array, PointerArray **items)
 
     num_items = json_array_size(array);
 
-    lv_err = ftw_support_resize_PointerArray(items, num_items);
-    if (lv_err != mgNoErr)
+    lv_err = ftw_support_expand_PointerArray(&items, num_items);
+    if (lv_err)
         return -1;
 
     for (i=0; i<num_items; i++) {

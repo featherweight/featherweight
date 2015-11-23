@@ -21,6 +21,7 @@
 */
 
 #include "ftw.h"
+#include <string.h>
 
 MgErr ftw_support_buffer_to_LStrHandle(LStrHandle *dest, const void *src, size_t length)
 {
@@ -32,12 +33,12 @@ MgErr ftw_support_buffer_to_LStrHandle(LStrHandle *dest, const void *src, size_t
     lv_err = NumericArrayResize(uB, 1, (UHandle *)dest, length);
     if (lv_err == mgNoErr) {
         MoveBlock(src, LHStrBuf(*dest), length);
-        LStrLen(**dest) = length;
+        (**dest)->cnt = (int32)length;
     }
     return lv_err;
 }
 
-MgErr ftw_support_CStr_to_LStrHandle(LStrHandle *dest, const char *src)
+MgErr ftw_support_CStr_to_LStrHandle(LStrHandle *dest, const char *src, size_t max_length)
 {
     MgErr lv_err;
     size_t len;
@@ -45,41 +46,63 @@ MgErr ftw_support_CStr_to_LStrHandle(LStrHandle *dest, const char *src)
     if (src == NULL)
         return mgArgErr;
 
-    len = StrLen(src);
+    len = strnlen(src, max_length);
     lv_err = ftw_support_buffer_to_LStrHandle(dest, src, len);
 
     return lv_err;
 }
 
-MgErr ftw_support_resize_PointerArray(PointerArray **arr, size_t elements)
+MgErr ftw_support_expand_LStrHandleArray(LStrHandleArray ***arr, size_t elements)
 {
-    MgErr rc;
-    size_t bytes;
+    MgErr lv_err;
 
-    if (arr == NULL || *arr == NULL)
+    if (arr == NULL || *arr == NULL || **arr == NULL)
         return mgArgErr;
 
-    bytes = ftw_support_sizeof_array(PointerArray, elements);
+    lv_err = NumericArrayResize(uL, 1, (UHandle *)arr, elements);
 
-    rc = NumericArrayResize(uB, 1, (UHandle *)&arr, bytes);
+    if (lv_err == mgNoErr)
+        (**arr)->dimsize = (int32)elements;
 
-    if (rc == mgNoErr)
-        (*arr)->dimsize = (int32_t)elements;
-
-    return rc;
+    return lv_err;
 }
 
-MgErr ftw_support_resize_LStrHandleArray(LStrHandleArray **arr, size_t elements)
+MgErr ftw_support_expand_PointerArray(PointerArray ***arr, size_t elements)
 {
-    MgErr rc;
+    MgErr lv_err;
+    int32 sz;
 
-    if (arr == NULL || *arr == NULL)
+    if (arr == NULL || *arr == NULL || **arr == NULL)
         return mgArgErr;
 
-    rc = NumericArrayResize(uL, 1, (UHandle *)&arr, elements);
+    FTW_COMPILER_ASSERT(sizeof(void*) == 8 || sizeof(void*) == 4);
+    
+    if (sizeof(void*) == 8)
+        sz = uQ;
+    else if (sizeof(void*) == 4)
+        sz = uL;
+    else
+        ftw_assert_unreachable("Compiler assertion failed.");
 
-    if (rc == mgNoErr)
-        (*arr)->dimsize = (int32_t)elements;
+    lv_err = NumericArrayResize(sz, 1, (UHandle *)arr, elements);
+    if (lv_err == mgNoErr)
+        (**arr)->dimsize = (int32)elements;
 
-    return rc;
+    return lv_err;
 }
+
+MgErr ftw_support_expand_int32Array(int32Array ***arr, size_t elements)
+{
+    MgErr lv_err;
+
+    if (arr == NULL || *arr == NULL || **arr == NULL)
+        return mgArgErr;
+
+    lv_err = NumericArrayResize(uL, 1, (UHandle *)arr, elements);
+
+    if (lv_err == mgNoErr)
+        (**arr)->dimsize = (int32)elements;
+
+    return lv_err;
+}
+

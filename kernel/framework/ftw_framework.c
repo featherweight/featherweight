@@ -35,8 +35,8 @@ json_t *ftw_framework_router_recv(void *msg, size_t msg_len, size_t flags, int64
         *err_line = err.line;
         *err_column = err.column;
         *err_position = err.position;
-        ftw_support_CStr_to_LStrHandle(&err_source, err.source);
-        ftw_support_CStr_to_LStrHandle(&err_hint, err.text);
+        ftw_support_CStr_to_LStrHandle(&err_source, err.source, sizeof(err.source));
+        ftw_support_CStr_to_LStrHandle(&err_hint, err.text, sizeof(err.text));
     }
 
     return parsed;

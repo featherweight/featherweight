@@ -59,7 +59,7 @@ int ftw_nanomsg_error(LStrHandle error_message)
         break;
     }
 
-    ftw_support_CStr_to_LStrHandle(&error_message, human_readable_error);
+    ftw_support_CStr_to_LStrHandle(&error_message, human_readable_error, 1024);
 
     return current_error;
 }
@@ -754,7 +754,7 @@ MgErr ftw_nanomsg_reserve(struct ftw_socket_callsite **inst)
         nn_mutex_unlock(&(*inst)->sync);
     }
     else {
-        ftw_assert_impossible("Reserve happened twice; this is a problem with LabVIEW.");
+        ftw_assert_unreachable("Reserve happened twice; this is a problem with LabVIEW.");
     }
 
     return mgNoErr;

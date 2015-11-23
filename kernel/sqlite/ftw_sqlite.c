@@ -76,7 +76,7 @@ int ftw_sqlite_prepare(sqlite3 *connection, ConstLStrH sql, PointerArray **state
 
     }
 
-    lv_err = ftw_support_resize_PointerArray(statements, count);
+    lv_err = ftw_support_expand_PointerArray(&statements, count);
     if (lv_err != mgNoErr)
         return SQLITE_NOMEM;
 
@@ -100,14 +100,14 @@ MgErr ftw_sqlite_parameters(sqlite3_stmt *statement, LStrHandleArray **parameter
     int count;
 
     count = sqlite3_bind_parameter_count(statement);
-    lv_err = ftw_support_resize_LStrHandleArray(parameters, count);
-    if (lv_err != mgNoErr)
+    lv_err = ftw_support_expand_LStrHandleArray(&parameters, count);
+    if (lv_err)
         return lv_err;
 
     for (int i = 0; i < count; i++) {
         param_name = sqlite3_bind_parameter_name(statement, i + 1);
-        lv_err = ftw_support_CStr_to_LStrHandle(&(*parameters)->element[i], param_name);
-        if (lv_err != mgNoErr)
+        lv_err = ftw_support_CStr_to_LStrHandle(&(*parameters)->element[i], param_name, strlen(param_name));
+        if (lv_err)
             break;
     }
 
@@ -136,7 +136,7 @@ MgErr ftw_column_string(sqlite3_stmt *statement, int32 col, LStrHandle value)
 
     col_value = sqlite3_column_text(statement, col);
 
-    lv_err = ftw_support_CStr_to_LStrHandle(&value, col_value);
+    lv_err = ftw_support_CStr_to_LStrHandle(&value, col_value, strlen(col_value));
 
     return lv_err;
 }

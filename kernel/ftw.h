@@ -61,6 +61,7 @@ extern "C" {
     #define ftw_debug(fmt,...)
 #endif
 
+/*  Run-time assert (adopted from nanomsg). */
 #define ftw_assert(x) \
     do {\
         if (!(x)) {\
@@ -70,13 +71,24 @@ extern "C" {
             abort ();\
                 }\
         } while (0)
-#define ftw_assert_impossible(s) \
+#define ftw_assert_unreachable(s) \
     do {\
             fprintf (stderr, "This should never happen! Here's why: %s (%s:%d)\n", #s, \
                 __FILE__, __LINE__);\
             fflush (stderr);\
             abort ();\
-            } while (0)
+       } while (0)
+
+/*  Compile-time assert (adopted from nanomsg). */
+#define FTW_CTASSERT_2(prefix, line) prefix##line
+#define FTW_CTASSERT_1(prefix, line) FTW_CTASSERT_2(prefix, line)
+#if defined __COUNTER__
+#define FTW_COMPILER_ASSERT(x) \
+    typedef int FTW_CTASSERT_1(ct_assert_,__COUNTER__) [(x) ? 1 : -1]
+#else
+#define CT_ASSERT(x) \
+    typedef int FTW_CTASSERT_1(ct_assert_,__LINE__) [(x) ? 1 : -1]
+#endif
 
 /*  IEEE 754 macros for checking NaN and Inf (from value.c in Jansson). */
 #ifndef isnan
@@ -94,21 +106,20 @@ typedef struct {
 
 typedef struct {
     int32 dimsize;
-    int32 element[1];
-} I32Array;
-
-typedef struct {
-    int32 dimsize;
     intptr_t element[1];
 } PointerArray;
 
-#define ftw_support_sizeof_array(arr_type,len) Offset(arr_type, element) + sizeof(arr_type) * len
+typedef struct {
+    int32 dimsize;
+    int32 element[1];
+} int32Array;
 
 /*  Featherweight support functions. */
 MgErr ftw_support_buffer_to_LStrHandle(LStrHandle *dest, const void *src, size_t length);
-MgErr ftw_support_CStr_to_LStrHandle(LStrHandle *dest, const char *src);
-MgErr ftw_support_resize_PointerArray(PointerArray **arr, size_t elements);
-MgErr ftw_support_resize_LStrHandleArray(LStrHandleArray **arr, size_t elements);
+MgErr ftw_support_CStr_to_LStrHandle(LStrHandle *dest, const char *src, size_t max_length);
+MgErr ftw_support_expand_LStrHandleArray(LStrHandleArray ***arr, size_t elements);
+MgErr ftw_support_expand_PointerArray(PointerArray ***arr, size_t elements);
+MgErr ftw_support_expand_int32Array(int32Array ***arr, size_t elements);
 
 #ifdef __cplusplus
 }
