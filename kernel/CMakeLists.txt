@@ -50,9 +50,11 @@ set (PCRE2_DIR "${CMAKE_CURRENT_SOURCE_DIR}/pcre/upstream")
     set (PCRE2_SUPPORT_PCREGREP_JIT OFF CACHE BOOL "Featherweight skips building Just-in-time compiling in pcregrep.")
     add_subdirectory (${PCRE2_DIR} ${PCRE2_DIR})
 
-    # Unit test #2 provides guidance to increase the stack size to 8MB. Remove this line to observe test failure with RUN_TESTS in MSVC.
+    # Unit test #2 provides guidance to increase the stack size to 8MB,
+    # however PCRE2 is observed to need 16MB to pass this test.
+    # Remove this line to observe test failure with RUN_TESTS in MSVC.
     if (MSVC)
-        set_target_properties(pcre2test PROPERTIES LINK_FLAGS "/STACK:8000000")
+        set_target_properties(pcre2test PROPERTIES LINK_FLAGS "/STACK:16000000")
     endif()
 
 ### nanomsg
