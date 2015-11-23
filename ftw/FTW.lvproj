@@ -70,16 +70,12 @@
 					<Item Name="FTW-SQLite-Core-QueryDebug.vi" Type="VI" URL="../src/core/database/core/FTW-SQLite-Core-QueryDebug.vi"/>
 					<Item Name="FTW-SQLite-Core-Structure.ctl" Type="VI" URL="../src/core/database/core/FTW-SQLite-Core-Structure.ctl"/>
 				</Item>
-				<Item Name="FTW-SQLite-Fetch" Type="Folder">
-					<Item Name="FTW-SQLite-Fetch.xnode" Type="XNode" URL="../src/core/database/FTW-SQLite-Fetch/FTW-SQLite-Fetch.xnode"/>
-				</Item>
-				<Item Name="FTW-SQLite-Insert" Type="Folder">
-					<Item Name="FTW-SQLite-Insert.xnode" Type="XNode" URL="../src/core/database/FTW-SQLite-Insert/FTW-SQLite-Insert.xnode"/>
-				</Item>
 				<Item Name="FTW-SQLite-Backup.vi" Type="VI" URL="../src/core/database/FTW-SQLite-Backup.vi"/>
 				<Item Name="FTW-SQLite-CloseConnection.vi" Type="VI" URL="../src/core/database/FTW-SQLite-CloseConnection.vi"/>
 				<Item Name="FTW-SQLite-CreateEphemeralDatabase.vi" Type="VI" URL="../src/core/database/FTW-SQLite-CreateEphemeralDatabase.vi"/>
 				<Item Name="FTW-SQLite-ExecuteScript.vi" Type="VI" URL="../src/core/database/FTW-SQLite-ExecuteScript.vi"/>
+				<Item Name="FTW-SQLite-Fetch.xnode" Type="XNode" URL="../src/core/database/FTW-SQLite-Fetch/FTW-SQLite-Fetch.xnode"/>
+				<Item Name="FTW-SQLite-Insert.xnode" Type="XNode" URL="../src/core/database/FTW-SQLite-Insert/FTW-SQLite-Insert.xnode"/>
 				<Item Name="FTW-SQLite-OpenConnection-Path.vi" Type="VI" URL="../src/core/database/FTW-SQLite-OpenConnection-Path.vi"/>
 				<Item Name="FTW-SQLite-RandomBLOB.vi" Type="VI" URL="../src/core/database/FTW-SQLite-RandomBLOB.vi"/>
 			</Item>
@@ -179,12 +175,12 @@
 				<Item Name="FTW-Reflection-Types.ctl" Type="VI" URL="../src/core/reflection/FTW-Reflection-Types.ctl"/>
 			</Item>
 			<Item Name="regex" Type="Folder">
-				<Item Name="core" Type="Folder"/>
 				<Item Name="FTW-Regex-FilterArray.vi" Type="VI" URL="../src/core/regex/FTW-Regex-FilterArray.vi"/>
 				<Item Name="FTW-Regex-ForceLiteral.vi" Type="VI" URL="../src/core/regex/FTW-Regex-ForceLiteral.vi"/>
 				<Item Name="FTW-Regex-ReplaceAll.vi" Type="VI" URL="../src/core/regex/FTW-Regex-ReplaceAll.vi"/>
 				<Item Name="FTW-Regex-ReplaceAndReturn.vi" Type="VI" URL="../src/core/regex/FTW-Regex-ReplaceAndReturn.vi"/>
 				<Item Name="FTW-Regex-Replacements.vi" Type="VI" URL="../src/core/regex/FTW-Regex-Replacements.vi"/>
+				<Item Name="FTW-Regex.lvclass" Type="LVClass" URL="../src/core/regex/FTW-Regex.lvclass"/>
 				<Item Name="FTW-Regex.vi" Type="VI" URL="../src/core/regex/FTW-Regex.vi"/>
 			</Item>
 			<Item Name="socket" Type="Folder">
@@ -332,11 +328,14 @@
 				<Item Name="Semaphore RefNum" Type="VI" URL="/&lt;vilib&gt;/Utility/semaphor.llb/Semaphore RefNum"/>
 			</Item>
 			<Item Name="FTW-ActorTemplate.vi" Type="VI" URL="../templates/FTW-ActorTemplate.vi"/>
-			<Item Name="FTW-JSON-Escape.vi" Type="VI" URL="../sandbox/deprecated/FTW-JSON-Escape.vi"/>
-			<Item Name="FTW-JSON-Format-String.vi" Type="VI" URL="../sandbox/deprecated/FTW-JSON-Format-String.vi"/>
+			<Item Name="FTW-Expr-BooleanExpressionResult.ctl" Type="VI" URL="../src/core/expression/FTW-Expr-BooleanExpressionResult.ctl"/>
+			<Item Name="ftw32.dll" Type="Document" URL="ftw32.dll">
+				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
+			</Item>
 			<Item Name="kernel32.dll" Type="Document" URL="kernel32.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
+			<Item Name="PCRE Test 2.vi" Type="VI" URL="../sandbox/expression/PCRE Test 2.vi"/>
 		</Item>
 		<Item Name="Build Specifications" Type="Build">
 			<Item Name="Test" Type="EXE">
