@@ -22,202 +22,247 @@
 
 #include "ftw_pcre.h"
 
-static int ftw_pcre_callout(pcre_callout_block *callout_data);
+static int ftw_pcre_callout(pcre2_callout_block *block, void *args);
+FTW_PRIVATE_SUPPORT MgErr resize_CalloutAccumulator(CalloutAccumulator ***arr, size_t elements);
 
-const char *ftw_pcre_version(void)
+MgErr ftw_pcre_version(LStrHandle version)
 {
-    return pcre_version();
+    MgErr lv_err;
+    char buf[1024];
+    int sz;
+
+    sz = pcre2_config(PCRE2_CONFIG_VERSION, buf);
+    ftw_assert(sz <= sizeof(buf));
+
+    lv_err = ftw_support_CStr_to_LStrHandle(&version, buf, sizeof(buf));
+
+    return lv_err;
 }
 
-pcre *ftw_pcre_compile(const char *regex, int options, LStrHandle error_string,
-    int32_t *error_offset_in_regex)
+pcre2_code *ftw_pcre_compile(ConstLStrH regex, uint32_t options, LStrHandle err_string,
+    int32 *err_offset_in_regex)
 {
-    pcre *compiled_regex;
-    const char *err;
-
-    pcre_callout = ftw_pcre_callout;
-
-    compiled_regex = pcre_compile(regex, options, &err, error_offset_in_regex, NULL);
-
-    if (compiled_regex == NULL) {
-        ftw_support_buffer_to_LStrHandle(&error_string, err, StrLen ((const uChar *)err));
-        return NULL;
-    }
-
-    return compiled_regex;
-}
-
-int32_t ftw_pcre_capture_groups(const pcre *compiled_regex, LStrHandleArray **capture_groups)
-{
-    int i;
+    MgErr lv_err;
+    pcre2_code *compiled_regex;
+    PCRE2_SIZE err_offset;
+    char buf[1024] = {0};
+    int err_code;
     int rc;
-    int namecount;
-    int namesize;
-    int num_submatches;
+
+    compiled_regex = pcre2_compile(LHStrBuf(regex), LHStrLen(regex), options, &err_code, &err_offset, NULL);
+
+    if (compiled_regex)
+        return compiled_regex;
+
+    *err_offset_in_regex = (int32)err_offset;
+    rc = pcre2_get_error_message(err_code, buf, sizeof(buf));
+    ftw_assert (rc == StrLen(buf));
+    lv_err = ftw_support_CStr_to_LStrHandle(&err_string, buf, sizeof(buf));
+
+    return NULL;
+}
+
+int32 ftw_pcre_capture_groups(const pcre2_code *compiled_regex, LStrHandleArray **named_capturing_groups)
+{
+    int rc;
+    uint32_t num_submatches;
+    uint32_t namecount;
+    uint32_t namesize;
+    uint32_t entrysize;
     uChar *nametable;
     const uChar *offset;
     MgErr lv_err;
-    size_t buf_size;
-    size_t name_len;
     uInt16 submatch_index;
-    LStrHandle element;
 
-    rc = pcre_fullinfo(compiled_regex, NULL, PCRE_INFO_NAMECOUNT, &namecount);
+    rc = pcre2_pattern_info(compiled_regex, PCRE2_INFO_NAMECOUNT, &namecount);
     if (rc)
         return rc;
 
-    rc = pcre_fullinfo(compiled_regex, NULL, PCRE_INFO_NAMEENTRYSIZE, &namesize);
+    rc = pcre2_pattern_info(compiled_regex, PCRE2_INFO_NAMEENTRYSIZE, &entrysize);
     if (rc)
         return rc;
 
-    rc = pcre_fullinfo(compiled_regex, NULL, PCRE_INFO_NAMETABLE, &nametable);
+    rc = pcre2_pattern_info(compiled_regex, PCRE2_INFO_NAMETABLE, &nametable);
     if (rc)
         return rc;
 
-    rc = pcre_fullinfo(compiled_regex, NULL, PCRE_INFO_CAPTURECOUNT, &num_submatches);
+    rc = pcre2_pattern_info(compiled_regex, PCRE2_INFO_CAPTURECOUNT, &num_submatches);
     if (rc)
         return rc;
 
-    buf_size = Offset(LStrHandleArray, element) + sizeof(LStrHandle) * num_submatches;
-    lv_err = DSSetHSzClr(capture_groups, buf_size);
+    lv_err = ftw_support_expand_LStrHandleArray(&named_capturing_groups, num_submatches);
+    if (lv_err)
+        return lv_err;
 
-    if (lv_err != mgNoErr)
-        return -lv_err;
+    namesize = entrysize - sizeof(submatch_index);
+    offset = nametable;
 
-    (*capture_groups)->dimsize = num_submatches;
-
-    for (i = 0; i < namecount; i++) {
-        offset = nametable + i * namesize;
-        submatch_index = Word(*(offset + 0), *(offset + 1)) - 1;
+    for (uint32_t i = 0; i < namecount; i++) {
+        offset = nametable + i * entrysize;
+        submatch_index = Word(offset[0], offset[1]) - 1;
         offset += sizeof(submatch_index);
 
-        name_len = StrLen(offset);
-        buf_size = Offset(LStr, str) + name_len;
-        element = (LStrHandle)DSNewHandle(buf_size);
-        ftw_assert(element);
-
-        ((*capture_groups)->element)[submatch_index] = element;
-        (*element)->cnt = name_len;
-        MoveBlock(offset, (*element)->str, name_len);
+        lv_err = ftw_support_CStr_to_LStrHandle(&((*named_capturing_groups)->element)[submatch_index], offset, namesize);
+        if (lv_err)
+            break;
     }
 
-    return num_submatches;
+    return lv_err;
 }
 
-intptr_t ftw_pcre_exec(const pcre *compiled_regex, const LStrHandle subject,
-    int32_t startoffset, int32_t options, int32_t *match_begin, int32_t *match_end,
-    I32Array **submatch_buffer, CalloutAccumulator **callout)
+int32 ftw_pcre_match(const pcre2_code *compiled_regex, ConstLStrH subject,
+    int32 startoffset, int32 *match_begin, int32 *match_end,
+    int32Array **submatches, CalloutAccumulator **callout)
 {
-    int rc;
-    int max_rc;
-    int subj_len;
-    const char *subj_ptr;
-    size_t sz;
-    size_t num_submatches;
-    pcre_extra extra;
-    MgErr lv_err;
     struct ftw_callout_args arg;
+    pcre2_match_context *ctx;
+    pcre2_match_data *match_data;
+    PCRE2_SIZE subj_len;
+    PCRE2_SPTR subj_ptr;
+    PCRE2_SIZE *ovector;
+    uint32_t ovec_count;
+    int num_submatches;
+    int32 rc;
+    MgErr lv_err;
 
+    ctx = pcre2_match_context_create(NULL);
+    if (ctx == NULL)
+        return PCRE2_ERROR_INTERNAL;
+    
+    /*  Adjust these numbers to change characteristics of memory management. */
+    arg.grow_size = 100;
     arg.accumulator = callout;
     arg.index = 0;
 
-    extra.flags = PCRE_EXTRA_CALLOUT_DATA;
-    extra.callout_data = &arg;
+    rc = pcre2_set_callout(ctx, ftw_pcre_callout, &arg);
+    if (rc) {
+        pcre2_match_context_free(ctx);
+        return rc;
+    }
 
     subj_len = LHStrLen(subject);
-    subj_ptr = (const char *)LHStrBuf(subject);
+    subj_ptr = LHStrBuf(subject);
 
-    /*  Adjust these numbers to change characteristics of memory management. */
-    arg.num_elements_increment = 100;
+    match_data = pcre2_match_data_create_from_pattern(compiled_regex, NULL);
+    if (match_data == NULL) {
+        pcre2_match_context_free(ctx);
+        return PCRE2_ERROR_INTERNAL;
+    }
 
-    /* As per http://www.pcre.org/pcre.txt, ovector size of submatches is only 2/3 used for matches. */
-    max_rc = ((*submatch_buffer)->dimsize * 2) / 3;
-
-    rc = pcre_exec(compiled_regex, &extra, subj_ptr, subj_len, startoffset,
-        options, (*submatch_buffer)->element, (*submatch_buffer)->dimsize);
-
-    /*  Sanity check return value.  */
-    ftw_assert(rc <= max_rc);
+    rc = pcre2_match(compiled_regex, subj_ptr, subj_len, (PCRE2_SIZE)startoffset, 0, match_data, ctx);
 
     /*  Sanity check array size.  */
-    assert(arg.index >= 0 && (*arg.accumulator)->dimsize >= 0);
+    ftw_assert(arg.index >= 0 && (*arg.accumulator)->dimsize >= 0);
 
     /*  This should always be a trim operation, and never an increase.  */
-    assert(arg.index <= (*arg.accumulator)->dimsize);
+    ftw_assert(arg.index <= (*arg.accumulator)->dimsize);
 
-    /*  Resize callout buffer. */
-    sz = Offset(CalloutAccumulator, element) + sizeof(struct ftw_pcre_callout_data) * arg.index;
-    lv_err = DSSetHSzClr(callout, sz);
-    if (lv_err != mgNoErr)
-        return PCRE_ERROR_INTERNAL;
-    (*callout)->dimsize = arg.index;
+    /*  Trim callout buffer. */
+    lv_err = resize_CalloutAccumulator(&callout, arg.index);
+    if (lv_err) {
+        rc = PCRE2_ERROR_INTERNAL;
+        goto MATCH_DONE;
+    }
 
-    if (rc <= 0) {
+    if (rc < 0) {
         /*  No match was found, or an error encountered. */
-        *match_begin = PCRE_ERROR_NOMATCH;
-        *match_end = PCRE_ERROR_NOMATCH;
-        num_submatches = 0;
-        sz = Offset(I32Array, element);
-    }
-    else {
-        /*  Peel first two values as the whole match. */
-        *match_begin = (*submatch_buffer)->element[0];
-        *match_end = (*submatch_buffer)->element[1];
-
-        /*  Multiply by two, since array is begin/end pair. */
-        num_submatches = (rc - 1) * 2;
-        sz = sizeof(int32_t) * num_submatches * 2;
-
-        /*  Shift array to  account for first two indices of whole match. */
-        MoveBlock(&((*submatch_buffer)->element[2]), &((*submatch_buffer)->element[0]), sz);
-        sz += Offset(I32Array, element);
+        *match_begin = PCRE2_ERROR_NOMATCH;
+        *match_end = PCRE2_ERROR_NOMATCH;
+        goto MATCH_DONE;
     }
 
-    lv_err = DSSetHSzClr(submatch_buffer, sz);
-    if (lv_err != mgNoErr)
-        return PCRE_ERROR_INTERNAL;
-    (*submatch_buffer)->dimsize = num_submatches;
+    /*  Retrieve match data. */
+    ovec_count = pcre2_get_ovector_count(match_data);
+    ftw_assert(ovec_count > 0);
+    ovector = pcre2_get_ovector_pointer(match_data);
+    ftw_assert(ovector);
 
+    /*  A whole match was found, but no submatches. */
+    *match_begin = (int32)ovector[0];
+    *match_end = (int32)ovector[1];
+
+    /*  Resize the submatch buffer, accounting for the first ovec as the whole match.  */
+    num_submatches = (int)ovec_count - 1;
+    if (num_submatches == 0)
+        goto MATCH_DONE;
+    lv_err = ftw_support_expand_int32Array(&submatches, num_submatches * 2);
+    if (lv_err) {
+        rc = PCRE2_ERROR_INTERNAL;
+        goto MATCH_DONE;
+    }
+
+    for (int i = 0; i < num_submatches; i++) {
+        /*  Advance to next submatch pair. */
+        ovector += 2;
+        (*submatches)->element[2 * i] = ovector[0];
+        (*submatches)->element[2 * i + 1] = ovector[1];
+    }
+
+MATCH_DONE:
+    pcre2_match_data_free(match_data);
+    pcre2_match_context_free(ctx);
     return rc;
 }
 
-static int ftw_pcre_callout(pcre_callout_block *data)
+void ftw_pcre_free(pcre2_code *compiled_regex)
+{
+    if (compiled_regex)
+        pcre2_code_free(compiled_regex);
+}
+
+int ftw_pcre_callout(pcre2_callout_block *block, void *args)
 {
     struct ftw_callout_args *arg;
     int32_t new_dim_size;
-    size_t callout_size;
     MgErr lv_err;
 
-    /*  Expected current version of the callout block. */
-    assert(data->version == 2);
+    ftw_assert(block && args);
 
-    arg = (struct ftw_callout_args*)(data->callout_data);
+    /*  Expected current version of the callout block. */
+    ftw_assert(block->version == 1);
+
+    arg = (struct ftw_callout_args *)args;
 
     /*  Allow this to grow indefinitely. Overflow would return error. */
     if (arg->index >= (*(arg->accumulator))->dimsize) {
-        new_dim_size = ((*(arg->accumulator))->dimsize + arg->num_elements_increment);
-        callout_size = Offset(CalloutAccumulator, element) + sizeof(struct ftw_pcre_callout_data) * new_dim_size;
-        lv_err = DSSetHSzClr(arg->accumulator, callout_size);
-        if (lv_err != mgNoErr) {
-            return PCRE_ERROR_INTERNAL;
+        new_dim_size = ((*(arg->accumulator))->dimsize + arg->grow_size);
+        lv_err = resize_CalloutAccumulator(&arg->accumulator, new_dim_size);
+        if (lv_err) {
+            return PCRE2_ERROR_INTERNAL;
         }
-        (*(arg->accumulator))->dimsize = new_dim_size;
     }
 
-    (*(arg->accumulator))->element[arg->index].callout_id = data->callout_number;
-    (*(arg->accumulator))->element[arg->index].subject_current_pos = data->current_position;
-    (*(arg->accumulator))->element[arg->index].subject_start_match_pos = data->start_match;
-    (*(arg->accumulator))->element[arg->index].capture_top = data->capture_top;
-    (*(arg->accumulator))->element[arg->index].capture_last = data->capture_last;
-    (*(arg->accumulator))->element[arg->index].pattern_position = data->pattern_position;
+    (*(arg->accumulator))->element[arg->index].callout_id = block->callout_number;
+    (*(arg->accumulator))->element[arg->index].subject_current_pos = block->current_position;
+    (*(arg->accumulator))->element[arg->index].subject_start_match_pos = block->start_match;
+    (*(arg->accumulator))->element[arg->index].capture_top = block->capture_top;
+    (*(arg->accumulator))->element[arg->index].capture_last = block->capture_last;
+    (*(arg->accumulator))->element[arg->index].pattern_position = block->pattern_position;
+    (*(arg->accumulator))->element[arg->index].callout_name_offset = block->callout_string_offset;
+    (*(arg->accumulator))->element[arg->index].callout_name_length = block->callout_string_length;
 
     arg->index++;
 
     return 0;
 }
 
-void ftw_pcre_free(pcre *compiled_regex)
+
+MgErr resize_CalloutAccumulator(CalloutAccumulator ***arr, size_t elements)
 {
-    if (compiled_regex)
-        pcre_free(compiled_regex);
+    MgErr lv_err;
+    size_t sz;
+
+    if (arr == NULL || *arr == NULL || **arr == NULL)
+        return mgArgErr;
+
+    FTW_COMPILER_ASSERT(sizeof(struct ftw_pcre_callout_data) == 8 * sizeof(int32));
+    FTW_COMPILER_ASSERT(sizeof(CalloutAccumulator) == sizeof(int32) + sizeof(struct ftw_pcre_callout_data));
+    FTW_COMPILER_ASSERT(Offset(CalloutAccumulator, element) == 4);
+    sz = Offset(CalloutAccumulator, element) + sizeof(struct ftw_pcre_callout_data) * elements;
+    lv_err = DSSetHandleSize(*arr, sz);
+    
+    if (lv_err == mgNoErr)
+        (**arr)->dimsize = (int32)elements;
+
+    return lv_err;
 }

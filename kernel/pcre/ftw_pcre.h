@@ -27,23 +27,26 @@
 extern "C" {
 #endif
 
+#define PCRE2_CODE_UNIT_WIDTH 8
+
 #include "../ftw.h"
 #include "upstream/config.h"
-#include "upstream/pcre_internal.h"
-#include "upstream/pcre.h"
+#include "upstream/pcre2.h"
 
 /*  FTW-PCRE types. */
 struct ftw_pcre_callout_data {
-    int32_t callout_id;
-    int32_t subject_current_pos;
-    int32_t subject_start_match_pos;
-    int32_t capture_top;
-    int32_t capture_last;
-    int32_t pattern_position;
+    int32 callout_id;
+    int32 subject_current_pos;
+    int32 subject_start_match_pos;
+    int32 capture_top;
+    int32 capture_last;
+    int32 pattern_position;
+    int32 callout_name_offset;
+    int32 callout_name_length;
 };
 
 typedef struct {
-    int32_t dimsize;
+    int32 dimsize;
     struct ftw_pcre_callout_data element[1];
 } CalloutAccumulator;
 
@@ -53,26 +56,26 @@ struct ftw_callout_args {
     CalloutAccumulator **accumulator;
 
     /*  Current write position into the callback array. */
-    int32_t  index;
+    int32 index;
 
     /*  Change these parameters to control how the accumulator grows. */
-    int32_t  num_elements_increment;
+    int32 grow_size;
 };
 
 /*  FTW-PCRE exported functions. */
-FTW_EXPORT const char *ftw_pcre_version(void);
+FTW_EXPORT MgErr ftw_pcre_version(LStrHandle version);
 
-FTW_EXPORT pcre *ftw_pcre_compile(const char *regex, int options, LStrHandle error_string,
-    int32_t *error_offset_in_regex);
+FTW_EXPORT pcre2_code *ftw_pcre_compile(ConstLStrH regex, uint32_t options, LStrHandle err_string,
+    int32 *err_offset_in_regex);
 
-FTW_EXPORT int32_t ftw_pcre_capture_groups(const pcre *compiled_regex,
+FTW_EXPORT int32 ftw_pcre_capture_groups(const pcre2_code *compiled_regex,
     LStrHandleArray **named_capturing_groups);
 
-FTW_EXPORT intptr_t ftw_pcre_exec(const pcre *compiled_regex, const LStrHandle subject,
-    int32_t startoffset, int32_t options, int32_t *match_begin, int32_t *match_end,
-    I32Array **submatch_buffer, CalloutAccumulator **callout);
+FTW_EXPORT int32 ftw_pcre_match(const pcre2_code *compiled_regex, ConstLStrH subject,
+    int32 startoffset, int32 *match_begin, int32 *match_end,
+    int32Array **submatches, CalloutAccumulator **callout);
 
-FTW_EXPORT void ftw_pcre_free(pcre *compiled_regex);
+FTW_EXPORT void ftw_pcre_free(pcre2_code *compiled_regex);
 
 #ifdef __cplusplus
 }
