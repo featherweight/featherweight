@@ -105,6 +105,12 @@
 				<Item Name="FTW-ERR-ThrowWarning.vi" Type="VI" URL="../src/core/error/FTW-ERR-ThrowWarning.vi"/>
 				<Item Name="FTW-ERR-UnknownParameter.vi" Type="VI" URL="../src/core/error/FTW-ERR-UnknownParameter.vi"/>
 			</Item>
+			<Item Name="expression" Type="Folder">
+				<Item Name="FTW-Expr-BooleanExpressionResult.ctl" Type="VI" URL="../src/core/expression/FTW-Expr-BooleanExpressionResult.ctl"/>
+				<Item Name="FTW-Expression-Lexicon-Engine.txt" Type="Document" URL="../src/core/expression/FTW-Expression-Lexicon-Engine.txt"/>
+				<Item Name="FTW-Expression-Lexicon.txt" Type="Document" URL="../src/core/expression/FTW-Expression-Lexicon.txt"/>
+				<Item Name="FTW-Expression.lvclass" Type="LVClass" URL="../src/core/expression/FTW-Expression.lvclass"/>
+			</Item>
 			<Item Name="file" Type="Folder">
 				<Item Name="FTW-File-CalculateRelativeFilepath.vi" Type="VI" URL="../src/core/file/FTW-File-CalculateRelativeFilepath.vi"/>
 				<Item Name="FTW-File-CompareFilepaths.vi" Type="VI" URL="../src/core/file/FTW-File-CompareFilepaths.vi"/>
@@ -328,14 +334,10 @@
 				<Item Name="Semaphore RefNum" Type="VI" URL="/&lt;vilib&gt;/Utility/semaphor.llb/Semaphore RefNum"/>
 			</Item>
 			<Item Name="FTW-ActorTemplate.vi" Type="VI" URL="../templates/FTW-ActorTemplate.vi"/>
-			<Item Name="FTW-Expr-BooleanExpressionResult.ctl" Type="VI" URL="../src/core/expression/FTW-Expr-BooleanExpressionResult.ctl"/>
-			<Item Name="ftw32.dll" Type="Document" URL="ftw32.dll">
-				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
-			</Item>
+			<Item Name="FTWLib-JSON-LibraryFilepath.vi" Type="VI" URL="../lib/jansson/FTWLib-JSON-LibraryFilepath.vi"/>
 			<Item Name="kernel32.dll" Type="Document" URL="kernel32.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
-			<Item Name="PCRE Test 2.vi" Type="VI" URL="../sandbox/expression/PCRE Test 2.vi"/>
 		</Item>
 		<Item Name="Build Specifications" Type="Build">
 			<Item Name="Test" Type="EXE">
