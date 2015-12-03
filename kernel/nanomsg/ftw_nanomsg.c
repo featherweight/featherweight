@@ -702,12 +702,11 @@ int ftw_socket_close(struct ftw_socket * const sock)
 {
     int rc;
     if (sock->is_async) {
-        rc = nn_socket_term(sock->id);
+        rc = nn_close(sock->id);
         nn_thread_term(&sock->thread);
         nn_sem_term(&sock->init_sem);
     }
     else {
-        //rc = nn_socket_term(sock->id);
         rc = nn_close(sock->id);
     }
     return rc;
