@@ -44,7 +44,7 @@ json_t *ftw_framework_router_recv(void *msg, size_t msg_len, size_t flags, int64
 
 const char *ftw_version(void)
 {
-    return "0.6.0";
+    return "0.6.1";
 }
 
 void ftw_lvmem(int64 *ds_bytes_allocated)
