@@ -32,10 +32,10 @@ install:
   - tar -xzf lvrte.tgz
   - ls
 #  - alien --install --scripts labview-2014-rte-14.0.0-1.x86_64.rpm
-  - rpm --install --test --vv labview-2014-rte-14.0.0-1.x86_64.rpm
-  - ls /usr/local/lib
+#  - rpm --install --test --vv labview-2014-rte-14.0.0-1.x86_64.rpm
+#  - ls /usr/local/lib
 
-script: "./build-ftw.sh"
+#script: "./build-ftw.sh"
 
 matrix:
   allow_failures:
