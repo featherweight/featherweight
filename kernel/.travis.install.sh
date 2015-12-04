@@ -38,4 +38,4 @@ else
   tar -xzf lvrte.tgz
 fi
 
-rpm --install --no-deps -vv $LVPKG
+rpm --install --nodeps -vv $LVPKG
