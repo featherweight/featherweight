@@ -36,6 +36,8 @@ install:
 #  - ls /usr/local/lib
 
 #script: "./build-ftw.sh"
+script:
+  - echo "done"
 
 matrix:
   allow_failures:
