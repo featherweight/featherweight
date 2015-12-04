@@ -30,6 +30,9 @@ LVPKG=labview-2014-rte-14.0.0-1.x86_64.rpm
 
 cd $1
 
+wget http://http.debian.net/debian/pool/main/a/alien/alien_8.95.tar.xz -O alien.tgz && \
+tar -xzf alien.tgz
+
 if test -e $LVPKG; then
   echo "Found cached LVRTE package: $LVPKG"
 else
@@ -38,4 +41,5 @@ else
   tar -xzf lvrte.tgz
 fi
 
-rpm --install --nodeps -vv $LVPKG
+#rpm --install --nodeps -vv $LVPKG
+./alien.pl --install --scripts labview-2014-rte-14.0.0-1.x86_64.rpm
