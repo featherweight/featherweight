@@ -1,22 +1,35 @@
-sudo: required
+#sudo: required
+sudo: false
 
 os:
   - linux
-  - osx
+#  - osx
+
+language: c
+
+compiler:
+- gcc
+#  - clang
+
+addons:
+  apt:
+    packages:
+    - alien
 
 branches:
   only:
     - master
 
-language: c
-
-compiler:
-  - gcc
-  - clang
-
 install:
   - autoconf --version
-  - ./.travis.install.sh
+#  - ./.travis.install.sh
+  - mkdir download
+  - cd download
+  - wget http://ftp.ni.com/support/softlib/labview/labview_runtime/2014/Linux/LabVIEW2014RTE_Linux64.tgz -O lvrte.tgz
+  - tar -xzf lvrte.tgz
+  - ls
+  - alien --install --scripts labview-2014-rte-14.0.0-1.x86_64.rpm
+  - ls /usr/local/lib
 
 script: "./build-ftw.sh"
 
