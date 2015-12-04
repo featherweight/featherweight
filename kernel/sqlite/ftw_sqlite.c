@@ -126,7 +126,12 @@ MgErr ftw_sqlite_parameters(sqlite3_stmt *statement, LStrHandleArray **parameter
 
 int ftw_sqlite_finalize(sqlite3_stmt *statement)
 {
-    return sqlite3_finalize(statement);
+    int rc;
+
+    rc = sqlite3_finalize(statement);
+
+    /*  Filter away "obvious" return code. */
+    return (rc == SQLITE_DONE ? SQLITE_OK : rc);
 }
 
 int64 ftw_column_int64(sqlite3_stmt *statement, int32 col)
