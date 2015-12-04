@@ -21,6 +21,7 @@
 #
 
 # libftw amalgamation
+AUTOMAKE_OPTIONS = foreign no-installinfo no-dist no-installman
 
 # Build submodule libraries first.
 SUBDIRS = \
