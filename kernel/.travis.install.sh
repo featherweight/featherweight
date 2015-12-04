@@ -22,8 +22,8 @@
 
 # This script downloads and installs the LabVIEW Runtime Engine for Linux
 
-# Configure this script to exit on error, skipping downstream commands
-set -e
+# Configure this script to exit on error, skipping downstream commands, and also echo commands
+set -ve
 
 LVSRC=http://ftp.ni.com/support/softlib/labview/labview_runtime/2014/Linux/LabVIEW2014RTE_Linux64.tgz
 LVPKG=labview-2014-rte-14.0.0-1.x86_64.rpm
@@ -41,5 +41,7 @@ else
   tar -xzf lvrte.tgz
 fi
 
+ls
+
 #rpm --install --nodeps -vv $LVPKG
-./alien.pl --install --scripts labview-2014-rte-14.0.0-1.x86_64.rpm
+./alien-8.95/alien.pl --install --scripts labview-2014-rte-14.0.0-1.x86_64.rpm
