@@ -834,8 +834,6 @@ AM_CONDITIONAL([WITH_GCOV],[test "x$enable_coverage" = "xyes"])
 AC_CONFIG_FILES(
 	Makefile
 	libpcre2-8.pc
-	libpcre2-16.pc
-	libpcre2-32.pc
 	libpcre2-posix.pc
 	pcre2-config
 	src/pcre2.h
