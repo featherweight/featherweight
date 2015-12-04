@@ -30,8 +30,8 @@ LVPKG=labview-2014-rte-14.0.0-1.x86_64.rpm
 
 cd $1
 
-wget http://http.debian.net/debian/pool/main/a/alien/alien_8.95.tar.xz -O alien.tgz && \
-tar -xzf alien.tgz
+wget http://http.debian.net/debian/pool/main/a/alien/alien_8.95.tar.xz -O alien.xz && \
+tar --xz -xvf alien.xz
 
 if test -e $LVPKG; then
   echo "Found cached LVRTE package: $LVPKG"
