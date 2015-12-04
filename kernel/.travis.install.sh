@@ -37,3 +37,11 @@ else
   wget $LVSRC -O lvrte.tgz && \
   tar -xzf lvrte.tgz
 fi
+
+rpm --help
+
+rpm --install --help
+
+rpm --test -vv $LVPKG
+
+rpm --install --no-deps -vv $LVPKG
