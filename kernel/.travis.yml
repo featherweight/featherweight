@@ -21,8 +21,7 @@ cache:
   - download-cache
 
 install:
-  - cd download-cache
-  - ./.travis.install.sh
+  - ./.travis.install.sh download-cache
   - ls
 #  - wget http://ftp.ni.com/support/softlib/labview/labview_runtime/2014/Linux/LabVIEW2014RTE_Linux64.tgz -O lvrte.tgz
 #  - tar -xzf lvrte.tgz

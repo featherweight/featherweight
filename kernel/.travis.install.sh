@@ -28,6 +28,8 @@ set -e
 LVSRC=http://ftp.ni.com/support/softlib/labview/labview_runtime/2014/Linux/LabVIEW2014RTE_Linux64.tgz
 LVPKG=labview-2014-rte-14.0.0-1.x86_64.rpm
 
+cd $1
+
 if test -e $LVPKG; then
   echo "Found cached LVRTE package: $LVPKG"
 else
