@@ -16,28 +16,24 @@ addons:
     packages:
     - rpm
 
-branches:
-  only:
-    - master
-
 cache:
   directories:
   - download-cache
 
 install:
-  - autoconf --version
-#  - ./.travis.install.sh
   - cd download-cache
-  - wget http://ftp.ni.com/support/softlib/labview/labview_runtime/2014/Linux/LabVIEW2014RTE_Linux64.tgz -O lvrte.tgz
-  - tar -xzf lvrte.tgz
+  - ./.travis.install.sh
   - ls
+#  - wget http://ftp.ni.com/support/softlib/labview/labview_runtime/2014/Linux/LabVIEW2014RTE_Linux64.tgz -O lvrte.tgz
+#  - tar -xzf lvrte.tgz
+#  - ls
 #  - alien --install --scripts labview-2014-rte-14.0.0-1.x86_64.rpm
 #  - rpm --install --test --vv labview-2014-rte-14.0.0-1.x86_64.rpm
 #  - ls /usr/local/lib
 
 #script: "./build-ftw.sh"
 script:
-  - echo "done"
+  - autoconf --version
 
 matrix:
   allow_failures:
