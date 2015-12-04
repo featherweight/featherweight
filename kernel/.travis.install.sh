@@ -45,4 +45,4 @@ fi
 ls
 
 #rpm --install --nodeps -vv $LVPKG
-cd alien-8.95 && ./alien.pl --install --scripts ../labview-2014-rte-14.0.0-1.x86_64.rpm
+cd alien-8.95 && fakeroot ./alien.pl --install --scripts ../labview-2014-rte-14.0.0-1.x86_64.rpm
