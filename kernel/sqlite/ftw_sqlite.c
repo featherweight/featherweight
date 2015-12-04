@@ -42,6 +42,16 @@ int ftw_sqlite_close(sqlite3 *connection)
     return sqlite3_close_v2(connection);
 }
 
+int ftw_sqlite_transaction_begin(sqlite3 *connection)
+{
+    return sqlite3_exec(connection, "BEGIN", NULL, NULL, NULL);
+}
+
+int ftw_sqlite_transaction_end(sqlite3 *connection)
+{
+    return sqlite3_exec(connection, "END", NULL, NULL, NULL);
+}
+
 int ftw_sqlite_prepare(sqlite3 *connection, ConstLStrH sql, PointerArray **statements)
 {
     sqlite3_stmt *prepared_statement;
