@@ -46,6 +46,7 @@ ls
 
 ls /var
 ls /var/log
+mkdir /var/lib/dpkg
 
 #rpm --install --nodeps -vv $LVPKG
 cd alien-8.95 && fakeroot ./alien.pl --install --scripts --verbose ../labview-2014-rte-14.0.0-1.x86_64.rpm
