@@ -50,4 +50,4 @@ ls -al /var/lib/dpkg
 #mkdir /var/lib/dpkg
 
 #rpm --install --nodeps -vv $LVPKG
-fakeroot alien --install --scripts --verbose labview-2014-rte-14.0.0-1.x86_64.rpm
+fakeroot alien --to-deb --scripts --veryverbose labview-2014-rte-14.0.0-1.x86_64.rpm
