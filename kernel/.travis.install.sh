@@ -31,8 +31,8 @@ LVPKG=labview-2014-rte-14.0.0-1.x86_64.rpm
 # Enter the download cache directory
 cd $1
 
-wget http://http.debian.net/debian/pool/main/a/alien/alien_8.95.tar.xz -O alien.xz && \
-tar --xz -xvf alien.xz
+# wget http://http.debian.net/debian/pool/main/a/alien/alien_8.95.tar.xz -O alien.xz && \
+# tar --xz -xvf alien.xz
 
 if test -e $LVPKG; then
   echo "Found cached LVRTE package: $LVPKG"
@@ -49,4 +49,4 @@ ls /var/log
 mkdir /var/lib/dpkg
 
 #rpm --install --nodeps -vv $LVPKG
-cd alien-8.95 && fakeroot ./alien.pl --install --scripts --verbose ../labview-2014-rte-14.0.0-1.x86_64.rpm
+alien --install --scripts --verbose labview-2014-rte-14.0.0-1.x86_64.rpm
