@@ -46,6 +46,7 @@ ls
 
 #ls /var
 #ls /var/log
+ls -al /var/lib/dpkg
 #mkdir /var/lib/dpkg
 
 #rpm --install --nodeps -vv $LVPKG
