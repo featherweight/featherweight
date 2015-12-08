@@ -54,4 +54,8 @@ fakeroot alien --to-deb --scripts --veryverbose labview-2014-rte-14.0.0-1.x86_64
 
 ls -al
 
+
+mkdir $HOME/dpkg
+ls $HOME/dpkg
+
 dpkg --install --force-not-root --root=$HOME labview-2014-rte_14.0.0-2_amd64.deb
