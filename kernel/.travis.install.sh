@@ -45,10 +45,18 @@ else
   tar -xzf lvrte.tgz
 fi
 
+mkdir -p $LVDIR
 chroot $LVDIR
 
-alien --to-deb --scripts --veryverbose $LV_PKG_ORIG
-#ls -al
+if test -e $LV_PKG_DEST; then
+  echo "Found cached LVRTE package: $LV_PKG_DEST"
+else
+  echo "Did not find cached package: $LV_PKG_DEST"
+  alien --to-deb --scripts --veryverbose $LV_PKG_ORIG
+  ls -al
+fi
+
+#
 set +e
 #sudo alien --install --veryverbose --scripts $LVPKG
 
@@ -56,6 +64,5 @@ set +e
 #mkdir $LVDIR/dpkg
 
 
-dpkg --install --force-not-root --root=$LVDIR --log=../dpkg.log --debug=2000 $LV_PKG_DEST
-
-cat ../dpkg.log
+#dpkg --install --force-not-root --root=$LVDIR --log=../dpkg.log --debug=2000 $LV_PKG_DEST \
+#  && cat ../dpkg.log
