@@ -59,6 +59,7 @@ ls
 
 
 mkdir $LVDIR
+mkdir $LVDIR/dpkg
 #ls -al $LVDIR/dpkg
 
 fakeroot dpkg --install --force-not-root --root=$LVDIR --log=../dpkg.log labview-2014-rte_14.0.0-2_amd64.deb
