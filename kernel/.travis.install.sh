@@ -53,10 +53,10 @@ ls -al /var/lib/dpkg
 #rpm --install --nodeps -vv $LVPKG
 fakeroot alien --to-deb --scripts --veryverbose labview-2014-rte-14.0.0-1.x86_64.rpm
 
-ls -al
+ls -al $LVDIR
 
 
-mkdir $LVDIR/dpkg
+#mkdir $LVDIR/dpkg
 ls -al $LVDIR/dpkg
 
 dpkg --install --force-not-root --root=$LVDIR labview-2014-rte_14.0.0-2_amd64.deb
