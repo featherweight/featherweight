@@ -34,9 +34,6 @@ LVDIR=$TRAVIS_BUILD_DIR/lvrte
 # Enter the download cache directory
 cd $1
 
-# wget http://http.debian.net/debian/pool/main/a/alien/alien_8.95.tar.xz -O alien.xz && \
-# tar --xz -xvf alien.xz
-
 if test -e $LVPKG; then
   echo "Found cached LVRTE package: $LVPKG"
 else
@@ -45,24 +42,14 @@ else
   tar -xzf lvrte.tgz
 fi
 
-ls
-
-#ls /var
-#ls /var/log
-#ls -al /var/lib/dpkg
-#mkdir /var/lib/dpkg
-
-#rpm --install --nodeps -vv $LVPKG
-#fakeroot alien --to-deb --scripts --veryverbose labview-2014-rte-14.0.0-1.x86_64.rpm
-
-# ls -al $LVDIR
-
+ls -al
+fakeroot alien --to-deb --scripts --veryverbose labview-2014-rte-14.0.0-1.x86_64.rpm
+ls -al
 
 mkdir $LVDIR
 mkdir $LVDIR/dpkg
-#ls -al $LVDIR/dpkg
 
 set +e
-fakeroot dpkg --install --force-not-root --root=$LVDIR --log=../dpkg.log -D2000 labview-2014-rte_14.0.0-2_amd64.deb
+fakeroot dpkg --install --force-not-root --root=$LVDIR --log=../dpkg.log -D2000 labview-2014-rte-14.0.0-1.x86_64.deb
 
 cat ../dpkg.log
