@@ -50,8 +50,8 @@ rpm2cpio $LV_PKG_ORIG | cpio -idmv
 ls -al
 
 
-ln -s ./usr/local/lib64/LabVIEW-2014-64/liblvrt.so.14.0.0 liblvrt.so
-ln -s ./usr/local/lib64/LabVIEW-2014-64/liblvrtdark.so.14.0.0 liblvrtdark.so
+ln -sf ./usr/local/lib64/LabVIEW-2014-64/liblvrt.so.14.0.0 liblvrt.so
+ln -sf ./usr/local/lib64/LabVIEW-2014-64/liblvrtdark.so.14.0.0 liblvrtdark.so
 
 #if test
 
