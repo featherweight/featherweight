@@ -66,5 +66,5 @@ ls -al /var/lib/dpkg
 
 #dpkg --unpack --force-not-root --debug=2000 $LV_PKG_DEST
 
-#dpkg --install --force-all --root=$DPKG_INSTALL_DIR --log=../dpkg.log --debug=2000 $LV_PKG_DEST
+dpkg --install --force-all --log=../dpkg.log --debug=2000 $LV_PKG_DEST
 #cat ../dpkg.log
