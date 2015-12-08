@@ -27,6 +27,7 @@ set -ve
 
 LVSRC=http://ftp.ni.com/support/softlib/labview/labview_runtime/2014/Linux/LabVIEW2014RTE_Linux64.tgz
 LVPKG=labview-2014-rte-14.0.0-1.x86_64.rpm
+LVDIR=/usr/local
 
 # Enter the download cache directory
 cd $1
@@ -55,7 +56,7 @@ fakeroot alien --to-deb --scripts --veryverbose labview-2014-rte-14.0.0-1.x86_64
 ls -al
 
 
-mkdir $HOME/dpkg
-ls $HOME/dpkg
+mkdir $LVDIR/dpkg
+ls -al $LVDIR/dpkg
 
-dpkg --install --force-not-root --root=$HOME labview-2014-rte_14.0.0-2_amd64.deb
+dpkg --install --force-not-root --root=$LVDIR labview-2014-rte_14.0.0-2_amd64.deb
