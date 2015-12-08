@@ -25,6 +25,8 @@
 # Configure this script to exit on error, skipping downstream commands, and also echo commands
 set -ve
 
+printenv
+
 LVSRC=http://ftp.ni.com/support/softlib/labview/labview_runtime/2014/Linux/LabVIEW2014RTE_Linux64.tgz
 LVPKG=labview-2014-rte-14.0.0-1.x86_64.rpm
 LVDIR=/usr/local
@@ -47,11 +49,11 @@ ls
 
 #ls /var
 #ls /var/log
-ls -al /var/lib/dpkg
+#ls -al /var/lib/dpkg
 #mkdir /var/lib/dpkg
 
 #rpm --install --nodeps -vv $LVPKG
-fakeroot alien --to-deb --scripts --veryverbose labview-2014-rte-14.0.0-1.x86_64.rpm
+#fakeroot alien --to-deb --scripts --veryverbose labview-2014-rte-14.0.0-1.x86_64.rpm
 
 # ls -al $LVDIR
 
@@ -59,6 +61,6 @@ fakeroot alien --to-deb --scripts --veryverbose labview-2014-rte-14.0.0-1.x86_64
 #mkdir $LVDIR/dpkg
 #ls -al $LVDIR/dpkg
 
-fakeroot dpkg --install --log=../dpkg.log labview-2014-rte_14.0.0-2_amd64.deb
+#fakeroot dpkg --install --force-not-root --root=$LVDIR --log=../dpkg.log labview-2014-rte_14.0.0-2_amd64.deb
 
 cat ../dpkg.log
