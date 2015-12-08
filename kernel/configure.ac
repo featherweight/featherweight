@@ -99,6 +99,8 @@ AC_CHECK_FUNCS([mremap], [
     CPPFLAGS="$CPPFLAGS -D_GNU_SOURCE"
 ])
 
+AC_ARG_VAR([LVRTE_DIR], "Absolute path to the LVRTE install directory.")
+
 AC_CONFIG_FILES([Makefile])
 
 # Add additional submodules to this configuration

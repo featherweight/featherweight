@@ -31,7 +31,7 @@ install:
 #  - ls /usr/local/lib
 
 script:
-  - "./build-ftw.sh"
+  - ./build-ftw.sh ./download-cache/usr/local/lib64/LabVIEW-2014-64/
 #script:
 #  - autoconf --version
 
