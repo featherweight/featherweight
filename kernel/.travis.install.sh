@@ -29,7 +29,7 @@ printenv
 
 LV_DOWNLOAD=http://ftp.ni.com/support/softlib/labview/labview_runtime/2014/Linux/LabVIEW2014RTE_Linux64.tgz
 LV_PKG_ORIG=labview-2014-rte-14.0.0-1.x86_64.rpm
-LV_PKG_DEST=labview-2014-rte-14.0.0-1.x86_64.deb
+LV_PKG_DEST=labview-2014-rte_14.0.0-2_amd64.deb
 DPKG_INSTALL_DIR=$TRAVIS_BUILD_DIR/dpkg
 
 mkdir -p $1
@@ -58,7 +58,7 @@ set +e
 
 mkdir -p $DPKG_INSTALL_DIR
 
-dpkg --unpack --debug=2000 $LV_PKG_DEST
+dpkg --unpack --force-not-root --debug=2000 $LV_PKG_DEST
 
 dpkg --install --force-not-root --root=$DPKG_INSTALL_DIR --log=../dpkg.log --debug=2000 --ignore-depends $LV_PKG_DEST
 cat ../dpkg.log
