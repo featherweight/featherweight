@@ -61,7 +61,10 @@ mkdir -m 777 $DPKG_FAKEROOT/var
 mkdir -m 777 $DPKG_FAKEROOT/var/lib
 mkdir -m 777 $DPKG_FAKEROOT/var/lib/dpkg
 
+ls -al /var/lib
+ls -al /var/lib/dpkg
+
 #dpkg --unpack --force-not-root --debug=2000 $LV_PKG_DEST
 
-dpkg --install --force-all --root=$DPKG_INSTALL_DIR --log=../dpkg.log --debug=2000 $LV_PKG_DEST
-cat ../dpkg.log
+#dpkg --install --force-all --root=$DPKG_INSTALL_DIR --log=../dpkg.log --debug=2000 $LV_PKG_DEST
+#cat ../dpkg.log
