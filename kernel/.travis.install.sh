@@ -61,5 +61,5 @@ mkdir -p $DPKG_FAKEROOT/var/lib/dpkg
 
 #dpkg --unpack --force-not-root --debug=2000 $LV_PKG_DEST
 
-dpkg --install --force-not-root --root=$DPKG_INSTALL_DIR --log=../dpkg.log --debug=2000 --ignore-depends $LV_PKG_DEST
+dpkg --install --force-all --root=$DPKG_INSTALL_DIR --log=../dpkg.log --debug=2000 $LV_PKG_DEST
 cat ../dpkg.log
