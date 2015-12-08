@@ -29,7 +29,7 @@ printenv
 
 LV_DOWNLOAD=http://ftp.ni.com/support/softlib/labview/labview_runtime/2014/Linux/LabVIEW2014RTE_Linux64.tgz
 LV_PKG_ORIG=labview-2014-rte-14.0.0-1.x86_64.rpm
-LV_PKG_DEST=labview-2014-rte_14.0.0-2_amd64.deb
+LV_PKG_DEST=labview-2014-rte_14.0.0-2_amd64.tgz
 DPKG_FAKEROOT=$TRAVIS_BUILD_DIR/dpkg
 
 mkdir -p $1
@@ -49,7 +49,7 @@ if test -e $LV_PKG_DEST; then
   echo "Found cached LVRTE package: $LV_PKG_DEST"
 else
   echo "Did not find cached package: $LV_PKG_DEST"
-  fakeroot alien --to-deb --scripts --veryverbose $LV_PKG_ORIG
+  fakeroot alien --to-tgz --veryverbose $LV_PKG_ORIG
   ls -al
 fi
 
@@ -64,7 +64,12 @@ mkdir -m 777 $DPKG_FAKEROOT/var/lib/dpkg
 ls -al /var/lib
 ls -al /var/lib/dpkg
 
+
+ls -al /usr/local
+
 #dpkg --unpack --force-not-root --debug=2000 $LV_PKG_DEST
 
-dpkg --force-all --log=../dpkg.log --debug=3773 --install $LV_PKG_DEST
+tar -xzf $LV_PKG_DEST -C /usr/local
+ls -al /usr/local
+#dpkg --force-all --log=../dpkg.log --debug=3773 --install $LV_PKG_DEST
 #cat ../dpkg.log
