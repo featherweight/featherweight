@@ -30,9 +30,10 @@ install:
 #  - rpm --install --test --vv labview-2014-rte-14.0.0-1.x86_64.rpm
 #  - ls /usr/local/lib
 
-#script: "./build-ftw.sh"
 script:
-  - autoconf --version
+  - "./build-ftw.sh"
+#script:
+#  - autoconf --version
 
 matrix:
   allow_failures:

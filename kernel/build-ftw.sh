@@ -23,7 +23,7 @@
 # The "I'm Feeling Lucky" script ifl.sh - entire build process in one script!
 
 # Configure this script to exit on error, skipping downstream commands
-set -e
+set -ve
 
 # Invoke build system creation
 ./autogen.sh
