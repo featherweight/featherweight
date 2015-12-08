@@ -27,50 +27,56 @@ set -ve
 
 printenv
 
-LV_DOWNLOAD=http://ftp.ni.com/support/softlib/labview/labview_runtime/2014/Linux/LabVIEW2014RTE_Linux64.tgz
+LV_DOWNLOAD_URL=http://ftp.ni.com/support/softlib/labview/labview_runtime/2014/Linux/LabVIEW2014RTE_Linux64.tgz
 LV_PKG_ORIG=labview-2014-rte-14.0.0-1.x86_64.rpm
-LV_PKG_DEST=labview-2014-rte-14.0.0.tgz
-DPKG_FAKEROOT=$TRAVIS_BUILD_DIR/dpkg
+#DPKG_FAKEROOT=$TRAVIS_BUILD_DIR/dpkg
+#LV_PKG_DEST=labview-2014-rte-14.0.0.tgz
+#DPKG_FAKEROOT=$TRAVIS_BUILD_DIR/dpkg
 
 mkdir -p $1
 cd $1
-ls -al
 
 # Test for presence of cached packages in download cache
 if test -e $LV_PKG_ORIG; then
   echo "Found cached LVRTE package: $LV_PKG_ORIG"
 else
   echo "Did not find cached package: $LV_PKG_ORIG"
-  wget $LV_DOWNLOAD -O lvrte.tgz && \
+  wget $LV_DOWNLOAD_URL -O lvrte.tgz && \
   tar -xzf lvrte.tgz
 fi
+ls -al
 
-if test -e $LV_PKG_DEST; then
-  echo "Found cached LVRTE package: $LV_PKG_DEST"
-else
-  echo "Did not find cached package: $LV_PKG_DEST"
-  fakeroot alien --to-tgz --veryverbose $LV_PKG_ORIG
-  ls -al
-fi
+rpm2cpio $LV_PKG_ORIG | cpio -idmv
+ls -al
+
+#if test
+
+#if test -e $LV_PKG_DEST; then
+#  echo "Found cached LVRTE package: $LV_PKG_DEST"
+#else
+#  echo "Did not find cached package: $LV_PKG_DEST"
+#  fakeroot alien --to-tgz --veryverbose $LV_PKG_ORIG
+#  ls -al
+#fi
 
 set +e
 #sudo alien --install --veryverbose --scripts $LVPKG
 
-mkdir -m 777 $DPKG_FAKEROOT
-mkdir -m 777 $DPKG_FAKEROOT/var
-mkdir -m 777 $DPKG_FAKEROOT/var/lib
-mkdir -m 777 $DPKG_FAKEROOT/var/lib/dpkg
+#mkdir -m 777 $DPKG_FAKEROOT
+#mkdir -m 777 $DPKG_FAKEROOT/var
+#mkdir -m 777 $DPKG_FAKEROOT/var/lib
+#mkdir -m 777 $DPKG_FAKEROOT/var/lib/dpkg
 
-ls -al /var/lib
-ls -al /var/lib/dpkg
+#ls -al /var/lib
+#ls -al /var/lib/dpkg
 
 
-ls -al /usr/local
-ls -al /usr/local/lib
+#ls -al /usr/local
+#ls -al /usr/local/lib
 
 #dpkg --unpack --force-not-root --debug=2000 $LV_PKG_DEST
 
-tar -xzf $LV_PKG_DEST -C /usr/local/lib
-ls -al /usr/local
+#tar -xzf $LV_PKG_DEST -C /usr/local/lib
+#ls -al /usr/local
 #dpkg --force-all --log=../dpkg.log --debug=3773 --install $LV_PKG_DEST
 #cat ../dpkg.log
