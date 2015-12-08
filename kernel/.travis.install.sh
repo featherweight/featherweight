@@ -30,7 +30,7 @@ printenv
 LV_DOWNLOAD=http://ftp.ni.com/support/softlib/labview/labview_runtime/2014/Linux/LabVIEW2014RTE_Linux64.tgz
 LV_PKG_ORIG=labview-2014-rte-14.0.0-1.x86_64.rpm
 LV_PKG_DEST=labview-2014-rte_14.0.0-2_amd64.deb
-DPKG_INSTALL_DIR=$TRAVIS_BUILD_DIR/dpkg
+DPKG_FAKEROOT=$TRAVIS_BUILD_DIR/dpkg
 
 mkdir -p $1
 cd $1
@@ -56,9 +56,10 @@ fi
 set +e
 #sudo alien --install --veryverbose --scripts $LVPKG
 
-mkdir -p $DPKG_INSTALL_DIR
+mkdir -p $DPKG_FAKEROOT
+mkdir -p $DPKG_FAKEROOT/var/lib/dpkg
 
-dpkg --unpack --force-not-root --debug=2000 $LV_PKG_DEST
+#dpkg --unpack --force-not-root --debug=2000 $LV_PKG_DEST
 
 dpkg --install --force-not-root --root=$DPKG_INSTALL_DIR --log=../dpkg.log --debug=2000 --ignore-depends $LV_PKG_DEST
 cat ../dpkg.log
