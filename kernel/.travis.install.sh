@@ -45,14 +45,11 @@ else
   tar -xzf lvrte.tgz
 fi
 
-mkdir -p $LVDIR
-chroot $LVDIR
-
 if test -e $LV_PKG_DEST; then
   echo "Found cached LVRTE package: $LV_PKG_DEST"
 else
   echo "Did not find cached package: $LV_PKG_DEST"
-  alien --to-deb --scripts --veryverbose $LV_PKG_ORIG
+  fakeroot alien --to-deb --scripts --veryverbose $LV_PKG_ORIG
   ls -al
 fi
 
