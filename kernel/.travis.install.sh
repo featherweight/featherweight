@@ -31,9 +31,11 @@ LVSRC=http://ftp.ni.com/support/softlib/labview/labview_runtime/2014/Linux/LabVI
 LVPKG=labview-2014-rte-14.0.0-1.x86_64.rpm
 LVDIR=$TRAVIS_BUILD_DIR/lvrte
 
-# Enter the download cache directory
+mkdir -p $1
 cd $1
+ls -al
 
+# Test for presence of cached packages in download cache
 if test -e $LVPKG; then
   echo "Found cached LVRTE package: $LVPKG"
 else
@@ -42,15 +44,15 @@ else
   tar -xzf lvrte.tgz
 fi
 
-ls -al
 #fakeroot alien --to-deb --scripts --veryverbose labview-2014-rte-14.0.0-1.x86_64.rpm
-sudo alien --install --veryverbose labview-2014-rte-14.0.0-1.x86_64.rpm
-ls -al
-
-mkdir $LVDIR
-mkdir $LVDIR/dpkg
-
+#ls -al
 set +e
+sudo alien --install --veryverbose --log=../dpkg.log $LVPKG
+
+#mkdir $LVDIR
+#mkdir $LVDIR/dpkg
+
+
 #dpkg --install --force-not-root --root=$LVDIR --log=../dpkg.log --debug=2000 labview-2014-rte-14.0.0-1.x86_64.deb
 
 cat ../dpkg.log
