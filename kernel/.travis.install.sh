@@ -29,7 +29,7 @@ printenv
 
 LVSRC=http://ftp.ni.com/support/softlib/labview/labview_runtime/2014/Linux/LabVIEW2014RTE_Linux64.tgz
 LVPKG=labview-2014-rte-14.0.0-1.x86_64.rpm
-LVDIR=/usr/local
+LVDIR=$TRAVIS_BUILD_DIR/lvrte
 
 # Enter the download cache directory
 cd $1
@@ -58,9 +58,9 @@ ls
 # ls -al $LVDIR
 
 
-#mkdir $LVDIR/dpkg
+mkdir $LVDIR
 #ls -al $LVDIR/dpkg
 
-#fakeroot dpkg --install --force-not-root --root=$LVDIR --log=../dpkg.log labview-2014-rte_14.0.0-2_amd64.deb
+fakeroot dpkg --install --force-not-root --root=$LVDIR --log=../dpkg.log labview-2014-rte_14.0.0-2_amd64.deb
 
 cat ../dpkg.log
