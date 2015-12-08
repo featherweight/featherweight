@@ -47,7 +47,7 @@ fi
 #fakeroot alien --to-deb --scripts --veryverbose labview-2014-rte-14.0.0-1.x86_64.rpm
 #ls -al
 set +e
-sudo alien --install --veryverbose --log=../dpkg.log $LVPKG
+sudo alien --install --veryverbose $LVPKG
 
 #mkdir $LVDIR
 #mkdir $LVDIR/dpkg
