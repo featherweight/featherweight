@@ -66,10 +66,11 @@ ls -al /var/lib/dpkg
 
 
 ls -al /usr/local
+ls -al /usr/local/lib
 
 #dpkg --unpack --force-not-root --debug=2000 $LV_PKG_DEST
 
-tar -xzf $LV_PKG_DEST -C /usr/local
+tar -xzf $LV_PKG_DEST -C /usr/local/lib
 ls -al /usr/local
 #dpkg --force-all --log=../dpkg.log --debug=3773 --install $LV_PKG_DEST
 #cat ../dpkg.log
