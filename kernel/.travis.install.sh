@@ -56,8 +56,10 @@ fi
 set +e
 #sudo alien --install --veryverbose --scripts $LVPKG
 
-mkdir -p $DPKG_FAKEROOT
-mkdir -p $DPKG_FAKEROOT/var/lib/dpkg
+mkdir -m 777 $DPKG_FAKEROOT
+mkdir -m 777 $DPKG_FAKEROOT/var
+mkdir -m 777 $DPKG_FAKEROOT/var/lib
+mkdir -m 777 $DPKG_FAKEROOT/var/lib/dpkg
 
 #dpkg --unpack --force-not-root --debug=2000 $LV_PKG_DEST
 
