@@ -51,7 +51,7 @@ ls -al /var/lib/dpkg
 #mkdir /var/lib/dpkg
 
 #rpm --install --nodeps -vv $LVPKG
-alien --to-deb --scripts --veryverbose labview-2014-rte-14.0.0-1.x86_64.rpm
+fakeroot alien --to-deb --scripts --veryverbose labview-2014-rte-14.0.0-1.x86_64.rpm
 
 ls -al $LVDIR
 
@@ -59,4 +59,6 @@ ls -al $LVDIR
 #mkdir $LVDIR/dpkg
 ls -al $LVDIR/dpkg
 
-dpkg --install --force-not-root --root=$LVDIR labview-2014-rte_14.0.0-2_amd64.deb
+dpkg --install --force-not-root --root=$LVDIR --log=../dpkg.log labview-2014-rte_14.0.0-2_amd64.deb
+
+cat ../dpkg.log
