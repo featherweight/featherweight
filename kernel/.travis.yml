@@ -14,26 +14,15 @@ compiler:
 addons:
   apt:
     packages:
-    - alien
+#    - alien
 
 cache:
   directories:
   - download-cache
 
-install:
-  - ./.travis.install.sh download-cache
-  - ls
-#  - wget http://ftp.ni.com/support/softlib/labview/labview_runtime/2014/Linux/LabVIEW2014RTE_Linux64.tgz -O lvrte.tgz
-#  - tar -xzf lvrte.tgz
-#  - ls
-#  - alien --install --scripts labview-2014-rte-14.0.0-1.x86_64.rpm
-#  - rpm --install --test --vv labview-2014-rte-14.0.0-1.x86_64.rpm
-#  - ls /usr/local/lib
-
 script:
-  - ./build-ftw.sh liblvrt.so.14 ./download-cache/usr/local/lib64/LabVIEW-2014-64/
-#script:
-#  - autoconf --version
+  - ./.travis.install.sh download-cache
+  - ./build-ftw.sh liblvrt.so.14 $TRAVIS_BUILD_DIR/download-cache/usr/local/lib64/LabVIEW-2014-64/
 
 matrix:
   allow_failures:
