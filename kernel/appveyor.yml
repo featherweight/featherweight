@@ -27,4 +27,4 @@ build_script:
   - cmd: cmake -G "%GENERATOR%" -DWS_AUTOBAHN_TESTS=ON ..
   - cmd: cmake --build .
 test_script:
-  - cmd: ctest --output-on-failure --build-config "%CFG%"
+  - cmd: ctest --output-on-failure --build-config "%CFG%" --exclude-regex "device7|tcp_shutdown"
