@@ -1,1 +1,4 @@
 build/
+pcre/upstream/config.h
+pcre/upstream/pcre2.h
+pcre/upstream/pcre2_chartables.c
