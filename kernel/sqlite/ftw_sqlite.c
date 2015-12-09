@@ -58,7 +58,7 @@ int ftw_sqlite_prepare(sqlite3 *connection, ConstLStrH sql, PointerArray **state
     MgErr lv_err;
     int max_statements;
     const char *ptr;
-    char *next_ptr;
+    const char *next_ptr;
     int len;
     int rc;
     int count;
