@@ -17,6 +17,7 @@ cache:
   - $HOME/.cache/pip
 install:
   - pip install --user autobahntestsuite
+  - wstest --autobahnversion
 script:
   - ./.travis.install.sh download-cache
   - ./build-ftw.sh liblvrtdark.so $TRAVIS_BUILD_DIR/download-cache/
