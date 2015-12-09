@@ -1,4 +1,4 @@
-# featherweight-dev
+# featherweight-kernel
 
 
 This repository is intended for Featherweight developers and contributors. If you're just looking to use Featherweight, check out https://github.com/wirebirdlabs/featherweight.
@@ -28,7 +28,7 @@ Win32: [![Win32 status](https://ci.appveyor.com/api/projects/status/kkmx5uptnx14
 #### Prerequisites
   1. Hardware target with NI Linux Real-Time
   1. Internet connection for hardware target *(Alternatively, repository and build toolchain may be transferred via USB or a local network connection, but that is outside the scope of this tutorial)*
-  1. NI LabVIEW 2013 or higher
+  1. NI LabVIEW 2014 or higher
 
 #### Preparing hardware target for building
   1. From NI MAX, ensure the latest firmware and software are installed on the hardware target
@@ -55,18 +55,18 @@ Win32: [![Win32 status](https://ci.appveyor.com/api/projects/status/kkmx5uptnx14
 #### Prerequisites
   1. CMake 2.8.12 or higher
   1. Microsoft Visual Studio 2010 or higher (Visual Studio Express is freely available for open source projects like Featherweight)
-  1. NI LabVIEW 2013 or higher
+  1. NI LabVIEW 2014 or higher
 
 #### Build process
-  1. Clone this repository with the `--recursive` flag to ensure all submodules are cloned: `git clone --recursive https://github.com/wirebirdlabs/featherweight-lib.git`
-  1. Navigate to the root and create a build directory: `md builds`
-  1. Enter this new build directory: `cd builds`
+  1. Clone this repository with the `--recursive` flag to ensure all submodules are cloned: `git clone --recursive https://github.com/featherweight/ftw-kernel.git`
+  1. Navigate to the root and create a build directory: `md build`
+  1. Enter this new build directory: `cd build`
   1. Invoke build system generation: `cmake ..`
     - alternatively, specify the backend generator, such as `cmake -G "Visual Studio 12" ..`
   1. Open the newly generated MSVS solution: `featherweight.sln`
   1. Build the `ALL_BUILD` project to generate the library and tests
   1. Build `RUN_TESTS` to ensure unit tests pass
-  1. Optionally, configure the `featherweight` project to more convenient settings while specifically developing:
+  1. Optionally, configure the `featherweight` project with more convenient settings:
     - "Set as StartUp Project" for `featherweight` project
     - /General/Output Directory: `..\..\ftw-master\lib\`
     - /Debugging/Command: `"C:\Program Files (x86)\National Instruments\LabVIEW 2015\LabVIEW.exe"`
