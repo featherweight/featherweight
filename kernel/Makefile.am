@@ -45,7 +45,7 @@ libftw_la_SOURCES = \
 libftw_la_LIBADD = \
     jansson/upstream/src/libjansson.la \
     nanomsg/upstream/libnanomsg.la \
-    pcre/upstream/libpcre.la
+    pcre/upstream/libpcre2-8.la
 
 # TODO: better detection of this flag needed for nanomsg
 #libftw_la_CPPFLAGS = -DNN_HAVE_OSX
