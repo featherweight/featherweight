@@ -100,6 +100,7 @@ AC_CHECK_FUNCS([mremap], [
 ])
 
 AC_ARG_VAR([LVRTE_DIR], "Absolute path to the LVRTE install directory.")
+AC_ARG_VAR([LVRTE_LIB], "LVRTE shared library and version.")
 
 AC_CONFIG_FILES([Makefile])
 

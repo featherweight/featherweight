@@ -55,8 +55,8 @@ libftw_la_CPPFLAGS = -DNN_HAVE_SEMAPHORE
 
 libftw_la_LDFLAGS = \
     -version-info 1:0:0 \
-    -L@LVRTE_DIR@ \
-    -l:liblvrt.so.14.0 \
+    -L$(LVRTE_DIR) \
+    -l:$(LVRTE_LIB) \
     -no-undefined
 
 #libftw_la_LDFLAGS = \
