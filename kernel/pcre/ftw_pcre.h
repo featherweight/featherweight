@@ -30,8 +30,8 @@ extern "C" {
 #define PCRE2_CODE_UNIT_WIDTH 8
 
 #include "../ftw.h"
-#include "upstream/config.h"
-#include "upstream/pcre2.h"
+#include "upstream/src/config.h"
+#include "upstream/src/pcre2.h"
 
 /*  FTW-PCRE types. */
 struct ftw_pcre_callout_data {

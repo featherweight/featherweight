@@ -331,7 +331,7 @@ ENDIF(PCRE2_HEAP_MATCH_RECURSE)
 # Output files
 
 CONFIGURE_FILE(config-cmake.h.in
-               ${PROJECT_SOURCE_DIR}/config.h
+               ${PROJECT_SOURCE_DIR}/src/config.h
                @ONLY)
 
 # Parse version numbers and date out of configure.ac
@@ -355,7 +355,7 @@ foreach(configure_line ${configure_lines})
 endforeach()
 
 CONFIGURE_FILE(src/pcre2.h.in
-               ${PROJECT_SOURCE_DIR}/pcre2.h
+               ${PROJECT_SOURCE_DIR}/src/pcre2.h
                @ONLY)
 
 # What about pcre2-config and libpcre2.pc?
@@ -369,22 +369,22 @@ IF(PCRE2_REBUILD_CHARTABLES)
     COMMENT "Generating character tables (pcre2_chartables.c) for current locale"
     DEPENDS dftables
     COMMAND dftables
-    ARGS        ${PROJECT_SOURCE_DIR}/pcre2_chartables.c
-    OUTPUT      ${PROJECT_SOURCE_DIR}/pcre2_chartables.c
+    ARGS        ${PROJECT_SOURCE_DIR}/src/pcre2_chartables.c
+    OUTPUT      ${PROJECT_SOURCE_DIR}/src/pcre2_chartables.c
   )
 ELSE(PCRE2_REBUILD_CHARTABLES)
   CONFIGURE_FILE(${PROJECT_SOURCE_DIR}/src/pcre2_chartables.c.dist
-                    ${PROJECT_SOURCE_DIR}/pcre2_chartables.c
+                    ${PROJECT_SOURCE_DIR}/src/pcre2_chartables.c
                     COPYONLY)
 ENDIF(PCRE2_REBUILD_CHARTABLES)
 
 # Source code
 
-SET(PCRE2_HEADERS ${PROJECT_SOURCE_DIR}/pcre2.h)
+SET(PCRE2_HEADERS ${PROJECT_SOURCE_DIR}/src/pcre2.h)
 
 SET(PCRE2_SOURCES
   src/pcre2_auto_possess.c
-  ${PROJECT_SOURCE_DIR}/pcre2_chartables.c
+  ${PROJECT_SOURCE_DIR}/src/pcre2_chartables.c
   src/pcre2_compile.c
   src/pcre2_config.c
   src/pcre2_context.c
@@ -465,7 +465,7 @@ SET(targets)
 # 8-bit library
 
 IF(PCRE2_BUILD_PCRE2_8)
-ADD_LIBRARY(pcre2-8 ${PCRE2_HEADERS} ${PCRE2_SOURCES} ${PROJECT_SOURCE_DIR}/config.h)
+ADD_LIBRARY(pcre2-8 ${PCRE2_HEADERS} ${PCRE2_SOURCES} ${PROJECT_SOURCE_DIR}/src/config.h)
 SET_PROPERTY(TARGET pcre2-8
   PROPERTY COMPILE_DEFINITIONS PCRE2_CODE_UNIT_WIDTH=8)
 SET(targets ${targets} pcre2-8)
@@ -488,7 +488,7 @@ ENDIF(PCRE2_BUILD_PCRE2_8)
 # 16-bit library
 
 IF(PCRE2_BUILD_PCRE2_16)
-ADD_LIBRARY(pcre2-16 ${PCRE2_HEADERS} ${PCRE2_SOURCES} ${PROJECT_SOURCE_DIR}/config.h)
+ADD_LIBRARY(pcre2-16 ${PCRE2_HEADERS} ${PCRE2_SOURCES} ${PROJECT_SOURCE_DIR}/src/config.h)
 SET_PROPERTY(TARGET pcre2-16
   PROPERTY COMPILE_DEFINITIONS PCRE2_CODE_UNIT_WIDTH=16)
 SET(targets ${targets} pcre2-16)
@@ -506,7 +506,7 @@ ENDIF(PCRE2_BUILD_PCRE2_16)
 # 32-bit library
 
 IF(PCRE2_BUILD_PCRE2_32)
-ADD_LIBRARY(pcre2-32 ${PCRE2_HEADERS} ${PCRE2_SOURCES} ${PROJECT_SOURCE_DIR}/config.h)
+ADD_LIBRARY(pcre2-32 ${PCRE2_HEADERS} ${PCRE2_SOURCES} ${PROJECT_SOURCE_DIR}/src/config.h)
 SET_PROPERTY(TARGET pcre2-32
   PROPERTY COMPILE_DEFINITIONS PCRE2_CODE_UNIT_WIDTH=32)
 SET(targets ${targets} pcre2-32)
