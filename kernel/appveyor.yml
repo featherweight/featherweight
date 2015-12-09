@@ -24,7 +24,7 @@ build_script:
   - cmd: git submodule update --init
   - cmd: md build
   - cmd: cd build
-  - cmd: cmake -G "%GENERATOR%" -DWS_AUTOBAHN_TESTS=ON ..
+  - cmd: cmake -G "%GENERATOR%" -DWS_AUTOBAHN_TESTS=OFF ..
   - cmd: cmake --build .
 test_script:
   - cmd: ctest --output-on-failure --build-config "%CFG%" --exclude-regex "device7|tcp_shutdown"

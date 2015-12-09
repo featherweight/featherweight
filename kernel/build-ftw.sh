@@ -29,7 +29,7 @@ set -ve
 ./autogen.sh
 
 # Configure for this platform
-./configure LVRTE_DIR=$2 LVRTE_LIB=$1
+./configure LVRTE_DIR=$2 LVRTE_LIB=$1 --enable-autobahntest=no
 
 # Generate libraries
 make
