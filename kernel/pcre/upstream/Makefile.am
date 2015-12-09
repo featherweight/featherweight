@@ -266,21 +266,6 @@ libpcre2_32_la_CFLAGS += $(GCOV_CFLAGS)
 endif # WITH_PCRE2_32
 endif # WITH_GCOV
 
-## A version of the 8-bit library that has a POSIX API.
-
-if WITH_PCRE2_8
-lib_LTLIBRARIES += libpcre2-posix.la
-libpcre2_posix_la_SOURCES = src/pcre2posix.c
-libpcre2_posix_la_CFLAGS = \
-  -DPCRE2_CODE_UNIT_WIDTH=8 \
-  $(VISIBILITY_CFLAGS) $(AM_CFLAGS)
-libpcre2_posix_la_LDFLAGS = $(EXTRA_LIBPCRE2_POSIX_LDFLAGS)
-libpcre2_posix_la_LIBADD = libpcre2-8.la
-if WITH_GCOV
-libpcre2_posix_la_CFLAGS += $(GCOV_CFLAGS)
-endif # WITH_GCOV
-endif # WITH_PCRE2_8
-
 ## Build pcre2grep if the 8-bit library is enabled
 
 if WITH_PCRE2_8
@@ -331,7 +316,7 @@ pcre2test_CFLAGS = $(AM_CFLAGS)
 pcre2test_LDADD = $(LIBREADLINE)
 
 if WITH_PCRE2_8
-pcre2test_LDADD += libpcre2-8.la libpcre2-posix.la
+pcre2test_LDADD += libpcre2-8.la
 endif # WITH_PCRE2_8
 
 if WITH_PCRE2_16
@@ -465,7 +450,7 @@ pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA =
 
 if WITH_PCRE2_8
-pkgconfig_DATA += libpcre2-8.pc libpcre2-posix.pc
+pkgconfig_DATA += libpcre2-8.pc
 endif
 
 if WITH_PCRE2_16
