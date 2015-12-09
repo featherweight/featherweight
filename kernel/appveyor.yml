@@ -11,8 +11,8 @@ environment:
 #    - GENERATOR: Visual Studio 12 2013 Win64
 #      CFG: Debug
 cache:
-  - "%LocalAppData%\\pip"
-  - "C:\\Python27\\Lib\\site-packages"
+#  - "%LocalAppData%\\pip"
+#  - "C:\\Python27\\Lib\\site-packages"
 build:
   parallel: true
 build_script:
