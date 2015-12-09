@@ -65,6 +65,7 @@ pcre2_code *ftw_pcre_compile(ConstLStrH regex, uint32_t options, LStrHandle err_
 int32 ftw_pcre_capture_groups(const pcre2_code *compiled_regex, LStrHandleArray **named_capturing_groups)
 {
     int rc;
+    uint32_t i;
     uint32_t num_submatches;
     uint32_t namecount;
     uint32_t namesize;
@@ -97,7 +98,7 @@ int32 ftw_pcre_capture_groups(const pcre2_code *compiled_regex, LStrHandleArray 
     namesize = entrysize - sizeof(submatch_index);
     offset = nametable;
 
-    for (uint32_t i = 0; i < namecount; i++) {
+    for (i = 0; i < namecount; i++) {
         offset = nametable + i * entrysize;
         submatch_index = Word(offset[0], offset[1]) - 1;
         offset += sizeof(submatch_index);
@@ -122,8 +123,9 @@ int32 ftw_pcre_match(const pcre2_code *compiled_regex, ConstLStrH subject,
     PCRE2_SIZE *ovector;
     uint32_t ovec_count;
     int num_submatches;
-    int32 rc;
     MgErr lv_err;
+    int32 rc;
+    int i;
 
     ctx = pcre2_match_context_create(NULL);
     if (ctx == NULL)
@@ -191,7 +193,7 @@ int32 ftw_pcre_match(const pcre2_code *compiled_regex, ConstLStrH subject,
         goto MATCH_DONE;
     }
 
-    for (int i = 0; i < num_submatches; i++) {
+    for (i = 0; i < num_submatches; i++) {
         /*  Advance to next submatch pair. */
         ovector += 2;
         (*submatches)->element[2 * i] = ovector[0];
