@@ -108,13 +108,14 @@ MgErr ftw_sqlite_parameters(sqlite3_stmt *statement, LStrHandleArray **parameter
     MgErr lv_err;
     const char *param_name;
     int count;
+    int i;
 
     count = sqlite3_bind_parameter_count(statement);
     lv_err = ftw_support_expand_LStrHandleArray(&parameters, count);
     if (lv_err)
         return lv_err;
 
-    for (int i = 0; i < count; i++) {
+    for (i = 0; i < count; i++) {
         param_name = sqlite3_bind_parameter_name(statement, i + 1);
         lv_err = ftw_support_CStr_to_LStrHandle(&(*parameters)->element[i], param_name, strlen(param_name));
         if (lv_err)
