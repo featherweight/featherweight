@@ -1,12 +1,11 @@
-#sudo: required
 sudo: false
+language: c
 os:
   - linux
 #  - osx
-language: c
 compiler:
-- gcc
-#  - clang
+  - gcc
+  - clang
 addons:
   apt:
     packages:
