@@ -22,7 +22,7 @@ cache:
 
 script:
   - ./.travis.install.sh download-cache
-  - ./build-ftw.sh liblvrt.so.14 $TRAVIS_BUILD_DIR/download-cache/usr/local/lib64/LabVIEW-2014-64/
+  - ./build-ftw.sh liblvrtdark.so $TRAVIS_BUILD_DIR/download-cache/usr/local/lib64/LabVIEW-2014-64/
 
 matrix:
   allow_failures:
