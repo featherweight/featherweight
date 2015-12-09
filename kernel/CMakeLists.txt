@@ -58,7 +58,8 @@ set (PCRE2_DIR "${CMAKE_CURRENT_SOURCE_DIR}/pcre/upstream")
     endif()
 
 ### nanomsg
-    add_subdirectory (${NANOMSG_DIR} ${NANOMSG_DIR}/builds)
+    set (WS_AUTOBAHN_TESTS ON CACHE BOOL "Opt-in to Autobahn WebSocket tests.")
+    add_subdirectory (${NANOMSG_DIR} ${NANOMSG_DIR}/build)
 
     #  Build chain settings, and suppress exporting nanomsg functions (since library functionality is curated and exported as ftw-nanomsg functions).
     if (MSVC)
