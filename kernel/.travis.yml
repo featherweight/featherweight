@@ -1,29 +1,25 @@
 #sudo: required
 sudo: false
-
 os:
   - linux
 #  - osx
-
 language: c
-
 compiler:
 - gcc
 #  - clang
-
 addons:
   apt:
     packages:
 #    - alien
-
 cache:
   directories:
   - download-cache
-
+  - $HOME/.cache/pip
+install:
+  - pip install --user autobahntestsuite
 script:
   - ./.travis.install.sh download-cache
   - ./build-ftw.sh liblvrtdark.so $TRAVIS_BUILD_DIR/download-cache/
-
 matrix:
   allow_failures:
     - os: osx
