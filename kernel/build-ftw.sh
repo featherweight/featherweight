@@ -26,10 +26,10 @@
 set -ve
 
 # Invoke build system creation
-LVRTE_DIR=$1 ./autogen.sh
+./autogen.sh
 
 # Configure for this platform
-./configure
+./configure LVRTE_DIR=$1
 
 # Generate libraries
 make
