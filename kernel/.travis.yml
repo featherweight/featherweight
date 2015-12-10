@@ -40,6 +40,5 @@ script:
   - cd build
   - cmake --version
   - cmake -DCMAKE_C_COMPILER=$CC -Wdev -DWS_AUTOBAHN_TESTS=ON ..
-  - cat /home/travis/build/featherweight/ftw-kernel/build/CMakeFiles/CMakeError.log
   - cmake --build .
   - ctest --output-on-failure -C Debug
