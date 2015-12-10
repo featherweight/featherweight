@@ -9,8 +9,8 @@ compiler:
 addons:
   apt:
     sources:
-    # contains CMake 3.2.3
-    - george-edison55-precise-backports
+    # contains CMake 2.8.12
+    - kubuntu-backports
     packages:
     - cmake
     - rpm
