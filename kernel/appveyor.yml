@@ -11,7 +11,8 @@ environment:
 #    - GENERATOR: Visual Studio 12 2013 Win64
 #      CFG: Debug
 cache:
-  - C:\Python27\Lib\site-packages -> appveyor.yml
+  - "%LocalAppData%\\pip"
+  - "C:\\Python27\\Lib\\site-packages"
 build:
   parallel: true
 build_script:
