@@ -1,11 +1,21 @@
 sudo: false
 language: c
-os:
-  - linux
+matrix:
+  include:
+    - os: linux
+      compiler: gcc
+    - os: linux
+      compiler: clang
+    - os: osx
+      compiler: gcc
+    - os: osx
+      compiler: clang
+#os:
+#  - linux
 #  - osx
-compiler:
-  - gcc
-  - clang
+#compiler:
+#  - gcc
+#  - clang
 addons:
   apt:
     sources:
@@ -29,9 +39,9 @@ script:
 #  - make check
 #  - ./build-ftw.sh
   - cmake --version
-  - cmake -G
+#  - cmake -G
   - mkdir build
   - cd build
-  - cmake -DWS_AUTOBAHN_TESTS=ON ..
+  - cmake -G "$CC" -DWS_AUTOBAHN_TESTS=ON ..
   - cmake --build .
   - ctest --output-on-failure -C Debug

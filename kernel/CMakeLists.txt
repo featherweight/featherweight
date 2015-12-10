@@ -20,7 +20,7 @@
 #    IN THE SOFTWARE.
 #
 
-cmake_minimum_required (VERSION 3.0)
+cmake_minimum_required (VERSION 2.8.12)
 include (CheckIncludeFiles)
 include (CheckSymbolExists)
 include (CheckCSourceCompiles)
