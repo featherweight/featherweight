@@ -35,6 +35,8 @@ script:
   - cmake --version
   - cmake -DCMAKE_C_COMPILER=$CC
   - cmake -Wdev
+  - pwd
+  - ls -al
   - mkdir build
   - cd build
   - cmake -DWS_AUTOBAHN_TESTS=ON ..
