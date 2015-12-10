@@ -29,6 +29,7 @@ script:
 #  - make check
 #  - ./build-ftw.sh
   - cmake --version
+  - cmake -G
   - mkdir build
   - cd build
   - cmake -DWS_AUTOBAHN_TESTS=ON ..
