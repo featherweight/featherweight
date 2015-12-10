@@ -134,7 +134,7 @@ set (PCRE2_DIR "${CMAKE_CURRENT_SOURCE_DIR}/pcre/upstream")
     # Add links to the LabVIEW Runtime Engine
     if (MSVC)
       target_link_libraries (${CMAKE_PROJECT_NAME} ../labview/labviewv)
-    elseif (UNIX && APPLE)
+    elseif (UNIX AND APPLE)
       target_link_libraries (${CMAKE_PROJECT_NAME} "/Library/Frameworks/LabVIEW 14.0 Runtime")
     elseif (UNIX)
       target_link_libraries (${CMAKE_PROJECT_NAME} liblvrtdark.so)
