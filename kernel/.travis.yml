@@ -22,6 +22,8 @@ cache:
   directories:
   - download-cache
   - $HOME/.cache/pip
+before_cache:
+  - rm -f $HOME/.cache/pip/log/debug.log
 script:
   - pip install --user autobahntestsuite
   - wstest --autobahnversion
@@ -37,8 +39,6 @@ script:
   - mkdir build
   - cd build
   - cmake --version
-  - cmake -DCMAKE_C_COMPILER=$CC
-  - cmake -Wdev
-  - cmake -DWS_AUTOBAHN_TESTS=ON ..
+  - cmake -DCMAKE_C_COMPILER=$CC -Wdev -DWS_AUTOBAHN_TESTS=ON ..
   - cmake --build .
   - ctest --output-on-failure -C Debug
