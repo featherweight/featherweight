@@ -32,13 +32,13 @@ script:
 #  - readelf -Ws .libs/libftw.so | awk '$4 == "FUNC" && $5 == "GLOBAL" && $7 != "UND"'
 #  - make check
 #  - ./build-ftw.sh
-  - cmake --version
-  - cmake -DCMAKE_C_COMPILER=$CC
-  - cmake -Wdev
   - pwd
   - ls -al
   - mkdir build
   - cd build
+  - cmake --version
+  - cmake -DCMAKE_C_COMPILER=$CC
+  - cmake -Wdev
   - cmake -DWS_AUTOBAHN_TESTS=ON ..
   - cmake --build .
   - ctest --output-on-failure -C Debug
