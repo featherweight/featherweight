@@ -143,7 +143,7 @@ set (PCRE2_DIR "${CMAKE_CURRENT_SOURCE_DIR}/pcre/upstream")
         message (FATAL_ERROR "${CMAKE_PROJECT_NAME} could not detect Windows bitness.")
       endif ()
     else ()
-          message (FATAL_ERROR "${CMAKE_PROJECT_NAME} is not supported on this architecture.")
+      set_target_properties("${CMAKE_PROJECT_NAME}" PROPERTIES OUTPUT_NAME "libftw")
     endif ()
 
     if (MSVC)
