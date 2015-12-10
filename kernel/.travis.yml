@@ -14,10 +14,10 @@ addons:
     packages:
     - cmake
     - rpm
-#cache:
-#  directories:
-#  - download-cache
-#  - $HOME/.cache/pip
+cache:
+  directories:
+  - download-cache
+  - $HOME/.cache/pip
 script:
   - pip install --user autobahntestsuite
   - wstest --autobahnversion
