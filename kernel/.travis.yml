@@ -15,7 +15,6 @@ cache:
   - download-cache
   - $HOME/.cache/pip
 script:
-  - set -ve
   - pip install --user autobahntestsuite
   - wstest --autobahnversion
   - ./.travis.install.sh download-cache
