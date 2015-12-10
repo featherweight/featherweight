@@ -68,7 +68,7 @@ set (PCRE2_DIR "${CMAKE_CURRENT_SOURCE_DIR}/pcre/upstream")
         set (NANOMSG_COMPILE_DEFS -DNN_NO_EXPORTS -DNN_HAVE_MINGW -DNN_HAVE_STDINT -D_WIN32_WINNT=0x0600)
     else ()
         set (NANOMSG_COMPILE_DEFS -DNN_NO_EXPORTS -DNN_USE_SIOCGIFADDR)
-        message (FATAL_ERROR "ERROR: CMake build system not yet supported for *NIX platforms." )
+        #message (FATAL_ERROR "ERROR: CMake build system not yet supported for *NIX platforms." )
     endif ()
 
     get_target_property (NANOMSG_SRC_FILES_TMP nanomsg SOURCES)

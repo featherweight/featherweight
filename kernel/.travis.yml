@@ -19,9 +19,15 @@ script:
   - pip install --user autobahntestsuite
   - wstest --autobahnversion
   - ./.travis.install.sh download-cache
-  - autoreconf -ifv
-  - ./configure --enable-autobahntest=yes LVRTE_DIR=$TRAVIS_BUILD_DIR/download-cache/ LVRTE_LIB=liblvrtdark.so
-  - make
-  - readelf -Ws .libs/libftw.so | awk '$4 == "FUNC" && $5 == "GLOBAL" && $7 != "UND"'
-  - make check
-  - ./build-ftw.sh
+#  - autoreconf -ifv
+#  - ./configure --enable-autobahntest=yes LVRTE_DIR=$TRAVIS_BUILD_DIR/download-cache/ LVRTE_LIB=liblvrtdark.so
+#  - make
+#  - readelf -Ws .libs/libftw.so | awk '$4 == "FUNC" && $5 == "GLOBAL" && $7 != "UND"'
+#  - make check
+#  - ./build-ftw.sh
+  - cmake --version
+  - md build
+  - cd build
+  - cmake -DWS_AUTOBAHN_TESTS=ON ..
+  - cmake --build .
+  - ctest --output-on-failure -C Debug
