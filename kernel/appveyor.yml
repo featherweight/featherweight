@@ -18,6 +18,7 @@ build:
 build_script:
   # enable calling pip directly
   - cmd: set PATH=%SystemDrive%\Python27\Scripts;%PATH%
+  - cmd: mkdir -p pkgcache
   - cmd: pip install --download-cache pkgcache autobahntestsuite
   - cmd: wstest --autobahnversion
   - cmd: cmake --version
