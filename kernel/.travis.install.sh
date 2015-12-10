@@ -24,14 +24,10 @@
 
 # Configure this script to exit on error, skipping downstream commands, and also echo commands
 set -ve
-
 printenv
 
 LV_DOWNLOAD_URL=http://ftp.ni.com/support/softlib/labview/labview_runtime/2014/Linux/LabVIEW2014RTE_Linux64.tgz
 LV_PKG_ORIG=labview-2014-rte-14.0.0-1.x86_64.rpm
-#DPKG_FAKEROOT=$TRAVIS_BUILD_DIR/dpkg
-#LV_PKG_DEST=labview-2014-rte-14.0.0.tgz
-#DPKG_FAKEROOT=$TRAVIS_BUILD_DIR/dpkg
 
 mkdir -p $1
 cd $1
@@ -41,46 +37,15 @@ if test -e $LV_PKG_ORIG; then
   echo "Found cached LVRTE package: $LV_PKG_ORIG"
 else
   echo "Did not find cached package: $LV_PKG_ORIG"
+  # Download package and extract locally; we cannot truly install this package without root privileges
   wget $LV_DOWNLOAD_URL -O lvrte.tgz && \
-  tar -xzf lvrte.tgz
+  tar -xzf lvrte.tgz && \
+  rpm2cpio $LV_PKG_ORIG | cpio -idmv
+  # Create symbolic links in order to link easily when building
+  ln -sf ./usr/local/lib64/LabVIEW-2014-64/liblvrt.so.14.0.0 liblvrt.so
+  ln -sf ./usr/local/lib64/LabVIEW-2014-64/liblvrtdark.so.14.0.0 liblvrtdark.so
 fi
+
+readlink -f liblvrt.so
+readlink -f liblvrtdark.so
 ls -al
-
-rpm2cpio $LV_PKG_ORIG | cpio -idmv
-ls -al
-
-
-ln -sf ./usr/local/lib64/LabVIEW-2014-64/liblvrt.so.14.0.0 liblvrt.so
-ln -sf ./usr/local/lib64/LabVIEW-2014-64/liblvrtdark.so.14.0.0 liblvrtdark.so
-
-#if test
-
-#if test -e $LV_PKG_DEST; then
-#  echo "Found cached LVRTE package: $LV_PKG_DEST"
-#else
-#  echo "Did not find cached package: $LV_PKG_DEST"
-#  fakeroot alien --to-tgz --veryverbose $LV_PKG_ORIG
-#  ls -al
-#fi
-
-set +e
-#sudo alien --install --veryverbose --scripts $LVPKG
-
-#mkdir -m 777 $DPKG_FAKEROOT
-#mkdir -m 777 $DPKG_FAKEROOT/var
-#mkdir -m 777 $DPKG_FAKEROOT/var/lib
-#mkdir -m 777 $DPKG_FAKEROOT/var/lib/dpkg
-
-#ls -al /var/lib
-#ls -al /var/lib/dpkg
-
-
-#ls -al /usr/local
-#ls -al /usr/local/lib
-
-#dpkg --unpack --force-not-root --debug=2000 $LV_PKG_DEST
-
-#tar -xzf $LV_PKG_DEST -C /usr/local/lib
-#ls -al /usr/local
-#dpkg --force-all --log=../dpkg.log --debug=3773 --install $LV_PKG_DEST
-#cat ../dpkg.log

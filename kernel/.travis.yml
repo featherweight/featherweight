@@ -10,17 +10,18 @@ addons:
   apt:
     packages:
     - rpm
-#    - alien
 cache:
   directories:
   - download-cache
   - $HOME/.cache/pip
-install:
+script:
+  - set -ve
   - pip install --user autobahntestsuite
   - wstest --autobahnversion
-script:
   - ./.travis.install.sh download-cache
-  - ./build-ftw.sh liblvrtdark.so $TRAVIS_BUILD_DIR/download-cache/
-matrix:
-  allow_failures:
-    - os: osx
+  - autoreconf -ifv
+  - ./configure --enable-autobahntest=yes LVRTE_DIR=$TRAVIS_BUILD_DIR/download-cache/ LVRTE_LIB=liblvrtdark.so
+  - make
+  - readelf -Ws .libs/libftw.so | awk '$4 == "FUNC" && $5 == "GLOBAL" && $7 != "UND"'
+  - make check
+  - ./build-ftw.sh
