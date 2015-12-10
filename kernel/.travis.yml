@@ -12,6 +12,7 @@ addons:
     # contains CMake 3.2.3
     - george-edison55-precise-backports
     packages:
+    - cmake
     - rpm
 #cache:
 #  directories:
