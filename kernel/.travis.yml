@@ -30,7 +30,7 @@ script:
   - ./.travis.install.sh download-cache
   - autoreconf -ifv
   - ./configure --enable-autobahntest=yes LVRTE_DIR=$TRAVIS_BUILD_DIR/download-cache/ LVRTE_LIB=liblvrtdark.so
-  - make
+  - make -d
   - readelf -Ws .libs/libftw.so | awk '$4 == "FUNC" && $5 == "GLOBAL" && $7 != "UND"'
   - make check
 #  - ./build-ftw.sh
