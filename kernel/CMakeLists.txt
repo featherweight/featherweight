@@ -67,45 +67,40 @@ set (PCRE2_DIR "${CMAKE_CURRENT_SOURCE_DIR}/pcre/upstream")
 
 ### nanomsg
     set (WS_AUTOBAHN_TESTS ON CACHE BOOL "Opt-in to Autobahn WebSocket tests.")
+    set (NN_STATIC_LIB ON CACHE BOOL "Include as part of amalgamation.")
     add_subdirectory (${NANOMSG_DIR} ${NANOMSG_DIR}/build)
 
     #  Build chain settings, and suppress exporting nanomsg functions (since library functionality is curated and exported as ftw-nanomsg functions).
-    if (MSVC)
-        set (NANOMSG_COMPILE_DEFS -DNN_NO_EXPORTS -DNN_HAVE_WINDOWS -DNN_USE_LITERAL_IFADDR -D_CRT_SECURE_NO_WARNINGS)
-    elseif (UNIX)
-        set (NANOMSG_COMPILE_DEFS -DNN_NO_EXPORTS -DNN_USE_SIOCGIFADDR)
-    else ()
-        message (FATAL_ERROR "ERROR: CMake build system not yet supported for *NIX platforms." )
-    endif ()
+    # set (NANOMSG_COMPILE_DEFS -DNN_NO_EXPORTS)
 
-    get_target_property (NANOMSG_SRC_FILES_TMP nanomsg SOURCES)
-    get_target_property (NANOMSG_LINK_LIBS nanomsg LINK_LIBRARIES)
+    # get_target_property (NANOMSG_SRC_FILES_TMP nanomsg SOURCES)
+    # get_target_property (NANOMSG_LINK_LIBS nanomsg LINK_LIBRARIES)
 
-    set (NANOMSG_SRC_DIR "${NANOMSG_DIR}/src")
+    # set (NANOMSG_SRC_DIR "${NANOMSG_DIR}/src")
 
     # Provide same folder structure in MSVC project as on disk
-    foreach (f ${NANOMSG_SRC_FILES_TMP})
-        # Get the path of the file relative to source directory
-        if (IS_ABSOLUTE "${f}")
-            file (RELATIVE_PATH f ${NANOMSG_SRC_DIR} ${f})
-        endif ()
-        set (SRC_GROUP "${f}")
-        set (f "${NANOMSG_SRC_DIR}/${f}")
+    # foreach (f ${NANOMSG_SRC_FILES_TMP})
+    #     # Get the path of the file relative to source directory
+    #     if (IS_ABSOLUTE "${f}")
+    #         file (RELATIVE_PATH f ${NANOMSG_SRC_DIR} ${f})
+    #     endif ()
+    #     set (SRC_GROUP "${f}")
+    #     set (f "${NANOMSG_SRC_DIR}/${f}")
+    #
+    #     # Remove the filename part
+    #     string (REGEX REPLACE "(.*)(/[^/]*)$" "\\1" SRC_GROUP ${SRC_GROUP})
+    #
+    #     # CMake source_group expects \\, not /
+    #     string (REPLACE / \\ SRC_GROUP ${SRC_GROUP})
+    #     source_group ("${SRC_GROUP}" FILES ${f})
+    #
+    #     list (APPEND NANOMSG_SRC_FILES ${f})
+    #     #message( STATUS "${SRC_GROUP} -- ${f}")
+    # endforeach ()
 
-        # Remove the filename part
-        string (REGEX REPLACE "(.*)(/[^/]*)$" "\\1" SRC_GROUP ${SRC_GROUP})
-
-        # CMake source_group expects \\, not /
-        string (REPLACE / \\ SRC_GROUP ${SRC_GROUP})
-        source_group ("${SRC_GROUP}" FILES ${f})
-
-        list (APPEND NANOMSG_SRC_FILES ${f})
-        #message( STATUS "${SRC_GROUP} -- ${f}")
-    endforeach ()
-
-    add_library (ftwnanomsg STATIC ${NANOMSG_SRC_FILES})
-    target_compile_definitions (ftwnanomsg PUBLIC ${NANOMSG_COMPILE_DEFS})
-    target_link_libraries (ftwnanomsg ${NANOMSG_LINK_LIBS})
+    # add_library (ftwnanomsg STATIC ${NANOMSG_SRC_FILES})
+    # target_compile_definitions (ftwnanomsg PUBLIC ${NANOMSG_COMPILE_DEFS})
+    # target_link_libraries (ftwnanomsg ${NANOMSG_LINK_LIBS})
 
 ### SQLite
     # SQLite has no CMakeLists.txt, hence no need for this section.
@@ -131,7 +126,7 @@ set (PCRE2_DIR "${CMAKE_CURRENT_SOURCE_DIR}/pcre/upstream")
 
     target_link_libraries (${CMAKE_PROJECT_NAME} jansson)
     target_link_libraries (${CMAKE_PROJECT_NAME} pcre2-8)
-    target_link_libraries (${CMAKE_PROJECT_NAME} ftwnanomsg)
+    target_link_libraries (${CMAKE_PROJECT_NAME} nanomsg)
 
     # Add links to the LabVIEW Runtime Engine
     if (MSVC)
