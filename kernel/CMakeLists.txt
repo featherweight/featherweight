@@ -129,7 +129,7 @@ set (PCRE2_DIR "${CMAKE_CURRENT_SOURCE_DIR}/pcre/upstream")
     target_link_libraries (${CMAKE_PROJECT_NAME} nanomsg)
 
     # Add links to the LabVIEW Runtime Engine
-    if (Win32)
+    if (WIN32)
         target_link_libraries (${CMAKE_PROJECT_NAME} ../labview/labviewv)
     elseif (APPLE)
         target_link_libraries (${CMAKE_PROJECT_NAME} "/Library/Frameworks/LabVIEW 14.0 Runtime")
@@ -140,7 +140,7 @@ set (PCRE2_DIR "${CMAKE_CURRENT_SOURCE_DIR}/pcre/upstream")
     endif ()
 
     # Name the output library
-    if (Win32)
+    if (WIN32)
       if ("${CMAKE_SIZEOF_VOID_P}" EQUAL "8")
         set_target_properties ("${CMAKE_PROJECT_NAME}" PROPERTIES OUTPUT_NAME "ftw64")
       elseif ("${CMAKE_SIZEOF_VOID_P}" EQUAL "4")
