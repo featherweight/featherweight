@@ -170,7 +170,7 @@ set (PCRE2_DIR "${CMAKE_CURRENT_SOURCE_DIR}/pcre/upstream")
     target_compile_definitions (${CMAKE_PROJECT_NAME} PUBLIC ${NANOMSG_COMPILE_DEFS})
 
 # Output all variables for debugging CMake script
-#get_cmake_property (_variableNames VARIABLES)
-#foreach (_variableName ${_variableNames})
-#    message (STATUS "${_variableName}=${${_variableName}}")
-#endforeach ()
+get_cmake_property (_variableNames VARIABLES)
+foreach (_variableName ${_variableNames})
+    message (STATUS "${_variableName}=${${_variableName}}")
+endforeach ()
