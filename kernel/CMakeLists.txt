@@ -70,7 +70,7 @@ set (PCRE2_DIR "${CMAKE_CURRENT_SOURCE_DIR}/pcre/upstream")
     set (NN_STATIC_LIB ON CACHE BOOL "Include as part of amalgamation.")
     add_subdirectory (${NANOMSG_DIR} ${NANOMSG_DIR}/build)
     get_directory_property (NANOMSG_COMPILE_DEFS2 DIRECTORY ${NANOMSG_DIR} COMPILE_DEFINITIONS)
-    add_definitions (${NANOMSG_COMPILE_DEFS2})
+    #add_definitions (${NANOMSG_COMPILE_DEFS2})
 
     #  Build chain settings, and suppress exporting nanomsg functions (since library functionality is curated and exported as ftw-nanomsg functions).
     # set (NANOMSG_COMPILE_DEFS -DNN_NO_EXPORTS)
@@ -169,7 +169,7 @@ set (PCRE2_DIR "${CMAKE_CURRENT_SOURCE_DIR}/pcre/upstream")
 
     # Ensuring amalgamation compiles with same compiler flags as components
     get_directory_property (NANOMSG_COMPILE_DEFS DIRECTORY ${NANOMSG_DIR} COMPILE_DEFINITIONS)
-    target_compile_definitions (${CMAKE_PROJECT_NAME} INTERFACE ${NANOMSG_COMPILE_DEFS})
+    target_compile_definitions (${CMAKE_PROJECT_NAME} PUBLIC ${NANOMSG_COMPILE_DEFS})
     #target_compile_definitions (${CMAKE_PROJECT_NAME} INTERFACE $<TARGET_PROPERTY:nanomsg,COMPILE_DEFINITIONS>)
     message (STATUS "Get definitions generator expr: $<TARGET_PROPERTY:nanomsg,COMPILE_DEFINITIONS>")
     message (STATUS "Get definitions var: ${NANOMSG_COMPILE_DEFS}")
