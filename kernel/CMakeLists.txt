@@ -166,7 +166,7 @@ set (PCRE2_DIR "${CMAKE_CURRENT_SOURCE_DIR}/pcre/upstream")
     include_directories (${JANSSON_INCLUDE_DIRS})
 
     # Ensuring amalgamation compiles with same compiler flags as components
-    get_directory_property (NANOMSG_COMPILE_DEFS DIRECTORY ${NANOMSG_DIR} COMPILE_DEFINITIONS)
+    get_directory_property (NANOMSG_COMPILE_DEFS DIRECTORY ${NANOMSG_DIR}/builds COMPILE_DEFINITIONS)
     target_compile_definitions (${CMAKE_PROJECT_NAME} PUBLIC ${NANOMSG_COMPILE_DEFS})
 
 # Output all variables for debugging CMake script
