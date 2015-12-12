@@ -17,7 +17,7 @@ addons:
     - kubuntu-backports
     packages:
     - cmake
-#    - rpm
+    - rpm
 cache:
   directories:
   - download-cache
