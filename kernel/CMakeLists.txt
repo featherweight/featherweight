@@ -27,7 +27,7 @@ include (CheckCSourceCompiles)
 
 project (featherweight C)
 
-set (CMAKE_VERBOSE_MAKEFILE ON)
+#set (CMAKE_VERBOSE_MAKEFILE ON)
 set (CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 # Print all variables for debug
@@ -51,132 +51,133 @@ set (NANOMSG_DIR "${CMAKE_CURRENT_SOURCE_DIR}/nanomsg/upstream")
 set (PCRE2_DIR "${CMAKE_CURRENT_SOURCE_DIR}/pcre/upstream")
 
 ### Jansson
-    set (JANSSON_BUILD_DOCS OFF CACHE BOOL "Featherweight skips building the Jansson documentation.")
-    set (JANSSON_EXAMPLES OFF CACHE BOOL "Featherweight skips building the Jansson examples.")
-    add_subdirectory (${JANSSON_DIR} ${JANSSON_DIR}/build)
+set (JANSSON_BUILD_DOCS OFF CACHE BOOL "Featherweight skips building the Jansson documentation.")
+set (JANSSON_EXAMPLES OFF CACHE BOOL "Featherweight skips building the Jansson examples.")
+add_subdirectory (${JANSSON_DIR} ${JANSSON_DIR}/build)
 
 ### PCRE2
-    set (PCRE2_SUPPORT_PCREGREP_JIT OFF CACHE BOOL "Featherweight skips building Just-in-time compiling in pcregrep.")
-    add_subdirectory (${PCRE2_DIR} ${PCRE2_DIR}/build)
+set (PCRE2_SUPPORT_PCREGREP_JIT OFF CACHE BOOL "Featherweight skips building Just-in-time compiling in pcregrep.")
+add_subdirectory (${PCRE2_DIR} ${PCRE2_DIR}/build)
 
-    # Unit test #2 provides guidance to increase the stack size to 8MB,
-    # however PCRE2 is observed to need 16MB to pass this test.
-    # Remove this line to observe test failure with RUN_TESTS in MSVC.
-    if (MSVC)
-        set_target_properties(pcre2test PROPERTIES LINK_FLAGS "/STACK:16000000")
-    endif ()
+# Unit test #2 provides guidance to increase the stack size to 8MB,
+# however PCRE2 is observed to need 16MB to pass this test.
+# Remove this line to observe test failure with RUN_TESTS in MSVC.
+if (MSVC)
+    set_target_properties (pcre2test PROPERTIES LINK_FLAGS "/STACK:16000000")
+endif ()
 
 ### nanomsg
-    set (WS_AUTOBAHN_TESTS ON CACHE BOOL "Opt-in to Autobahn WebSocket tests.")
-    set (NN_STATIC_LIB ON CACHE BOOL "Include as part of amalgamation.")
-    add_subdirectory (${NANOMSG_DIR} ${NANOMSG_DIR}/build)
-    get_directory_property (NANOMSG_COMPILE_DEFS2 DIRECTORY ${NANOMSG_DIR} COMPILE_DEFINITIONS)
-    #add_definitions (${NANOMSG_COMPILE_DEFS2})
+set (WS_AUTOBAHN_TESTS ON CACHE BOOL "Opt-in to Autobahn WebSocket tests.")
+set (NN_STATIC_LIB ON CACHE BOOL "Include as part of amalgamation.")
+add_subdirectory (${NANOMSG_DIR} ${NANOMSG_DIR}/build)
+get_directory_property (NANOMSG_COMPILE_DEFS2 DIRECTORY ${NANOMSG_DIR} COMPILE_DEFINITIONS)
+#add_definitions (${NANOMSG_COMPILE_DEFS2})
 
-    #  Build chain settings, and suppress exporting nanomsg functions (since library functionality is curated and exported as ftw-nanomsg functions).
-    # set (NANOMSG_COMPILE_DEFS -DNN_NO_EXPORTS)
+#  Build chain settings, and suppress exporting nanomsg functions (since library functionality is curated and exported as ftw-nanomsg functions).
+# set (NANOMSG_COMPILE_DEFS -DNN_NO_EXPORTS)
 
-    # get_target_property (NANOMSG_SRC_FILES_TMP nanomsg SOURCES)
-    # get_target_property (NANOMSG_LINK_LIBS nanomsg LINK_LIBRARIES)
+# get_target_property (NANOMSG_SRC_FILES_TMP nanomsg SOURCES)
+# get_target_property (NANOMSG_LINK_LIBS nanomsg LINK_LIBRARIES)
 
-    # set (NANOMSG_SRC_DIR "${NANOMSG_DIR}/src")
+# set (NANOMSG_SRC_DIR "${NANOMSG_DIR}/src")
 
-    # Provide same folder structure in MSVC project as on disk
-    # foreach (f ${NANOMSG_SRC_FILES_TMP})
-    #     # Get the path of the file relative to source directory
-    #     if (IS_ABSOLUTE "${f}")
-    #         file (RELATIVE_PATH f ${NANOMSG_SRC_DIR} ${f})
-    #     endif ()
-    #     set (SRC_GROUP "${f}")
-    #     set (f "${NANOMSG_SRC_DIR}/${f}")
-    #
-    #     # Remove the filename part
-    #     string (REGEX REPLACE "(.*)(/[^/]*)$" "\\1" SRC_GROUP ${SRC_GROUP})
-    #
-    #     # CMake source_group expects \\, not /
-    #     string (REPLACE / \\ SRC_GROUP ${SRC_GROUP})
-    #     source_group ("${SRC_GROUP}" FILES ${f})
-    #
-    #     list (APPEND NANOMSG_SRC_FILES ${f})
-    #     #message( STATUS "${SRC_GROUP} -- ${f}")
-    # endforeach ()
+# Provide same folder structure in MSVC project as on disk
+# foreach (f ${NANOMSG_SRC_FILES_TMP})
+#     # Get the path of the file relative to source directory
+#     if (IS_ABSOLUTE "${f}")
+#         file (RELATIVE_PATH f ${NANOMSG_SRC_DIR} ${f})
+#     endif ()
+#     set (SRC_GROUP "${f}")
+#     set (f "${NANOMSG_SRC_DIR}/${f}")
+#
+#     # Remove the filename part
+#     string (REGEX REPLACE "(.*)(/[^/]*)$" "\\1" SRC_GROUP ${SRC_GROUP})
+#
+#     # CMake source_group expects \\, not /
+#     string (REPLACE / \\ SRC_GROUP ${SRC_GROUP})
+#     source_group ("${SRC_GROUP}" FILES ${f})
+#
+#     list (APPEND NANOMSG_SRC_FILES ${f})
+#     #message( STATUS "${SRC_GROUP} -- ${f}")
+# endforeach ()
 
-    # add_library (ftwnanomsg STATIC ${NANOMSG_SRC_FILES})
-    # target_compile_definitions (ftwnanomsg PUBLIC ${NANOMSG_COMPILE_DEFS})
-    # target_link_libraries (ftwnanomsg ${NANOMSG_LINK_LIBS})
+# add_library (ftwnanomsg STATIC ${NANOMSG_SRC_FILES})
+# target_compile_definitions (ftwnanomsg PUBLIC ${NANOMSG_COMPILE_DEFS})
+# target_link_libraries (ftwnanomsg ${NANOMSG_LINK_LIBS})
 
 ### SQLite
     # SQLite has no CMakeLists.txt, hence no need for this section.
     # The SQLite amalgamation is included directly in ftw_sqlite.h
 
 ### featherweight amalgamation
-    set (FTW_SRC_FILES
-        ftw.h
-        ftw.c
-        framework/ftw_framework.h
-        framework/ftw_framework.c
-        jansson/ftw_json.h
-        jansson/ftw_json.c
-        nanomsg/ftw_nanomsg.h
-        nanomsg/ftw_nanomsg.c
-        pcre/ftw_pcre.h
-        pcre/ftw_pcre.c
-        sqlite/ftw_sqlite.h
-        sqlite/ftw_sqlite.c
-    )
+set (FTW_SRC_FILES
+    ftw.h
+    ftw.c
+    framework/ftw_framework.h
+    framework/ftw_framework.c
+    jansson/ftw_json.h
+    jansson/ftw_json.c
+    nanomsg/ftw_nanomsg.h
+    nanomsg/ftw_nanomsg.c
+    pcre/ftw_pcre.h
+    pcre/ftw_pcre.c
+    sqlite/ftw_sqlite.h
+    sqlite/ftw_sqlite.c
+)
 
-    add_library (${CMAKE_PROJECT_NAME} SHARED ${FTW_SRC_FILES})
+add_library (${CMAKE_PROJECT_NAME} SHARED ${FTW_SRC_FILES})
 
-    target_link_libraries (${CMAKE_PROJECT_NAME} jansson)
-    target_link_libraries (${CMAKE_PROJECT_NAME} pcre2-8)
-    target_link_libraries (${CMAKE_PROJECT_NAME} nanomsg)
+target_link_libraries (${CMAKE_PROJECT_NAME} jansson)
+target_link_libraries (${CMAKE_PROJECT_NAME} pcre2-8)
+target_link_libraries (${CMAKE_PROJECT_NAME} nanomsg)
 
-    # Add links to the LabVIEW Runtime Engine
-    if (WIN32)
-        target_link_libraries (${CMAKE_PROJECT_NAME} ../labview/labviewv)
-    elseif (APPLE)
-        target_link_libraries (${CMAKE_PROJECT_NAME} "/Library/Frameworks/LabVIEW 14.0 Runtime")
-    elseif (UNIX)
-        #find_library (LVRTE_SO lvrtdark PATHS /home/travis/build/featherweight/ftw-kernel/download-cache/usr/local/lib64/LabVIEW-2014-64)
-        #target_link_libraries (${CMAKE_PROJECT_NAME} ${LVRTE_SO})
-        find_library (LVRTE_SO lvrtdark PATHS /home/travis/build/featherweight/ftw-kernel/download-cache/usr/local/lib64/LabVIEW-2014-64)
-        target_link_libraries (${CMAKE_PROJECT_NAME} /home/travis/build/featherweight/ftw-kernel/download-cache/usr/local/lib64/LabVIEW-2014-64/liblvrtdark.so.14.0.0)
-    else ()
-        message (FATAL_ERROR "Unreachable.")
-    endif ()
+# Add links to the LabVIEW Runtime Engine
+if (WIN32)
+    target_link_libraries (${CMAKE_PROJECT_NAME} ../labview/labviewv)
+elseif (APPLE)
+    target_link_libraries (${CMAKE_PROJECT_NAME} "/Library/Frameworks/LabVIEW 14.0 Runtime")
+elseif (UNIX)
+    #find_library (LVRTE_SO lvrtdark PATHS /home/travis/build/featherweight/ftw-kernel/download-cache/usr/local/lib64/LabVIEW-2014-64)
+    #target_link_libraries (${CMAKE_PROJECT_NAME} ${LVRTE_SO})
+    #find_library (LVRTE_SO lvrtdark PATHS /home/travis/build/featherweight/ftw-kernel/download-cache/usr/local/lib64/LabVIEW-2014-64)
+    #target_link_libraries (${CMAKE_PROJECT_NAME} /home/travis/build/featherweight/ftw-kernel/download-cache/usr/local/lib64/LabVIEW-2014-64/liblvrtdark.so.14.0.0)
+    target_link_libraries (${CMAKE_PROJECT_NAME} ../download-cache/lvrt)
+else ()
+    message (FATAL_ERROR "Unreachable.")
+endif ()
 
-    # Name the output library
-    if (WIN32)
-      if (CMAKE_SIZEOF_VOID_P EQUAL "8")
+# Name the output library
+if (WIN32)
+    if (CMAKE_SIZEOF_VOID_P EQUAL "8")
         message (STATUS "Building ftw64.dll ...")
         set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME "ftw64")
-      elseif ("${CMAKE_SIZEOF_VOID_P}" EQUAL "4")
+    elseif ("${CMAKE_SIZEOF_VOID_P}" EQUAL "4")
         message (STATUS "Building ftw32.dll ...")
         set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME "ftw32")
-      else ()
-        message (FATAL_ERROR "${CMAKE_PROJECT_NAME} could not detect Windows bitness.")
-      endif ()
     else ()
-      message (STATUS "Building libftw.so ...")
-      set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME "libftw")
+        message (FATAL_ERROR "${CMAKE_PROJECT_NAME} could not detect Windows bitness.")
     endif ()
+else ()
+    message (STATUS "Building libftw.so ...")
+    set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME "libftw")
+endif ()
 
-    if (MSVC)
-        # This is required for 'Visual Studio 12' and higher, apparently because
-        # labviewv.lib as of LV2013 is compiled without safe exception handlers.
-        set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES LINK_FLAGS "/SAFESEH:NO")
-    endif ()
+if (MSVC)
+    # This is required for 'Visual Studio 12' and higher, apparently because
+    # labviewv.lib as of LV2013 is compiled without safe exception handlers.
+    set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES LINK_FLAGS "/SAFESEH:NO")
+endif ()
 
-    # Link to headers generated by the CMake build.
-    get_target_property (JANSSON_INCLUDE_DIRS jansson INCLUDE_DIRECTORIES)
-    include_directories (${JANSSON_INCLUDE_DIRS})
+# Link to headers generated by the CMake build.
+get_target_property (JANSSON_INCLUDE_DIRS jansson INCLUDE_DIRECTORIES)
+include_directories (${JANSSON_INCLUDE_DIRS})
 
-    # Ensuring amalgamation compiles with same compiler flags as components
-    get_directory_property (NANOMSG_COMPILE_DEFS DIRECTORY ${NANOMSG_DIR} COMPILE_DEFINITIONS)
-    target_compile_definitions (${CMAKE_PROJECT_NAME} PUBLIC ${NANOMSG_COMPILE_DEFS})
-    #target_compile_definitions (${CMAKE_PROJECT_NAME} INTERFACE $<TARGET_PROPERTY:nanomsg,COMPILE_DEFINITIONS>)
-    message (STATUS "Get definitions generator expr: $<TARGET_PROPERTY:nanomsg,COMPILE_DEFINITIONS>")
-    message (STATUS "Get definitions var: ${NANOMSG_COMPILE_DEFS}")
+# Ensuring amalgamation compiles with same compiler flags as components
+get_directory_property (NANOMSG_COMPILE_DEFS DIRECTORY ${NANOMSG_DIR} COMPILE_DEFINITIONS)
+target_compile_definitions (${CMAKE_PROJECT_NAME} PUBLIC ${NANOMSG_COMPILE_DEFS})
+#target_compile_definitions (${CMAKE_PROJECT_NAME} INTERFACE $<TARGET_PROPERTY:nanomsg,COMPILE_DEFINITIONS>)
+message (STATUS "Get definitions generator expr: $<TARGET_PROPERTY:nanomsg,COMPILE_DEFINITIONS>")
+message (STATUS "Get definitions var: ${NANOMSG_COMPILE_DEFS}")
 # Output all variables for debugging CMake script
 # get_cmake_property (_variableNames VARIABLES)
 # foreach (_variableName ${_variableNames})
