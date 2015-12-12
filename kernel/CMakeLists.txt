@@ -169,7 +169,7 @@ set (PCRE2_DIR "${CMAKE_CURRENT_SOURCE_DIR}/pcre/upstream")
     #get_target_property (NANOMSG_COMPILE_DEFS nanomsg INTERFACE_COMPILE_DEFINITIONS)
     #target_compile_definitions (${CMAKE_PROJECT_NAME} INTERFACE ${NANOMSG_COMPILE_DEFS})
     target_compile_definitions (${CMAKE_PROJECT_NAME} INTERFACE $<TARGET_PROPERTY:nanomsg,COMPILE_DEFINITIONS>)
-
+    message (STATUS "$<TARGET_PROPERTY:nanomsg,COMPILE_DEFINITIONS")
 # Output all variables for debugging CMake script
 get_cmake_property (_variableNames VARIABLES)
 foreach (_variableName ${_variableNames})
