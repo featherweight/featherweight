@@ -63,9 +63,9 @@ add_subdirectory (${PCRE2_DIR} ${PCRE2_DIR}/build)
 # however PCRE2 is observed to need 16MB to pass this test.
 # Remove this line to observe test failure with RUN_TESTS in MSVC.
 if (MSVC)
-    set_target_properties (pcre2test PROPERTIES LINK_FLAGS "/STACK:16000000")
+    set_target_properties (pcre2test PROPERTIES LINK_FLAGS "/STACK:0x1000000")
 elseif (CMAKE_C_COMPILER_ID MATCHES "Clang")
-    set_target_properties (pcre2test PROPERTIES LINK_FLAGS "--stack,16000000")
+    set_target_properties (pcre2test PROPERTIES LINK_FLAGS "-stack_size,0x1000000")
 endif ()
 
 ### nanomsg
