@@ -65,7 +65,7 @@ add_subdirectory (${PCRE2_DIR} ${PCRE2_DIR}/build)
 if (MSVC)
     set_target_properties (pcre2test PROPERTIES LINK_FLAGS "/STACK:0x1000000")
 elseif (CMAKE_C_COMPILER_ID MATCHES "Clang")
-    set_target_properties (pcre2test PROPERTIES LINK_FLAGS "-Wl,-stack_size,1000000")
+    set_target_properties (pcre2test PROPERTIES LINK_FLAGS stack_size 1000000)
 endif ()
 
 ### nanomsg
