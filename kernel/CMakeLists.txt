@@ -27,7 +27,7 @@ include (CheckCSourceCompiles)
 
 project (featherweight C)
 
-#set (CMAKE_VERBOSE_MAKEFILE ON)
+set (CMAKE_VERBOSE_MAKEFILE ON)
 
 # Print all variables for debug
 #get_cmake_property (_variableNames VARIABLES)
