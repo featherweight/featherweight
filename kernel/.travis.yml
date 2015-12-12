@@ -34,8 +34,8 @@ script:
 #  - readelf -Ws .libs/libftw.so | awk '$4 == "FUNC" && $5 == "GLOBAL" && $7 != "UND"'
 #  - make check
 #  - ./build-ftw.sh
-#  - pwd
-#  - ls -al
+  - pwd
+  - ls -al
   - mkdir build
   - cd build
   - cmake --version
