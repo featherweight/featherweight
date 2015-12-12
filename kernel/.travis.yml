@@ -27,7 +27,7 @@ before_cache:
 script:
 #  - pip install --user autobahntestsuite
 #  - wstest --autobahnversion
-#  - ./.travis.install.sh download-cache
+  - ./.travis.install.sh download-cache
 #  - autoreconf -ifv
 #  - ./configure --enable-autobahntest=yes LVRTE_DIR=$TRAVIS_BUILD_DIR/download-cache/ LVRTE_LIB=liblvrtdark.so
 #  - make -d
