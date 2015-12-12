@@ -167,7 +167,7 @@ set (PCRE2_DIR "${CMAKE_CURRENT_SOURCE_DIR}/pcre/upstream")
 
     # Ensuring amalgamation compiles with same compiler flags as components
     get_directory_property (NANOMSG_COMPILE_DEFS DIRECTORY ${NANOMSG_DIR} COMPILE_DEFINITIONS)
-    #target_compile_definitions (${CMAKE_PROJECT_NAME} INTERFACE ${NANOMSG_COMPILE_DEFS})
+    target_compile_definitions (${CMAKE_PROJECT_NAME} INTERFACE ${NANOMSG_COMPILE_DEFS})
     #target_compile_definitions (${CMAKE_PROJECT_NAME} INTERFACE $<TARGET_PROPERTY:nanomsg,COMPILE_DEFINITIONS>)
     message (STATUS "Get definitions generator expr: $<TARGET_PROPERTY:nanomsg,COMPILE_DEFINITIONS>")
     message (STATUS "Get definitions var: ${NANOMSG_COMPILE_DEFS}")
