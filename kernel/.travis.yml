@@ -25,20 +25,14 @@ cache:
 before_cache:
   - rm -f $HOME/.cache/pip/log/debug.log
 script:
-#  - pip install --user autobahntestsuite
-#  - wstest --autobahnversion
+  - pip install --user autobahntestsuite
+  - wstest --autobahnversion
   - ./.travis.install.sh download-cache
-#  - autoreconf -ifv
-#  - ./configure --enable-autobahntest=yes LVRTE_DIR=$TRAVIS_BUILD_DIR/download-cache/ LVRTE_LIB=liblvrtdark.so
-#  - make -d
-#  - readelf -Ws .libs/libftw.so | awk '$4 == "FUNC" && $5 == "GLOBAL" && $7 != "UND"'
-#  - make check
-#  - ./build-ftw.sh
   - pwd
   - ls -al
   - mkdir build
   - cd build
   - cmake --version
-  - cmake -DCMAKE_C_COMPILER=$CC -Wdev -DWS_AUTOBAHN_TESTS=OFF ..
+  - cmake -DCMAKE_C_COMPILER=$CC ..
   - cmake --build .
   - ctest --output-on-failure -C Debug
