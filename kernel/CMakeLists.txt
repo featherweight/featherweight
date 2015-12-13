@@ -70,8 +70,9 @@ endif ()
 
 ### nanomsg
 set (WS_AUTOBAHN_TESTS ON CACHE BOOL "Opt-in to Autobahn WebSocket tests.")
-set (NN_STATIC_LIB OFF CACHE BOOL "Include as part of amalgamation.")
+set (NN_STATIC_LIB ON CACHE BOOL "Include as part of amalgamation.")
 add_subdirectory (${NANOMSG_DIR} ${NANOMSG_DIR}/build)
+target_compile_definitions (nanomsg PUBLIC -DDNN_NO_EXPORTS)
 get_directory_property (NANOMSG_COMPILE_DEFS2 DIRECTORY ${NANOMSG_DIR} COMPILE_DEFINITIONS)
 #add_definitions (${NANOMSG_COMPILE_DEFS2})
 
