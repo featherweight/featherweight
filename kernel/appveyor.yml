@@ -28,3 +28,4 @@ build_script:
   - cmd: cmake --build .
 test_script:
   - cmd: ctest --output-on-failure --build-config "%CFG%" --exclude-regex "device7|tcp_shutdown|ipc_shutdown"
+  - cmd: ctest --output-on-failure --build-config "%CFG%" --rerun-failed --extra-verbose --debug
