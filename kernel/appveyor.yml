@@ -12,7 +12,7 @@ environment:
       CFG: Debug
 cache:
   - "%LocalAppData%\\pip"
-  - "C:\\Python27\\Lib\\site-packages"
+#  - "C:\\Python27\\Lib\\site-packages"
 build:
   parallel: true
 build_script:
