@@ -94,6 +94,8 @@ target_link_libraries (${CMAKE_PROJECT_NAME} jansson)
 target_link_libraries (${CMAKE_PROJECT_NAME} pcre2-8)
 target_link_libraries (${CMAKE_PROJECT_NAME} nanomsg)
 
+target_compile_options (${CMAKE_PROJECT_NAME} PUBLIC -DSQLITE_ENABLE_JSON1)
+
 # Add links to the LabVIEW Runtime Engine
 if (WIN32)
     target_link_libraries (${CMAKE_PROJECT_NAME} ../labview/labviewv)
