@@ -69,6 +69,10 @@ int ftw_sqlite_prepare(sqlite3 *connection, ConstLStrH sql, PointerArray **state
         return SQLITE_MISUSE;
 
     max_statements = (*statements)->dimsize;
+
+    if (max_statements <= 0)
+        return SQLITE_MISUSE;
+
     ptr = LHStrBuf(sql);
     len = LHStrLen(sql);
 
@@ -83,7 +87,6 @@ int ftw_sqlite_prepare(sqlite3 *connection, ConstLStrH sql, PointerArray **state
         len -= next_ptr - ptr;
         ftw_assert(len >= 0);
         ptr = next_ptr;
-
     }
 
     lv_err = ftw_support_expand_PointerArray(&statements, count);
