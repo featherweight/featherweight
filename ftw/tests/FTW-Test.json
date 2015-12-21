@@ -3,20 +3,17 @@
   "Test Worker Pool Size": 4,
   "Show UI":               true,
   "Randomize Test Order":  true,
-  "Excellent Adventure":   false,
   "Test Configuration": {
     "Default": {
       "Enable": true,
       "Iterations": 10
     },
     "Actor-Stress": {
-      "Enable": true,
       "Iterations": 1
     },
     "Array-Shuffle": {
     },
     "Expressions-Booleanish": {
-    "Iterations": 9
     },
     "JobScheduler": {
     },
@@ -34,23 +31,24 @@
     },
     "JSON-Parallelization": {
     },
-    "Regex-BasicUsage": {
-    },
     "JSON-Stress": {
     },
     "Reflection-Datatypes": {
+    },
+    "Regex-BasicUsage": {
     },
     "Socket-Stress-InboxConnector": {
       "Iterations": 1
     },
     "Socket-Stress-PubSub": {
-      "Enable": true,
       "Iterations": 1
     },
     "Socket-Stress-RouterShutdown": {
       "Iterations": 1
     },
     "SQLite-BasicQuery": {
+    },
+    "SQLite-JSON": {
     },
     "SQLite-OpenCloseStress": {
     },
