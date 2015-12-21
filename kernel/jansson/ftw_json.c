@@ -252,6 +252,7 @@ void ftw_json_element_type(json_t *element, uint8_t *type)
 
 int32 ftw_json_serialize_element(const json_t *json, size_t flags, LStrHandle serialized)
 {
+    MgErr lv_err;
     char *buffer;
     int32 length;
 
@@ -262,7 +263,7 @@ int32 ftw_json_serialize_element(const json_t *json, size_t flags, LStrHandle se
 
     length = StrLen(buffer);
 
-    ftw_support_CStr_to_LStrHandle(&serialized, buffer, length);
+    lv_err = ftw_support_CStr_to_LStrHandle(&serialized, buffer, length);
 
     free(buffer);
 
@@ -281,9 +282,15 @@ json_t *ftw_json_deep_copy(const json_t *value)
     return json_deep_copy(value);
 }
 
-uint8_t ftw_json_equal(json_t *original, json_t *compared)
+void ftw_json_object_equal(json_t *object, json_t *other, LVBoolean *equal)
 {
-    return (uint8_t)json_equal(original, compared);
+    int rc;
+
+    rc = json_equal(object, other);
+
+    *equal = rc ? LVBooleanTrue : LVBooleanFalse;
+
+    return;
 }
 
 json_t *ftw_json_object_get(const json_t *obj, const char *key)
@@ -355,7 +362,9 @@ int ftw_json_object_join(enum json_join_mode *mode, json_t *object, json_t *obj_
     case INSERT:
         rc = json_object_update_missing (object, obj_to_join);
         break;
-
+    default:
+        rc = -1;
+        break;
     }
     return rc;
 }
