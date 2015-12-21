@@ -56,12 +56,12 @@ int ftw_sqlite_prepare(sqlite3 *connection, ConstLStrH sql, PointerArray **state
 {
     sqlite3_stmt *prepared_statement;
     MgErr lv_err;
-    int max_statements;
+    size_t max_statements;
     const char *ptr;
     const char *next_ptr;
     int len;
     int rc;
-    int count;
+    size_t count;
 
     /*  The LabVIEW wrapper is expected to have preallocated this array with an
         arbitrarily-large enough buffer to accomodate all prepared statements. */
@@ -76,8 +76,7 @@ int ftw_sqlite_prepare(sqlite3 *connection, ConstLStrH sql, PointerArray **state
     ptr = LHStrBuf(sql);
     len = LHStrLen(sql);
 
-    if (len == 0)
-        return SQLITE_OK;
+    rc = SQLITE_OK;
 
     for (count = 0; count < max_statements && len > 0; count++) {
         rc = sqlite3_prepare_v2(connection, ptr, len, &prepared_statement, &next_ptr);
@@ -151,7 +150,7 @@ float64 ftw_column_float64(sqlite3_stmt *statement, int32 col)
 MgErr ftw_column_string(sqlite3_stmt *statement, int32 col, LStrHandle value)
 {
     MgErr lv_err;
-    const char *col_value;
+    const unsigned char *col_value;
 
     col_value = sqlite3_column_text(statement, col);
 

@@ -127,4 +127,3 @@ MgErr ftw_support_expand_int32Array(int32Array ***arr, size_t elements)
 
     return lv_err;
 }
-
