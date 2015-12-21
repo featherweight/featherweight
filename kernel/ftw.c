@@ -23,6 +23,26 @@
 #include "ftw.h"
 #include <string.h>
 
+char * ftw_support_LStrHandle_to_CStr(LStrHandle src)
+{
+    char *s;
+    size_t len;
+
+    if (src == NULL)
+        return NULL;
+
+    len = LHStrLen(src);
+
+    s = (char *) malloc(len + 1);
+    if (s == NULL)
+        return NULL;
+
+	memcpy (s, LHStrBuf(src), len);
+    s[len] = '\0';
+
+    return s;
+}
+
 MgErr ftw_support_buffer_to_LStrHandle(LStrHandle *dest, const void *src, size_t length)
 {
     MgErr lv_err;

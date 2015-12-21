@@ -115,6 +115,7 @@ typedef struct {
 } int32Array;
 
 /*  Featherweight support functions. */
+char * ftw_support_LStrHandle_to_CStr(LStrHandle src);
 MgErr ftw_support_buffer_to_LStrHandle(LStrHandle *dest, const void *src, size_t length);
 MgErr ftw_support_CStr_to_LStrHandle(LStrHandle *dest, const char *src, size_t max_length);
 MgErr ftw_support_expand_LStrHandleArray(LStrHandleArray ***arr, size_t elements);
