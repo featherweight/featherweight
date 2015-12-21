@@ -51,7 +51,9 @@ MgErr ftw_support_buffer_to_LStrHandle(LStrHandle *dest, const void *src, size_t
         return mgArgErr;
 
     lv_err = NumericArrayResize(uB, 1, (UHandle *)dest, length);
+
     if (lv_err == mgNoErr) {
+        ftw_assert(dest && *dest);
         MoveBlock(src, LHStrBuf(*dest), length);
         (**dest)->cnt = (int32)length;
     }
