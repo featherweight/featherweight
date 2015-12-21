@@ -27,16 +27,27 @@
 extern "C" {
 #endif
 
-
 #include "../ftw.h"
 #include "../jansson/ftw_json.h"
 #include "../nanomsg/ftw_nanomsg.h"
 #include "../pcre/ftw_pcre.h"
 //#include "../sqlite/ftw_sqlite.h"
 
-/*  Functions that combine lower-level libraries. */
-FTW_EXPORT json_t *ftw_framework_router_recv(void *msg, size_t msg_len, size_t flags, int64 *err_line,
+/*  FTW Actor Inbox framework. */
+FTW_EXPORT int ftw_framework_inbox_start(struct ftw_socket_callsite **callsite, LVUserEventRef *lv_event,
+    const LStrHandleArray **addresses, int linger, int max_recv_size, struct ftw_socket **sock);
+FTW_EXPORT json_t *ftw_framework_inbox_recv(struct ftw_incoming_request *incoming, size_t flags, int64 *err_line,
     int64 *err_column, int64 *err_position, LStrHandle err_source, LStrHandle err_hint);
+FTW_EXPORT int ftw_framework_inbox_reply(json_t *response, struct ftw_incoming_request *req, const int timeout);
+
+/*  Actual structure of an incoming request to an Inbox; packaged as an opaque pointer for LabVIEW. */
+struct ftw_incoming_request {
+    struct ftw_socket *sock;
+    void *msg_ptr;
+    size_t msg_len;
+    void *hdr_ptr;
+    size_t hdr_len;
+};
 
 /*  Featherweight exported functions. */
 FTW_EXPORT const char *ftw_version(void);

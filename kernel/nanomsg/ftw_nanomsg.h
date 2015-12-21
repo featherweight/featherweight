@@ -28,12 +28,17 @@ extern "C" {
 #endif
 
 #include "../ftw.h"
-#include "upstream/src/utils/thread.h"
+    
 #include "upstream/src/nn.h"
+#include "upstream/src/reqrep.h"
+#include "upstream/src/utils/alloc.h"
+#include "upstream/src/utils/chunk.h"
+#include "upstream/src/utils/cont.h"
 #include "upstream/src/utils/err.h"
 #include "upstream/src/utils/sem.h"
 #include "upstream/src/utils/list.h"
 #include "upstream/src/utils/mutex.h"
+#include "upstream/src/utils/thread.h"
 
 /*  InstanceDataPtr types for nanomsg sockets. The list keeps up with all active
     sockets created per each callsite. This bookkeeping ensures each socket created
@@ -54,7 +59,7 @@ struct ftw_socket_callsite {
     int lifetime_sockets;
 };
 
-/*  Opaque type for Actor Router bookkeeping. */
+/*  Opaque type for socket bookkeeping. */
 struct ftw_socket {
 
     /*  Socket ID assigned by nanomsg. */
@@ -73,15 +78,6 @@ struct ftw_socket {
     struct nn_list_item item;
 };
 
-/*  Use LabVIEW-safe types for PostLVUserEvent. Use 64-bit, even in 32-bit environments. */
-struct lv_incoming_msg {
-    uInt64 router_id;
-    uInt64 msg_len;
-    uInt64 msg;
-    uInt64 hdr_len;
-    uInt64 hdr;
-};
-
 /*  Callbacks invoked by LabVIEW by individual instances of Call Library Function Nodes. */
 FTW_EXPORT MgErr ftw_nanomsg_reserve(struct ftw_socket_callsite **inst);
 FTW_EXPORT MgErr ftw_nanomsg_unreserve(struct ftw_socket_callsite **inst);
@@ -90,12 +86,8 @@ FTW_EXPORT MgErr ftw_nanomsg_abort(struct ftw_socket_callsite **inst);
 /*  nanomsg library support methods. */
 FTW_EXPORT int ftw_nanomsg_error(LStrHandle error_message);
 
-/*  FTW Actor Message Router framework. */
-FTW_EXPORT int ftw_nanomsg_router_start(struct ftw_socket_callsite **callsite, LVUserEventRef *lv_event,
-    const char *addr, int linger, int max_recv_size, struct ftw_socket **sock);
-FTW_EXPORT int ftw_nanomsg_router_reply(struct ftw_socket ** const sock, const int timeout,
-    const LStrHandle backtrace, const LStrHandle response);
-FTW_EXPORT int ftw_nanomsg_router_stop(struct ftw_socket ** const sock);
+/*  General socket operations. */
+FTW_EXPORT int ftw_socket_destroy(struct ftw_socket ** const sock);
 
 /*  FTW Actor Synchronous Server framework. */
 FTW_EXPORT int ftw_nanomsg_sync_server_start(struct ftw_socket_callsite **callsite,

@@ -22,20 +22,10 @@
 
 #include "ftw_nanomsg.h"
 
-#include "upstream/src/reqrep.h"
 #include "upstream/src/pubsub.h"
 #include "upstream/src/pipeline.h"
-#include "upstream/src/survey.h"
-#include "upstream/src/pair.h"
-#include "upstream/src/bus.h"
 
-#include "upstream/src/utils/alloc.h"
-#include "upstream/src/utils/chunk.h"
-#include "upstream/src/utils/cont.h"
-
-FTW_PRIVATE_SUPPORT void ftw_router_async_recv_thread(void *arg);
 FTW_PRIVATE_SUPPORT void ftw_subscriber_async_recv_thread(void *arg);
-FTW_PRIVATE_SUPPORT int ftw_socket_destroy(struct ftw_socket ** const sock);
 FTW_PRIVATE_SUPPORT void ftw_nanomsg_shutdown_active_sockets(struct ftw_socket_callsite *inst);
 
 int ftw_nanomsg_error(LStrHandle error_message)
@@ -71,72 +61,6 @@ int ftw_nanomsg_setsockopt(const int socket_id, int level, int option, const voi
     rc = nn_setsockopt(socket_id, level, option, value, length);
 
     return rc;
-}
-
-static void ftw_router_async_recv_thread(void *arg)
-{
-    struct ftw_socket *self;
-    struct nn_iovec iov;
-    struct nn_msghdr msg;
-    struct lv_incoming_msg lv_msg;
-    MgErr lv_err;
-    int socket_err;
-    int rc;
-
-    ftw_assert(arg);
-
-    /*  Create local pointer to arguments and notify launching process this thread is constructed. */
-    self = ((struct ftw_socket *) arg);
-    nn_sem_post(&self->init_sem);
-
-    lv_err = mgNoErr;
-    socket_err = 0;
-
-    /*  This broker relays messages from the nanomsg socket into the LabVIEW incoming message queue. */
-    while (!lv_err && !socket_err) {
-
-        memset(&lv_msg, 0, sizeof(lv_msg));
-
-        iov.iov_base = &lv_msg.msg;
-        iov.iov_len = NN_MSG;
-
-        msg.msg_iov = &iov;
-        msg.msg_iovlen = 1;
-        msg.msg_control = &lv_msg.hdr;
-        msg.msg_controllen = NN_MSG;
-
-        rc = nn_recvmsg(self->id, &msg, 0);
-
-        if (rc >= 0) {
-            lv_msg.router_id = (uInt64)self;
-            lv_msg.msg_len = (uInt64)nn_chunk_size((void *)lv_msg.msg);
-            lv_msg.hdr_len = (uInt64)nn_chunk_size((void *)lv_msg.hdr);
-
-            /*  On the LabVIEW side, the handler is a callback VI (rather than an Event
-                Handler Structure). For this reason, this function is blocked for the
-                duration of the callback, enabling LabVIEW to apply backpressure when
-                the message queue is congested. This important semantic is desirable since
-                that backpressure may be relayed all the way back to originating endpoints,
-                synchronously relaying information about the remote's ability to handle
-                messages it is sending. */
-            lv_err = PostLVUserEvent(self->lv_event, &lv_msg);
-
-        }
-        else {
-            socket_err = ((errno == ETIMEDOUT || errno == EAGAIN) ? 0 : errno);
-        }
-
-        if (lv_msg.msg)
-            nn_freemsg((void *)lv_msg.msg);
-
-        if (lv_msg.hdr)
-            nn_freemsg((void *)lv_msg.hdr);
-    }
-
-    /*  Thread will silently prune on normal shutdown or fatal error. */
-    nn_close(self->id);
-
-    return;
 }
 
 static void ftw_subscriber_async_recv_thread(void *arg)
@@ -192,97 +116,6 @@ static void ftw_subscriber_async_recv_thread(void *arg)
     nn_close(self->id);
 
     return;
-}
-
-int ftw_nanomsg_router_start(struct ftw_socket_callsite **callsite, LVUserEventRef *lv_event,
-    const char *addr, int linger, int max_recv_size, struct ftw_socket **sock)
-{
-    struct ftw_socket *inst;
-    int rcb;
-    int rcs;
-
-    ftw_assert(*callsite);
-
-    nn_mutex_lock(&(*callsite)->sync);
-
-    rcs = nn_socket(AF_SP_RAW, NN_REP);
-
-    /*  Socket creation failure? */
-    if (rcs < 0) {
-        *sock = NULL;
-        nn_mutex_unlock(&(*callsite)->sync);
-        return rcs;
-    }
-
-    rcb = nn_bind(rcs, addr);
-
-    /*  Endpoint creation failure? */
-    if (rcb < 0) {
-        nn_close(rcs);
-        *sock = NULL;
-        nn_mutex_unlock(&(*callsite)->sync);
-        return rcb;
-    }
-
-    inst = nn_alloc(sizeof(struct ftw_socket), "ftw_router");
-    alloc_assert(inst);
-
-    inst->is_async = 1;
-    inst->lv_event = *lv_event;
-    inst->id = rcs;
-    inst->callsite = *callsite;
-
-    nn_list_item_init(&inst->item);
-    nn_list_insert(&(*callsite)->active_sockets, &inst->item,
-        nn_list_end(&(*callsite)->active_sockets));
-
-    /*  Launch thread and wait for it to initialize. */
-    nn_sem_init(&inst->init_sem);
-    nn_thread_init(&inst->thread, ftw_router_async_recv_thread, inst);
-    nn_sem_wait(&inst->init_sem);
-
-    *sock = inst;
-
-    (*callsite)->lifetime_sockets++;
-    nn_mutex_unlock(&(*callsite)->sync);
-
-    return 0;
-}
-
-int ftw_nanomsg_router_reply(struct ftw_socket ** const sock, const int timeout,
-    const LStrHandle backtrace, const LStrHandle response)
-{
-    struct ftw_socket const *s;
-    struct nn_iovec iov;
-    struct nn_msghdr hdr;
-    int rc;
-
-    s = *sock;
-    if (s == NULL) {
-        errno = EBADF;
-        return -1;
-    }
-
-    iov.iov_base = LHStrBuf(response);
-    iov.iov_len = LHStrLen(response);
-
-    hdr.msg_iov = &iov;
-    hdr.msg_iovlen = 1;
-    hdr.msg_control = LHStrBuf(backtrace);
-    hdr.msg_controllen = LHStrLen(backtrace);
-
-    rc = nn_setsockopt(s->id, NN_SOL_SOCKET, NN_SNDTIMEO, &timeout, sizeof(timeout));
-    if (rc < 0)
-        return rc;
-
-    rc = nn_sendmsg(s->id, &hdr, 0);
-
-    return rc;
-}
-
-int ftw_nanomsg_router_stop(struct ftw_socket ** const sock)
-{
-    return ftw_socket_destroy(sock);
 }
 
 int ftw_nanomsg_sync_server_start(struct ftw_socket_callsite **callsite,
