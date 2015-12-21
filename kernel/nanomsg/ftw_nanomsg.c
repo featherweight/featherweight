@@ -124,6 +124,7 @@ int ftw_nanomsg_sync_server_start(struct ftw_socket_callsite **callsite,
     struct ftw_socket *inst;
     int rcb;
     int rcs;
+    int rco;
 
     ftw_assert(*callsite);
 
@@ -136,6 +137,20 @@ int ftw_nanomsg_sync_server_start(struct ftw_socket_callsite **callsite,
         *sock = NULL;
         nn_mutex_unlock(&(*callsite)->sync);
         return rcs;
+    }
+
+    rco = nn_setsockopt(rcs, NN_SOL_SOCKET, NN_LINGER, &linger, sizeof(linger));
+    if (rco < 0) {
+        *sock = NULL;
+        nn_mutex_unlock(&(*callsite)->sync);
+        return rco;
+    }
+
+    rco = nn_setsockopt(rcs, NN_SOL_SOCKET, NN_RCVMAXSIZE, &max_recv_size, sizeof(max_recv_size));
+    if (rco < 0) {
+        *sock = NULL;
+        nn_mutex_unlock(&(*callsite)->sync);
+        return rco;
     }
 
     rcb = nn_bind(rcs, addr);
@@ -481,6 +496,20 @@ int ftw_subscriber_construct(struct ftw_socket_callsite **callsite, LVUserEventR
         return rcs;
     }
 
+    rco = nn_setsockopt(rcs, NN_SOL_SOCKET, NN_LINGER, &linger, sizeof(linger));
+    if (rco < 0) {
+        *sock = NULL;
+        nn_mutex_unlock(&(*callsite)->sync);
+        return rco;
+    }
+
+    rco = nn_setsockopt(rcs, NN_SOL_SOCKET, NN_RCVMAXSIZE, &max_recv_size, sizeof(max_recv_size));
+    if (rco < 0) {
+        *sock = NULL;
+        nn_mutex_unlock(&(*callsite)->sync);
+        return rco;
+    }
+
     rcc = nn_connect(rcs, addr);
 
     /*  Endpoint creation failure? */
@@ -492,13 +521,11 @@ int ftw_subscriber_construct(struct ftw_socket_callsite **callsite, LVUserEventR
     }
 
     rco = nn_setsockopt (rcs, NN_SUB, NN_SUB_SUBSCRIBE, "", 0);
-
-    /*  Option set failure? */
     if (rco < 0) {
         nn_close(rcs);
         *sock = NULL;
         nn_mutex_unlock(&(*callsite)->sync);
-        return rcc;
+        return rco;
     }
 
     inst = nn_alloc(sizeof(struct ftw_socket), "ftw_subscriber");

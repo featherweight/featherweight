@@ -123,6 +123,7 @@ int ftw_framework_inbox_start(struct ftw_socket_callsite **callsite, LVUserEvent
     char *addr;
     int rcb;
     int rcs;
+    int rco;
     int i;
 
     /*  Preconditions expected of LabVIEW. */
@@ -137,6 +138,20 @@ int ftw_framework_inbox_start(struct ftw_socket_callsite **callsite, LVUserEvent
         *sock = NULL;
         nn_mutex_unlock(&(*callsite)->sync);
         return rcs;
+    }
+
+    rco = nn_setsockopt(rcs, NN_SOL_SOCKET, NN_LINGER, &linger, sizeof(linger));
+    if (rco < 0) {
+        *sock = NULL;
+        nn_mutex_unlock(&(*callsite)->sync);
+        return rco;
+    }
+
+    rco = nn_setsockopt(rcs, NN_SOL_SOCKET, NN_RCVMAXSIZE, &max_recv_size, sizeof(max_recv_size));
+    if (rco < 0) {
+        *sock = NULL;
+        nn_mutex_unlock(&(*callsite)->sync);
+        return rco;
     }
 
     for (i = 0; i < (*addresses)->dimsize; i++) {
