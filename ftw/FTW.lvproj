@@ -32,23 +32,28 @@
 			<Item Name="FTW-LibraryFilepath.vi" Type="VI" URL="../lib/FTW-LibraryFilepath.vi"/>
 			<Item Name="ftw32.dll" Type="Document" URL="../lib/ftw32.dll"/>
 		</Item>
+		<Item Name="_utils" Type="Folder">
+			<Item Name="FTW-DevUtil-FrontPanelCleanup.vi" Type="VI" URL="../utils/FTW-DevUtil-FrontPanelCleanup.vi"/>
+		</Item>
 		<Item Name="ftw" Type="Folder">
 			<Item Name="actor" Type="Folder">
 				<Item Name="request" Type="Folder">
-					<Item Name="FTW-Request-AddExceptionToResponse.vi" Type="VI" URL="../src/core/actor/request/FTW-Request-AddExceptionToResponse.vi"/>
+					<Item Name="FTW-Request-AddMetaData.vi" Type="VI" URL="../src/core/actor/request/FTW-Request-AddMetaData.vi"/>
+					<Item Name="FTW-Request-InterpretResponse.vi" Type="VI" URL="../src/core/actor/request/FTW-Request-InterpretResponse.vi"/>
 					<Item Name="FTW-Request-Receive.vi" Type="VI" URL="../src/core/actor/request/FTW-Request-Receive.vi"/>
 					<Item Name="FTW-Request-Reply.vi" Type="VI" URL="../src/core/actor/request/FTW-Request-Reply.vi"/>
+					<Item Name="FTW-Request-ReplyToPoisonPill.vi" Type="VI" URL="../src/core/actor/request/FTW-Request-ReplyToPoisonPill.vi"/>
 					<Item Name="FTW-Request-Unknown.vi" Type="VI" URL="../src/core/actor/request/FTW-Request-Unknown.vi"/>
 				</Item>
 				<Item Name="support" Type="Folder">
+					<Item Name="FTW-Actor-CloneName.vi" Type="VI" URL="../src/core/actor/support/FTW-Actor-CloneName.vi"/>
 					<Item Name="FTW-Actor-DynamicLaunchOptions.vi" Type="VI" URL="../src/core/actor/support/FTW-Actor-DynamicLaunchOptions.vi"/>
 				</Item>
 				<Item Name="FTW-Actor-Connector.lvclass" Type="LVClass" URL="../src/core/actor/connector/FTW-Actor-Connector.lvclass"/>
-				<Item Name="FTW-Actor-Context.lvclass" Type="LVClass" URL="../src/core/actor/context/FTW-Actor-Context.lvclass"/>
 				<Item Name="FTW-Actor-Instance.lvclass" Type="LVClass" URL="../src/core/actor/instance/FTW-Actor-Instance.lvclass"/>
-				<Item Name="FTW-Logger-Instance.lvclass" Type="LVClass" URL="../src/core/actor/logger/instance/FTW-Logger-Instance.lvclass"/>
-				<Item Name="FTW-Logger.lvclass" Type="LVClass" URL="../src/core/actor/logger/FTW-Logger.lvclass"/>
 				<Item Name="FTW-Scheduler.lvclass" Type="LVClass" URL="../src/core/actor/scheduler/FTW-Scheduler.lvclass"/>
+				<Item Name="FTW-Supervisor-Connector.lvclass" Type="LVClass" URL="../src/core/actor/supervisor/connector/FTW-Supervisor-Connector.lvclass"/>
+				<Item Name="FTW-Supervisor.lvclass" Type="LVClass" URL="../src/core/actor/supervisor/FTW-Supervisor.lvclass"/>
 			</Item>
 			<Item Name="application" Type="Folder">
 				<Item Name="FTW-App-StringToVersion.vi" Type="VI" URL="../src/core/application/FTW-App-StringToVersion.vi"/>
@@ -93,8 +98,10 @@
 				<Item Name="FTW-ERR-CallChain.vi" Type="VI" URL="../src/core/error/FTW-ERR-CallChain.vi"/>
 				<Item Name="FTW-ERR-Clear.vi" Type="VI" URL="../src/core/error/FTW-ERR-Clear.vi"/>
 				<Item Name="FTW-ERR-ExceptionType.ctl" Type="VI" URL="../src/core/error/FTW-ERR-ExceptionType.ctl"/>
+				<Item Name="FTW-ERR-Explanation.vi" Type="VI" URL="../src/core/error/FTW-ERR-Explanation.vi"/>
 				<Item Name="FTW-ERR-Ignore.vi" Type="VI" URL="../src/core/error/FTW-ERR-Ignore.vi"/>
 				<Item Name="FTW-ERR-NoErrorConstant.vi" Type="VI" URL="../src/core/error/FTW-ERR-NoErrorConstant.vi"/>
+				<Item Name="FTW-ERR-PrependExplanation.vi" Type="VI" URL="../src/core/error/FTW-ERR-PrependExplanation.vi"/>
 				<Item Name="FTW-ERR-SerializeForLog.vi" Type="VI" URL="../src/core/error/FTW-ERR-SerializeForLog.vi"/>
 				<Item Name="FTW-ERR-StatusError.vi" Type="VI" URL="../src/core/error/FTW-ERR-StatusError.vi"/>
 				<Item Name="FTW-ERR-StatusException.vi" Type="VI" URL="../src/core/error/FTW-ERR-StatusException.vi"/>
@@ -102,6 +109,7 @@
 				<Item Name="FTW-ERR-ThrowError.vi" Type="VI" URL="../src/core/error/FTW-ERR-ThrowError.vi"/>
 				<Item Name="FTW-ERR-ThrowGenericError.vi" Type="VI" URL="../src/core/error/FTW-ERR-ThrowGenericError.vi"/>
 				<Item Name="FTW-ERR-ThrowInfo.vi" Type="VI" URL="../src/core/error/FTW-ERR-ThrowInfo.vi"/>
+				<Item Name="FTW-ERR-ThrowInvalidReferenceError.vi" Type="VI" URL="../src/core/error/FTW-ERR-ThrowInvalidReferenceError.vi"/>
 				<Item Name="FTW-ERR-ThrowWarning.vi" Type="VI" URL="../src/core/error/FTW-ERR-ThrowWarning.vi"/>
 				<Item Name="FTW-ERR-UnknownParameter.vi" Type="VI" URL="../src/core/error/FTW-ERR-UnknownParameter.vi"/>
 			</Item>
@@ -119,7 +127,6 @@
 				<Item Name="FTW-File-Exists.vi" Type="VI" URL="../src/core/file/FTW-File-Exists.vi"/>
 				<Item Name="FTW-File-Extension.vi" Type="VI" URL="../src/core/file/FTW-File-Extension.vi"/>
 				<Item Name="FTW-File-FileInfo.vi" Type="VI" URL="../src/core/file/FTW-File-FileInfo.vi"/>
-				<Item Name="FTW-File-GenerateLogFilename.vi" Type="VI" URL="../src/core/file/FTW-File-GenerateLogFilename.vi"/>
 				<Item Name="FTW-File-IsRelative.vi" Type="VI" URL="../src/core/file/FTW-File-IsRelative.vi"/>
 				<Item Name="FTW-File-ListDirectories.vi" Type="VI" URL="../src/core/file/FTW-File-ListDirectories.vi"/>
 				<Item Name="FTW-File-ListDirectory-RegexFilter.vi" Type="VI" URL="../src/core/file/FTW-File-ListDirectory-RegexFilter.vi"/>
@@ -144,6 +151,7 @@
 				</Item>
 				<Item Name="FTW-JSON-CompareEquality.vi" Type="VI" URL="../src/core/json/FTW-JSON-CompareEquality.vi"/>
 				<Item Name="FTW-JSON-Construct-FromBuffer.vi" Type="VI" URL="../src/core/json/FTW-JSON-Construct-FromBuffer.vi"/>
+				<Item Name="FTW-JSON-Construct-NewObject.vi" Type="VI" URL="../src/core/json/FTW-JSON-Construct-NewObject.vi"/>
 				<Item Name="FTW-JSON-Deserialize.xnode" Type="XNode" URL="../src/core/json/FTW-JSON-Deserialize/FTW-JSON-Deserialize.xnode"/>
 				<Item Name="FTW-JSON-Destroy.vi" Type="VI" URL="../src/core/json/FTW-JSON-Destroy.vi"/>
 				<Item Name="FTW-JSON-Duplicate.vi" Type="VI" URL="../src/core/json/FTW-JSON-Duplicate.vi"/>
@@ -163,6 +171,7 @@
 				<Item Name="FTW-JSON-Object-Update.vi" Type="VI" URL="../src/core/json/FTW-JSON-Object-Update.vi"/>
 				<Item Name="FTW-JSON-ObjectManip-AddPair.vi" Type="VI" URL="../src/core/json/FTW-JSON-ObjectManip-AddPair.vi"/>
 				<Item Name="FTW-JSON-Serialize.vi" Type="VI" URL="../src/core/json/FTW-JSON-Serialize.vi"/>
+				<Item Name="FTW-JSON-SerializeAndDestroy.vi" Type="VI" URL="../src/core/json/FTW-JSON-SerializeAndDestroy.vi"/>
 				<Item Name="FTW-JSON-SerializeElement.vi" Type="VI" URL="../src/core/json/FTW-JSON-SerializeElement.vi"/>
 				<Item Name="FTW-JSON-SetFlags-Encoding.vi" Type="VI" URL="../src/core/json/FTW-JSON-SetFlags-Encoding.vi"/>
 				<Item Name="FTW-JSON-Type.ctl" Type="VI" URL="../src/core/json/FTW-JSON-Type.ctl"/>
@@ -202,7 +211,7 @@
 					<Item Name="core" Type="Folder">
 						<Item Name="FTW-Inbox-Core-Callback.vi" Type="VI" URL="../src/core/socket/inbox/core/FTW-Inbox-Core-Callback.vi"/>
 						<Item Name="FTW-Inbox-Core-CallbackParameters.ctl" Type="VI" URL="../src/core/socket/inbox/core/FTW-Inbox-Core-CallbackParameters.ctl"/>
-						<Item Name="FTW-Inbox-Core-IncomingMessageHeader.ctl" Type="VI" URL="../src/core/socket/inbox/core/FTW-Inbox-Core-IncomingMessageHeader.ctl"/>
+						<Item Name="FTW-Inbox-Core-Configuration.vi" Type="VI" URL="../src/core/socket/inbox/core/FTW-Inbox-Core-Configuration.vi"/>
 						<Item Name="FTW-Inbox-Core-RoutingRule.ctl" Type="VI" URL="../src/core/socket/inbox/core/FTW-Inbox-Core-RoutingRule.ctl"/>
 						<Item Name="FTW-Inbox-Core-Type.ctl" Type="VI" URL="../src/core/socket/inbox/core/FTW-Inbox-Core-Type.ctl"/>
 					</Item>
@@ -270,11 +279,9 @@
 				<Item Name="FTW-Time-Display-Timestamp.vi" Type="VI" URL="../src/core/time/FTW-Time-Display-Timestamp.vi"/>
 				<Item Name="FTW-Time-DisplayFormat-Elapsed.ctl" Type="VI" URL="../src/core/time/FTW-Time-DisplayFormat-Elapsed.ctl"/>
 				<Item Name="FTW-Time-DisplayFormat-Timestamp.ctl" Type="VI" URL="../src/core/time/FTW-Time-DisplayFormat-Timestamp.ctl"/>
-				<Item Name="FTW-Time-Elapse.vi" Type="VI" URL="../src/core/time/FTW-Time-Elapse.vi"/>
+				<Item Name="FTW-Time-RelativeTimer.vi" Type="VI" URL="../src/core/time/FTW-Time-RelativeTimer.vi"/>
 				<Item Name="FTW-Time-Remaining.vi" Type="VI" URL="../src/core/time/FTW-Time-Remaining.vi"/>
 				<Item Name="FTW-Time-RetryTimer.vi" Type="VI" URL="../src/core/time/FTW-Time-RetryTimer.vi"/>
-				<Item Name="FTW-Time-Timer.vi" Type="VI" URL="../src/core/time/FTW-Time-Timer.vi"/>
-				<Item Name="FTW-Time-Uptime.vi" Type="VI" URL="../src/core/time/FTW-Time-Uptime.vi"/>
 			</Item>
 			<Item Name="ui" Type="Folder">
 				<Item Name="image" Type="Folder">
@@ -321,6 +328,9 @@
 				<Item Name="FTW-VIServer-VI-Metadata.vi" Type="VI" URL="../src/core/viserver/FTW-VIServer-VI-Metadata.vi"/>
 			</Item>
 		</Item>
+		<Item Name="templates" Type="Folder">
+			<Item Name="FTW-ActorTemplate.vi" Type="VI" URL="../templates/FTW-ActorTemplate.vi"/>
+		</Item>
 		<Item Name="tests" Type="Folder">
 			<Item Name="core" Type="Folder" URL="../tests/core">
 				<Property Name="NI.DISK" Type="Bool">true</Property>
@@ -333,8 +343,6 @@
 				<Item Name="Rendezvous RefNum" Type="VI" URL="/&lt;vilib&gt;/Utility/rendezvs.llb/Rendezvous RefNum"/>
 				<Item Name="Semaphore RefNum" Type="VI" URL="/&lt;vilib&gt;/Utility/semaphor.llb/Semaphore RefNum"/>
 			</Item>
-			<Item Name="FTW-ActorTemplate.vi" Type="VI" URL="../templates/FTW-ActorTemplate.vi"/>
-			<Item Name="FTWLib-JSON-LibraryFilepath.vi" Type="VI" URL="../lib/jansson/FTWLib-JSON-LibraryFilepath.vi"/>
 			<Item Name="kernel32.dll" Type="Document" URL="kernel32.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
