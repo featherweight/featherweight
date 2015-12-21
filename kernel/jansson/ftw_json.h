@@ -65,7 +65,6 @@ extern "C" {
     FTW_EXPORT int ftw_json_object_clear(json_t *object);
     FTW_EXPORT int ftw_json_object_delete(json_t *object, const char *key);
 
-    FTW_EXPORT uint8_t ftw_json_equal(json_t *original, json_t *compared);
     FTW_EXPORT void ftw_json_element_type(json_t *element, uint8_t *type);
     FTW_EXPORT int32 ftw_json_serialize_element(const json_t *json, size_t flags, LStrHandle serialized);
     FTW_EXPORT void ftw_json_destroy(json_t *value);
