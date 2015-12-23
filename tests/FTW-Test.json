@@ -1,0 +1,63 @@
+{
+  "Tests Directory":       "<DirOfThisVI>:\\.",
+  "Test Worker Pool Size": 4,
+  "Show UI":               true,
+  "Randomize Test Order":  true,
+  "Test Configuration": {
+    "Default": {
+      "Enable": true,
+      "Iterations": 10
+    },
+    "Actor-Stress": {
+      "Iterations": 1
+    },
+    "Array-Shuffle": {
+    },
+    "Expressions-Booleanish": {
+    },
+    "JobScheduler": {
+    },
+    "JSON-Deserialize": {
+    },
+    "JSON-FloatingPoint": {
+    },
+    "JSON-Fuzz": {
+    },
+    "JSON-ObjectDelete": {
+    },
+    "JSON-ObjectJoin": {
+    },
+    "JSON-ObjectKeys": {
+    },
+    "JSON-Parallelization": {
+    },
+    "JSON-Stress": {
+    },
+    "Reflection-Datatypes": {
+    },
+    "Regex-BasicUsage": {
+    },
+    "Socket-Stress-InboxConnector": {
+      "Iterations": 1
+    },
+    "Socket-Stress-PubSub": {
+      "Iterations": 1
+    },
+    "Socket-Stress-RouterShutdown": {
+      "Iterations": 1
+    },
+    "SQLite-BasicQuery": {
+    },
+    "SQLite-JSON": {
+    },
+    "SQLite-OpenCloseStress": {
+    },
+    "SQLite-Random": {
+    },
+    "Supervisor": {
+      "Iterations": 1
+    },
+    "Timer": {
+    }
+  }
+}
