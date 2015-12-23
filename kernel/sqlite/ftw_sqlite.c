@@ -22,18 +22,40 @@
 
 #include "ftw_sqlite.h"
 
-const char *ftw_sqlite_libversion(void)
+const char *ftw_sqlite_errstr(int err_code, LStrHandle lib_version)
 {
-    return sqlite3_libversion();
+    MgErr lv_err;
+    const char *version;
+    const char *err;
+
+    version = sqlite3_libversion();
+
+    lv_err = ftw_support_CStr_to_LStrHandle(&lib_version, version, 1024);
+
+    if (lv_err)
+        return "LabVIEW is out of memory!";
+
+    switch (err_code) {
+    case SQLITE_MISUSE:
+        err = "Featherweight library developer error; please report this issue.";
+        break;
+    default:
+        err = sqlite3ErrStr(err_code);
+        break;
+    }
+
+    return err;
 }
 
-const char *ftw_sqlite_errstr(int rc)
+int ftw_sqlite_open(const char *path, sqlite3 **connection, int flags, LStrHandle lib_version)
 {
-    return sqlite3ErrStr(rc);
-}
+    MgErr lv_err;
+    const char *version;
 
-int ftw_sqlite_open(const char *path, sqlite3 **connection, int flags)
-{
+    version = sqlite3_libversion();
+
+    lv_err = ftw_support_CStr_to_LStrHandle(&lib_version, version, 1024);
+
     return sqlite3_open_v2(path, connection, flags, NULL);
 }
 

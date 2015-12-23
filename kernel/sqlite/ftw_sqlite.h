@@ -34,10 +34,9 @@ extern "C" {
 
 
     /*  Thin wrappers for SQLite functions to export. */
-    FTW_EXPORT const char *ftw_sqlite_libversion(void);
-    FTW_EXPORT const char *ftw_sqlite_errstr(int rc);
+    FTW_EXPORT const char *ftw_sqlite_errstr(int err_code, LStrHandle lib_version);
 
-    FTW_EXPORT int ftw_sqlite_open(const char *path, sqlite3 **connection, int flags);
+    FTW_EXPORT int ftw_sqlite_open(const char *path, sqlite3 **connection, int flags, LStrHandle lib_version);
     FTW_EXPORT int ftw_sqlite_close(sqlite3 *connection);
 
     FTW_EXPORT int ftw_sqlite_transaction_begin(sqlite3 *connection);
