@@ -67,6 +67,7 @@ extern "C" {
 
     FTW_EXPORT void ftw_json_element_type(json_t *element, uint8_t *type);
     FTW_EXPORT int32 ftw_json_serialize_element(const json_t *json, size_t flags, LStrHandle serialized);
+    FTW_EXPORT int32 ftw_json_serialize_and_destroy(json_t *json, size_t flags, LStrHandle serialized);
     FTW_EXPORT void ftw_json_destroy(json_t *value);
 
 #ifdef __cplusplus

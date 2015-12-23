@@ -270,6 +270,17 @@ int32 ftw_json_serialize_element(const json_t *json, size_t flags, LStrHandle se
     return length;
 }
 
+int32 ftw_json_serialize_and_destroy(json_t *json, size_t flags, LStrHandle serialized)
+{
+    int32 rc;
+
+    rc = ftw_json_serialize_element(json, flags, serialized);
+
+    json_decref(json);
+
+    return rc;
+}
+
 void ftw_json_destroy(json_t *value)
 {
     json_decref (value);
