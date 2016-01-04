@@ -13,7 +13,7 @@
 		<Item Name="_codegen" Type="Folder">
 			<Item Name="codegen" Type="Folder">
 				<Item Name="FTW-CodeGen-ChooseImplementation.vi" Type="VI" URL="../codegen/FTW-CodeGen-ChooseImplementation.vi"/>
-				<Item Name="FTW-CodeGen-CleanUpWire.vi" Type="VI" URL="../codegen/FTW-CodeGen-CleanUpWire.vi"/>
+				<Item Name="FTW-CodeGen-CleanUpWires.vi" Type="VI" URL="../codegen/FTW-CodeGen-CleanUpWires.vi"/>
 				<Item Name="FTW-CodeGen-FindGObject.vi" Type="VI" URL="../codegen/FTW-CodeGen-FindGObject.vi"/>
 				<Item Name="FTW-CodeGen-FindGObjects-Callback.vi" Type="VI" URL="../codegen/FTW-CodeGen-FindGObjects-Callback.vi"/>
 				<Item Name="FTW-CodeGen-FindGObjects.vi" Type="VI" URL="../codegen/FTW-CodeGen-FindGObjects.vi"/>
@@ -29,6 +29,7 @@
 				<Item Name="FTW-CodeGen-XNodeReplyType.ctl" Type="VI" URL="../codegen/FTW-CodeGen-XNodeReplyType.ctl"/>
 				<Item Name="FTW-CodeGen-XNodeUpdateState.vi" Type="VI" URL="../codegen/FTW-CodeGen-XNodeUpdateState.vi"/>
 			</Item>
+			<Item Name="FTW-Actor-Spawn.xnode" Type="XNode" URL="../codegen/xnode/FTW-Actor-Spawn.xnode"/>
 			<Item Name="FTW-Array-Shuffle.xnode" Type="XNode" URL="../codegen/xnode/FTW-Array-Shuffle.xnode"/>
 			<Item Name="FTW-Dataflow-Synchronizer.xnode" Type="XNode" URL="../codegen/xnode/FTW-Dataflow-Synchronizer.xnode"/>
 			<Item Name="FTW-JSON-Fetch.xnode" Type="XNode" URL="../codegen/xnode/FTW-JSON-Fetch.xnode"/>
@@ -236,8 +237,13 @@
 				<Item Name="FTW-NUM-MovingAverage.vi" Type="VI" URL="../src/numeric/FTW-NUM-MovingAverage.vi"/>
 			</Item>
 			<Item Name="reflection" Type="Folder">
+				<Item Name="core" Type="Folder">
+					<Item Name="FTW-Reflection-ConPaneInterface-Function.ctl" Type="VI" URL="../src/reflection/core/FTW-Reflection-ConPaneInterface-Function.ctl"/>
+					<Item Name="FTW-Reflection-ConPaneInterface-Terminal.ctl" Type="VI" URL="../src/reflection/core/FTW-Reflection-ConPaneInterface-Terminal.ctl"/>
+				</Item>
 				<Item Name="FTW-Reflection-Array.vi" Type="VI" URL="../src/reflection/FTW-Reflection-Array.vi"/>
 				<Item Name="FTW-Reflection-Cluster.vi" Type="VI" URL="../src/reflection/FTW-Reflection-Cluster.vi"/>
+				<Item Name="FTW-Reflection-ConPaneInterface.vi" Type="VI" URL="../src/reflection/FTW-Reflection-ConPaneInterface.vi"/>
 				<Item Name="FTW-Reflection-Enum.vi" Type="VI" URL="../src/reflection/FTW-Reflection-Enum.vi"/>
 				<Item Name="FTW-Reflection-Type.vi" Type="VI" URL="../src/reflection/FTW-Reflection-Type.vi"/>
 				<Item Name="FTW-Reflection-Types.ctl" Type="VI" URL="../src/reflection/FTW-Reflection-Types.ctl"/>
