@@ -93,7 +93,6 @@
 				<Item Name="support" Type="Folder">
 					<Item Name="FTW-Actor-CloneName.vi" Type="VI" URL="../src/actor/support/FTW-Actor-CloneName.vi"/>
 					<Item Name="FTW-Actor-DynamicLaunchOptions.vi" Type="VI" URL="../src/actor/support/FTW-Actor-DynamicLaunchOptions.vi"/>
-					<Item Name="FTW-Actor-SpawnNewInstance.vi" Type="VI" URL="../src/actor/FTW-Actor-SpawnNewInstance.vi"/>
 					<Item Name="FTW-Socket-Core-LibraryError.vi" Type="VI" URL="../src/socket/support/FTW-Socket-Core-LibraryError.vi"/>
 					<Item Name="FTW-Socket-Core-TransportScheme.ctl" Type="VI" URL="../src/socket/support/FTW-Socket-Core-TransportScheme.ctl"/>
 					<Item Name="FTW-Socket-Core-ValidateAddress.vi" Type="VI" URL="../src/socket/support/FTW-Socket-Core-ValidateAddress.vi"/>
