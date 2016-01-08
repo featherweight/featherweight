@@ -29,6 +29,7 @@
 				<Item Name="FTW-CodeGen-XNodeReplyType.ctl" Type="VI" URL="../codegen/FTW-CodeGen-XNodeReplyType.ctl"/>
 				<Item Name="FTW-CodeGen-XNodeUpdateState.vi" Type="VI" URL="../codegen/FTW-CodeGen-XNodeUpdateState.vi"/>
 			</Item>
+			<Item Name="FTW-Actor-Ask.xnode" Type="XNode" URL="../codegen/xnode/FTW-Actor-Ask.xnode"/>
 			<Item Name="FTW-Actor-Spawn.xnode" Type="XNode" URL="../codegen/xnode/FTW-Actor-Spawn.xnode"/>
 			<Item Name="FTW-Array-Shuffle.xnode" Type="XNode" URL="../codegen/xnode/FTW-Array-Shuffle.xnode"/>
 			<Item Name="FTW-Dataflow-Synchronizer.xnode" Type="XNode" URL="../codegen/xnode/FTW-Dataflow-Synchronizer.xnode"/>
@@ -41,6 +42,21 @@
 			<Item Name="ftw32.dll" Type="Document" URL="../lib/ftw32.dll"/>
 		</Item>
 		<Item Name="_utils" Type="Folder">
+			<Item Name="linker" Type="Folder">
+				<Item Name="FTW-Linker-DecodeBitmap.vi" Type="VI" URL="../utils/linker/FTW-Linker-DecodeBitmap.vi"/>
+				<Item Name="FTW-Linker-Flags-buttons.ctl" Type="VI" URL="../utils/linker/FTW-Linker-Flags-buttons.ctl"/>
+				<Item Name="FTW-Linker-Flags-iState.ctl" Type="VI" URL="../utils/linker/FTW-Linker-Flags-iState.ctl"/>
+				<Item Name="FTW-Linker-Flags-iStyle.ctl" Type="VI" URL="../utils/linker/FTW-Linker-Flags-iStyle.ctl"/>
+				<Item Name="FTW-Linker-Flags-viflags.ctl" Type="VI" URL="../utils/linker/FTW-Linker-Flags-viflags.ctl"/>
+				<Item Name="FTW-Linker-Flags-viflags2.ctl" Type="VI" URL="../utils/linker/FTW-Linker-Flags-viflags2.ctl"/>
+				<Item Name="FTW-Linker-Flags-wStyle.ctl" Type="VI" URL="../utils/linker/FTW-Linker-Flags-wStyle.ctl"/>
+				<Item Name="FTW-Linker-LabVIEWFiletype.ctl" Type="VI" URL="../utils/linker/FTW-Linker-LabVIEWFiletype.ctl"/>
+				<Item Name="FTW-Linker-LinkerInfoStructure.ctl" Type="VI" URL="../utils/linker/FTW-Linker-LinkerInfoStructure.ctl"/>
+				<Item Name="FTW-Linker-LVFileStaticLinks.vi" Type="VI" URL="../utils/linker/FTW-Linker-LVFileStaticLinks.vi"/>
+			</Item>
+			<Item Name="metrics" Type="Folder">
+				<Item Name="FTW-DevUtil-VIMetrics.vi" Type="VI" URL="../utils/metrics/FTW-DevUtil-VIMetrics.vi"/>
+			</Item>
 			<Item Name="FTW-DevUtil-FrontPanelCleanup.vi" Type="VI" URL="../utils/FTW-DevUtil-FrontPanelCleanup.vi"/>
 			<Item Name="FTW-DevUtil-VIDetails.vi" Type="VI" URL="../utils/FTW-DevUtil-VIDetails.vi"/>
 		</Item>
@@ -50,11 +66,10 @@
 					<Item Name="core" Type="Folder">
 						<Item Name="FTW-Connector-Core-Type.ctl" Type="VI" URL="../src/socket/connector/core/FTW-Connector-Core-Type.ctl"/>
 					</Item>
-					<Item Name="FTW-Connector-Ask.vi" Type="VI" URL="../src/socket/connector/FTW-Connector-Ask.vi"/>
 					<Item Name="FTW-Connector-Construct.vi" Type="VI" URL="../src/socket/connector/FTW-Connector-Construct.vi"/>
 					<Item Name="FTW-Connector-Destroy.vi" Type="VI" URL="../src/socket/connector/FTW-Connector-Destroy.vi"/>
 					<Item Name="FTW-Connector-QueryActorInstanceStatus.vi" Type="VI" URL="../src/socket/connector/FTW-Connector-QueryActorInstanceStatus.vi"/>
-					<Item Name="FTW-Connector-SendPoisonPill.vi" Type="VI" URL="../src/actor/connector/FTW-Connector-SendPoisonPill.vi"/>
+					<Item Name="FTW-Connector-SendPoisonPill.vi" Type="VI" URL="../src/socket/connector/FTW-Connector-SendPoisonPill.vi"/>
 				</Item>
 				<Item Name="inbox" Type="Folder">
 					<Item Name="core" Type="Folder">
@@ -106,7 +121,6 @@
 					<Item Name="FTW-SyncServer-Destroy.vi" Type="VI" URL="../src/socket/syncserver/FTW-SyncServer-Destroy.vi"/>
 					<Item Name="FTW-SyncServer-Reply.vi" Type="VI" URL="../src/socket/syncserver/FTW-SyncServer-Reply.vi"/>
 				</Item>
-				<Item Name="FTW-Actor-Connector.lvclass" Type="LVClass" URL="../src/actor/connector/FTW-Actor-Connector.lvclass"/>
 				<Item Name="FTW-Actor-Instance.lvclass" Type="LVClass" URL="../src/actor/instance/FTW-Actor-Instance.lvclass"/>
 				<Item Name="FTW-Scheduler.lvclass" Type="LVClass" URL="../src/actor/scheduler/FTW-Scheduler.lvclass"/>
 				<Item Name="FTW-Supervisor-Connector.lvclass" Type="LVClass" URL="../src/actor/supervisor/connector/FTW-Supervisor-Connector.lvclass"/>
@@ -245,6 +259,7 @@
 				<Item Name="FTW-Reflection-ConPaneInterface.vi" Type="VI" URL="../src/reflection/FTW-Reflection-ConPaneInterface.vi"/>
 				<Item Name="FTW-Reflection-Enum.vi" Type="VI" URL="../src/reflection/FTW-Reflection-Enum.vi"/>
 				<Item Name="FTW-Reflection-Type.vi" Type="VI" URL="../src/reflection/FTW-Reflection-Type.vi"/>
+				<Item Name="FTW-Reflection-TypeDescriptorToDefaultData.vi" Type="VI" URL="../src/reflection/FTW-Reflection-TypeDescriptorToDefaultData.vi"/>
 				<Item Name="FTW-Reflection-Types.ctl" Type="VI" URL="../src/reflection/FTW-Reflection-Types.ctl"/>
 			</Item>
 			<Item Name="regex" Type="Folder">
@@ -274,7 +289,6 @@
 				<Item Name="FTW-STR-Indent.vi" Type="VI" URL="../src/string/FTW-STR-Indent.vi"/>
 				<Item Name="FTW-STR-Random-Bytes.vi" Type="VI" URL="../src/string/FTW-STR-Random-Bytes.vi"/>
 				<Item Name="FTW-STR-Random-Hex.vi" Type="VI" URL="../src/string/FTW-STR-Random-Hex.vi"/>
-				<Item Name="FTW-STR-Random-UTF8chars.vi" Type="VI" URL="../src/string/FTW-STR-Random-UTF8chars.vi"/>
 				<Item Name="FTW-STR-Repeat.vi" Type="VI" URL="../src/string/FTW-STR-Repeat.vi"/>
 				<Item Name="FTW-STR-ReplaceAll.vi" Type="VI" URL="../src/string/FTW-STR-ReplaceAll.vi"/>
 				<Item Name="FTW-STR-ReplaceWhitespace.vi" Type="VI" URL="../src/string/FTW-STR-ReplaceWhitespace.vi"/>
@@ -396,10 +410,6 @@
 		<Item Name="FTW-Test.json" Type="Document" URL="../tests/FTW-Test.json"/>
 		<Item Name="FTW-Test.vi" Type="VI" URL="../tests/FTW-Test.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
-			<Item Name="vi.lib" Type="Folder">
-				<Item Name="Rendezvous RefNum" Type="VI" URL="/&lt;vilib&gt;/Utility/rendezvs.llb/Rendezvous RefNum"/>
-				<Item Name="Semaphore RefNum" Type="VI" URL="/&lt;vilib&gt;/Utility/semaphor.llb/Semaphore RefNum"/>
-			</Item>
 			<Item Name="DOMUserDefRef.dll" Type="Document" URL="DOMUserDefRef.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
