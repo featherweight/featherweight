@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='UTF-8'?>
-<Project Type="Project" LVVersion="14008000">
+<Project Type="Project" LVVersion="15008000">
 	<Item Name="My Computer" Type="My Computer">
 		<Property Name="server.app.propertiesEnabled" Type="Bool">true</Property>
 		<Property Name="server.control.propertiesEnabled" Type="Bool">true</Property>
@@ -33,6 +33,8 @@
 			<Item Name="FTW-Actor-Spawn.xnode" Type="XNode" URL="../codegen/xnode/FTW-Actor-Spawn.xnode"/>
 			<Item Name="FTW-Array-Shuffle.xnode" Type="XNode" URL="../codegen/xnode/FTW-Array-Shuffle.xnode"/>
 			<Item Name="FTW-Dataflow-Synchronizer.xnode" Type="XNode" URL="../codegen/xnode/FTW-Dataflow-Synchronizer.xnode"/>
+			<Item Name="FTW-dotNet-SQL-Fetch.xnode" Type="XNode" URL="../codegen/xnode/FTW-dotNet-SQL-Fetch.xnode"/>
+			<Item Name="FTW-dotNet-SQL-Insert.xnode" Type="XNode" URL="../codegen/xnode/FTW-dotNet-SQL-Insert.xnode"/>
 			<Item Name="FTW-JSON-Fetch.xnode" Type="XNode" URL="../codegen/xnode/FTW-JSON-Fetch.xnode"/>
 			<Item Name="FTW-SQLite-Fetch.xnode" Type="XNode" URL="../codegen/xnode/FTW-SQLite-Fetch.xnode"/>
 			<Item Name="FTW-SQLite-Insert.xnode" Type="XNode" URL="../codegen/xnode/FTW-SQLite-Insert.xnode"/>
@@ -361,6 +363,13 @@
 					<Item Name="FTW-Crypto-String-Sign.vi" Type="VI" URL="../src/windows/security/FTW-Crypto-String-Sign.vi"/>
 					<Item Name="FTW-Crypto-String-Verify.vi" Type="VI" URL="../src/windows/security/FTW-Crypto-String-Verify.vi"/>
 				</Item>
+				<Item Name="sql" Type="Folder">
+					<Item Name="FTW-dotNET-SQL-CloseConnection.vi" Type="VI" URL="../src/windows/sql/FTW-dotNET-SQL-CloseConnection.vi"/>
+					<Item Name="FTW-dotNET-SQL-ConnectionEventsCallback.vi" Type="VI" URL="../src/windows/sql/FTW-dotNET-SQL-ConnectionEventsCallback.vi"/>
+					<Item Name="FTW-dotNET-SQL-ExecuteScript.vi" Type="VI" URL="../src/windows/sql/FTW-dotNET-SQL-ExecuteScript.vi"/>
+					<Item Name="FTW-dotNET-SQL-OpenConnection.vi" Type="VI" URL="../src/windows/sql/FTW-dotNET-SQL-OpenConnection.vi"/>
+					<Item Name="FTW-dotNET-SQL-OpenConnectionWithEvents.vi" Type="VI" URL="../src/windows/sql/FTW-dotNET-SQL-OpenConnectionWithEvents.vi"/>
+				</Item>
 				<Item Name="string" Type="Folder">
 					<Item Name="FTW-STR-UTF8.vi" Type="VI" URL="../src/windows/string/FTW-STR-UTF8.vi"/>
 					<Item Name="FTW-STR-UTF16.vi" Type="VI" URL="../src/windows/string/FTW-STR-UTF16.vi"/>
@@ -424,6 +433,9 @@
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
 			<Item Name="System.Core" Type="Document" URL="System.Core">
+				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
+			</Item>
+			<Item Name="System.Data" Type="Document" URL="System.Data">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
 		</Item>
