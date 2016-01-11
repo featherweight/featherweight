@@ -13,6 +13,10 @@
     },
     "Array-Shuffle": {
     },
+    "dotNET-SQLFetch": {
+      "Enable": true,
+      "Iterations": 1
+    },
     "Expressions-Booleanish": {
     },
     "JobScheduler": {
@@ -32,6 +36,12 @@
     "JSON-Parallelization": {
     },
     "JSON-Stress": {
+    },
+    "Reflection-Array": {
+    },
+    "Reflection-CompositeTypes": {
+    },
+    "Reflection-ConPaneInterface": {
     },
     "Reflection-Datatypes": {
     },
