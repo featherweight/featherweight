@@ -65,9 +65,6 @@
 		<Item Name="ftw" Type="Folder">
 			<Item Name="actor" Type="Folder">
 				<Item Name="connector" Type="Folder">
-					<Item Name="core" Type="Folder">
-						<Item Name="FTW-Connector-Core-Type.ctl" Type="VI" URL="../src/socket/connector/core/FTW-Connector-Core-Type.ctl"/>
-					</Item>
 					<Item Name="FTW-Connector-Construct.vi" Type="VI" URL="../src/socket/connector/FTW-Connector-Construct.vi"/>
 					<Item Name="FTW-Connector-Destroy.vi" Type="VI" URL="../src/socket/connector/FTW-Connector-Destroy.vi"/>
 					<Item Name="FTW-Connector-QueryActorInstanceStatus.vi" Type="VI" URL="../src/socket/connector/FTW-Connector-QueryActorInstanceStatus.vi"/>
@@ -107,6 +104,16 @@
 					<Item Name="FTW-Subscriber-Construct.vi" Type="VI" URL="../src/socket/subscriber/FTW-Subscriber-Construct.vi"/>
 					<Item Name="FTW-Subscriber-Destroy.vi" Type="VI" URL="../src/socket/subscriber/FTW-Subscriber-Destroy.vi"/>
 				</Item>
+				<Item Name="supervisor" Type="Folder">
+					<Item Name="core" Type="Folder">
+						<Item Name="FTW-Supervisor-Core-SerializeEvent.vi" Type="VI" URL="../src/actor/supervisor/core/FTW-Supervisor-Core-SerializeEvent.vi"/>
+						<Item Name="FTW-Supervisor.lvclass" Type="LVClass" URL="../src/actor/supervisor/core/FTW-Supervisor.lvclass"/>
+					</Item>
+					<Item Name="FTW-Supervisor-Connect.vi" Type="VI" URL="../src/actor/supervisor/FTW-Supervisor-Connect.vi"/>
+					<Item Name="FTW-Supervisor-Launch.vi" Type="VI" URL="../src/actor/supervisor/FTW-Supervisor-Launch.vi"/>
+					<Item Name="FTW-Supervisor-LogEvent.vi" Type="VI" URL="../src/actor/supervisor/FTW-Supervisor-LogEvent.vi"/>
+					<Item Name="FTW-Supervisor-Shutdown.vi" Type="VI" URL="../src/actor/supervisor/FTW-Supervisor-Shutdown.vi"/>
+				</Item>
 				<Item Name="support" Type="Folder">
 					<Item Name="FTW-Actor-CloneName.vi" Type="VI" URL="../src/actor/support/FTW-Actor-CloneName.vi"/>
 					<Item Name="FTW-Actor-DynamicLaunchOptions.vi" Type="VI" URL="../src/actor/support/FTW-Actor-DynamicLaunchOptions.vi"/>
@@ -125,13 +132,16 @@
 				</Item>
 				<Item Name="FTW-Actor-Instance.lvclass" Type="LVClass" URL="../src/actor/instance/FTW-Actor-Instance.lvclass"/>
 				<Item Name="FTW-Scheduler.lvclass" Type="LVClass" URL="../src/actor/scheduler/FTW-Scheduler.lvclass"/>
-				<Item Name="FTW-Supervisor-Connector.lvclass" Type="LVClass" URL="../src/actor/supervisor/connector/FTW-Supervisor-Connector.lvclass"/>
-				<Item Name="FTW-Supervisor.lvclass" Type="LVClass" URL="../src/actor/supervisor/FTW-Supervisor.lvclass"/>
 			</Item>
 			<Item Name="application" Type="Folder">
 				<Item Name="FTW-App-StringToVersion.vi" Type="VI" URL="../src/application/FTW-App-StringToVersion.vi"/>
 				<Item Name="FTW-App-StringVersionToString.vi" Type="VI" URL="../src/application/FTW-App-StringVersionToString.vi"/>
 				<Item Name="FTW-App-VersionToString.vi" Type="VI" URL="../src/application/FTW-App-VersionToString.vi"/>
+			</Item>
+			<Item Name="core" Type="Folder">
+				<Item Name="type" Type="Folder">
+					<Item Name="FTW-Type-Actor-Connector.ctl" Type="VI" URL="../src/core/type/FTW-Type-Actor-Connector.ctl"/>
+				</Item>
 			</Item>
 			<Item Name="database" Type="Folder">
 				<Item Name="core" Type="Folder">
