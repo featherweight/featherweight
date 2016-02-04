@@ -72,11 +72,9 @@
 				</Item>
 				<Item Name="inbox" Type="Folder">
 					<Item Name="core" Type="Folder">
-						<Item Name="FTW-Inbox-Core-Callback.vi" Type="VI" URL="../src/socket/inbox/core/FTW-Inbox-Core-Callback.vi"/>
-						<Item Name="FTW-Inbox-Core-CallbackParameters.ctl" Type="VI" URL="../src/socket/inbox/core/FTW-Inbox-Core-CallbackParameters.ctl"/>
 						<Item Name="FTW-Inbox-Core-Configuration.vi" Type="VI" URL="../src/socket/inbox/core/FTW-Inbox-Core-Configuration.vi"/>
+						<Item Name="FTW-Inbox-Core-MessageRouter.vi" Type="VI" URL="../src/socket/inbox/core/FTW-Inbox-Core-MessageRouter.vi"/>
 						<Item Name="FTW-Inbox-Core-RoutingRule.ctl" Type="VI" URL="../src/socket/inbox/core/FTW-Inbox-Core-RoutingRule.ctl"/>
-						<Item Name="FTW-Inbox-Core-Type.ctl" Type="VI" URL="../src/socket/inbox/core/FTW-Inbox-Core-Type.ctl"/>
 					</Item>
 					<Item Name="FTW-Inbox-Construct.vi" Type="VI" URL="../src/socket/inbox/FTW-Inbox-Construct.vi"/>
 					<Item Name="FTW-Inbox-Destroy.vi" Type="VI" URL="../src/socket/inbox/FTW-Inbox-Destroy.vi"/>
@@ -141,6 +139,7 @@
 			<Item Name="core" Type="Folder">
 				<Item Name="type" Type="Folder">
 					<Item Name="FTW-Type-Actor-Connector.ctl" Type="VI" URL="../src/core/type/FTW-Type-Actor-Connector.ctl"/>
+					<Item Name="FTW-Type-Actor-Inbox.ctl" Type="VI" URL="../src/core/type/FTW-Type-Actor-Inbox.ctl"/>
 				</Item>
 			</Item>
 			<Item Name="database" Type="Folder">
