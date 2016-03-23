@@ -1,5 +1,5 @@
 #
-#    Copyright (c) 2014-2015 Wirebird Labs LLC. All rights reserved.
+#    Copyright (c) 2014-2016 Wirebird Labs LLC. All rights reserved.
 #
 #    Permission is hereby granted, free of charge, to any person obtaining a copy
 #    of this software and associated documentation files (the "Software"),
@@ -96,21 +96,26 @@ target_link_libraries (${CMAKE_PROJECT_NAME} nanomsg)
 
 target_compile_options (${CMAKE_PROJECT_NAME} PUBLIC -DSQLITE_ENABLE_JSON1)
 
-# Add links to the LabVIEW Runtime Engine
 if (WIN32)
     set (LVRTE_LIBRARY "../labview/labviewv")
+    set (FTW_LIB_DESTINATION "")
 elseif (APPLE)
-    set (LVRTE_LIBRARY "/Library/Frameworks/LabVIEW 14.0 Runtime")
+    set (LVRTE_LIBRARY "/Library/Frameworks/LabVIEW 15.0 Runtime")
+    set (FTW_LIB_DESTINATION "")
+## this is the best-known heuristic for detecting a build on NI Linux RT
 elseif (CMAKE_SYSTEM MATCHES "^Linux-.*-ni-.*$")
-    find_library (LVRTE_LIBRARY lvrt)
+    find_library (LVRTE_LIBRARY liblvrt.so.15.0 PATHS /usr/local/natinst/labview NO_DEFAULT_PATH)
     execute_process (COMMAND readlink -f ${LVRTE_LIBRARY})
+    set (FTW_LIB_DESTINATION "/usr/lib")
 elseif (UNIX)
     find_library (LVRTE_LIBRARY lvrtdark PATHS ${CMAKE_CURRENT_SOURCE_DIR}/download-cache/ NO_DEFAULT_PATH)
     execute_process (COMMAND readlink -f ${LVRTE_LIBRARY})
+    set (FTW_LIB_DESTINATION "")
 else ()
     message (FATAL_ERROR "Unreachable.")
 endif ()
 
+# Add links to the LabVIEW Runtime Engine
 message (STATUS "Linking to LVRTE at this path: ${LVRTE_LIBRARY}")
 target_link_libraries (${CMAKE_PROJECT_NAME} ${LVRTE_LIBRARY})
 
@@ -127,7 +132,7 @@ if (WIN32)
     endif ()
 else ()
     message (STATUS "Building libftw.so ...")
-    set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME "libftw")
+    set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME "ftw")
 endif ()
 
 if (MSVC)
@@ -143,3 +148,7 @@ include_directories (${JANSSON_INCLUDE_DIRS})
 # Ensuring amalgamation compiles with same compiler flags as components
 get_directory_property (NANOMSG_COMPILE_DEFS DIRECTORY ${NANOMSG_DIR} COMPILE_DEFINITIONS)
 target_compile_definitions (${CMAKE_PROJECT_NAME} PUBLIC ${NANOMSG_COMPILE_DEFS})
+
+if (NOT FTW_LIB_DESTINATION STREQUAL "")
+    install (TARGETS ${CMAKE_PROJECT_NAME} LIBRARY DESTINATION ${FTW_LIB_DESTINATION})
+endif ()

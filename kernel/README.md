@@ -26,36 +26,33 @@ Win32: [![Win32 status](https://ci.appveyor.com/api/projects/status/kkmx5uptnx14
 ## Building for NI Linux Real-Time
 
 #### Prerequisites
-  1. Hardware target with NI Linux Real-Time
+  1. Hardware target with NI Linux Real-Time 2015 or higher
   1. Internet connection for hardware target *(Alternatively, repository and build toolchain may be transferred via USB or a local network connection, but that is outside the scope of this tutorial)*
-  1. NI LabVIEW 2014 or higher
+  1. NI LabVIEW 2015 or higher
 
 #### Preparing hardware target for building
   1. From NI MAX, ensure the latest firmware and software are installed on the hardware target
   1. From NI MAX, ensure a network adapter is enabled and internet-connected
   1. Log in to the device from a terminal; e.g., `ssh admin@192.168.0.10`
   1. Ensure that the package manager packages are up to date: `opkg update`
-  1. Install build toolchain: `opkg install packagegroup-core-buildessential-dev`
-  1. Install git in order to clone the repository: `opkg install git`
-  1. Install root Certificate Authories in order to trust HTTPS SSL cert when cloning from GitHub: `opkg install ca-certificates`
-  1. It may be necessary to install additional Perl modules: `opkg install perl-modules`
+  1. Install git in order to clone the repository: `opkg install git-perltools`
+  1. Install build toolchain: `opkg install packagegroup-core-buildessential`
+  1. Install cmake in order to automate the build process: `opkg install cmake`
 
 #### Build process
   1. From an SSH command-line session, navigate to your home directory: `cd ~`
-  1. Clone this repository with the `--recursive` flag to ensure all submodules are cloned: `git clone --recursive https://github.com/wirebirdlabs/featherweight-lib.git`
-  1. Invoke build system generation: `./autogen.sh`
-  1. Configure library for your system: `./configure`
-  1. Build library: `make`
-  1. Run unit tests: `make check`
-  1. Install library: `make install`
-
+  1. Clone this repository with the `--recursive` flag to ensure all submodules are cloned: `git clone --recursive https://github.com/featherweight/ftw-kernel.git`
+  1. Navigate into the repo root and create a build directory: `cd ftw-kernel; md build; cd build`
+  1. Invoke build system generation: `cmake ..`
+  1. Build library: `cmake --build .`
+  1. Run unit tests: `ctest --output-on-failure -C Debug`
 
 ##Building for Windows
 
 #### Prerequisites
   1. CMake 2.8.12 or higher
   1. Microsoft Visual Studio 2010 or higher (Visual Studio Express is freely available for open source projects like Featherweight)
-  1. NI LabVIEW 2014 or higher
+  1. NI LabVIEW 2015 or higher
 
 #### Build process
   1. Clone this repository with the `--recursive` flag to ensure all submodules are cloned: `git clone --recursive https://github.com/featherweight/ftw-kernel.git`
@@ -70,4 +67,4 @@ Win32: [![Win32 status](https://ci.appveyor.com/api/projects/status/kkmx5uptnx14
     - "Set as StartUp Project" for `featherweight` project
     - /General/Output Directory: `..\..\ftw-master\lib\`
     - /Debugging/Command: `"C:\Program Files (x86)\National Instruments\LabVIEW 2015\LabVIEW.exe"`
-    - /Debugging/Command Arguments: `"..\..\ftw-master\FTW-Test.lvproj"`
+    - /Debugging/Command Arguments: `"..\..\ftw-master\FTW.lvproj"`
