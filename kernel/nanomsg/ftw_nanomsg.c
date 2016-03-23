@@ -27,6 +27,7 @@
 
 FTW_PRIVATE_SUPPORT void ftw_subscriber_async_recv_thread(void *arg);
 FTW_PRIVATE_SUPPORT void ftw_nanomsg_shutdown_active_sockets(struct ftw_socket_callsite *inst);
+FTW_PRIVATE_SUPPORT int ftw_socket_close(struct ftw_socket * const sock);
 
 int ftw_nanomsg_error(LStrHandle error_message)
 {
@@ -76,7 +77,7 @@ static void ftw_subscriber_async_recv_thread(void *arg)
 
     /*  Create local pointer to arguments and notify launching process this thread is constructed. */
     self = ((struct ftw_socket *) arg);
-    nn_sem_post(&self->init_sem);
+    nn_sem_post(&self->ready);
 
     lv_err = mgNoErr;
     socket_err = 0;
@@ -93,6 +94,8 @@ static void ftw_subscriber_async_recv_thread(void *arg)
 
         msg_sent_to_lv = (LStrHandle)DSNewHandle(rc);
         lv_err = ftw_support_buffer_to_LStrHandle(&msg_sent_to_lv, recv_buf, rc);
+        if (lv_err)
+            continue;
 
         /*  On the LabVIEW side, the handler is a an event registration, meaning
             LabVIEW will not effectively apply backpressure to the Publisher socket.
@@ -100,7 +103,7 @@ static void ftw_subscriber_async_recv_thread(void *arg)
             the Publisher, yet this consideration has long-existed for the LabVIEW
             developer (since, LV-native primitives will likewise cause a memory leak,
             when Event Registrations are allowed to grow without bound). */
-        lv_err = PostLVUserEvent(self->lv_event, &msg_sent_to_lv);
+        lv_err = PostLVUserEvent(self->msg_to_lv_event, &msg_sent_to_lv);
         if (lv_err)
             continue;
 
@@ -111,9 +114,6 @@ static void ftw_subscriber_async_recv_thread(void *arg)
             continue;
         }
     }
-
-    /*  Thread will silently prune on normal shutdown or fatal error. */
-    nn_close(self->id);
 
     return;
 }
@@ -126,8 +126,8 @@ int ftw_nanomsg_sync_server_start(struct ftw_socket_callsite **callsite,
     int rcs;
     int rco;
 
-    ftw_assert(*callsite);
-
+    /*  Preconditions expected of LabVIEW. */
+    ftw_assert(*callsite && addr);
     nn_mutex_lock(&(*callsite)->sync);
 
     rcs = nn_socket(AF_SP, NN_REP);
@@ -261,8 +261,8 @@ int ftw_nanomsg_connector_connect(struct ftw_socket_callsite **callsite, const c
     int rco;
     int rcc;
 
-    ftw_assert(*callsite);
-
+    /*  Preconditions expected of LabVIEW. */
+    ftw_assert(*callsite && addr);
     nn_mutex_lock(&(*callsite)->sync);
 
     rcs = nn_socket(AF_SP, NN_REQ);
@@ -393,8 +393,8 @@ int ftw_publisher_construct(struct ftw_socket_callsite **callsite, const char *a
     int rco;
     int rcb;
 
-    ftw_assert(*callsite);
-
+    /*  Preconditions expected of LabVIEW. */
+    ftw_assert(*callsite && addr);
     nn_mutex_lock(&(*callsite)->sync);
 
     rcs = nn_socket(AF_SP, NN_PUB);
@@ -474,7 +474,6 @@ int ftw_publisher_destroy(struct ftw_socket ** const sock)
     return ftw_socket_destroy(sock);
 }
 
-
 int ftw_subscriber_construct(struct ftw_socket_callsite **callsite, LVUserEventRef *lv_event,
     const char *addr, int linger, int max_recv_size, struct ftw_socket **sock)
 {
@@ -483,8 +482,8 @@ int ftw_subscriber_construct(struct ftw_socket_callsite **callsite, LVUserEventR
     int rcs;
     int rco;
 
-    ftw_assert(*callsite);
-
+    /*  Preconditions expected of LabVIEW. */
+    ftw_assert(*callsite && addr);
     nn_mutex_lock(&(*callsite)->sync);
 
     rcs = nn_socket(AF_SP, NN_SUB);
@@ -532,7 +531,7 @@ int ftw_subscriber_construct(struct ftw_socket_callsite **callsite, LVUserEventR
     alloc_assert(inst);
 
     inst->is_async = 1;
-    inst->lv_event = *lv_event;
+    inst->msg_to_lv_event = *lv_event;
     inst->id = rcs;
     inst->callsite = *callsite;
 
@@ -540,10 +539,12 @@ int ftw_subscriber_construct(struct ftw_socket_callsite **callsite, LVUserEventR
     nn_list_insert(&(*callsite)->active_sockets, &inst->item,
         nn_list_end(&(*callsite)->active_sockets));
 
+    nn_sem_init(&inst->ready_for_next_msg);
+
     /*  Launch thread and wait for it to initialize. */
-    nn_sem_init(&inst->init_sem);
+    nn_sem_init(&inst->ready);
     nn_thread_init(&inst->thread, ftw_subscriber_async_recv_thread, inst);
-    nn_sem_wait(&inst->init_sem);
+    nn_sem_wait(&inst->ready);
 
     *sock = inst;
 
@@ -561,10 +562,15 @@ int ftw_subscriber_destroy(struct ftw_socket ** const sock)
 int ftw_socket_close(struct ftw_socket * const sock)
 {
     int rc;
+
+    /*  Preconditions expected of LabVIEW. */
+    ftw_assert(sock);
+
     if (sock->is_async) {
         rc = nn_close(sock->id);
         nn_thread_term(&sock->thread);
-        nn_sem_term(&sock->init_sem);
+        nn_sem_term(&sock->ready_for_next_msg);
+        nn_sem_term(&sock->ready);
     }
     else {
         rc = nn_close(sock->id);
@@ -599,6 +605,9 @@ MgErr ftw_nanomsg_reserve(struct ftw_socket_callsite **inst)
 {
     static int callsite = 0;
 
+    /*  Preconditions expected of LabVIEW. */
+    ftw_assert(inst);
+
     /*  Creates a list of socket instances for each CLFN callsite. */
     if (*inst == NULL) {
         callsite++;
@@ -621,14 +630,17 @@ MgErr ftw_nanomsg_reserve(struct ftw_socket_callsite **inst)
 
 MgErr ftw_nanomsg_unreserve(struct ftw_socket_callsite **inst)
 {
-    /*  LabVIEW retains the lifetime of this pointer for each session. For this reason,
-        NULL its value so that it does not continue to point to freed memory. */
+    /*  Preconditions expected of LabVIEW. */
+    ftw_assert(inst);
 
     if (*inst) {
         ftw_nanomsg_shutdown_active_sockets(*inst);
         nn_mutex_term(&(*inst)->sync);
         ftw_debug("Unreserving: %d; Sockets created: %d", (*inst)->id, (*inst)->lifetime_sockets);
         nn_free(*inst);
+
+        /*  LabVIEW retains the lifetime of this pointer for each session. For this reason,
+            NULL its value so that it does not continue to point to freed memory. */
         *inst = NULL;
     }
     else {
@@ -640,19 +652,21 @@ MgErr ftw_nanomsg_unreserve(struct ftw_socket_callsite **inst)
 
 MgErr ftw_nanomsg_abort(struct ftw_socket_callsite **inst)
 {
-
-    ftw_assert(*inst);
+    /*  Preconditions expected of LabVIEW. */
+    ftw_assert(inst && *inst);
 
     ftw_nanomsg_shutdown_active_sockets(*inst);
 
     return mgNoErr;
 }
 
-static void ftw_nanomsg_shutdown_active_sockets(struct ftw_socket_callsite *callsite)
+void ftw_nanomsg_shutdown_active_sockets(struct ftw_socket_callsite *callsite)
 {
     struct ftw_socket *sock;
     struct nn_list_item *it;
 
+    /*  Preconditions expected of LabVIEW. */
+    ftw_assert(callsite);
     nn_mutex_lock(&callsite->sync);
 
     ftw_debug("Cleaning up %d", callsite->id);

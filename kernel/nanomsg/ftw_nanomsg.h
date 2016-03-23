@@ -70,8 +70,9 @@ struct ftw_socket {
 
     /*  Asynchronous receive parameters. */
     int is_async;
-    LVUserEventRef lv_event;
-    struct nn_sem init_sem;
+    LVUserEventRef msg_to_lv_event;
+    struct nn_sem ready;
+    struct nn_sem ready_for_next_msg;
     struct nn_thread thread;
 
     /*  This is just used by the List API to maintain position of this item. */
