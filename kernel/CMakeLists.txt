@@ -150,5 +150,8 @@ get_directory_property (NANOMSG_COMPILE_DEFS DIRECTORY ${NANOMSG_DIR} COMPILE_DE
 target_compile_definitions (${CMAKE_PROJECT_NAME} PUBLIC ${NANOMSG_COMPILE_DEFS})
 
 if (NOT FTW_LIB_DESTINATION STREQUAL "")
+    message (STATUS "Installing FTW to this system path: ${FTW_LIB_DESTINATION}")
     install (TARGETS ${CMAKE_PROJECT_NAME} LIBRARY DESTINATION ${FTW_LIB_DESTINATION})
+else ()
+    message (STATUS "FTW Kernel is not automatically installed to a system path on this platform.")
 endif ()
