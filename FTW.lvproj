@@ -23,11 +23,18 @@
 				<Item Name="FTW-CodeGen-GetTerminals.vi" Type="VI" URL="../codegen/FTW-CodeGen-GetTerminals.vi"/>
 				<Item Name="FTW-CodeGen-GetTypeInfo.vi" Type="VI" URL="../codegen/FTW-CodeGen-GetTypeInfo.vi"/>
 				<Item Name="FTW-CodeGen-GetTypeInfoRemote.vi" Type="VI" URL="../codegen/FTW-CodeGen-GetTypeInfoRemote.vi"/>
+				<Item Name="FTW-CodeGen-OneGObjectOrNone.vi" Type="VI" URL="../codegen/FTW-CodeGen-OneGObjectOrNone.vi"/>
 				<Item Name="FTW-CodeGen-RelinkTerminals.vi" Type="VI" URL="../codegen/FTW-CodeGen-RelinkTerminals.vi"/>
 				<Item Name="FTW-CodeGen-SetConstantValue.vi" Type="VI" URL="../codegen/FTW-CodeGen-SetConstantValue.vi"/>
 				<Item Name="FTW-CodeGen-XNodeReply.vi" Type="VI" URL="../codegen/FTW-CodeGen-XNodeReply.vi"/>
 				<Item Name="FTW-CodeGen-XNodeReplyType.ctl" Type="VI" URL="../codegen/FTW-CodeGen-XNodeReplyType.ctl"/>
 				<Item Name="FTW-CodeGen-XNodeUpdateState.vi" Type="VI" URL="../codegen/FTW-CodeGen-XNodeUpdateState.vi"/>
+			</Item>
+			<Item Name="support" Type="Folder">
+				<Item Name="FTW-CodeGen-Image-AppendToPicture.vi" Type="VI" URL="../codegen/support/FTW-CodeGen-Image-AppendToPicture.vi"/>
+				<Item Name="FTW-CodeGen-Image-Rectangle.vi" Type="VI" URL="../codegen/support/FTW-CodeGen-Image-Rectangle.vi"/>
+				<Item Name="FTW-CodeGen-Image-Subset.vi" Type="VI" URL="../codegen/support/FTW-CodeGen-Image-Subset.vi"/>
+				<Item Name="FTW-CodeGen-Image-ToPicture.vi" Type="VI" URL="../codegen/support/FTW-CodeGen-Image-ToPicture.vi"/>
 			</Item>
 			<Item Name="FTW-Actor-Ask.xnode" Type="XNode" URL="../codegen/xnode/FTW-Actor-Ask.xnode"/>
 			<Item Name="FTW-Actor-Spawn.xnode" Type="XNode" URL="../codegen/xnode/FTW-Actor-Spawn.xnode"/>
@@ -317,11 +324,6 @@
 				<Item Name="FTW-Time-Remaining.vi" Type="VI" URL="../src/time/FTW-Time-Remaining.vi"/>
 			</Item>
 			<Item Name="ui" Type="Folder">
-				<Item Name="image" Type="Folder">
-					<Item Name="FTW-Image-AppendToPicture.vi" Type="VI" URL="../src/ui/image/FTW-Image-AppendToPicture.vi"/>
-					<Item Name="FTW-Image-Rectangle.vi" Type="VI" URL="../src/ui/image/FTW-Image-Rectangle.vi"/>
-					<Item Name="FTW-Image-ToPicture.vi" Type="VI" URL="../src/ui/image/FTW-Image-ToPicture.vi"/>
-				</Item>
 				<Item Name="menu" Type="Folder">
 					<Item Name="FTW-Menu-BuildLevel.vi" Type="VI" URL="../src/ui/menu/FTW-Menu-BuildLevel.vi"/>
 					<Item Name="FTW-Menu-Item.ctl" Type="VI" URL="../src/ui/menu/FTW-Menu-Item.ctl"/>
@@ -360,7 +362,6 @@
 			<Item Name="windows" Type="Folder">
 				<Item Name="file" Type="Folder">
 					<Item Name="FTW-File-FileVersion.vi" Type="VI" URL="../src/windows/file/FTW-File-FileVersion.vi"/>
-					<Item Name="FTW-File-GetShellIcon.vi" Type="VI" URL="../src/windows/file/FTW-File-GetShellIcon.vi"/>
 				</Item>
 				<Item Name="security" Type="Folder">
 					<Item Name="FTW-Crypto-AES256.vi" Type="VI" URL="../src/windows/security/FTW-Crypto-AES256.vi"/>
@@ -424,6 +425,7 @@
 			<Item Name="core" Type="Folder" URL="../tests/core">
 				<Property Name="NI.DISK" Type="Bool">true</Property>
 			</Item>
+			<Item Name="FTW-TestBootstrapper.lvclass" Type="LVClass" URL="../tests/bootstrapper/FTW-TestBootstrapper.lvclass"/>
 		</Item>
 		<Item Name="FTW-Test.json" Type="Document" URL="../tests/FTW-Test.json"/>
 		<Item Name="FTW-Test.vi" Type="VI" URL="../tests/FTW-Test.vi"/>
