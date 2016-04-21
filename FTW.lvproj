@@ -147,6 +147,13 @@
 				<Item Name="type" Type="Folder">
 					<Item Name="FTW-Type-Actor-Connector.ctl" Type="VI" URL="../src/core/type/FTW-Type-Actor-Connector.ctl"/>
 					<Item Name="FTW-Type-Actor-Inbox.ctl" Type="VI" URL="../src/core/type/FTW-Type-Actor-Inbox.ctl"/>
+					<Item Name="FTW-Type-JSON.ctl" Type="VI" URL="../src/core/type/FTW-Type-JSON.ctl"/>
+					<Item Name="FTW-Type-Regex.ctl" Type="VI" URL="../src/core/type/FTW-Type-Regex.ctl"/>
+					<Item Name="FTW-Type-Socket-Consumer.ctl" Type="VI" URL="../src/core/type/FTW-Type-Socket-Consumer.ctl"/>
+					<Item Name="FTW-Type-Socket-Producer.ctl" Type="VI" URL="../src/core/type/FTW-Type-Socket-Producer.ctl"/>
+					<Item Name="FTW-Type-Socket-Publisher.ctl" Type="VI" URL="../src/core/type/FTW-Type-Socket-Publisher.ctl"/>
+					<Item Name="FTW-Type-Socket-Subscriber.ctl" Type="VI" URL="../src/core/type/FTW-Type-Socket-Subscriber.ctl"/>
+					<Item Name="FTW-Type-SQLite.ctl" Type="VI" URL="../src/core/type/FTW-Type-SQLite.ctl"/>
 				</Item>
 			</Item>
 			<Item Name="database" Type="Folder">
@@ -276,6 +283,7 @@
 				<Item Name="FTW-Reflection-Cluster.vi" Type="VI" URL="../src/reflection/FTW-Reflection-Cluster.vi"/>
 				<Item Name="FTW-Reflection-ConPaneInterface.vi" Type="VI" URL="../src/reflection/FTW-Reflection-ConPaneInterface.vi"/>
 				<Item Name="FTW-Reflection-Enum.vi" Type="VI" URL="../src/reflection/FTW-Reflection-Enum.vi"/>
+				<Item Name="FTW-Reflection-FTWObject.vi" Type="VI" URL="../src/reflection/FTW-Reflection-FTWObject.vi"/>
 				<Item Name="FTW-Reflection-Type.vi" Type="VI" URL="../src/reflection/FTW-Reflection-Type.vi"/>
 				<Item Name="FTW-Reflection-TypeDescriptorToDefaultData.vi" Type="VI" URL="../src/reflection/FTW-Reflection-TypeDescriptorToDefaultData.vi"/>
 				<Item Name="FTW-Reflection-Types.ctl" Type="VI" URL="../src/reflection/FTW-Reflection-Types.ctl"/>
