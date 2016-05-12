@@ -47,6 +47,7 @@ set (PCRE2_DIR "${CMAKE_CURRENT_SOURCE_DIR}/pcre/upstream")
 ### Jansson
 set (JANSSON_BUILD_DOCS OFF CACHE BOOL "Featherweight skips building the Jansson documentation.")
 set (JANSSON_EXAMPLES OFF CACHE BOOL "Featherweight skips building the Jansson examples.")
+set (JANSSON_BUILD_SHARED_LIBS OFF CACHE BOOL "Featherweight skips building a Jansson shared library.")
 add_subdirectory (${JANSSON_DIR} ${JANSSON_DIR}/build)
 
 ### PCRE2
