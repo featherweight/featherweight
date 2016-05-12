@@ -1,0 +1,38 @@
+sudo: false
+language: c
+matrix:
+  include:
+    - os: linux
+      compiler: gcc
+    - os: linux
+      compiler: clang
+#    - os: osx
+#      compiler: gcc
+#    - os: osx
+#      compiler: clang
+addons:
+  apt:
+    sources:
+    # contains CMake 2.8.12
+    - kubuntu-backports
+    packages:
+    - cmake
+    - rpm
+cache:
+  directories:
+  - download-cache
+  - $HOME/.cache/pip
+before_cache:
+  - rm -f $HOME/.cache/pip/log/debug.log
+script:
+  - pip install --user autobahntestsuite
+  - wstest --autobahnversion
+  - ./.travis.install.sh download-cache
+  - pwd
+  - ls -al
+  - mkdir build
+  - cd build
+  - cmake --version
+  - cmake -DCMAKE_C_COMPILER=$CC ..
+  - cmake --build .
+  - ctest --output-on-failure -C Debug
