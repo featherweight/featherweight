@@ -25,14 +25,15 @@ cache:
 before_cache:
   - rm -f $HOME/.cache/pip/log/debug.log
 script:
-  - pip install --user autobahntestsuite
-  - wstest --autobahnversion
-  - ./.travis.install.sh download-cache
-  - pwd
-  - ls -al
-  - mkdir build
-  - cd build
-  - cmake --version
-  - cmake -DCMAKE_C_COMPILER=$CC ..
-  - cmake --build .
-  - ctest --output-on-failure -C Debug
+  - pip install --user autobahntestsuite &&
+    wstest --autobahnversion &&
+    cd kernel &&
+    ./.travis.install.sh download-cache &&
+    pwd &&
+    ls -al &&
+    mkdir build &&
+    cd build &&
+    cmake --version &&
+    cmake -DCMAKE_C_COMPILER=$CC .. &&
+    cmake --build . &&
+    ctest --output-on-failure -C Debug
