@@ -41,8 +41,8 @@ Win32: [![Win32 status](https://ci.appveyor.com/api/projects/status/kkmx5uptnx14
 
 #### Build process
   1. From an SSH command-line session, navigate to your home directory: `cd ~`
-  1. Clone this repository with the `--recursive` flag to ensure all submodules are cloned: `git clone --recursive https://github.com/featherweight/ftw-kernel.git`
-  1. Navigate into the repo root and create a build directory: `cd ftw-kernel; md build; cd build`
+  1. Clone this repository with the `--recursive` flag to ensure all submodules are cloned: `git clone --recursive https://github.com/featherweight/featherweight.git`
+  1. Navigate into the repo root and create a build directory: `cd kernel; mkdir build; cd build`
   1. Invoke build system generation: `cmake ..`
   1. Build library: `cmake --build .`
   1. Run unit tests: `ctest --output-on-failure -C Debug`
@@ -55,16 +55,17 @@ Win32: [![Win32 status](https://ci.appveyor.com/api/projects/status/kkmx5uptnx14
   1. NI LabVIEW 2015 or higher
 
 #### Build process
-  1. Clone this repository with the `--recursive` flag to ensure all submodules are cloned: `git clone --recursive https://github.com/featherweight/ftw-kernel.git`
-  1. Navigate to the root and create a build directory: `md build`
+  1. Clone this repository with the `--recursive` flag to ensure all submodules are cloned: `git clone --recursive https://github.com/featherweight/featherweight.git`
+  1. Navigate into the repo root, and then enter the kernel directory: `cd kernel`
+  1. Create a build directory: `mkdir build`
   1. Enter this new build directory: `cd build`
   1. Invoke build system generation: `cmake ..`
-    - alternatively, specify the backend generator, such as `cmake -G "Visual Studio 12" ..`
+    - alternatively, specify the backend generator, such as `cmake -G "Visual Studio 14 2015 Win64" ..`
   1. Open the newly generated MSVS solution: `featherweight.sln`
   1. Build the `ALL_BUILD` project to generate the library and tests
   1. Build `RUN_TESTS` to ensure unit tests pass
   1. Optionally, configure the `featherweight` project with more convenient settings:
     - "Set as StartUp Project" for `featherweight` project
-    - /General/Output Directory: `..\..\ftw-master\lib\`
+    - /General/Output Directory: `..\..\lib\`
     - /Debugging/Command: `"C:\Program Files (x86)\National Instruments\LabVIEW 2015\LabVIEW.exe"`
-    - /Debugging/Command Arguments: `"..\..\ftw-master\FTW.lvproj"`
+    - /Debugging/Command Arguments: `"..\..\FTW.lvproj"`
