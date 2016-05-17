@@ -27,11 +27,8 @@
 extern "C" {
 #endif
 
-
 #include "../ftw.h"
-#define SQLITE_API
 #include "upstream/sqlite3.c"
-
 
     /*  Thin wrappers for SQLite functions to export. */
     FTW_EXPORT const char *ftw_sqlite_errstr(int err_code, LStrHandle lib_version);
