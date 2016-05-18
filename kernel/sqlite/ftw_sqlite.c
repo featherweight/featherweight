@@ -166,7 +166,16 @@ int64 ftw_column_int64(sqlite3_stmt *statement, int32 col)
 
 float64 ftw_column_float64(sqlite3_stmt *statement, int32 col)
 {
-    return sqlite3_column_double(statement, col);
+    int rc;
+
+    rc = sqlite3_column_type(statement, col);
+
+    if (rc == SQLITE_NULL) {
+        return FTW_NaN;
+    }
+    else {
+        return sqlite3_column_double(statement, col);
+    }
 }
 
 MgErr ftw_column_string(sqlite3_stmt *statement, int32 col, LStrHandle value)

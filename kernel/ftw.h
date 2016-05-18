@@ -97,6 +97,7 @@ extern "C" {
 #ifndef isinf
     FTW_PRIVATE_SUPPORT int isinf(double x) { return !isnan(x) && isnan(x - x); }
 #endif
+#define FTW_NaN NAN
 
 /*  Featherweight support types. */
 typedef struct {
