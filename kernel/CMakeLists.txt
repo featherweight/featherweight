@@ -67,6 +67,7 @@ endif ()
 ### nanomsg
 set (WS_AUTOBAHN_TESTS ON CACHE BOOL "Opt-in to Autobahn WebSocket tests.")
 set (NN_STATIC_LIB ON CACHE BOOL "Include as part of amalgamation.")
+set (NN_ENABLE_DOC OFF CACHE BOOL "Turn off documentation.")
 add_subdirectory (${NANOMSG_DIR} ${NANOMSG_DIR}/build)
 
 ### SQLite
