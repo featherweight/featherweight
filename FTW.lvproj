@@ -439,6 +439,9 @@
 		<Item Name="FTW-Test.json" Type="Document" URL="../tests/FTW-Test.json"/>
 		<Item Name="FTW-Test.vi" Type="VI" URL="../tests/FTW-Test.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
+			<Item Name="vi.lib" Type="Folder">
+				<Item Name="System Exec.vi" Type="VI" URL="/&lt;vilib&gt;/Platform/system.llb/System Exec.vi"/>
+			</Item>
 			<Item Name="DOMUserDefRef.dll" Type="Document" URL="DOMUserDefRef.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
