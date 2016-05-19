@@ -7,3 +7,5 @@ kernel/pcre/upstream/src/pcre2.h
 kernel/pcre/upstream/src/pcre2_chartables.c
 lib/ftw32.ilk
 build/
+lib/ftw32_debug.ilk
+lib/ftw32_debug.pdb
