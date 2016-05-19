@@ -27,6 +27,8 @@
 extern "C" {
 #endif
 
+#define SQLITE_HAVE_ISNAN 1
+
 #include "../ftw.h"
 #include "upstream/sqlite3.c"
 

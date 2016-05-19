@@ -31,11 +31,14 @@ extern "C" {
 #include <stdio.h>
 #include <assert.h>
 #include <stdint.h>
+#include <math.h>
 
 #include "extcode.h"
 
 #define FTW_DEBUG_WINDOW 0
 #define LV_USER_ERROR 5000
+
+#define FTW_NaN NAN
 
 /*  Featherweight export declarations. */
 #if defined _WIN32
@@ -89,15 +92,6 @@ extern "C" {
 #define CT_ASSERT(x) \
     typedef int FTW_CTASSERT_1(ct_assert_,__LINE__) [(x) ? 1 : -1]
 #endif
-
-/*  IEEE 754 macros for checking NaN and Inf (from value.c in Jansson). */
-#ifndef isnan
-    FTW_PRIVATE_SUPPORT int isnan(double x) { return x != x; }
-#endif
-#ifndef isinf
-    FTW_PRIVATE_SUPPORT int isinf(double x) { return !isnan(x) && isnan(x - x); }
-#endif
-#define FTW_NaN NAN
 
 /*  Featherweight support types. */
 typedef struct {
