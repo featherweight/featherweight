@@ -12,11 +12,18 @@ environment:
       CFG: Debug
     - GENERATOR: Visual Studio 14 2015 ARM
       CFG: Debug
+
 cache:
   - "%LocalAppData%\\pip"
 #  - "C:\\Python27\\Lib\\site-packages"
+
+# Workaround for http://help.appveyor.com/discussions/problems/4569-the-target-_convertpdbfiles-listed-in-a-beforetargets-attribute-at-c-does-not-exist-in-the-project-and-will-be-ignored
+before_build:
+  - del "C:\Program Files (x86)\MSBuild\%VS_VERSION%\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets"
+
 build:
   parallel: true
+
 build_script:
     # enable calling pip directly
   - cmd: set PATH=%SystemDrive%\Python27\Scripts;%PATH%
@@ -27,7 +34,8 @@ build_script:
   - cmd: cd kernel
   - cmd: md build
   - cmd: cd build
-  - cmd: cmake -G "%GENERATOR%" -DFTW_LVIDE_PATH="../../.appveyor" ..
+  - cmd: cmake -G "%GENERATOR%" -DFTW_LVIDE_PATH="../.ci" ..
   - cmd: cmake --build .
+
 test_script:
   - cmd: ctest --output-on-failure --build-config "%CFG%" .

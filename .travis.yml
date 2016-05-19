@@ -34,6 +34,6 @@ script:
     mkdir build &&
     cd build &&
     cmake --version &&
-    cmake -DCMAKE_C_COMPILER=$CC .. &&
+    cmake -DCMAKE_C_COMPILER=$CC -DFTW_LVIDE_PATH="../.ci" .. &&
     cmake --build . &&
     ctest --output-on-failure -C Debug
