@@ -4,14 +4,19 @@ environment:
     # array of all environments used to test builds
     - GENERATOR: Visual Studio 14 2015
       CFG: Debug
+      VS_VERSION: 14.0
 #    - GENERATOR: Visual Studio 12 2013
 #      CFG: Debug
+#      VS_VERSION: 12.0
 #    - GENERATOR: Visual Studio 14 2015 Win64
 #      CFG: Debug
+#      VS_VERSION: 14.0
     - GENERATOR: Visual Studio 12 2013 Win64
       CFG: Debug
+      VS_VERSION: 12.0
     - GENERATOR: Visual Studio 14 2015 ARM
       CFG: Debug
+      VS_VERSION: 14.0
 
 cache:
   - "%LocalAppData%\\pip"
