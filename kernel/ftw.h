@@ -32,7 +32,7 @@ extern "C" {
 #include <assert.h>
 #include <stdint.h>
 
-#include "labview/extcode.h"
+#include "extcode.h"
 
 #define FTW_DEBUG_WINDOW 0
 #define LV_USER_ERROR 5000
