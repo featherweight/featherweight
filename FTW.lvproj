@@ -202,7 +202,6 @@
 				<Item Name="FTW-ERR-ThrowInfo.vi" Type="VI" URL="../src/error/FTW-ERR-ThrowInfo.vi"/>
 				<Item Name="FTW-ERR-ThrowInvalidReferenceError.vi" Type="VI" URL="../src/error/FTW-ERR-ThrowInvalidReferenceError.vi"/>
 				<Item Name="FTW-ERR-ThrowWarning.vi" Type="VI" URL="../src/error/FTW-ERR-ThrowWarning.vi"/>
-				<Item Name="FTW-ERR-UnknownParameter.vi" Type="VI" URL="../src/error/FTW-ERR-UnknownParameter.vi"/>
 			</Item>
 			<Item Name="expression" Type="Folder">
 				<Item Name="FTW-Expr-BooleanExpressionResult.ctl" Type="VI" URL="../src/expression/FTW-Expr-BooleanExpressionResult.ctl"/>
