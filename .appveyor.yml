@@ -17,7 +17,7 @@ cache:
   - "%LocalAppData%\\pip"
 #  - "C:\\Python27\\Lib\\site-packages"
 
-# Workaround for http://help.appveyor.com/discussions/problems/4569-the-target-_convertpdbfiles-listed-in-a-beforetargets-attribute-at-c-does-not-exist-in-the-project-and-will-be-ignored
+# Workaround for http://help.appveyor.com/discussions/problems/4569
 before_build:
   - del "C:\Program Files (x86)\MSBuild\%VS_VERSION%\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets"
 
@@ -31,6 +31,7 @@ build_script:
   - cmd: wstest --autobahnversion
   - cmd: cmake --version
   - cmd: git submodule update --init
+  - cmd: IF NOT %VS_VERSION% == NONE call "C:/Program Files (x86)/Microsoft Visual Studio %VS_VERSION%/Common7/Tools/vsvars32.bat"
   - cmd: cd kernel
   - cmd: md build
   - cmd: cd build
