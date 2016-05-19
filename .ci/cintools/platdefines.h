@@ -1,7 +1,7 @@
 #ifndef _platdefines_H
 #define _platdefines_H
 /*
-	(c) Copyright 1990-2014 by National Instruments Corp.
+	(c) Copyright 1990-2016 by National Instruments Corp.
 	All rights reserved.
 
 
@@ -103,7 +103,9 @@ LabVIEW system options: don't uncomment, the compiler defines these automaticall
 	#else
 		#define OpSystem		kMSWin32
 	#endif
-	#define WindowSystem	kMSWin32WM
+	#ifndef WindowSystem
+		#define WindowSystem	kMSWin32WM
+	#endif
 	#if defined(__MWERKS__)
 		#define Compiler		kMetroWerks
 	#elif defined(_MSC_VER) || defined(_NI_VC_)
@@ -133,13 +135,17 @@ LabVIEW system options: don't uncomment, the compiler defines these automaticall
 	#define NI_BIG_ENDIAN		0
 #elif defined( __PALMOS_H__ )
 	#define OpSystem		kPalmOS
-	#define WindowSystem	kPalmWM
+	#ifndef WindowSystem
+		#define WindowSystem	kPalmWM
+	#endif
 	#define Compiler		kMetroWerks
 	#define ProcessorType		kM68000
 	#define NI_BIG_ENDIAN		1
 #elif defined(macintosh) || defined(__PPCC__) || defined(THINK_C) || defined(__SC__) || defined(__MWERKS__) || defined(__APPLE_CC__)
 	#define OpSystem		kMacOSX
-	#define WindowSystem	kMacWM
+	#ifndef WindowSystem
+		#define WindowSystem	kMacWM
+	#endif
 	#define OLDROUTINENAMES 0
 	#define OLDROUTINELOCATIONS 0
 	#if defined(__MACH__)
@@ -177,14 +183,14 @@ LabVIEW system options: don't uncomment, the compiler defines these automaticall
 	#endif
 #elif defined(__WATCOMC__)
 	#define OpSystem		kMSWin31
-	#define WindowSystem	kMSWin31WM
+	#ifndef WindowSystem
+		#define WindowSystem	kMSWin31WM
+	#endif
 	#define Compiler		kWatcom
 	#define ProcessorType	kX86
 	#define NI_BIG_ENDIAN		0
 #elif defined(linux) || defined(__linux) || defined(__linux__)
-	#if defined(arm) || defined(__arm__)
-		#define WindowSystem	kNoWS
-	#else
+	#ifndef WindowSystem
 		#define WindowSystem	kXWindows
 	#endif
 	#define OpSystem		kLinux
@@ -220,7 +226,9 @@ LabVIEW system options: don't uncomment, the compiler defines these automaticall
 		#error "Unknown Linux platform"
 	#endif
 #elif (defined(__i386) || defined(__i486)) && defined(__svr4__)
-	#define WindowSystem	kXWindows
+	#ifndef WindowSystem
+		#define WindowSystem	kXWindows
+	#endif
 	#define ProcessorType	kX86
 	#define OpSystem		kSolaris
 	#ifdef __GNUC__
@@ -230,7 +238,9 @@ LabVIEW system options: don't uncomment, the compiler defines these automaticall
 	#endif
 	#define NI_BIG_ENDIAN		0
 #elif sparc || __sparc
-	#define WindowSystem	kXWindows
+	#ifndef WindowSystem
+		#define WindowSystem	kXWindows
+	#endif
 	#define ProcessorType	kSparc
 	#ifdef __SVR4
 		#define OpSystem	kSolaris
@@ -247,7 +257,9 @@ LabVIEW system options: don't uncomment, the compiler defines these automaticall
 	#define ProcessorType	kDECAlpha
 	#define NI_BIG_ENDIAN		0
 	#if defined(__osf__)
-		#define WindowSystem	kXWindows
+		#ifndef WindowSystem
+			#define WindowSystem	kXWindows
+		#endif
 		#define OpSystem	kOSF1
 		#ifdef __GNUC__
 			#define Compiler kGCC
@@ -255,11 +267,15 @@ LabVIEW system options: don't uncomment, the compiler defines these automaticall
 			#define Compiler kOSFC
 		#endif
 	#elif defined(linux)
-		#define WindowSystem	kXWindows
+		#ifndef WindowSystem
+			#define WindowSystem	kXWindows
+		#endif
 		#define Compiler	kGCC
 	#endif
 #elif defined(__hpux)
-	#define WindowSystem	kXWindows
+	#ifndef WindowSystem
+		#define WindowSystem	kXWindows
+	#endif
 	#define ProcessorType	kPARISC
 	#define OpSystem		kHPUX
 	#ifdef __GNUC__
@@ -270,25 +286,33 @@ LabVIEW system options: don't uncomment, the compiler defines these automaticall
 	#define NI_BIG_ENDIAN		1
 #elif defined(__HC__)
 	#define OpSystem		kPowerUnix
-	#define WindowSystem	kXWindows
+	#ifndef WindowSystem
+		#define WindowSystem	kXWindows
+	#endif
 	#define Compiler		kUnbundledC
 	#define ProcessorType	kPPC
 	#define NI_BIG_ENDIAN		1
 #elif defined(__sgi)
 	#define OpSystem		kIrix
-	#define WindowSystem	kXWindows
+	#ifndef WindowSystem
+		#define WindowSystem	kXWindows
+	#endif
 	#define Compiler		kSGIC
 	#define ProcessorType	kMIPS
 	#define NI_BIG_ENDIAN		1
 #elif defined(_AIX)
 	#define OpSystem		kAIX
-	#define WindowSystem	kXWindows
+	#ifndef WindowSystem
+		#define WindowSystem	kXWindows
+	#endif
 	#define Compiler		kAIXC
 	#define ProcessorType	kPPC
 	#define NI_BIG_ENDIAN		1
 #elif defined(VXWORKS_PPC)
 	#define OpSystem		kVxWorks
-	#define WindowSystem	kNoWS
+	#ifndef WindowSystem
+		#define WindowSystem	kNoWS
+	#endif
 	#define ProcessorType	kPPC
 	#define NI_BIG_ENDIAN		1
 #if defined(__GNUC__)
@@ -298,20 +322,26 @@ LabVIEW system options: don't uncomment, the compiler defines these automaticall
 #endif
 #elif defined(VXWORKS_X86)
 	#define OpSystem		kVxWorks
-	#define WindowSystem	kNoWS
+	#ifndef WindowSystem
+		#define WindowSystem	kNoWS
+	#endif
 	#define ProcessorType	kX86
 	#define NI_BIG_ENDIAN		0
 	#define Compiler		kGCC
 #elif defined(__vdk)
 	#define OpSystem		kVdk
-	#define WindowSystem	kNoWS
+	#ifndef WindowSystem
+		#define WindowSystem	kNoWS
+	#endif
 	#define Compiler		kUnbundledC
 	#define ProcessorType	kX86
 	#define BigEndian		0
 	#define PointerSize		k32bitPointer
 #elif defined(__RTX)
 	#define OpSystem		kRtx
-	#define WindowSystem	kNoWS
+	#ifndef WindowSystem
+		#define WindowSystem	kNoWS
+	#endif
 	#define Compiler		kUnbundledC
 	#define ProcessorType	kARM
 	#define BigEndian		0

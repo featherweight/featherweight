@@ -2,7 +2,7 @@
 #define _hosttype_H
 /**
 	NI CONFIDENTIAL
-	(c) Copyright 1990-2014 by National Instruments Corp.
+	(c) Copyright 1990-2016 by National Instruments Corp.
 	All rights reserved.
 
 	@file
@@ -82,11 +82,11 @@ struct Pattern;
 #ifdef TRUE
 #undef TRUE
 #endif
-#define TRUE 1L
+#define TRUE 1
 #ifdef FALSE
 #undef FALSE
 #endif
-#define FALSE 0L
+#define FALSE 0
 #endif /* MSWin */
 
 #endif /* _hosttype_H */

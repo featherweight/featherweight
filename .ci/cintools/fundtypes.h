@@ -1,7 +1,7 @@
 #ifndef _fundtypes_H
 #define _fundtypes_H
 /*
-	(c) Copyright 1990-2014 by National Instruments Corp.
+	(c) Copyright 1990-2016 by National Instruments Corp.
 	All rights reserved.
 
 
@@ -280,8 +280,8 @@ typedef struct {
 typedef int32       Bool32;
 #undef  TRUE
 #undef  FALSE
-#define TRUE        1L
-#define FALSE       0L
+#define TRUE        1
+#define FALSE       0
 
 /* For making void* pts that are distinguishable. */
 #define NIPrivatePtr(x) typedef struct x ## _t { void *p; } *x

@@ -1,7 +1,7 @@
 #ifndef _extcode_H
 #define _extcode_H
 /**
-	(c) Copyright 1990-2014 by National Instruments Corp.
+	(c) Copyright 1990-2016 by National Instruments Corp.
 	All rights reserved.
 
 	@author National Instruments Corp.
@@ -39,6 +39,8 @@
 #if !defined(_FUNCC)
 	#if MSWin && (ProcessorType == kX86)
 		#define _FUNCC __cdecl
+	#elif (Compiler == kGCC) && Linux && defined(LV_USE_WEAK_LINKAGE)
+		#define _FUNCC __attribute__((weak))
 	#else
 		#define _FUNCC
 	#endif
@@ -48,6 +50,8 @@
 #if !defined(_FUNCSTDCALL)
 	#if MSWin && (ProcessorType == kX86)
 		#define _FUNCSTDCALL __stdcall
+	#elif (Compiler == kGCC) && Linux && defined(LV_USE_WEAK_LINKAGE)
+		#define _FUNCSTDCALL __attribute__((weak))
 	#else
 		#define _FUNCSTDCALL
 	#endif
@@ -452,6 +456,9 @@ TH_PROTECTED EXTERNC MgErr _FUNCC Occur(Occurrence o);
 /*** Time type ***/
 #if OpSystem==kLinux && ProcessorType==kX64
 	typedef unsigned long lvtime;
+#elif MacCocoa
+	// OS X wants a signed value to represent times before the unix epoch
+	typedef int64 lvtime;
 #else
 	typedef uInt32 lvtime;
 #endif
@@ -563,7 +570,7 @@ TH_REENTRANT EXTERNC int32 _FUNCC Min(int32 n, int32 m);
 TH_REENTRANT EXTERNC int32 _FUNCC Max(int32 n, int32 m);
 #endif /* !Palm */
 
-#if (ProcessorType==kX86) || (ProcessorType==kM68000)
+#if (ProcessorType==kX86) || (ProcessorType==kX64) || (ProcessorType==kM68000)
 	#define UseGetSetIntMacros	1
 #else
 	#define UseGetSetIntMacros	0
@@ -727,6 +734,9 @@ TH_REENTRANT EXTERNC int32 _FUNCC BinSearch(const void*, int32, int32, const voi
 TH_REENTRANT EXTERNC void _FUNCC QSort(void*, int32, int32, CompareProcPtr);
 #endif /* NIDL */
 
+TH_REENTRANT EXTERNC MgErr _FUNCC ConvertSystemStringToUTF8(LStrHandle, LStrHandle *);
+TH_REENTRANT EXTERNC MgErr _FUNCC ConvertUTF8StringToSystem(LStrHandle, LStrHandle *);
+
 /*** Time Functions ***/
 /** @brief Date/time record. */
 typedef struct {
@@ -784,8 +794,8 @@ TH_REENTRANT EXTERNC size_t _FUNCC DSMaxMem(void);
 
 /** @brief Describes memory statistics. */
 typedef struct {
-	int32 totFreeSize;    // free physical RAM in bytes (RT only)
-	int32 maxFreeSize;    // largest free contiguous block in bytes (VxWorks/PharLap only)
+	uInt64 totFreeSize;    // free physical RAM in bytes (RT only)
+	uInt64 maxFreeSize;    // largest free contiguous block in bytes (VxWorks/PharLap only)
 	int32 unused1;        // was nFreeBlocks, but this was never filled in
 	size_t totAllocSize;  // memory usage of LabVIEW itself in bytes
 	size_t unused2;       // was maxAllocSize
@@ -884,13 +894,13 @@ typedef struct _FMListDetails
 typedef CPStr FDirEntRec, *FDirEntPtr, **FDirEntHandle;
 
 /** @brief UNIX read permission bits (octal). */
-#define fileReadBits	0444L
+#define fileReadBits	0444
 
 /** @brief UNIX write permission bits (octal). */
-#define fileWriteBits	0222L
+#define fileWriteBits	0222
 
 /** @brief UNIX execute permission bits (octal). */
-#define fileExecBits	0111L
+#define fileExecBits	0111
 
 /** @brief UNIX read/write access permissions for a file. This is usually the default access to assign newly created files. */
 #define fDefaultAccess (fileReadBits | fileWriteBits)
@@ -943,19 +953,19 @@ TH_REENTRANT EXTERNC MgErr _FUNCC FSetInfo(ConstPath path, const FInfoPtr infop)
 /** @brief Used to specify fields of interest in a FInfoRec64 structure. */
 typedef uInt32 FGetInfoWhich;
 enum {
-	kFGetInfoType        = 1L <<  0, /**< enable the type field */
-	kFGetInfoCreator     = 1L <<  1, /**< enable the creator field */
-	kFGetInfoPermissions = 1L <<  2, /**< enable the permissions field */
-	kFGetInfoSize        = 1L <<  3, /**< enable the size field */
-	kFGetInfoRFSize      = 1L <<  4, /**< enable the rfSize field */
-	kFGetInfoCDate       = 1L <<  5, /**< enable the cdate field */
-	kFGetInfoMDate       = 1L <<  6, /**< enable the mdate field */
-	kFGetInfoFolder      = 1L <<  7, /**< enable the folder field */
-	kFGetInfoIsInvisible = 1L <<  8, /**< enable the isInvisible field */
-	kFGetInfoLocation    = 1L <<  9, /**< enable the location field */
-	kFGetInfoOwner       = 1L << 10, /**< enable the owner field */
-	kFGetInfoGroup       = 1L << 11, /**< enable the group field */
-	kFGetInfoAll         = 0xEFFFFFFFL /**< enable all fields in FInfoRec64 */
+	kFGetInfoType        = 1 <<  0, /**< enable the type field */
+	kFGetInfoCreator     = 1 <<  1, /**< enable the creator field */
+	kFGetInfoPermissions = 1 <<  2, /**< enable the permissions field */
+	kFGetInfoSize        = 1 <<  3, /**< enable the size field */
+	kFGetInfoRFSize      = 1 <<  4, /**< enable the rfSize field */
+	kFGetInfoCDate       = 1 <<  5, /**< enable the cdate field */
+	kFGetInfoMDate       = 1 <<  6, /**< enable the mdate field */
+	kFGetInfoFolder      = 1 <<  7, /**< enable the folder field */
+	kFGetInfoIsInvisible = 1 <<  8, /**< enable the isInvisible field */
+	kFGetInfoLocation    = 1 <<  9, /**< enable the location field */
+	kFGetInfoOwner       = 1 << 10, /**< enable the owner field */
+	kFGetInfoGroup       = 1 << 11, /**< enable the group field */
+	kFGetInfoAll         = 0xEFFFFFFF /**< enable all fields in FInfoRec64 */
 };
 
 /** @brief Descriptive information about a file, with large file support. */
@@ -1259,7 +1269,7 @@ TH_REENTRANT EXTERNC MgErr _FUNCC FFlush(File fd);
 
 /** @brief Values returned from the FExists() function. */
 enum {
-	kFNotExist = 0L, /**< the file or directory does not exist */
+	kFNotExist = 0, /**< the file or directory does not exist */
 	kFIsFile,        /**< the path refers to a file */
 	kFIsFolder       /**< the path refers to a directory */
 };
