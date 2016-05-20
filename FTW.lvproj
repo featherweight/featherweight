@@ -445,6 +445,7 @@
 			<Item Name="DOMUserDefRef.dll" Type="Document" URL="DOMUserDefRef.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
+			<Item Name="FTW-CodeGen-RegenerateAfterAdapt.vi" Type="VI" URL="../codegen/FTW-CodeGen-RegenerateAfterAdapt.vi"/>
 			<Item Name="FTW-JSON-Core-GetFlattenedValue.vi" Type="VI" URL="../codegen/xnode/json/fetch/FTW-JSON-Core-GetFlattenedValue.vi"/>
 			<Item Name="kernel32.dll" Type="Document" URL="kernel32.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
