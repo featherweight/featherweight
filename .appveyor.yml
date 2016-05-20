@@ -37,10 +37,9 @@ build_script:
   - cmd: cmake --version
   - cmd: git submodule update --init
   - cmd: IF NOT %VS_VERSION% == NONE call "C:/Program Files (x86)/Microsoft Visual Studio %VS_VERSION%/Common7/Tools/vsvars32.bat"
-  - cmd: cd kernel
   - cmd: md build
   - cmd: cd build
-  - cmd: cmake -G "%GENERATOR%" -DFTW_LVIDE_PATH="../.ci" ..
+  - cmd: cmake -G "%GENERATOR%" -DFTW_LVIDE_PATH="../.ci" ../kernel
   - cmd: cmake --build .
 
 test_script:
