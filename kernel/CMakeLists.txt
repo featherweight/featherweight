@@ -99,9 +99,9 @@ target_link_libraries (${CMAKE_PROJECT_NAME} nanomsg)
 target_compile_options (${CMAKE_PROJECT_NAME} PUBLIC -DSQLITE_ENABLE_JSON1)
 
 
-set (LVRTE_HEADERS "${FTW_LVIDE_PATH}/cintools")
+set (LVRTE_INCLUDE "${FTW_LVIDE_PATH}/cintools")
 if (WIN32)
-    set (LVRTE_LIBRARY "${FTW_LVIDE_PATH}/cintools/labviewv.lib")
+    find_library (LVRTE_LIBRARY labviewv PATHS "${LVRTE_INCLUDE}" NO_DEFAULT_PATH)
     set (FTW_LIB_DESTINATION "")
     set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "_debug")
     set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG "../lib")
@@ -137,9 +137,8 @@ endif ()
 # Add links to the LabVIEW Runtime Engine
 message (STATUS "LV Library linked: ${LVRTE_LIBRARY}")
 target_link_libraries (${CMAKE_PROJECT_NAME} "${LVRTE_LIBRARY}")
-message (STATUS "LV Headers: ${LVRTE_HEADERS}")
-target_include_directories (${CMAKE_PROJECT_NAME} PUBLIC "${LVRTE_HEADERS}")
-
+message (STATUS "LV Headers: ${LVRTE_INCLUDE}")
+target_include_directories (${CMAKE_PROJECT_NAME} PUBLIC "${LVRTE_INCLUDE}")
 
 if (MSVC)
     # This is required for 'Visual Studio 12' and higher, apparently because
