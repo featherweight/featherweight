@@ -103,11 +103,6 @@
 			<Item Name="FTW-STR-Encode-Base64.vi" Type="VI" URL="../../src/string/FTW-STR-Encode-Base64.vi"/>
 			<Item Name="FTW-STR-Random-Hex.vi" Type="VI" URL="../../src/string/FTW-STR-Random-Hex.vi"/>
 			<Item Name="FTW-STR-ReplaceWhitespace.vi" Type="VI" URL="../../src/string/FTW-STR-ReplaceWhitespace.vi"/>
-			<Item Name="FTW-SyncServer-Await.vi" Type="VI" URL="../../src/socket/syncserver/FTW-SyncServer-Await.vi"/>
-			<Item Name="FTW-SyncServer-Construct.vi" Type="VI" URL="../../src/socket/syncserver/FTW-SyncServer-Construct.vi"/>
-			<Item Name="FTW-SyncServer-Core-Type.ctl" Type="VI" URL="../../src/socket/syncserver/core/FTW-SyncServer-Core-Type.ctl"/>
-			<Item Name="FTW-SyncServer-Destroy.vi" Type="VI" URL="../../src/socket/syncserver/FTW-SyncServer-Destroy.vi"/>
-			<Item Name="FTW-SyncServer-Reply.vi" Type="VI" URL="../../src/socket/syncserver/FTW-SyncServer-Reply.vi"/>
 			<Item Name="FTW-Time-RelativeTimer.vi" Type="VI" URL="../../src/time/FTW-Time-RelativeTimer.vi"/>
 			<Item Name="FTW-Type-Actor-Connector.ctl" Type="VI" URL="../../src/core/type/FTW-Type-Actor-Connector.ctl"/>
 			<Item Name="ftw32.dll" Type="Document" URL="../../lib/ftw32.dll"/>

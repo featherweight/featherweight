@@ -22,7 +22,7 @@
 	<Item Name="FTW-Scheduler-AddJob.vi" Type="VI" URL="../FTW-Scheduler-AddJob.vi">
 		<Property Name="NI.ClassItem.ConnectorPane" Type="Bin">&amp;1#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!$!!!!!"1!W1(!!(A!!&amp;R6'6&amp;=N5W.I:72V&lt;'6S,GRW9WRB=X-!&amp;5:56S"+&lt;W)A5W.I:72V&lt;'6S)'^V&gt;!!=1$$`````%U&amp;E:#"U&lt;S"+&lt;W)A5W6R&gt;76O9W5!"!!!!$*!=!!?!!!8&amp;5:56SV49WBF:(6M:8)O&lt;(:D&lt;'&amp;T=Q!22F28)%JP9C"49WBF:(6M:8)!-!$Q!!5!!!!"!!)!!Q!#!A!!_!!!$1-!!B!!!!!!!!!!%A!!!!!!!!9%!!!!!!!!!1!%!!!!!!</Property>
 		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">16777216</Property>
+		<Property Name="NI.ClassItem.Flags" Type="Int">16777344</Property>
 		<Property Name="NI.ClassItem.IsStaticMethod" Type="Bool">true</Property>
 		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
 		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
@@ -31,7 +31,7 @@
 	<Item Name="FTW-Scheduler-CheckShutdown.vi" Type="VI" URL="../FTW-Scheduler-CheckShutdown.vi">
 		<Property Name="NI.ClassItem.ConnectorPane" Type="Bin">&amp;1#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!"A!!!!!Q!/1#%*5WBV&gt;'2P&gt;WY`!$*!=!!?!!!8&amp;5:56SV49WBF:(6M:8)O&lt;(:D&lt;'&amp;T=Q!22F28)%JP9C"49WBF:(6M:8)!'!$Q!!)!!!!"!A!!#!!!#1!!!!A!!!!!!1!#!!!!!!</Property>
 		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">16777216</Property>
+		<Property Name="NI.ClassItem.Flags" Type="Int">16777344</Property>
 		<Property Name="NI.ClassItem.IsStaticMethod" Type="Bool">true</Property>
 		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
 		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
@@ -40,7 +40,7 @@
 	<Item Name="FTW-Scheduler-Construct.vi" Type="VI" URL="../FTW-Scheduler-Construct.vi">
 		<Property Name="NI.ClassItem.ConnectorPane" Type="Bin">&amp;1#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!"Q!!!!!Q!S1(!!(A!!&amp;R6'6&amp;=N5W.I:72V&lt;'6S,GRW9WRB=X-!%5:56S"+&lt;W)A5W.I:72V&lt;'6S!"Z!-0````]537ZJ&gt;'FB&lt;#"+&lt;W)A5W6R&gt;76O9W5!!"A!]!!#!!!!!1)!!!A!!!E!!!)1!!!!!!%!!A!!!!!</Property>
 		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">16777216</Property>
+		<Property Name="NI.ClassItem.Flags" Type="Int">16777344</Property>
 		<Property Name="NI.ClassItem.IsStaticMethod" Type="Bool">true</Property>
 		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
 		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
@@ -49,7 +49,7 @@
 	<Item Name="FTW-Scheduler-Destroy.vi" Type="VI" URL="../FTW-Scheduler-Destroy.vi">
 		<Property Name="NI.ClassItem.ConnectorPane" Type="Bin">&amp;1#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!"K!!!!!Q!91$$`````$F*F&lt;7&amp;J&lt;GFO:S"+&lt;W*T!!!S1(!!(A!!&amp;R6'6&amp;=N5W.I:72V&lt;'6S,GRW9WRB=X-!%5:56S"+&lt;W)A5W.I:72V&lt;'6S!"A!]!!#!!!!!1)!!!A!!!E!!!!1!!!!!!%!!A!!!!!</Property>
 		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">16777216</Property>
+		<Property Name="NI.ClassItem.Flags" Type="Int">16777344</Property>
 		<Property Name="NI.ClassItem.IsStaticMethod" Type="Bool">true</Property>
 		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
 		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
@@ -58,7 +58,7 @@
 	<Item Name="FTW-Scheduler-GetNextJob.vi" Type="VI" URL="../FTW-Scheduler-GetNextJob.vi">
 		<Property Name="NI.ClassItem.ConnectorPane" Type="Bin">&amp;1#!!!!!!!)!"1!&amp;!!!-!%!!!@````]!!!!"!!%!!!&amp;D!!!!$!!-1#%'=X2B&gt;(6T!!!,1!-!"'.P:'5!!""!-0````]'=W^V=G.F!!!71&amp;!!!Q!!!!%!!AFF=H*P=C"P&gt;81!%E!Q`````QB+&lt;W)A2'&amp;U91!!&amp;%!Q`````QN$&gt;8*S:7ZU)%JP9A!W1(!!(A!!&amp;R6'6&amp;=N5W.I:72V&lt;'6S,GRW9WRB=X-!&amp;5:56S"+&lt;W)A5W.I:72V&lt;'6S)'^V&gt;!!%!!!!&amp;E"1!!-!!!!"!!)):8*S&lt;X)A;7Y!!"6!!Q!/3G^C=S"1:8*G&lt;X*N:71!!$*!=!!?!!!8&amp;5:56SV49WBF:(6M:8)O&lt;(:D&lt;'&amp;T=Q!22F28)%JP9C"49WBF:(6M:8)!91$Q!!Q!!Q!%!!5!"A!(!!=!"Q!(!!A!"Q!*!!I$!!"Y!!!.#!!!#1!!!!E!!!!*!!!!!!!!!!!!!!!!!!!!!!!!!!A!!!!!!!!!#!!!!"!!!!U!!!!-!!!!!!!!!!!!!!%!#Q!!!!!</Property>
 		<Property Name="NI.ClassItem.ExecutionSystem" Type="Int">-1</Property>
-		<Property Name="NI.ClassItem.Flags" Type="Int">16777216</Property>
+		<Property Name="NI.ClassItem.Flags" Type="Int">16777344</Property>
 		<Property Name="NI.ClassItem.IsStaticMethod" Type="Bool">true</Property>
 		<Property Name="NI.ClassItem.MethodScope" Type="UInt">1</Property>
 		<Property Name="NI.ClassItem.Priority" Type="Int">1</Property>
