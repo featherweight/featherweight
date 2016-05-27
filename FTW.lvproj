@@ -221,7 +221,6 @@
 				<Item Name="FTW-File-ListDirectories.vi" Type="VI" URL="../src/file/FTW-File-ListDirectories.vi"/>
 				<Item Name="FTW-File-ListDirectory-RegexFilter.vi" Type="VI" URL="../src/file/FTW-File-ListDirectory-RegexFilter.vi"/>
 				<Item Name="FTW-File-RebaseFilepath.vi" Type="VI" URL="../src/file/FTW-File-RebaseFilepath.vi"/>
-				<Item Name="FTW-File-Regex-Modify.vi" Type="VI" URL="../src/file/FTW-File-Regex-Modify.vi"/>
 				<Item Name="FTW-File-ResolveSymbolicPaths.vi" Type="VI" URL="../src/file/FTW-File-ResolveSymbolicPaths.vi"/>
 				<Item Name="FTW-File-ResourceDirectory.vi" Type="VI" URL="../src/file/FTW-File-ResourceDirectory.vi"/>
 				<Item Name="FTW-File-SystemDirectories.vi" Type="VI" URL="../src/file/FTW-File-SystemDirectories.vi"/>
@@ -301,7 +300,6 @@
 				<Item Name="FTW-Regex-ForceLiteral.vi" Type="VI" URL="../src/regex/FTW-Regex-ForceLiteral.vi"/>
 				<Item Name="FTW-Regex-ReplaceAll.vi" Type="VI" URL="../src/regex/FTW-Regex-ReplaceAll.vi"/>
 				<Item Name="FTW-Regex-ReplaceAndReturn.vi" Type="VI" URL="../src/regex/FTW-Regex-ReplaceAndReturn.vi"/>
-				<Item Name="FTW-Regex-Replacements.vi" Type="VI" URL="../src/regex/FTW-Regex-Replacements.vi"/>
 				<Item Name="FTW-Regex.vi" Type="VI" URL="../src/regex/FTW-Regex.vi"/>
 			</Item>
 			<Item Name="string" Type="Folder">
