@@ -4,3 +4,6 @@
 [submodule "nanomsg/upstream"]
     path = kernel/nanomsg/upstream
     url=https://github.com/featherweight/ftw-kernel-nanomsg.git
+[submodule "kernel/libuv"]
+    path = kernel/libuv
+    url = https://github.com/featherweight/ftw-kernel-libuv

@@ -43,12 +43,16 @@ enable_testing ()
 set (JANSSON_DIR "${CMAKE_CURRENT_SOURCE_DIR}/jansson/upstream")
 set (NANOMSG_DIR "${CMAKE_CURRENT_SOURCE_DIR}/nanomsg/upstream")
 set (PCRE2_DIR "${CMAKE_CURRENT_SOURCE_DIR}/pcre/upstream")
+set (LIBUV_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libuv")
 
 ### Jansson
 set (JANSSON_BUILD_DOCS OFF CACHE BOOL "Featherweight skips building the Jansson documentation.")
 set (JANSSON_EXAMPLES OFF CACHE BOOL "Featherweight skips building the Jansson examples.")
 set (JANSSON_BUILD_SHARED_LIBS OFF CACHE BOOL "Featherweight skips building a Jansson shared library.")
 add_subdirectory (${JANSSON_DIR} ${JANSSON_DIR}/build)
+
+### libuv
+add_subdirectory (${LIBUV_DIR} ${LIBUV_DIR}/build)
 
 ### PCRE2
 set (PCRE2_SUPPORT_PCREGREP_JIT OFF CACHE BOOL "Featherweight skips building Just-in-time compiling in pcregrep.")
@@ -78,6 +82,8 @@ add_subdirectory (${NANOMSG_DIR} ${NANOMSG_DIR}/build)
 set (FTW_SRC_FILES
     ftw.h
     ftw.c
+    ftw_libuv.h
+    ftw_libuv.c
     framework/ftw_framework.h
     framework/ftw_framework.c
     jansson/ftw_json.h
@@ -95,6 +101,7 @@ add_library (${CMAKE_PROJECT_NAME} SHARED ${FTW_SRC_FILES})
 target_link_libraries (${CMAKE_PROJECT_NAME} jansson)
 target_link_libraries (${CMAKE_PROJECT_NAME} pcre2-8)
 target_link_libraries (${CMAKE_PROJECT_NAME} nanomsg)
+target_link_libraries (${CMAKE_PROJECT_NAME} libuv)
 
 target_compile_options (${CMAKE_PROJECT_NAME} PUBLIC -DSQLITE_ENABLE_JSON1)
 
