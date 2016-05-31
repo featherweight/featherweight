@@ -1,10 +1,9 @@
 [submodule "jansson"]
     path = kernel/jansson/upstream
-    url=https://github.com/featherweight/ftw-kernel-jansson.git
+    url = https://github.com/featherweight/ftw-kernel-jansson.git
 [submodule "nanomsg"]
     path = kernel/nanomsg/upstream
-    url=https://github.com/featherweight/ftw-kernel-nanomsg.git
+    url = https://github.com/featherweight/ftw-kernel-nanomsg.git
 [submodule "libuv"]
     path = kernel/libuv
-    url = https://github.com/featherweight/ftw-kernel-libuv
-    
+    url = https://github.com/featherweight/ftw-kernel-libuv.git
