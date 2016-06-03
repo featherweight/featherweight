@@ -30,7 +30,45 @@ extern "C" {
 #include "ftw.h"
 #include "libuv/include/uv.h"
 
-    FTW_EXPORT MgErr ftw_libuv_version(LStrHandle version);
+/*  InstanceDataPtr types for libuv callsites that create an event loop. */
+struct ftw_libuv_callsite {
+
+    /*  Callsite ID assigned by FTW. */
+    int id;
+
+    /*  Event Loop instance for this callsite. */
+    uv_loop_t *loop_instance;
+};
+
+struct ftw_libuv_process {
+    int64_t *exit_code;
+    int64_t *signal;
+};
+
+/*  Asynchronous streams into LabVIEW. */
+struct ftw_libuv_stream {
+    LVUserEventRef *msg_to_lv_event;
+};
+
+#include "lv_prolog.h"
+struct ftw_libuv_stream_output {
+    LStrHandle output;
+    int64 code;
+};
+#include "lv_epilog.h"
+
+/*  Callbacks invoked by LabVIEW by individual instances of Call Library Function Nodes. */
+FTW_EXPORT MgErr ftw_libuv_reserve(struct ftw_libuv_callsite **inst);
+FTW_EXPORT MgErr ftw_libuv_unreserve(struct ftw_libuv_callsite **inst);
+FTW_EXPORT MgErr ftw_libuv_abort(struct ftw_libuv_callsite **inst);
+
+FTW_EXPORT MgErr ftw_libuv_error(int *err_number, LStrHandle error_name, LStrHandle error_message);
+FTW_EXPORT MgErr ftw_libuv_version(LStrHandle version);
+FTW_EXPORT MgErr ftw_libuv_lib_path(LStrHandle path);
+FTW_EXPORT void ftw_high_resolution_time(uint64_t *nanoseconds);
+
+FTW_EXPORT int ftw_libuv_spawn_process(struct ftw_libuv_callsite **callsite, LVUserEventRef *lv_event,
+    char *exe, char *cmd, int64_t *exit_code, int64_t *signal);
 
 #ifdef __cplusplus
 }

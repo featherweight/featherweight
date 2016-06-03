@@ -116,6 +116,7 @@ MgErr ftw_support_CStr_to_LStrHandle(LStrHandle *dest, const char *src, size_t m
 MgErr ftw_support_expand_LStrHandleArray(LStrHandleArray ***arr, size_t elements);
 MgErr ftw_support_expand_PointerArray(PointerArray ***arr, size_t elements);
 MgErr ftw_support_expand_int32Array(int32Array ***arr, size_t elements);
+#define ftw_recover_LStrHandle(ptr) (ptr ? (LStrHandle)DSRecoverHandle(ptr - Offset(LStr, str[0])) : NULL)
 
 #ifdef __cplusplus
 }

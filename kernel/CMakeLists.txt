@@ -21,13 +21,10 @@
 #
 
 cmake_minimum_required (VERSION 2.8.12)
-include (CheckIncludeFiles)
-include (CheckSymbolExists)
-include (CheckCSourceCompiles)
 
 project (featherweight C)
 
-set (CMAKE_VERBOSE_MAKEFILE OFF)
+set (CMAKE_VERBOSE_MAKEFILE ON)
 set (CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 # Ensures that we do an out of source build
@@ -160,7 +157,10 @@ include_directories (${JANSSON_INCLUDE_DIRS})
 # Ensuring amalgamation compiles with same compiler flags as components
 get_directory_property (NANOMSG_COMPILE_DEFS DIRECTORY ${NANOMSG_DIR}\\src COMPILE_DEFINITIONS)
 message (STATUS "nanomsg compile definitions: ${NANOMSG_COMPILE_DEFS}")
-target_compile_definitions (${CMAKE_PROJECT_NAME} PUBLIC ${NANOMSG_COMPILE_DEFS})
+get_directory_property (LIBUV_COMPILE_DEFS DIRECTORY ${LIBUV_DIR} COMPILE_DEFINITIONS)
+message (STATUS "libuv compile definitions: ${LIBUV_COMPILE_DEFS}")
+set (FTW_COMPILE_DEFS ${NANOMSG_COMPILE_DEFS} ${LIBUV_COMPILE_DEFS})
+target_compile_definitions (${CMAKE_PROJECT_NAME} PUBLIC ${FTW_COMPILE_DEFS})
 
 if (NOT FTW_LIB_DESTINATION STREQUAL "")
     message (STATUS "Installing FTW to this system path: ${FTW_LIB_DESTINATION}")
