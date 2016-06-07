@@ -428,8 +428,6 @@
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
 			<Item Name="FTW-JSON-Core-GetFlattenedValue.vi" Type="VI" URL="../codegen/xnode/json/fetch/FTW-JSON-Core-GetFlattenedValue.vi"/>
-			<Item Name="FTW-SyncServer-Construct.vi" Type="VI" URL="../src/socket/syncserver/FTW-SyncServer-Construct.vi"/>
-			<Item Name="FTW-SyncServer-Destroy.vi" Type="VI" URL="../src/socket/syncserver/FTW-SyncServer-Destroy.vi"/>
 			<Item Name="kernel32.dll" Type="Document" URL="kernel32.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
