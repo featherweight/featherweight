@@ -76,6 +76,7 @@
 			<Item Name="actor" Type="Folder">
 				<Item Name="connector" Type="Folder">
 					<Item Name="FTW-Connector-Construct.vi" Type="VI" URL="../src/socket/connector/FTW-Connector-Construct.vi"/>
+					<Item Name="FTW-Connector-Core-Ask.vi" Type="VI" URL="../src/socket/connector/core/FTW-Connector-Core-Ask.vi"/>
 					<Item Name="FTW-Connector-Destroy.vi" Type="VI" URL="../src/socket/connector/FTW-Connector-Destroy.vi"/>
 					<Item Name="FTW-Connector-QueryActorInstanceStatus.vi" Type="VI" URL="../src/socket/connector/FTW-Connector-QueryActorInstanceStatus.vi"/>
 					<Item Name="FTW-Connector-SendPoisonPill.vi" Type="VI" URL="../src/socket/connector/FTW-Connector-SendPoisonPill.vi"/>
