@@ -117,6 +117,8 @@ MgErr ftw_support_expand_LStrHandleArray(LStrHandleArray ***arr, size_t elements
 MgErr ftw_support_expand_PointerArray(PointerArray ***arr, size_t elements);
 MgErr ftw_support_expand_int32Array(int32Array ***arr, size_t elements);
 #define ftw_recover_LStrHandle(ptr) (ptr ? (LStrHandle)DSRecoverHandle(ptr - Offset(LStr, str[0])) : NULL)
+void *ftw_malloc(size_t sz);
+MgErr ftw_free(void *ptr);
 
 #ifdef __cplusplus
 }

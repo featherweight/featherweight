@@ -26,8 +26,9 @@ FTW_PRIVATE_SUPPORT void ftw_socket_inbox_async_recv_worker(void *arg);
 
 const char *ftw_version(void)
 {
-    return "0.7.0";
+    return "0.8.0";
 }
+
 
 void ftw_lvmem(int64 *ds_bytes_allocated)
 {
@@ -41,12 +42,13 @@ void ftw_lvmem(int64 *ds_bytes_allocated)
     return;
 }
 
+
 void ftw_socket_inbox_async_recv_worker(void *arg)
 {
     /*  Opaque pointer into ftw_incoming_request structure using LabVIEW-safe type for PostLVUserEvent. */
     int64 opaque;
     struct ftw_incoming_request *incoming;
-    struct ftw_socket *self;
+    struct ftw_socket_inbox *self;
     struct nn_iovec iov;
     struct nn_msghdr msg;
     void *msg_ptr;
@@ -57,8 +59,8 @@ void ftw_socket_inbox_async_recv_worker(void *arg)
 
     /*  Notify launching process this thread is constructed. */
     ftw_assert(arg);
-    self = (struct ftw_socket *) arg;
-    nn_sem_post(&self->ready);
+    self = (struct ftw_socket_inbox *) arg;
+    nn_sem_post(&self->initialized);
 
     lv_err = mgNoErr;
     socket_err = 0;
@@ -67,7 +69,7 @@ void ftw_socket_inbox_async_recv_worker(void *arg)
     while (!lv_err && !socket_err) {
 
         /* Created here, this incoming request should be freed once the response is sent. */
-        incoming = nn_alloc(sizeof(struct ftw_incoming_request), "ftw_incoming_request");
+        incoming = ftw_malloc(sizeof(struct ftw_incoming_request));
         if (incoming == NULL) {
             lv_err = mFullErr;
             continue;
@@ -84,21 +86,21 @@ void ftw_socket_inbox_async_recv_worker(void *arg)
         rc = nn_recvmsg(self->id, &msg, 0);
         if (rc >= 0) {
 
-            incoming->sock = self;
-            incoming->msg_piped_to_lv = &self->ready_for_next_msg;
+            incoming->inbox = self;
             incoming->msg_ptr = msg_ptr;
             incoming->msg_len = nn_chunk_size(msg_ptr);
             incoming->hdr_ptr = hdr_ptr;
             incoming->hdr_len = nn_chunk_size(hdr_ptr);
 
             opaque = (int64)incoming;
+            lv_err = PostLVUserEvent(self->incoming_msg_notifier_event, &opaque);
+            ftw_assert(lv_err == mgNoErr);
 
             /*  On the LabVIEW side, the handler is a an Event Handler Structure, which
-                applies no backpressure since the event queue cannot be limited for dynamic
-                events. For this reason, a semaphore is introduced to simulate blocking backpressure,
-                where the semaphore is posted once the Inbox Message Router receives the message. */
-            nn_sem_wait(&self->ready_for_next_msg);
-            lv_err = PostLVUserEvent(self->msg_to_lv_event, &opaque);
+            applies no backpressure since the event queue cannot be limited for dynamic
+            events. For this reason, a semaphore is introduced to simulate blocking backpressure,
+            where the semaphore is posted once the Inbox Message Router receives the message. */
+            nn_sem_wait(&self->msg_acknowledged);
         }
         else {
             /*  Treat timeouts as non-fatal. Anything else will stop this thread. */
@@ -108,15 +110,19 @@ void ftw_socket_inbox_async_recv_worker(void *arg)
 
     /*  Posting a NULL pointer signals the LabVIEW Message Router to shutdown. */
     opaque = (int64) NULL;
-    lv_err = PostLVUserEvent(self->msg_to_lv_event, &opaque);
+    lv_err = PostLVUserEvent(self->incoming_msg_notifier_event, &opaque);
+    ftw_assert(lv_err == mgNoErr);
+
+    /*  Wait for the Message Router to unload. */
+    nn_sem_wait(&self->deinitialized);
 
     return;
 }
 
-int ftw_socket_inbox_construct(struct ftw_socket_callsite **callsite, LVUserEventRef *msg_to_lv_event,
-    struct ftw_socket **sock, const LStrHandleArray **addresses, int linger, int max_recv_size)
+
+int ftw_socket_inbox_construct(struct ftw_socket_inbox **inst, LVUserEventRef *msg_to_lv_event,
+    struct ftw_socket_inbox **sock, const LStrHandleArray **addresses, int linger, int max_recv_size)
 {
-    struct ftw_socket *inst;
     char *addr;
     int rcb;
     int rcs;
@@ -124,84 +130,66 @@ int ftw_socket_inbox_construct(struct ftw_socket_callsite **callsite, LVUserEven
     int i;
 
     /*  Preconditions expected of LabVIEW. */
-    ftw_assert(callsite && *callsite && addresses && *addresses && msg_to_lv_event && sock);
-    nn_mutex_lock(&(*callsite)->sync);
+    ftw_assert(inst && *inst && addresses && *addresses && msg_to_lv_event && sock);
 
     rcs = nn_socket(AF_SP_RAW, NN_REP);
 
     /*  Socket creation failure? */
     if (rcs < 0) {
         *sock = NULL;
-        nn_mutex_unlock(&(*callsite)->sync);
         return rcs;
     }
 
     rco = nn_setsockopt(rcs, NN_SOL_SOCKET, NN_LINGER, &linger, sizeof(linger));
     if (rco < 0) {
         *sock = NULL;
-        nn_mutex_unlock(&(*callsite)->sync);
         return rco;
     }
 
     rco = nn_setsockopt(rcs, NN_SOL_SOCKET, NN_RCVMAXSIZE, &max_recv_size, sizeof(max_recv_size));
     if (rco < 0) {
         *sock = NULL;
-        nn_mutex_unlock(&(*callsite)->sync);
         return rco;
     }
 
     for (i = 0; i < (*addresses)->dimsize; i++) {
         addr = ftw_support_LStrHandle_to_CStr((*addresses)->element[i]);
         rcb = nn_bind(rcs, addr);
-        free (addr);
+        ftw_free (addr);
         if (rcb < 0) {
             nn_close(rcs);
             *sock = NULL;
-            nn_mutex_unlock(&(*callsite)->sync);
             return rcb;
         }
     }
 
-    inst = nn_alloc(sizeof(struct ftw_socket), "ftw_inbox");
-    alloc_assert(inst);
-
-    inst->is_async = 1;
-    inst->msg_to_lv_event = *msg_to_lv_event;
-    inst->id = rcs;
-    inst->callsite = *callsite;
-
-    nn_list_item_init(&inst->item);
-    nn_list_insert(&(*callsite)->active_sockets, &inst->item,
-        nn_list_end(&(*callsite)->active_sockets));
+    (*inst)->incoming_msg_notifier_event = *msg_to_lv_event;
+    (*inst)->id = rcs;
 
     /*  Launch thread and wait for it to initialize. */
-    nn_sem_init(&inst->ready);
-    nn_sem_init(&inst->ready_for_next_msg);
-    nn_thread_init(&inst->thread, ftw_socket_inbox_async_recv_worker, inst);
-    nn_sem_wait(&inst->ready);
+    nn_sem_init(&(*inst)->deinitialized);
+    nn_sem_init(&(*inst)->initialized);
+    nn_sem_init(&(*inst)->msg_acknowledged);
+    nn_thread_init(&(*inst)->async_recv_thread, ftw_socket_inbox_async_recv_worker, *inst);
+    nn_sem_wait(&(*inst)->initialized);
 
-    /*  Assume that the Inbox Message Router on LabVIEW side is always ready for first message. */
-    nn_sem_post(&inst->ready_for_next_msg);
-
-    *sock = inst;
-
-    (*callsite)->lifetime_sockets++;
-    nn_mutex_unlock(&(*callsite)->sync);
+    *sock = *inst;
 
     return 0;
 }
 
-int ftw_socket_inbox_recv(struct ftw_incoming_request *incoming, json_t **json_msg, size_t flags, int64 *err_line,
-    int64 *err_column, int64 *err_position, LStrHandle err_source, LStrHandle err_hint)
+
+int ftw_socket_inbox_recv(struct ftw_incoming_request *incoming, json_t **json_msg, size_t flags,
+    int64 *err_line, int64 *err_column, int64 *err_position, LStrHandle err_source, LStrHandle err_hint)
 {
     json_error_t err;
     int rc;
 
     /*  Preconditions expected of LabVIEW. */
-    ftw_assert(incoming && incoming->msg_ptr && incoming->msg_piped_to_lv && json_msg);
+    ftw_assert(incoming && incoming->msg_ptr && incoming->inbox && json_msg);
 
     /*  Notify async receive thread that it can pipeline the next message into the LVEvent. */
-    nn_sem_post(incoming->msg_piped_to_lv);
+    nn_sem_post(&incoming->inbox->msg_acknowledged);
 
     *json_msg = json_loadb(incoming->msg_ptr, incoming->msg_len, flags, &err);
 
@@ -221,9 +209,10 @@ int ftw_socket_inbox_recv(struct ftw_incoming_request *incoming, json_t **json_m
     return rc;
 }
 
+
 int ftw_socket_inbox_reply(json_t *response, struct ftw_incoming_request *req, const int timeout)
 {
-    struct ftw_socket const *s;
+    struct ftw_socket_inbox const *s;
     struct nn_iovec iov;
     struct nn_msghdr hdr;
     size_t hdr_len;
@@ -231,17 +220,16 @@ int ftw_socket_inbox_reply(json_t *response, struct ftw_incoming_request *req, c
     char *buffer;
     int rc;
 
-    if (req) {
-        s = req->sock;
-        hdr_len = req->hdr_len;
-        hdr_ptr = req->hdr_ptr;
-        nn_free(req);
-    }
-    else {
+    if (req == NULL) {
         ftw_json_destroy(response);
         errno = EBADF;
         return -1;
     }
+
+    s = req->inbox;
+    hdr_len = req->hdr_len;
+    hdr_ptr = req->hdr_ptr;
+    ftw_assert(ftw_free(req) == mgNoErr);
 
     if (hdr_ptr == NULL) {
         ftw_json_destroy(response);
@@ -284,4 +272,80 @@ int ftw_socket_inbox_reply(json_t *response, struct ftw_incoming_request *req, c
     free(buffer);
     nn_freemsg(hdr_ptr);
     return rc;
+}
+
+
+int ftw_socket_inbox_shutdown(struct ftw_socket_inbox ** const sock)
+{
+    uint64_t time;
+    double elapsed_time;
+    int rc;
+
+    /*  Preconditions expected of LabVIEW. */
+    ftw_assert(sock);
+
+    if (*sock == NULL) {
+        errno = EBADF;
+        return -1;
+    }
+
+    time = uv_hrtime();
+    rc = nn_close((*sock)->id);
+    nn_sem_post(&(*sock)->deinitialized);
+    nn_thread_term(&(*sock)->async_recv_thread);
+    nn_sem_term(&(*sock)->msg_acknowledged);
+    nn_sem_term(&(*sock)->initialized);
+    nn_sem_term(&(*sock)->deinitialized);
+    time = uv_hrtime() - time;
+    elapsed_time = time / 1000000000.0;
+    ftw_debug("Inbox Shutdown time: %.3fsec", elapsed_time);
+
+    return rc;
+}
+
+
+MgErr ftw_socket_inbox_reserve(struct ftw_socket_inbox **inst)
+{
+    /*  Preconditions expected of LabVIEW. */
+    ftw_assert(inst && *inst == NULL);
+
+    ftw_debug("Reserving ActorInbox.");
+    *inst = ftw_malloc(sizeof(struct ftw_socket_inbox));
+
+    return (*inst == NULL ? mZoneErr : mgNoErr);
+}
+
+
+MgErr ftw_socket_inbox_unreserve(struct ftw_socket_inbox **inst)
+{
+    MgErr rc;
+    /*  Preconditions expected of LabVIEW. */
+    ftw_assert(inst);
+
+    /*  LabVIEW retains the lifetime of this pointer as long as the DLL remains loaded. */
+    if (*inst) {
+        ftw_debug("Unreserving ActorInbox.");
+        rc = ftw_free(*inst);
+        if (rc == mgNoErr) {
+            *inst = NULL;
+        }
+    }
+    else {
+        ftw_debug("No-op ActorInbox unreserve.");
+        rc = mgNoErr;
+    }
+
+    return rc;
+}
+
+
+MgErr ftw_socket_inbox_abort(struct ftw_socket_inbox **inst)
+{
+    /*  Preconditions expected of LabVIEW. */
+    ftw_assert(inst && *inst);
+
+    ftw_debug("Aborting ActorInbox.");
+    ftw_socket_inbox_shutdown(inst);
+
+    return mgNoErr;
 }

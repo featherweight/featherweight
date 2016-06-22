@@ -31,24 +31,45 @@ extern "C" {
 #include "../jansson/ftw_json.h"
 #include "../nanomsg/ftw_nanomsg.h"
 #include "../pcre/ftw_pcre.h"
-//#include "../sqlite/ftw_sqlite.h"
+#define _SSIZE_T_DEFINED
+#include "../ftw_libuv.h"
 
-/*  Actual structure of an incoming request to an Inbox; packaged as an opaque pointer for LabVIEW. */
+    /*  Actual structure of an incoming request to an Inbox; packaged as an opaque pointer for LabVIEW. */
     struct ftw_incoming_request {
-        struct ftw_socket *sock;
-        struct nn_sem *msg_piped_to_lv;
+        struct ftw_socket_inbox *inbox;
         void *msg_ptr;
         size_t msg_len;
         void *hdr_ptr;
         size_t hdr_len;
     };
 
+    /*  Actual structure of an incoming request to an Inbox; packaged as an opaque pointer for LabVIEW. */
+    struct ftw_socket_inbox {
+
+        /*  Socket ID assigned by nanomsg. */
+        int id;
+
+        /*  Asynchronous receive parameters. */
+        LVUserEventRef incoming_msg_notifier_event;
+        struct nn_thread async_recv_thread;
+        struct nn_sem initialized;
+        struct nn_sem deinitialized;
+        struct nn_sem msg_acknowledged;
+    };
+
+
 /*  FTW Actor Inbox framework. */
-FTW_EXPORT int ftw_socket_inbox_construct(struct ftw_socket_callsite **callsite, LVUserEventRef *msg_to_lv_event,
-    struct ftw_socket **sock, const LStrHandleArray **addresses, int linger, int max_recv_size);
-FTW_EXPORT int ftw_socket_inbox_recv(struct ftw_incoming_request *incoming, json_t **json_msg, size_t flags, int64 *err_line,
-    int64 *err_column, int64 *err_position, LStrHandle err_source, LStrHandle err_hint);
+FTW_EXPORT int ftw_socket_inbox_construct(struct ftw_socket_inbox **inst, LVUserEventRef *msg_to_lv_event,
+    struct ftw_socket_inbox **sock, const LStrHandleArray **addresses, int linger, int max_recv_size);
+FTW_EXPORT int ftw_socket_inbox_recv(struct ftw_incoming_request *incoming, json_t **json_msg, size_t flags,
+    int64 *err_line, int64 *err_column, int64 *err_position, LStrHandle err_source, LStrHandle err_hint);
 FTW_EXPORT int ftw_socket_inbox_reply(json_t *response, struct ftw_incoming_request *req, const int timeout);
+FTW_EXPORT int ftw_socket_inbox_shutdown(struct ftw_socket_inbox ** const sock);
+
+/*  FTW Actor Inbox Message Router callbacks. */
+FTW_EXPORT MgErr ftw_socket_inbox_reserve(struct ftw_socket_inbox **inst);
+FTW_EXPORT MgErr ftw_socket_inbox_unreserve(struct ftw_socket_inbox **inst);
+FTW_EXPORT MgErr ftw_socket_inbox_abort(struct ftw_socket_inbox **inst);
 
 /*  Featherweight exported functions. */
 FTW_EXPORT const char *ftw_version(void);

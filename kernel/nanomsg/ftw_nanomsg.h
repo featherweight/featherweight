@@ -31,7 +31,6 @@ extern "C" {
     
 #include "upstream/src/nn.h"
 #include "upstream/src/reqrep.h"
-#include "upstream/src/utils/alloc.h"
 #include "upstream/src/utils/chunk.h"
 #include "upstream/src/utils/cont.h"
 #include "upstream/src/utils/err.h"
@@ -69,11 +68,10 @@ struct ftw_socket {
     struct ftw_socket_callsite *callsite;
 
     /*  Asynchronous receive parameters. */
-    int is_async;
-    LVUserEventRef msg_to_lv_event;
-    struct nn_sem ready;
-    struct nn_sem ready_for_next_msg;
-    struct nn_thread thread;
+    LVUserEventRef incoming_msg_notifier_event;
+    struct nn_thread async_recv_thread;
+    struct nn_sem async_recv_ready;
+    struct nn_sem msg_acknowledged;
 
     /*  This is just used by the List API to maintain position of this item. */
     struct nn_list_item item;

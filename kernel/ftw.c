@@ -23,6 +23,16 @@
 #include "ftw.h"
 #include <string.h>
 
+void *ftw_malloc(size_t sz)
+{
+    return DSNewPtr(sz);
+}
+
+MgErr ftw_free(void *ptr)
+{
+    return DSDisposePtr(ptr);
+}
+
 char * ftw_support_LStrHandle_to_CStr(LStrHandle src)
 {
     char *s;
@@ -33,7 +43,7 @@ char * ftw_support_LStrHandle_to_CStr(LStrHandle src)
 
     len = LHStrLen(src);
 
-    s = (char *) malloc(len + 1);
+    s = ftw_malloc(len + 1);
     if (s == NULL)
         return NULL;
 
