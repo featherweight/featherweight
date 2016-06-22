@@ -43,6 +43,7 @@ Win32: [![Win32 status](https://ci.appveyor.com/api/projects/status/gw4vlhfi50u0
 #### Build process
   1. From an SSH command-line session, navigate to your home directory: `cd ~`
   1. Clone this repository with the `--recursive` flag to ensure all submodules are cloned: `git clone --recursive https://github.com/featherweight/featherweight.git`
+  1. Enter the root of the repository: `cd featherweight`
   1. Create a build directory: `mkdir build`
   1. Enter this new build directory: `cd build`
   1. Invoke build system generation: `cmake -DFTW_LVIDE_PATH="../.ci" ../kernel`
