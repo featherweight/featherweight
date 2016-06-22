@@ -106,7 +106,6 @@ target_compile_options (${CMAKE_PROJECT_NAME} PUBLIC -DSQLITE_ENABLE_JSON1)
 set (LVRTE_INCLUDE "${FTW_LVIDE_PATH}/cintools")
 if (WIN32)
     find_library (LVRTE_LIBRARY labviewv PATHS "${LVRTE_INCLUDE}" NO_DEFAULT_PATH)
-    set (FTW_LIB_DESTINATION "")
     set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES DEBUG_POSTFIX "_debug")
     set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG "../lib")
     set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY_RELEASE "../lib")
@@ -121,21 +120,18 @@ if (WIN32)
     endif ()
 elseif (APPLE)
     set (LVRTE_LIBRARY "/Library/Frameworks/LabVIEW 15.0 Runtime")
-    set (FTW_LIB_DESTINATION "")
     set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME "ftw")
 ## this is the best-known heuristic for detecting a build on NI Linux RT
-elseif (CMAKE_SYSTEM MATCHES "^Linux-.*-ni-.*$")
+elseif (CMAKE_SYSTEM MATCHES "^Linux-.*-ni-.*$" OR CMAKE_SYSTEM MATCHES "^Linux.*-rt17-.*$")
     find_library (LVRTE_LIBRARY liblvrt.so.15.0 PATHS /usr/local/natinst/labview NO_DEFAULT_PATH)
     execute_process (COMMAND readlink -f ${LVRTE_LIBRARY})
-    set (FTW_LIB_DESTINATION "/usr/lib")
     set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME "ftw")
 elseif (UNIX)
     find_library (LVRTE_LIBRARY lvrtdark PATHS ${CMAKE_CURRENT_SOURCE_DIR}/download-cache/ NO_DEFAULT_PATH)
     execute_process (COMMAND readlink -f ${LVRTE_LIBRARY})
-    set (FTW_LIB_DESTINATION "")
     set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME "ftw")
 else ()
-    message (FATAL_ERROR "Unreachable.")
+    message (FATAL_ERROR "Unreachable. Upstream logic should have failed with fatal error before this point.")
 endif ()
 
 # Add links to the LabVIEW Runtime Engine
@@ -162,9 +158,10 @@ message (STATUS "libuv compile definitions: ${LIBUV_COMPILE_DEFS}")
 set (FTW_COMPILE_DEFS ${NANOMSG_COMPILE_DEFS} ${LIBUV_COMPILE_DEFS})
 target_compile_definitions (${CMAKE_PROJECT_NAME} PUBLIC ${FTW_COMPILE_DEFS})
 
-if (NOT FTW_LIB_DESTINATION STREQUAL "")
-    message (STATUS "Installing FTW to this system path: ${FTW_LIB_DESTINATION}")
-    install (TARGETS ${CMAKE_PROJECT_NAME} LIBRARY DESTINATION ${FTW_LIB_DESTINATION})
-else ()
-    message (STATUS "FTW Kernel is not automatically installed to a system path on this platform.")
-endif ()
+install (
+  TARGETS ${CMAKE_PROJECT_NAME}
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/featherweight
+)
