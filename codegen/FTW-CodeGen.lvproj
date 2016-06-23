@@ -47,6 +47,7 @@
 		<Item Name="Dependencies" Type="Dependencies">
 			<Item Name="FTW-Actor-DynamicLaunchOptions.vi" Type="VI" URL="../../src/actor/support/FTW-Actor-DynamicLaunchOptions.vi"/>
 			<Item Name="FTW-Connector-Construct.vi" Type="VI" URL="../../src/socket/connector/FTW-Connector-Construct.vi"/>
+			<Item Name="FTW-Connector-Core-Ask.vi" Type="VI" URL="../../src/socket/connector/core/FTW-Connector-Core-Ask.vi"/>
 			<Item Name="FTW-ERR-Assert-ConditionalDisable.vi" Type="VI" URL="../../src/error/FTW-ERR-Assert-ConditionalDisable.vi"/>
 			<Item Name="FTW-ERR-Assert-DeveloperError.vi" Type="VI" URL="../../src/error/FTW-ERR-Assert-DeveloperError.vi"/>
 			<Item Name="FTW-ERR-CallChain.vi" Type="VI" URL="../../src/error/FTW-ERR-CallChain.vi"/>
@@ -64,15 +65,17 @@
 			<Item Name="FTW-ERR-ThrowInfo.vi" Type="VI" URL="../../src/error/FTW-ERR-ThrowInfo.vi"/>
 			<Item Name="FTW-ERR-ThrowInvalidReferenceError.vi" Type="VI" URL="../../src/error/FTW-ERR-ThrowInvalidReferenceError.vi"/>
 			<Item Name="FTW-ERR-ThrowWarning.vi" Type="VI" URL="../../src/error/FTW-ERR-ThrowWarning.vi"/>
+			<Item Name="FTW-Inbox-Core-ConstructMessagePipe.vi" Type="VI" URL="../../src/socket/inbox/core/FTW-Inbox-Core-ConstructMessagePipe.vi"/>
 			<Item Name="FTW-JSON-Construct-FromBuffer.vi" Type="VI" URL="../../src/json/FTW-JSON-Construct-FromBuffer.vi"/>
 			<Item Name="FTW-JSON-Core-ElementType.vi" Type="VI" URL="../../src/json/core/FTW-JSON-Core-ElementType.vi"/>
 			<Item Name="FTW-JSON-Core-EncodingFlags.vi" Type="VI" URL="../../src/json/core/FTW-JSON-Core-EncodingFlags.vi"/>
-			<Item Name="FTW-JSON-Core-Structure.ctl" Type="VI" URL="../../src/json/core/FTW-JSON-Core-Structure.ctl"/>
 			<Item Name="FTW-JSON-Core-Type.ctl" Type="VI" URL="../../src/json/core/FTW-JSON-Core-Type.ctl"/>
+			<Item Name="FTW-JSON-Destroy.vi" Type="VI" URL="../../src/json/FTW-JSON-Destroy.vi"/>
 			<Item Name="FTW-JSON-Object-GetElement-Bool.vi" Type="VI" URL="../../src/json/FTW-JSON-Object-GetElement-Bool.vi"/>
 			<Item Name="FTW-JSON-Object-GetElement-Integer.vi" Type="VI" URL="../../src/json/FTW-JSON-Object-GetElement-Integer.vi"/>
 			<Item Name="FTW-JSON-Object-GetElement-String.vi" Type="VI" URL="../../src/json/FTW-JSON-Object-GetElement-String.vi"/>
 			<Item Name="FTW-JSON-Object-SetElement-String.vi" Type="VI" URL="../../src/json/FTW-JSON-Object-SetElement-String.vi"/>
+			<Item Name="FTW-JSON-ObjectManip-AddPair.vi" Type="VI" URL="../../src/json/FTW-JSON-ObjectManip-AddPair.vi"/>
 			<Item Name="FTW-JSON-SerializeAndDestroy.vi" Type="VI" URL="../../src/json/FTW-JSON-SerializeAndDestroy.vi"/>
 			<Item Name="FTW-JSON-Type.ctl" Type="VI" URL="../../src/json/FTW-JSON-Type.ctl"/>
 			<Item Name="FTW-KernelFilepath.vi" Type="VI" URL="../../lib/FTW-KernelFilepath.vi"/>
@@ -91,6 +94,7 @@
 			<Item Name="FTW-Regex-Destroy.vi" Type="VI" URL="../../src/regex/FTW-Regex-Destroy.vi"/>
 			<Item Name="FTW-Regex-Execute.vi" Type="VI" URL="../../src/regex/FTW-Regex-Execute.vi"/>
 			<Item Name="FTW-Regex.vi" Type="VI" URL="../../src/regex/FTW-Regex.vi"/>
+			<Item Name="FTW-Request-Core-InterpretResponse.vi" Type="VI" URL="../../src/actor/request/core/FTW-Request-Core-InterpretResponse.vi"/>
 			<Item Name="FTW-Request-InterpretResponse.vi" Type="VI" URL="../../src/actor/request/FTW-Request-InterpretResponse.vi"/>
 			<Item Name="FTW-Socket-Core-LibraryError.vi" Type="VI" URL="../../src/socket/support/FTW-Socket-Core-LibraryError.vi"/>
 			<Item Name="FTW-Socket-Core-TransportScheme.ctl" Type="VI" URL="../../src/socket/support/FTW-Socket-Core-TransportScheme.ctl"/>
@@ -98,13 +102,14 @@
 			<Item Name="FTW-SQLite-Core-LibraryReturnValue.vi" Type="VI" URL="../../src/database/core/FTW-SQLite-Core-LibraryReturnValue.vi"/>
 			<Item Name="FTW-SQLite-Core-PrepareStatement.vi" Type="VI" URL="../../src/database/core/FTW-SQLite-Core-PrepareStatement.vi"/>
 			<Item Name="FTW-SQLite-Core-QueryDebug.vi" Type="VI" URL="../../src/database/core/FTW-SQLite-Core-QueryDebug.vi"/>
-			<Item Name="FTW-SQLite-Core-Structure.ctl" Type="VI" URL="../../src/database/core/FTW-SQLite-Core-Structure.ctl"/>
 			<Item Name="FTW-STR-Array-Delimit.vi" Type="VI" URL="../../src/string/FTW-STR-Array-Delimit.vi"/>
 			<Item Name="FTW-STR-Encode-Base64.vi" Type="VI" URL="../../src/string/FTW-STR-Encode-Base64.vi"/>
 			<Item Name="FTW-STR-Random-Hex.vi" Type="VI" URL="../../src/string/FTW-STR-Random-Hex.vi"/>
 			<Item Name="FTW-STR-ReplaceWhitespace.vi" Type="VI" URL="../../src/string/FTW-STR-ReplaceWhitespace.vi"/>
 			<Item Name="FTW-Time-RelativeTimer.vi" Type="VI" URL="../../src/time/FTW-Time-RelativeTimer.vi"/>
 			<Item Name="FTW-Type-Actor-Connector.ctl" Type="VI" URL="../../src/core/type/FTW-Type-Actor-Connector.ctl"/>
+			<Item Name="FTW-Type-JSON.ctl" Type="VI" URL="../../src/core/type/FTW-Type-JSON.ctl"/>
+			<Item Name="FTW-Type-SQLite.ctl" Type="VI" URL="../../src/core/type/FTW-Type-SQLite.ctl"/>
 			<Item Name="ftw32.dll" Type="Document" URL="../../lib/ftw32.dll"/>
 			<Item Name="mscorlib" Type="VI" URL="mscorlib">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>

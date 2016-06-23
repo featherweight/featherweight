@@ -84,6 +84,9 @@
 				<Item Name="inbox" Type="Folder">
 					<Item Name="core" Type="Folder">
 						<Item Name="FTW-Inbox-Core-Configuration.vi" Type="VI" URL="../src/socket/inbox/core/FTW-Inbox-Core-Configuration.vi"/>
+						<Item Name="FTW-Inbox-Core-ConstructMessagePipe.vi" Type="VI" URL="../src/socket/inbox/core/FTW-Inbox-Core-ConstructMessagePipe.vi"/>
+						<Item Name="FTW-Inbox-Core-ConstructMessageRouter.vi" Type="VI" URL="../src/socket/inbox/core/FTW-Inbox-Core-ConstructMessageRouter.vi"/>
+						<Item Name="FTW-Inbox-Core-LoadMessageRouterPrototype.vi" Type="VI" URL="../src/socket/inbox/core/FTW-Inbox-Core-LoadMessageRouterPrototype.vi"/>
 						<Item Name="FTW-Inbox-Core-MessageRouter.vi" Type="VI" URL="../src/socket/inbox/core/FTW-Inbox-Core-MessageRouter.vi"/>
 						<Item Name="FTW-Inbox-Core-RoutingRule.ctl" Type="VI" URL="../src/socket/inbox/core/FTW-Inbox-Core-RoutingRule.ctl"/>
 					</Item>
@@ -96,6 +99,10 @@
 					<Item Name="FTW-Publisher-Publish.vi" Type="VI" URL="../src/socket/publisher/FTW-Publisher-Publish.vi"/>
 				</Item>
 				<Item Name="request" Type="Folder">
+					<Property Name="NI.SortType" Type="Int">3</Property>
+					<Item Name="core" Type="Folder">
+						<Item Name="FTW-Request-Core-InterpretResponse.vi" Type="VI" URL="../src/actor/request/core/FTW-Request-Core-InterpretResponse.vi"/>
+					</Item>
 					<Item Name="FTW-Request-AddMetaData.vi" Type="VI" URL="../src/actor/request/FTW-Request-AddMetaData.vi"/>
 					<Item Name="FTW-Request-InterpretResponse.vi" Type="VI" URL="../src/actor/request/FTW-Request-InterpretResponse.vi"/>
 					<Item Name="FTW-Request-Receive.vi" Type="VI" URL="../src/actor/request/FTW-Request-Receive.vi"/>
@@ -254,10 +261,11 @@
 				<Item Name="FTW-JSON-SetFlags-Encoding.vi" Type="VI" URL="../src/json/FTW-JSON-SetFlags-Encoding.vi"/>
 				<Item Name="FTW-JSON-Type.ctl" Type="VI" URL="../src/json/FTW-JSON-Type.ctl"/>
 			</Item>
-			<Item Name="numeric" Type="Folder">
-				<Item Name="FTW-NUM-Counter.vi" Type="VI" URL="../src/numeric/FTW-NUM-Counter.vi"/>
-				<Item Name="FTW-NUM-Increment.vi" Type="VI" URL="../src/numeric/FTW-NUM-Increment.vi"/>
-				<Item Name="FTW-NUM-MovingAverage.vi" Type="VI" URL="../src/numeric/FTW-NUM-MovingAverage.vi"/>
+			<Item Name="math" Type="Folder">
+				<Item Name="FTW-Math-Counter.vi" Type="VI" URL="../src/math/FTW-Math-Counter.vi"/>
+				<Item Name="FTW-Math-Increment.vi" Type="VI" URL="../src/math/FTW-Math-Increment.vi"/>
+				<Item Name="FTW-Math-MovingAverage.vi" Type="VI" URL="../src/math/FTW-Math-MovingAverage.vi"/>
+				<Item Name="FTW-Math-Statistics.vi" Type="VI" URL="../src/math/FTW-Math-Statistics.vi"/>
 			</Item>
 			<Item Name="reflection" Type="Folder">
 				<Item Name="core" Type="Folder">
@@ -304,6 +312,9 @@
 				<Item Name="FTW-STR-ReplaceWhitespace.vi" Type="VI" URL="../src/string/FTW-STR-ReplaceWhitespace.vi"/>
 			</Item>
 			<Item Name="system" Type="Folder">
+				<Item Name="core" Type="Folder">
+					<Item Name="FTW-System-CommandLineToArgv.vi" Type="VI" URL="../src/system/core/FTW-System-CommandLineToArgv.vi"/>
+				</Item>
 				<Item Name="FTW-System-CommandLineExecute.vi" Type="VI" URL="../src/system/FTW-System-CommandLineExecute.vi"/>
 				<Item Name="FTW-System-CurrentMemoryStatistics.vi" Type="VI" URL="../src/system/FTW-System-CurrentMemoryStatistics.vi"/>
 			</Item>
@@ -422,9 +433,6 @@
 		<Item Name="FTW-Test.json" Type="Document" URL="../tests/FTW-Test.json"/>
 		<Item Name="FTW-Test.vi" Type="VI" URL="../tests/FTW-Test.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
-			<Item Name="vi.lib" Type="Folder">
-				<Item Name="System Exec.vi" Type="VI" URL="/&lt;vilib&gt;/Platform/system.llb/System Exec.vi"/>
-			</Item>
 			<Item Name="DOMUserDefRef.dll" Type="Document" URL="DOMUserDefRef.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
