@@ -30,15 +30,35 @@ const char *ftw_version(void)
 }
 
 
-void ftw_lvmem(int64 *ds_bytes_allocated)
+void ftw_resource_usage(double *user_cpu_time, double *system_cpu_time, double *uptime, uint64_t *hi_res_relative_time,
+    uint64_t *peak_working_set, uint64_t *lv_dataspace_size, uint64_t *hard_page_faults)
 {
-    MgErr lv_err;
+    uv_rusage_t rusage;
+    double up;
     MemStatRec stats;
-    lv_err = DSMemStats(&stats);
-    if (lv_err)
-        *ds_bytes_allocated = -1;
-    else
-        *ds_bytes_allocated = (int64)stats.totAllocSize;
+    MgErr lvrc;
+    int rc;
+
+    lvrc = DSMemStats(&stats);
+    if (lvrc == mgNoErr) {
+        *lv_dataspace_size = (uint64_t)stats.totAllocSize;
+    }
+
+    rc = uv_getrusage(&rusage);
+    if (rc == 0) {
+        *user_cpu_time = (double)rusage.ru_utime.tv_sec + rusage.ru_utime.tv_usec * 1e-6;
+        *system_cpu_time = (double)rusage.ru_stime.tv_sec + rusage.ru_stime.tv_usec * 1e-6;
+        *peak_working_set = rusage.ru_maxrss;
+        *hard_page_faults = rusage.ru_majflt;
+    }
+
+    rc = uv_uptime(&up);
+    if (rc == 0) {
+        *uptime = up;
+    }
+
+    *hi_res_relative_time = uv_hrtime();
+
     return;
 }
 

@@ -73,7 +73,8 @@ FTW_EXPORT MgErr ftw_socket_inbox_abort(struct ftw_socket_inbox **inst);
 
 /*  Featherweight exported functions. */
 FTW_EXPORT const char *ftw_version(void);
-FTW_EXPORT void ftw_lvmem(int64 *ds_bytes_allocated);
+FTW_EXPORT void ftw_resource_usage(double *user_cpu_time, double *system_cpu_time, double *uptime, uint64_t *hi_res_relative_time,
+    uint64_t *peak_working_set, uint64_t *lv_dataspace_size, uint64_t *hard_page_faults);
 
 #ifdef __cplusplus
 }
