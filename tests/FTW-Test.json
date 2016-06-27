@@ -8,6 +8,8 @@
       "Enable": true,
       "Iterations": 10
     },
+    "Actor-Ask": {
+    },
     "Actor-Stress": {
       "Iterations": 1
     },
@@ -37,6 +39,8 @@
     },
     "JSON-Stress": {
     },
+    "MessagePipe": {
+    },
     "Reflection-Array": {
     },
     "Reflection-CompositeTypes": {
@@ -50,10 +54,13 @@
     "Socket-Stress-InboxConnector": {
       "Iterations": 1
     },
-    "Socket-Stress-PubSub": {
+    "Socket-Stress-InboxShutdown": {
       "Iterations": 1
     },
-    "Socket-Stress-RouterShutdown": {
+    "Socket-Stress-PublisherShutdown": {
+      "Iterations": 1
+    },
+    "Socket-Stress-PubSub": {
       "Iterations": 1
     },
     "SQLite-BasicQuery": {
@@ -63,6 +70,8 @@
     "SQLite-OpenCloseStress": {
     },
     "SQLite-Random": {
+    },
+    "String-Random": {
     },
     "Supervisor": {
       "Iterations": 1
