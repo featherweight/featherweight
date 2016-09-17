@@ -1,11 +1,8 @@
 /*
 Example: 		WebSocket browser client to FTW actor.
-Description: 	This example: 
-				1. open a WebSocket connection of type "rep.sp.nanomsg.org" to a FTW actor on localhost (127.0.0.1) with a specified port
-				2. send an intial "Ping" request with required header
-				3. read and display the response (validate the received header, must match the request header, display error if mismatched) 
-				4. periodically (every 1 second) send a "Rand" request and display the response
-				5. close the WebSocket when the window is closed
+Description: 	This example creates a FtwWebSocketRequester and logs activity to a div with id "activity-log".
+				A message / request is sent as soon as the socket connection is opened, and 1 second after recieving a given reply.
+				Run the VI in the same folder (acts as the server) and open the HTML file in a browser to view.
 */
 
 //wait for DOM to load
