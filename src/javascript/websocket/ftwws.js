@@ -252,11 +252,11 @@ function FtwWebSocketRequster(obj) {
 	//members
 	this.START = parseInt("10000", 16); //first 4 byte UTF-8 encoding
 	this.END = parseInt("10FFFF", 16); //last 4 byte UTF-8 encoding
-	this.nextHeader = this.START;
-	this.headersInUse = [];
+	this.nextHeader = this.START; //first available header
+	this.headersInUse = []; //flat list of headers currently in use
 	
-	//reserve an available header (a 4 byte UTF-8 character with most significant bit = 1) and return it as a string for use
-	// - algorithm: march from start to end through all the 4 byte UTF-8 characters (which all have MSB = 1) to reduce likliehood of collisions, and wrap around if necessary (must send 1,048,576 messages before this happens, and surely they won't all be still waiting for replies :)
+	//Function: reserve an available header (a 4 byte UTF-8 character with most significant bit = 1) and return it as a string for use
+	// - algorithm: march from start to end through all the 4-byte UTF-8 characters (which all have MSB = 1) to reduce likliehood of collisions, and wrap around if necessary (must send 1,048,576 messages before this happens, and surely they won't all be still waiting for replies :)
 	this.reserveHeader = function() {
 		if (this.headersInUse.indexOf(this.nextHeader) == -1) {
 			this.headersInUse[this.headersInUse.length] = this.nextHeader; //reserve the header
@@ -268,7 +268,7 @@ function FtwWebSocketRequster(obj) {
 		}
 	};
 	
-	//release the specified header (where the header is taken as a string for convenience bc that's how it's received)
+	//Function: release the specified header (where the header is taken as a string for convenience bc that's how it's received)
 	this.unreserveHeader = function(headerString) {
 		var index = this.headersInUse.indexOf(headerString.codePointAt(0)); //we expect only a single 4-byte character as the headerString
 		if (index != -1) {
