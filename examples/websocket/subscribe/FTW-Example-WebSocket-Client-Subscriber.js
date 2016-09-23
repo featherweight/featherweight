@@ -1,4 +1,5 @@
 /*
+Attribution:	Written by Jassem Shahrani 09/2016
 Example: 		WebSocket browser client to FTW actor.
 Description: 	This example creates a FtwWebSocketSubscriber and logs activity to a div with id "activity-log".  
 				Run the VI in the same folder (acts as the server) and open the HTML file in a browser to view.
@@ -12,7 +13,7 @@ jQuery(document).ready(function($) {
 	activity_log.append("<p>Attemping WebSocket connection.</p>");
 	
 	// FtwWebSocketRequester Test
-	var ftwws_requester = new FtwWebSocketSubscriber({
+	var ftwwsSubscriber = new FtwWebSocketSubscriber({
 		
 		"wsAddress"	:		"ws://127.0.0.1:65438",																															// replace the address and port specified here as desired, both corresponding to a bound FTW socket
 		"onOpen"	: 		function(evt) { // callback executed when a connection is opened successfully (evt is the event object)

@@ -19,18 +19,30 @@ jQuery(document).ready(function($) {
 	// FtwWebSocketRequester Test
 	var ftwwsRequester = new FtwWebSocketRequster({
 		
-		"wsAddress"	:		"ws://127.0.0.1:65439",	// replace the address and port specified here as desired, both corresponding to a bound FTW socket
+		"wsAddress"	:		"ws://127.0.0.1:65440",																															// replace the address and port specified here as desired, both corresponding to a bound FTW socket
 		"onOpen"	: 		function(evt) { // callback executed when a connection is opened successfully (evt is the event object)
 								activity_log.append('<p>Connection open!</p>');	
-								this.send('{"FTW-Request-Header": "FBQ-Control", "FBQ-Request":"Ping"}');	
-							},	
-		"onMessage"	:		function(evt, msgobj) { // callback executed when a message is received from an actor (evt is the event object, msg is an object)
-								activity_log.append('<p>Message received: ' + JSON.stringify(msgobj, null, 4) + '</p>');
-								var _this = this; //pass "this" through scope so we can call our send() function within
-								setTimeout(function() { // delay 1 second and send another message
-									_this.send('{"FTW-Request-Header": "FBQ-Control", "FBQ-Request":"Ping"}');
-								}, 1000);
-								$('html, body').animate({scrollTop:$(document).height()}, 'slow'); //scroll to bottom to show latest received message
+								
+								//Supplying send() with a callback function including scope and arguments
+								var myArgs = {"usefulString": "useful in your callback", "usefulNumber": 9};
+								var myMsg = {"FTW-Request-Header": "FBQ-Control", "FBQ-Request":"Ping"};
+								var aClass = function(str) {
+									this.str = str;
+									this.func = function(replyObj, args) {
+										activity_log.append("<p>Class was instantiated with string argument: " + this.str + "</p>");
+										activity_log.append("<p>Our callback function received reply: </p>");
+										activity_log.append("<p>" + JSON.stringify(replyObj) + "</p>");
+										activity_log.append("<p>Our callback function received custom arguments: </p>");
+										activity_log.append("<p>" + JSON.stringify(args) + "</p>");
+									}
+								}
+								var myClass = new aClass("Love me!");
+								
+								activity_log.append('<p>Sending message = ' + JSON.stringify(myMsg) + ' while specifying a custom callback function, arguments = ' + JSON.stringify(myArgs) + ', and scope = instance of "aClass".</p>');	
+								
+								// we send this message and expect our callback function to be invoked printing console messages
+								//   send(msg,   callback,     args,   scope);
+								this.send(myMsg, myClass.func, myArgs, myClass);	
 							},
 		"onError"	:		function(evt, errmsg) { // callback executed when an error occurs (evt is the event object, err is an error string)
 								activity_log.append('<p>Error: ' + errmsg + '</p>');
@@ -42,5 +54,6 @@ jQuery(document).ready(function($) {
 		
 	});
 
+	
+	
 });
-
