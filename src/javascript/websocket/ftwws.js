@@ -102,7 +102,7 @@ Typical Usage
 		
 		"wsAddress"	:		"ws://127.0.0.1:65440",	// replace the address and port specified here as desired, both corresponding to a bound FTW socket
 		"onOpen"	: 		function(evt) { // callback executed when a connection is opened successfully (evt is the event object)
-								console.log('<p>Connection open!</p>');	
+								console.log('Connection open!');	
 								
 								//Supplying send() with a callback function including scope and arguments
 								var myArgs = {"usefulString": "useful in your callback", "usefulNumber": 9};
@@ -126,10 +126,10 @@ Typical Usage
 								this.send(myMsg, myClass.func, myArgs, myClass);	
 							},
 		"onError"	:		function(evt, errmsg) { // callback executed when an error occurs (evt is the event object, err is an error string)
-								console.log('<p>Error: ' + errmsg + '</p>');
+								console.log('Error: ' + errmsg);
 							},
 		"onClose"	:		function(evt) { // callback executed when the connection is closed (evt is the event object)
-								console.log('<p>Connection closed!</p>');
+								console.log('Connection closed!');
 							},
 		"debugMode"	:		false
 		
