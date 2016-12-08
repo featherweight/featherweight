@@ -37,7 +37,7 @@ Win32: [![Win32 status](https://ci.appveyor.com/api/projects/status/gw4vlhfi50u0
   1. Log in to the device from a terminal; e.g., `ssh admin@192.168.0.10`
   1. Ensure that the package manager packages are up to date: `opkg update`
   1. Install git in order to clone the repository: `opkg install git-perltools`
-  1. Install build toolchain: `opkg install packagegroup-core-buildessential`
+  1. Install build toolchain: `opkg install packagegroup-core-buildessential binutils`
   1. Install cmake in order to automate the build process: `opkg install cmake`
 
 #### Build process
