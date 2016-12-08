@@ -121,7 +121,7 @@ elseif (APPLE)
     set (LVRTE_LIBRARY "/Library/Frameworks/LabVIEW 15.0 Runtime")
     set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME "ftw")
 ## this is the best-known heuristic for detecting a build on NI Linux RT
-elseif (CMAKE_SYSTEM MATCHES "^Linux-.*-ni-.*$" OR CMAKE_SYSTEM MATCHES "^Linux.*-rt17-.*$")
+elseif (CMAKE_SYSTEM MATCHES "^Linux-.*-ni-.*$" OR CMAKE_SYSTEM MATCHES "^Linux.*-rt[0-9][0-9]-.*$")
     find_library (LVRTE_LIBRARY liblvrt.so.15.0 PATHS /usr/local/natinst/labview NO_DEFAULT_PATH)
     execute_process (COMMAND readlink -f ${LVRTE_LIBRARY})
     set_target_properties (${CMAKE_PROJECT_NAME} PROPERTIES OUTPUT_NAME "ftw")
