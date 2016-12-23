@@ -46,28 +46,28 @@ extern "C" {
     FTW_EXPORT void ftw_json_get_float64(json_t *obj, uint8_t *type, const char *key, LVBoolean *remove, float64 *value);
     FTW_EXPORT void ftw_json_get_string(json_t *obj, uint8_t *type, const char *key, LVBoolean *remove, LStrHandle value);
     
-    FTW_EXPORT int ftw_json_set_integer(json_t *obj, const char *key, int64_t *value);
-    FTW_EXPORT int ftw_json_set_boolean(json_t *obj, const char *key, LVBoolean *value);
-    FTW_EXPORT int ftw_json_set_float64(json_t *obj, const char *key, float64 *value);
-    FTW_EXPORT int ftw_json_set_string(json_t *obj, const char *key, LStrHandle value);
-    FTW_EXPORT int ftw_json_set_null(json_t *obj, const char *key);
+    FTW_EXPORT ftwrc ftw_json_set_integer(json_t *obj, const char *key, int64_t *value);
+    FTW_EXPORT ftwrc ftw_json_set_boolean(json_t *obj, const char *key, LVBoolean *value);
+    FTW_EXPORT ftwrc ftw_json_set_float64(json_t *obj, const char *key, float64 *value);
+    FTW_EXPORT ftwrc ftw_json_set_string(json_t *obj, const char *key, LStrHandle value);
+    FTW_EXPORT ftwrc ftw_json_set_null(json_t *obj, const char *key);
 
     FTW_EXPORT json_t *ftw_json_object_get(const json_t *obj, const char *key);
-    FTW_EXPORT int32_t ftw_json_array_elements(const json_t *array, PointerArray **items);
+    FTW_EXPORT ftwrc ftw_json_array_elements(const json_t *array, PointerArray **items);
 
     FTW_EXPORT int64_t ftw_json_val_integer (const json_t *val);
     FTW_EXPORT double ftw_json_val_double (const json_t *val);
-    FTW_EXPORT MgErr ftw_json_val_string (const json_t *val, LStrHandle string);
+    FTW_EXPORT ftwrc ftw_json_val_string (const json_t *val, LStrHandle string);
 
     FTW_EXPORT int ftw_json_object_join(enum json_join_mode *mode, json_t *object, json_t *obj_to_join);
     FTW_EXPORT void ftw_json_object_equal(json_t *object, json_t *other, LVBoolean *equal);
-    FTW_EXPORT int32 ftw_json_object_keys(json_t *object, LStrHandleArray **keys);
+    FTW_EXPORT ftwrc ftw_json_object_keys(json_t *object, LStrHandleArray **keys);
     FTW_EXPORT int ftw_json_object_clear(json_t *object);
     FTW_EXPORT int ftw_json_object_delete(json_t *object, const char *key);
 
     FTW_EXPORT void ftw_json_element_type(json_t *element, uint8_t *type);
-    FTW_EXPORT int32 ftw_json_serialize_element(const json_t *json, size_t flags, LStrHandle serialized);
-    FTW_EXPORT int32 ftw_json_serialize_and_destroy(json_t *json, size_t flags, LStrHandle serialized);
+    FTW_EXPORT ftwrc ftw_json_serialize_element(const json_t *json, size_t flags, LStrHandle serialized);
+    FTW_EXPORT ftwrc ftw_json_serialize_and_destroy(json_t *json, size_t flags, LStrHandle serialized);
     FTW_EXPORT void ftw_json_destroy(json_t *value);
 
 #ifdef __cplusplus

@@ -23,57 +23,57 @@
 #include "ftw_pcre.h"
 
 static int ftw_pcre_callout(pcre2_callout_block *block, void *args);
-FTW_PRIVATE_SUPPORT MgErr resize_CalloutAccumulator(CalloutAccumulator ***arr, size_t elements);
+FTW_PRIVATE_SUPPORT ftwrc resize_CalloutAccumulator(CalloutAccumulator ***arr, size_t elements);
 
 MgErr ftw_pcre_version(LStrHandle version)
 {
-    MgErr lv_err;
+    ftwrc rc;
     char buf[1024];
     int sz;
 
     sz = pcre2_config(PCRE2_CONFIG_VERSION, buf);
     ftw_assert(sz <= sizeof(buf));
 
-    lv_err = ftw_support_CStr_to_LStrHandle(&version, buf, sizeof(buf));
+    rc = ftw_support_CStr_to_LStrHandle(&version, buf, sizeof(buf));
 
-    return lv_err;
+    return rc;
 }
 
 pcre2_code *ftw_pcre_compile(ConstLStrH regex, uint32_t options, LStrHandle err_string,
     int32 *err_offset_in_regex)
 {
-    MgErr lv_err;
     pcre2_code *compiled_regex;
     PCRE2_SIZE err_offset;
     char buf[1024] = {0};
     int err_code;
+    ftwrc lvrc;
     int rc;
 
     compiled_regex = pcre2_compile(LHStrBuf(regex), LHStrLen(regex), options, &err_code, &err_offset, NULL);
 
-    if (compiled_regex)
+    if (compiled_regex) {
         return compiled_regex;
+    }
 
     *err_offset_in_regex = (int32)err_offset;
     rc = pcre2_get_error_message(err_code, buf, sizeof(buf));
     ftw_assert (rc == StrLen(buf));
-    lv_err = ftw_support_CStr_to_LStrHandle(&err_string, buf, sizeof(buf));
+    lvrc = ftw_support_CStr_to_LStrHandle(&err_string, buf, sizeof(buf));
 
     return NULL;
 }
 
-int32 ftw_pcre_capture_groups(const pcre2_code *compiled_regex, LStrHandleArray **named_capturing_groups)
+ftwrc ftw_pcre_capture_groups(const pcre2_code *compiled_regex, LStrHandleArray **named_capturing_groups)
 {
-    int rc;
-    uint32_t i;
     uint32_t num_submatches;
     uint32_t namecount;
     uint32_t namesize;
     uint32_t entrysize;
     uChar *nametable;
     const uChar *offset;
-    MgErr lv_err;
     uInt16 submatch_index;
+    uint32_t i;
+    ftwrc rc;
 
     rc = pcre2_pattern_info(compiled_regex, PCRE2_INFO_NAMECOUNT, &namecount);
     if (rc)
@@ -91,9 +91,9 @@ int32 ftw_pcre_capture_groups(const pcre2_code *compiled_regex, LStrHandleArray 
     if (rc)
         return rc;
 
-    lv_err = ftw_support_expand_LStrHandleArray(&named_capturing_groups, num_submatches);
-    if (lv_err)
-        return lv_err;
+    rc = ftw_support_expand_LStrHandleArray(&named_capturing_groups, num_submatches);
+    if (rc)
+        return rc;
 
     namesize = entrysize - sizeof(submatch_index);
     offset = nametable;
@@ -103,12 +103,12 @@ int32 ftw_pcre_capture_groups(const pcre2_code *compiled_regex, LStrHandleArray 
         submatch_index = Word(offset[0], offset[1]) - 1;
         offset += sizeof(submatch_index);
 
-        lv_err = ftw_support_CStr_to_LStrHandle(&((*named_capturing_groups)->element)[submatch_index], offset, namesize);
-        if (lv_err)
+        rc = ftw_support_CStr_to_LStrHandle(&((*named_capturing_groups)->element)[submatch_index], offset, namesize);
+        if (rc)
             break;
     }
 
-    return lv_err;
+    return rc;
 }
 
 int32 ftw_pcre_match(const pcre2_code *compiled_regex, ConstLStrH subject,
@@ -123,7 +123,7 @@ int32 ftw_pcre_match(const pcre2_code *compiled_regex, ConstLStrH subject,
     PCRE2_SIZE *ovector;
     uint32_t ovec_count;
     int num_submatches;
-    MgErr lv_err;
+    ftwrc lvrc;
     int32 rc;
     int i;
 
@@ -160,8 +160,8 @@ int32 ftw_pcre_match(const pcre2_code *compiled_regex, ConstLStrH subject,
     ftw_assert(arg.index <= (*arg.accumulator)->dimsize);
 
     /*  Trim callout buffer. */
-    lv_err = resize_CalloutAccumulator(&callout, arg.index);
-    if (lv_err) {
+    lvrc = resize_CalloutAccumulator(&callout, arg.index);
+    if (lvrc) {
         rc = PCRE2_ERROR_INTERNAL;
         goto MATCH_DONE;
     }
@@ -185,10 +185,11 @@ int32 ftw_pcre_match(const pcre2_code *compiled_regex, ConstLStrH subject,
 
     /*  Resize the submatch buffer, accounting for the first ovec as the whole match.  */
     num_submatches = (int)ovec_count - 1;
-    if (num_submatches == 0)
+    if (num_submatches == 0) {
         goto MATCH_DONE;
-    lv_err = ftw_support_expand_int32Array(&submatches, num_submatches * 2);
-    if (lv_err) {
+    }
+    lvrc = ftw_support_expand_int32Array(&submatches, num_submatches * 2);
+    if (lvrc) {
         rc = PCRE2_ERROR_INTERNAL;
         goto MATCH_DONE;
     }
@@ -216,7 +217,7 @@ int ftw_pcre_callout(pcre2_callout_block *block, void *args)
 {
     struct ftw_callout_args *arg;
     int32_t new_dim_size;
-    MgErr lv_err;
+    MgErr lvrc;
 
     ftw_assert(block && args);
 
@@ -228,8 +229,8 @@ int ftw_pcre_callout(pcre2_callout_block *block, void *args)
     /*  Allow this to grow indefinitely. Overflow would return error. */
     if (arg->index >= (*(arg->accumulator))->dimsize) {
         new_dim_size = ((*(arg->accumulator))->dimsize + arg->grow_size);
-        lv_err = resize_CalloutAccumulator(&arg->accumulator, new_dim_size);
-        if (lv_err) {
+        lvrc = resize_CalloutAccumulator(&arg->accumulator, new_dim_size);
+        if (lvrc) {
             return PCRE2_ERROR_INTERNAL;
         }
     }
@@ -249,22 +250,25 @@ int ftw_pcre_callout(pcre2_callout_block *block, void *args)
 }
 
 
-MgErr resize_CalloutAccumulator(CalloutAccumulator ***arr, size_t elements)
+ftwrc resize_CalloutAccumulator(CalloutAccumulator ***arr, size_t elements)
 {
-    MgErr lv_err;
+    MgErr lvrc;
     size_t sz;
 
-    if (arr == NULL || *arr == NULL || **arr == NULL)
-        return mgArgErr;
+    if (arr == NULL || *arr == NULL || **arr == NULL) {
+        return EFTWARG;
+    }
 
     FTW_COMPILER_ASSERT(sizeof(struct ftw_pcre_callout_data) == 8 * sizeof(int32));
     FTW_COMPILER_ASSERT(sizeof(CalloutAccumulator) == sizeof(int32) + sizeof(struct ftw_pcre_callout_data));
     FTW_COMPILER_ASSERT(Offset(CalloutAccumulator, element) == 4);
     sz = Offset(CalloutAccumulator, element) + sizeof(struct ftw_pcre_callout_data) * elements;
-    lv_err = DSSetHandleSize(*arr, sz);
+    lvrc = DSSetHandleSize(*arr, sz);
+    if (lvrc) {
+        return ELVMGRBASE + lvrc;
+    }
     
-    if (lv_err == mgNoErr)
-        (**arr)->dimsize = (int32)elements;
+    (**arr)->dimsize = (int32)elements;
 
-    return lv_err;
+    return EFTWOK;
 }

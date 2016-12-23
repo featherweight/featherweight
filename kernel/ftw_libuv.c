@@ -22,28 +22,17 @@
 
 #include "ftw_libuv.h"
 
-MgErr ftw_libuv_version(LStrHandle version)
+ftwrc ftw_libuv_version(LStrHandle version)
 {
-    MgErr lv_err;
-
-    lv_err = ftw_support_CStr_to_LStrHandle(&version, uv_version_string(), 1024);
-
-    return lv_err;
+    return ftw_support_CStr_to_LStrHandle(&version, uv_version_string(), 1024);
 }
 
-MgErr ftw_libuv_error(int *err_number, LStrHandle error_name, LStrHandle error_message)
+void ftw_libuv_error(int *err_number, LStrHandle error_name, LStrHandle error_message)
 {
-    MgErr lv_err;
+    ftw_support_CStr_to_LStrHandle (&error_name, uv_err_name (*err_number), 1024);
+    ftw_support_CStr_to_LStrHandle (&error_message, uv_strerror (*err_number), 1024);
 
-    lv_err = ftw_support_CStr_to_LStrHandle (&error_name, uv_err_name (*err_number), 1024);
-    if (lv_err) {
-        return lv_err;
-    }
-
-    lv_err = ftw_support_CStr_to_LStrHandle (&error_message, uv_strerror (*err_number), 1024);
-
-
-    return lv_err;
+    return;
 }
 
 FTW_PRIVATE_SUPPORT void ftw_libuv_callback_process_exit (uv_process_t *proc, int64_t exit_status, int term_signal)
@@ -74,7 +63,7 @@ FTW_PRIVATE_SUPPORT void ftw_libuv_callback_read_pipe (uv_stream_t *stream, ssiz
 {
     struct ftw_libuv_stream *context;
     LStrHandle message;
-    MgErr lv_err;
+    MgErr lvrc;
 
     /*  Preconditions expected of FTW. */
     ftw_assert(stream->data);
@@ -88,8 +77,8 @@ FTW_PRIVATE_SUPPORT void ftw_libuv_callback_read_pipe (uv_stream_t *stream, ssiz
         }
 
         if (message) {
-            lv_err = DSDisposeHandle (message);
-            ftw_assert (lv_err == mgNoErr);
+            lvrc = DSDisposeHandle (message);
+            ftw_assert (lvrc == mgNoErr);
         }
         return;
     }
@@ -98,11 +87,11 @@ FTW_PRIVATE_SUPPORT void ftw_libuv_callback_read_pipe (uv_stream_t *stream, ssiz
 
     LHStrPtr (message)->cnt = (int32) nread;
 
-    lv_err = PostLVUserEvent(*(context->msg_to_lv_event), &message);
+    lvrc = PostLVUserEvent(*(context->msg_to_lv_event), &message);
 
-    lv_err = DSDisposeHandle (message);
+    lvrc = DSDisposeHandle (message);
 
-    ftw_assert (lv_err == mgNoErr);
+    ftw_assert (lvrc == mgNoErr);
 }
 
 int ftw_libuv_spawn_process(struct ftw_libuv_callsite **callsite, LVUserEventRef *lv_event,
@@ -192,23 +181,21 @@ int ftw_libuv_spawn_process(struct ftw_libuv_callsite **callsite, LVUserEventRef
     return rc;
 }
 
-MgErr ftw_libuv_lib_path(LStrHandle path)
+ftwrc ftw_libuv_lib_path(LStrHandle path)
 {
-    MgErr lv_err;
-    size_t sz;
     char buffer[32768];
-    int rc;
+    ftwrc rc;
+    size_t sz;
 
     sz = 32768;
     rc = uv_exepath(buffer, &sz);
     if (rc) {
-        return bogusError;
+        return rc;
     }
 
-    lv_err = ftw_support_buffer_to_LStrHandle(&path, buffer, sz);
+    rc = ftw_support_buffer_to_LStrHandle(&path, buffer, sz);
 
-    return lv_err;
-
+    return rc;
 }
 
 void ftw_high_resolution_time(uint64_t *nanoseconds)

@@ -68,7 +68,7 @@ FTW_EXPORT MgErr ftw_pcre_version(LStrHandle version);
 FTW_EXPORT pcre2_code *ftw_pcre_compile(ConstLStrH regex, uint32_t options, LStrHandle err_string,
     int32 *err_offset_in_regex);
 
-FTW_EXPORT int32 ftw_pcre_capture_groups(const pcre2_code *compiled_regex,
+FTW_EXPORT ftwrc ftw_pcre_capture_groups(const pcre2_code *compiled_regex,
     LStrHandleArray **named_capturing_groups);
 
 FTW_EXPORT int32 ftw_pcre_match(const pcre2_code *compiled_regex, ConstLStrH subject,

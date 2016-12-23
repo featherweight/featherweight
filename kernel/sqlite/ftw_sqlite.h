@@ -33,37 +33,37 @@ extern "C" {
 #include "upstream/sqlite3.c"
 
     /*  Thin wrappers for SQLite functions to export. */
-    FTW_EXPORT const char *ftw_sqlite_errstr(int err_code, LStrHandle lib_version);
+    FTW_EXPORT const char *ftw_sqlite_errstr(ftwrc code, LStrHandle lib_version);
 
-    FTW_EXPORT int ftw_sqlite_open(const char *path, sqlite3 **connection, int flags, LStrHandle lib_version);
-    FTW_EXPORT int ftw_sqlite_close(sqlite3 *connection);
+    FTW_EXPORT ftwrc ftw_sqlite_open(const char *path, sqlite3 **connection, int flags, LStrHandle lib_version);
+    FTW_EXPORT ftwrc ftw_sqlite_close(sqlite3 *connection);
 
-    FTW_EXPORT int ftw_sqlite_transaction_begin(sqlite3 *connection);
-    FTW_EXPORT int ftw_sqlite_transaction_end(sqlite3 *connection);
+    FTW_EXPORT ftwrc ftw_sqlite_transaction_begin(sqlite3 *connection);
+    FTW_EXPORT ftwrc ftw_sqlite_transaction_end(sqlite3 *connection);
 
-    FTW_EXPORT int ftw_sqlite_prepare(sqlite3 *connection, ConstLStrH sql, PointerArray **statements);
-    FTW_EXPORT int ftw_sqlite_step(sqlite3_stmt *statement);
-    FTW_EXPORT int ftw_sqlite_reset(sqlite3_stmt *statement);
-    FTW_EXPORT MgErr ftw_sqlite_parameters(sqlite3_stmt *statement, LStrHandleArray **parameters);
-    FTW_EXPORT int ftw_sqlite_finalize(sqlite3_stmt *pStmt);
+    FTW_EXPORT ftwrc ftw_sqlite_prepare(sqlite3 *connection, ConstLStrH sql, PointerArray **statements);
+    FTW_EXPORT ftwrc ftw_sqlite_step(sqlite3_stmt *statement);
+    FTW_EXPORT ftwrc ftw_sqlite_reset(sqlite3_stmt *statement);
+    FTW_EXPORT ftwrc ftw_sqlite_parameters(sqlite3_stmt *statement, LStrHandleArray **parameters);
+    FTW_EXPORT ftwrc ftw_sqlite_finalize(sqlite3_stmt *pStmt);
 
     FTW_EXPORT int64 ftw_column_int64(sqlite3_stmt *statement, int32 col);
     FTW_EXPORT float64 ftw_column_float64(sqlite3_stmt *statement, int32 col);
-    FTW_EXPORT MgErr ftw_column_string(sqlite3_stmt *statement, int32 col, LStrHandle value);
-    FTW_EXPORT MgErr ftw_column_blob(sqlite3_stmt *statement, int32 col, LStrHandle value);
+    FTW_EXPORT ftwrc ftw_column_string(sqlite3_stmt *statement, int32 col, LStrHandle value);
+    FTW_EXPORT ftwrc ftw_column_blob(sqlite3_stmt *statement, int32 col, LStrHandle value);
 
-    FTW_EXPORT int ftw_sqlite_bind_int64(sqlite3_stmt *statement, int32 index, int64 value);
-    FTW_EXPORT int ftw_sqlite_bind_float64(sqlite3_stmt *statement, int32 index, float64 value);
-    FTW_EXPORT int ftw_sqlite_bind_string(sqlite3_stmt *statement, int32 index, ConstLStrH value);
-    FTW_EXPORT int ftw_sqlite_bind_blob(sqlite3_stmt *statement, int32 index, ConstLStrH value);
+    FTW_EXPORT ftwrc ftw_sqlite_bind_int64(sqlite3_stmt *statement, int32 index, int64 value);
+    FTW_EXPORT ftwrc ftw_sqlite_bind_float64(sqlite3_stmt *statement, int32 index, float64 value);
+    FTW_EXPORT ftwrc ftw_sqlite_bind_string(sqlite3_stmt *statement, int32 index, ConstLStrH value);
+    FTW_EXPORT ftwrc ftw_sqlite_bind_blob(sqlite3_stmt *statement, int32 index, ConstLStrH value);
 
-    FTW_EXPORT int ftw_sqlite_finalize(sqlite3_stmt *statement);
+    FTW_EXPORT ftwrc ftw_sqlite_finalize(sqlite3_stmt *statement);
 
     FTW_EXPORT sqlite3_backup *ftw_sqlite_backup_init(sqlite3* pDestDb, const char *zDestDb, sqlite3* pSrcDb, const char *zSrcDb);
-    FTW_EXPORT int ftw_sqlite_backup_step(sqlite3_backup *p, int nPage);
-    FTW_EXPORT int ftw_sqlite_backup_finish(sqlite3_backup *p);
+    FTW_EXPORT ftwrc ftw_sqlite_backup_step(sqlite3_backup *p, int nPage);
+    FTW_EXPORT ftwrc ftw_sqlite_backup_finish(sqlite3_backup *p);
 
-    FTW_EXPORT int ftw_sqlite_randomness(LStrHandle buf);
+    FTW_EXPORT ftwrc ftw_sqlite_randomness(LStrHandle buf);
 
 #ifdef __cplusplus
 }

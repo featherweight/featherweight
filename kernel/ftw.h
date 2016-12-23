@@ -36,9 +36,18 @@ extern "C" {
 #include "extcode.h"
 
 #define FTW_DEBUG_WINDOW 0
-#define LV_USER_ERROR 5000
 
 #define FTW_NaN NAN
+
+/*  FTW Kernel error codes. */
+#define EFTWOK         0x00000000
+#define EFTWBASE       0xDEAD0000
+#define ELVMGRBASE     0xDEAD1000
+
+#define EFTWARG        0xDEAD0001
+#define EFTWNOMEM      0xDEAD0002
+#define EFTWBOGUS      0xDEAD4242
+
 
 /*  Featherweight export declarations. */
 #if defined _WIN32
@@ -81,6 +90,8 @@ extern "C" {
             fflush (stderr);\
             abort ();\
        } while (0)
+#define ftw_assert_ok(x) ftw_assert(x == EFTWOK)
+
 
 /*  Compile-time assert (adopted from nanomsg). */
 #define FTW_CTASSERT_2(prefix, line) prefix##line
@@ -109,16 +120,21 @@ typedef struct {
     int32 element[1];
 } int32Array;
 
+/*  FTW-specific return code type. LabVIEW does not define the size of an "int", but it
+    does define the size of "a pointer-sized integer", so this opaque type exists to bridge
+    that gap. */
+typedef intptr_t ftwrc;
+
 /*  Featherweight support functions. */
-char * ftw_support_LStrHandle_to_CStr(LStrHandle src);
-MgErr ftw_support_buffer_to_LStrHandle(LStrHandle *dest, const void *src, size_t length);
-MgErr ftw_support_CStr_to_LStrHandle(LStrHandle *dest, const char *src, size_t max_length);
-MgErr ftw_support_expand_LStrHandleArray(LStrHandleArray ***arr, size_t elements);
-MgErr ftw_support_expand_PointerArray(PointerArray ***arr, size_t elements);
-MgErr ftw_support_expand_int32Array(int32Array ***arr, size_t elements);
+char *ftw_support_LStrHandle_to_CStr(LStrHandle src);
+ftwrc ftw_support_buffer_to_LStrHandle(LStrHandle *dest, const void *src, size_t length);
+ftwrc ftw_support_CStr_to_LStrHandle(LStrHandle *dest, const char *src, size_t max_length);
+ftwrc ftw_support_expand_LStrHandleArray(LStrHandleArray ***arr, size_t elements);
+ftwrc ftw_support_expand_PointerArray(PointerArray ***arr, size_t elements);
+ftwrc ftw_support_expand_int32Array(int32Array ***arr, size_t elements);
 #define ftw_recover_LStrHandle(ptr) (ptr ? (LStrHandle)DSRecoverHandle(ptr - Offset(LStr, str[0])) : NULL)
 void *ftw_malloc(size_t sz);
-MgErr ftw_free(void *ptr);
+ftwrc ftw_free(void *ptr);
 
 #ifdef __cplusplus
 }

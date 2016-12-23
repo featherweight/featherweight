@@ -71,7 +71,6 @@ struct ftw_socket {
     LVUserEventRef incoming_msg_notifier_event;
     struct nn_thread async_recv_thread;
     struct nn_sem async_recv_ready;
-    struct nn_sem msg_acknowledged;
 
     /*  This is just used by the List API to maintain position of this item. */
     struct nn_list_item item;
@@ -83,37 +82,25 @@ FTW_EXPORT MgErr ftw_nanomsg_unreserve(struct ftw_socket_callsite **inst);
 FTW_EXPORT MgErr ftw_nanomsg_abort(struct ftw_socket_callsite **inst);
 
 /*  nanomsg library support methods. */
-FTW_EXPORT int ftw_nanomsg_error(LStrHandle error_message);
-
-/*  General socket operations. */
-FTW_EXPORT int ftw_socket_destroy(struct ftw_socket ** const sock);
-
-/*  FTW Actor Synchronous Server framework. */
-FTW_EXPORT int ftw_nanomsg_sync_server_start(struct ftw_socket_callsite **callsite,
-    const char *addr, int linger, int max_recv_size, struct ftw_socket **sock);
-FTW_EXPORT int ftw_nanomsg_sync_server_await(struct ftw_socket ** const sock,
-    const int timeout, LStrHandle request);
-FTW_EXPORT int ftw_nanomsg_sync_server_reply(struct ftw_socket ** const sock,
-    const int timeout, const LStrHandle response);
-FTW_EXPORT int ftw_nanomsg_sync_server_stop(struct ftw_socket ** const sock);
+FTW_EXPORT void ftw_nanomsg_error(LStrHandle error_message, int64 *code);
 
 /*  FTW Actor Connector framework. */
-FTW_EXPORT int ftw_nanomsg_connector_connect(struct ftw_socket_callsite **callsite, const char *addr,
-    int linger, int max_recv_size, struct ftw_socket **sock);
-FTW_EXPORT int ftw_nanomsg_connector_ask(struct ftw_socket ** const sock, int send_timeout,
+FTW_EXPORT ftwrc ftw_actor_connector_connect(struct ftw_socket_callsite **callsite, const char *addr,
+    int max_recv_size, struct ftw_socket **sock);
+FTW_EXPORT ftwrc ftw_actor_connector_ask(struct ftw_socket ** const sock, int send_timeout,
     int recv_timeout, const LStrHandle request, LStrHandle response);
-FTW_EXPORT int ftw_nanomsg_connector_disconnect(struct ftw_socket ** const sock);
+FTW_EXPORT ftwrc ftw_actor_connector_disconnect(struct ftw_socket ** const sock);
 
 /*  FTW Publisher framework. */
-FTW_EXPORT int ftw_publisher_construct(struct ftw_socket_callsite **callsite, const char *addr,
-    int linger, struct ftw_socket **sock);
-FTW_EXPORT int ftw_publisher_publish(struct ftw_socket ** const sock, int send_timeout, ConstLStrH message);
-FTW_EXPORT int ftw_publisher_destroy(struct ftw_socket ** const sock);
+FTW_EXPORT ftwrc ftw_publisher_construct(struct ftw_socket_callsite **callsite, const char *addr,
+    struct ftw_socket **sock);
+FTW_EXPORT ftwrc ftw_publisher_publish(struct ftw_socket ** const sock, int send_timeout, ConstLStrH message);
+FTW_EXPORT ftwrc ftw_publisher_destroy(struct ftw_socket ** const sock);
 
 /*  FTW Subscriber framework. */
-FTW_EXPORT int ftw_subscriber_construct(struct ftw_socket_callsite **callsite, LVUserEventRef *lv_event,
+FTW_EXPORT ftwrc ftw_subscriber_construct(struct ftw_socket_callsite **callsite, LVUserEventRef *lv_event,
     const char *addr, int linger, int max_recv_size, struct ftw_socket **sock);
-FTW_EXPORT int ftw_subscriber_destroy(struct ftw_socket ** const sock);
+FTW_EXPORT ftwrc ftw_subscriber_destroy(struct ftw_socket ** const sock);
 
 #ifdef __cplusplus
 }

@@ -62,9 +62,9 @@ FTW_EXPORT MgErr ftw_libuv_reserve(struct ftw_libuv_callsite **inst);
 FTW_EXPORT MgErr ftw_libuv_unreserve(struct ftw_libuv_callsite **inst);
 FTW_EXPORT MgErr ftw_libuv_abort(struct ftw_libuv_callsite **inst);
 
-FTW_EXPORT MgErr ftw_libuv_error(int *err_number, LStrHandle error_name, LStrHandle error_message);
-FTW_EXPORT MgErr ftw_libuv_version(LStrHandle version);
-FTW_EXPORT MgErr ftw_libuv_lib_path(LStrHandle path);
+FTW_EXPORT void ftw_libuv_error(int *err_number, LStrHandle error_name, LStrHandle error_message);
+FTW_EXPORT ftwrc ftw_libuv_version(LStrHandle version);
+FTW_EXPORT ftwrc ftw_libuv_lib_path(LStrHandle path);
 FTW_EXPORT void ftw_high_resolution_time(uint64_t *nanoseconds);
 
 FTW_EXPORT int ftw_libuv_spawn_process(struct ftw_libuv_callsite **callsite, LVUserEventRef *lv_event,

@@ -55,21 +55,22 @@ extern "C" {
         struct nn_sem initialized;
         struct nn_sem deinitialized;
         struct nn_sem msg_acknowledged;
+        uv_mutex_t sending;
     };
 
 
 /*  FTW Actor Inbox framework. */
-FTW_EXPORT int ftw_socket_inbox_construct(struct ftw_socket_inbox **inst, LVUserEventRef *msg_to_lv_event,
-    struct ftw_socket_inbox **sock, const LStrHandleArray **addresses, int linger, int max_recv_size);
-FTW_EXPORT int ftw_socket_inbox_recv(struct ftw_incoming_request *incoming, json_t **json_msg, size_t flags,
+FTW_EXPORT ftwrc ftw_actor_inbox_construct(struct ftw_socket_inbox **inst, LVUserEventRef *msg_to_lv_event,
+    struct ftw_socket_inbox **sock, const LStrHandleArray **addresses, int max_recv_size);
+FTW_EXPORT ftwrc ftw_actor_inbox_recv(struct ftw_incoming_request *incoming, json_t **json_msg, size_t flags,
     int64 *err_line, int64 *err_column, int64 *err_position, LStrHandle err_source, LStrHandle err_hint);
-FTW_EXPORT int ftw_socket_inbox_reply(json_t *response, struct ftw_incoming_request *req, const int timeout);
-FTW_EXPORT int ftw_socket_inbox_shutdown(struct ftw_socket_inbox ** const sock);
+FTW_EXPORT ftwrc ftw_actor_inbox_reply(json_t *response, struct ftw_incoming_request *req, const int timeout);
+FTW_EXPORT ftwrc ftw_actor_inbox_shutdown(struct ftw_socket_inbox ** const sock);
 
 /*  FTW Actor Inbox Message Router callbacks. */
-FTW_EXPORT MgErr ftw_socket_inbox_reserve(struct ftw_socket_inbox **inst);
-FTW_EXPORT MgErr ftw_socket_inbox_unreserve(struct ftw_socket_inbox **inst);
-FTW_EXPORT MgErr ftw_socket_inbox_abort(struct ftw_socket_inbox **inst);
+FTW_EXPORT MgErr ftw_actor_inbox_reserve(struct ftw_socket_inbox **inst);
+FTW_EXPORT MgErr ftw_actor_inbox_unreserve(struct ftw_socket_inbox **inst);
+FTW_EXPORT MgErr ftw_actor_inbox_abort(struct ftw_socket_inbox **inst);
 
 /*  Featherweight exported functions. */
 FTW_EXPORT const char *ftw_version(void);
