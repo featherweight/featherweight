@@ -127,7 +127,7 @@
 				<Item Name="support" Type="Folder">
 					<Item Name="FTW-Actor-CloneName.vi" Type="VI" URL="../src/actor/support/FTW-Actor-CloneName.vi"/>
 					<Item Name="FTW-Actor-DynamicLaunchOptions.vi" Type="VI" URL="../src/actor/support/FTW-Actor-DynamicLaunchOptions.vi"/>
-					<Item Name="FTW-Socket-Core-LibraryError.vi" Type="VI" URL="../src/socket/support/FTW-Socket-Core-LibraryError.vi"/>
+					<Item Name="FTW-Socket-Core-ReturnCode.vi" Type="VI" URL="../src/socket/support/FTW-Socket-Core-ReturnCode.vi"/>
 					<Item Name="FTW-Socket-Core-TransportScheme.ctl" Type="VI" URL="../src/socket/support/FTW-Socket-Core-TransportScheme.ctl"/>
 					<Item Name="FTW-Socket-Core-ValidateAddress.vi" Type="VI" URL="../src/socket/support/FTW-Socket-Core-ValidateAddress.vi"/>
 				</Item>
@@ -316,7 +316,8 @@
 					<Item Name="FTW-System-CommandLineToArgv.vi" Type="VI" URL="../src/system/core/FTW-System-CommandLineToArgv.vi"/>
 				</Item>
 				<Item Name="FTW-System-CommandLineExecute.vi" Type="VI" URL="../src/system/FTW-System-CommandLineExecute.vi"/>
-				<Item Name="FTW-System-CurrentMemoryStatistics.vi" Type="VI" URL="../src/system/FTW-System-CurrentMemoryStatistics.vi"/>
+				<Item Name="FTW-System-CPULoadAverage.vi" Type="VI" URL="../src/system/FTW-System-CPULoadAverage.vi"/>
+				<Item Name="FTW-System-CurrentProcessResourceUsage.vi" Type="VI" URL="../src/system/FTW-System-CurrentProcessResourceUsage.vi"/>
 			</Item>
 			<Item Name="time" Type="Folder">
 				<Item Name="FTW-Time-Display-Elapsed.vi" Type="VI" URL="../src/time/FTW-Time-Display-Elapsed.vi"/>
@@ -433,13 +434,13 @@
 		<Item Name="FTW-Test.json" Type="Document" URL="../tests/FTW-Test.json"/>
 		<Item Name="FTW-Test.vi" Type="VI" URL="../tests/FTW-Test.vi"/>
 		<Item Name="Dependencies" Type="Dependencies">
+			<Item Name="vi.lib" Type="Folder">
+				<Item Name="System Exec.vi" Type="VI" URL="/&lt;vilib&gt;/Platform/system.llb/System Exec.vi"/>
+			</Item>
 			<Item Name="DOMUserDefRef.dll" Type="Document" URL="DOMUserDefRef.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
 			<Item Name="FTW-JSON-Core-GetFlattenedValue.vi" Type="VI" URL="../codegen/xnode/json/fetch/FTW-JSON-Core-GetFlattenedValue.vi"/>
-			<Item Name="kernel32.dll" Type="Document" URL="kernel32.dll">
-				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
-			</Item>
 			<Item Name="mscorlib" Type="VI" URL="mscorlib">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
