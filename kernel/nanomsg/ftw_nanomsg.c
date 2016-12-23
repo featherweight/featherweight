@@ -304,7 +304,7 @@ ftwrc ftw_publisher_construct(struct ftw_socket_callsite **callsite, const char 
     return EFTWOK;
 }
 
-int ftw_publisher_publish(struct ftw_socket ** const sock, int send_timeout, ConstLStrH message)
+ftwrc ftw_publisher_publish(struct ftw_socket ** const sock, int send_timeout, ConstLStrH message)
 {
     struct ftw_socket const *s;
     int rc;
@@ -335,7 +335,7 @@ ftwrc ftw_publisher_destroy(struct ftw_socket ** const sock)
     return ftw_socket_destroy(sock);
 }
 
-int ftw_subscriber_construct(struct ftw_socket_callsite **callsite, LVUserEventRef *lv_event,
+ftwrc ftw_subscriber_construct(struct ftw_socket_callsite **callsite, LVUserEventRef *lv_event,
     const char *addr, int linger, int max_recv_size, struct ftw_socket **sock)
 {
     struct ftw_socket *inst;
