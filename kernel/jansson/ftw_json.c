@@ -145,7 +145,7 @@ void ftw_json_get_string(json_t *obj, uint8_t *type, const char *key, LVBoolean 
     return;
 }
 
-int ftw_json_set_integer(json_t *obj, const char *key, int64_t *value)
+ftwrc ftw_json_set_integer(json_t *obj, const char *key, int64_t *value)
 {
     if (value == NULL)
         return -1;
@@ -153,7 +153,7 @@ int ftw_json_set_integer(json_t *obj, const char *key, int64_t *value)
     return json_object_set_new(obj, key, json_integer(*value));
 }
 
-int ftw_json_set_boolean(json_t *obj, const char *key, LVBoolean *value)
+ftwrc ftw_json_set_boolean(json_t *obj, const char *key, LVBoolean *value)
 {
     if (value == NULL)
         return -1;
@@ -161,7 +161,7 @@ int ftw_json_set_boolean(json_t *obj, const char *key, LVBoolean *value)
     return json_object_set_new(obj, key, json_boolean(*value == LVBooleanTrue));
 }
 
-int ftw_json_set_float64(json_t *obj, const char *key, float64 *value)
+ftwrc ftw_json_set_float64(json_t *obj, const char *key, float64 *value)
 {
     json_t *newval;
 
@@ -176,7 +176,7 @@ int ftw_json_set_float64(json_t *obj, const char *key, float64 *value)
     return json_object_set_new(obj, key, newval);
 }
 
-int ftw_json_set_string(json_t *obj, const char *key, LStrHandle value)
+ftwrc ftw_json_set_string(json_t *obj, const char *key, LStrHandle value)
 {
     if (value == NULL)
         return -1;
@@ -184,7 +184,7 @@ int ftw_json_set_string(json_t *obj, const char *key, LStrHandle value)
     return json_object_set_new(obj, key, json_stringn(LHStrBuf(value), LHStrLen(value)));
 }
 
-int ftw_json_set_null(json_t *obj, const char *key)
+ftwrc ftw_json_set_null(json_t *obj, const char *key)
 {
     return json_object_set(obj, key, json_null());
 }
@@ -360,7 +360,7 @@ double ftw_json_val_double (const json_t *val)
     return json_number_value(val);
 }
 
-int ftw_json_object_join(enum json_join_mode *mode, json_t *object, json_t *obj_to_join)
+ftwrc ftw_json_object_join(enum json_join_mode *mode, json_t *object, json_t *obj_to_join)
 {
     int rc;
 
@@ -381,15 +381,24 @@ int ftw_json_object_join(enum json_join_mode *mode, json_t *object, json_t *obj_
         rc = -1;
         break;
     }
-    return rc;
+
+    return (rc == 0 ? EFTWOK : EFTWARG);
 }
 
-int ftw_json_object_clear(json_t *object)
+ftwrc ftw_json_object_clear(json_t *object)
 {
-    return json_object_clear(object);
+    int rc;
+
+    rc = json_object_clear(object);
+
+    return (rc == 0 ? EFTWOK : EFTWARG);
 }
 
-int ftw_json_object_delete(json_t *object, const char *key)
+ftwrc ftw_json_object_delete(json_t *object, const char *key)
 {
-    return json_object_del(object, key);
+    int rc;
+
+    rc = json_object_del(object, key);
+
+    return (rc == 0 ? EFTWOK : EFTWARG);
 }

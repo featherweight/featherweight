@@ -59,11 +59,11 @@ extern "C" {
     FTW_EXPORT double ftw_json_val_double (const json_t *val);
     FTW_EXPORT ftwrc ftw_json_val_string (const json_t *val, LStrHandle string);
 
-    FTW_EXPORT int ftw_json_object_join(enum json_join_mode *mode, json_t *object, json_t *obj_to_join);
+    FTW_EXPORT ftwrc ftw_json_object_join(enum json_join_mode *mode, json_t *object, json_t *obj_to_join);
     FTW_EXPORT void ftw_json_object_equal(json_t *object, json_t *other, LVBoolean *equal);
     FTW_EXPORT ftwrc ftw_json_object_keys(json_t *object, LStrHandleArray **keys);
-    FTW_EXPORT int ftw_json_object_clear(json_t *object);
-    FTW_EXPORT int ftw_json_object_delete(json_t *object, const char *key);
+    FTW_EXPORT ftwrc ftw_json_object_clear(json_t *object);
+    FTW_EXPORT ftwrc ftw_json_object_delete(json_t *object, const char *key);
 
     FTW_EXPORT void ftw_json_element_type(json_t *element, uint8_t *type);
     FTW_EXPORT ftwrc ftw_json_serialize_element(const json_t *json, size_t flags, LStrHandle serialized);
