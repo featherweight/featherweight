@@ -282,9 +282,6 @@
 				<Item Name="FTW-Reflection-Types.ctl" Type="VI" URL="../src/reflection/FTW-Reflection-Types.ctl"/>
 			</Item>
 			<Item Name="regex" Type="Folder">
-				<Item Name="core" Type="Folder">
-					<Item Name="FTW-Regex-Core-Structure.ctl" Type="VI" URL="../src/regex/core/FTW-Regex-Core-Structure.ctl"/>
-				</Item>
 				<Item Name="FTW-Regex-CapturingGroups.vi" Type="VI" URL="../src/regex/FTW-Regex-CapturingGroups.vi"/>
 				<Item Name="FTW-Regex-Construct.vi" Type="VI" URL="../src/regex/FTW-Regex-Construct.vi"/>
 				<Item Name="FTW-Regex-Destroy.vi" Type="VI" URL="../src/regex/FTW-Regex-Destroy.vi"/>
