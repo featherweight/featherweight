@@ -493,57 +493,377 @@ void ftw_json_object_equal(json_t *object, json_t *other, LVBoolean *equal)
     return;
 }
 
-json_t *ftw_json_object_get(const json_t *obj, const char *key)
+json_t *ftw_json_array_element(const json_t *array, size_t index)
 {
-    return json_object_get(obj, key);
+    return json_array_get(array, index);
 }
 
-ftwrc ftw_json_array_elements(const json_t *array, PointerArray **items)
+ftwrc ftw_json_traverse(json_t **element, const char *path, uint8_t *actual_type, LVBoolean *remove, uint32_t *size)
 {
-    size_t num_items;
-    size_t i;
     ftwrc rc;
 
-    if (items == NULL) {
-        return EFTWARG;
+    rc = ftw_json_traverse_path(element, path, remove);
+    if (rc != EFTWOK) {
+        ftw_assert(*element == NULL);
+        *remove = LVBooleanFalse;
+        return rc;
     }
 
-    num_items = json_array_size(array);
+    /*  Path is valid, but there was no element there. */
+    if (*element == NULL) {
+        *remove = LVBooleanFalse;
+        return EFTWOK;
+    }
 
-    rc = ftw_support_expand_PointerArray(&items, num_items);
-    if (rc)
-        return rc;
+    switch (*actual_type = json_typeof(*element)) {
 
-    for (i=0; i<num_items; i++) {
-        (*items)->element[i] = (intptr_t)json_array_get(array, i);
+    case JSON_ARRAY:
+        *size = (uint32_t)json_array_size(*element);
+        break;
+
+    case JSON_OBJECT:
+        *size = (uint32_t)json_object_size(*element);
+        break;
+
+    default:
+        *size = 0;
+        break;
     }
 
     return EFTWOK;
 }
 
-
-int64_t ftw_json_val_integer (const json_t *val)
+ftwrc ftw_json_get_flat_boolean(json_t *element, const char *path, uint8_t *actual_type, LVBoolean *remove, LStrHandle flatval)
 {
-    return json_integer_value(val);
+    ftwrc rc;
+
+    rc = ftw_json_traverse_path(&element, path, remove);
+    if (rc != EFTWOK) {
+        ftw_assert(element == NULL);
+        *remove = LVBooleanFalse;
+        return rc;
+    }
+
+    /*  Path is valid, but there was no element there. */
+    if (element == NULL) {
+        *remove = LVBooleanFalse;
+        return EFTWOK;
+    }
+
+    switch (*actual_type = json_typeof(element)) {
+    case JSON_TRUE:
+        (*flatval)->str[0] = LVBooleanTrue;
+        break;
+    case JSON_FALSE:
+        (*flatval)->str[0] = LVBooleanFalse;
+        break;
+    default:
+        /*  Element exists but is not of expected type. */
+        break;
+    }
+
+    if (*remove) {
+        json_decref(element);
+    }
+
+    return EFTWOK;
 }
 
-ftwrc ftw_json_val_string (const json_t *val, LStrHandle string)
+ftwrc ftw_json_get_flat_string(json_t *element, const char *path, uint8_t *actual_type, LVBoolean *remove, LStrHandle flatval, LVBoolean *prepend_len, size_t flags)
+{
+    size_t len, offset;
+    ftwrc rc;
+
+    rc = ftw_json_traverse_path(&element, path, remove);
+    if (rc != EFTWOK) {
+        ftw_assert(element == NULL);
+        *remove = LVBooleanFalse;
+        return rc;
+    }
+
+    /*  Path is valid, but there was no element there. */
+    if (element == NULL) {
+        *remove = LVBooleanFalse;
+        return EFTWOK;
+    }
+
+    offset = *prepend_len ? sizeof (int32) : 0;
+
+    switch (*actual_type = json_typeof(element)) {
+
+    case JSON_STRING:
+        {
+            const char *buf = json_string_value(element);
+            len = json_string_length(element);
+            rc = ftw_support_buffer_to_LStrHandle(&flatval, buf, len, offset);
+        }
+        break;
+
+    default:
+        {
+            char *buf = json_dumps(element, flags | JSON_ENCODE_ANY);
+            if (buf == NULL) {
+                rc = EFTWNOMEM;
+            }
+            else {
+                len = StrLen(buf);
+                rc = ftw_support_buffer_to_LStrHandle(&flatval, buf, len, offset);
+                free(buf);
+            }
+        }
+        break;
+    }
+
+    if (rc == EFTWOK && *prepend_len) {
+        (*flatval)->str[0] = (uChar) ((len >> 0x18) & 0xFF);
+        (*flatval)->str[1] = (uChar) ((len >> 0x10) & 0xFF);
+        (*flatval)->str[2] = (uChar) ((len >> 0x08) & 0xFF);
+        (*flatval)->str[3] = (uChar) ((len >> 0x00) & 0xFF);
+    }
+
+    if (*remove) {
+        json_decref(element);
+    }
+
+    return rc;
+}
+
+ftwrc ftw_json_get_int(json_t *element, const char *path, uint8_t *actual_type, LVBoolean *remove, void *val, uint8_t *type_code, LVBoolean *flat)
+{
+    json_int_t value;
+    json_int_t max, min;
+    NumType t;
+    ftwrc rc;
+
+    t = (NumType) *type_code;
+
+    switch (t) {
+    case iQ:
+        min = INT64_MIN;
+        max = INT64_MAX;
+        break;
+    case iL:
+        min = INT32_MIN;
+        max = INT32_MAX;
+        break;
+    case iW:
+        min = INT16_MIN;
+        max = INT16_MAX;
+        break;
+    case iB:
+        min = INT8_MIN;
+        max = INT8_MAX;
+        break;
+    case uQ:
+        /*  Not a typo; this max limitation is due to underlying signed representation. */
+        min = 0;
+        max = INT64_MAX;
+        break;
+    case uL:
+        min = 0;
+        max = UINT32_MAX;
+        break;
+    case uW:
+        min = 0;
+        max = UINT16_MAX;
+        break;
+    case uB:
+        min = 0;
+        max = UINT8_MAX;
+        break;
+    default:
+        return EFTWARG;
+    }
+
+    rc = ftw_json_traverse_path(&element, path, remove);
+    if (rc != EFTWOK) {
+        ftw_assert(element == NULL);
+        *remove = LVBooleanFalse;
+        return rc;
+    }
+
+    /*  Path is valid, but there was no element there. */
+    if (element == NULL) {
+        *remove = LVBooleanFalse;
+        return EFTWOK;
+    }
+
+    switch (*actual_type = json_typeof(element)) {
+
+    case JSON_INTEGER:
+        value = json_integer_value(element);
+        break;
+
+    case JSON_REAL:
+        value = (json_int_t)json_real_value(element);
+        break;
+
+    case JSON_TRUE:
+        value = 1;
+        break;
+
+    case JSON_FALSE:
+        value = 0;
+        break;
+
+    default:
+        /*  Element exists but is not of expected type. */
+        goto VALUE_NOT_SET_RETURN_EARLY;
+        break;
+    }
+
+    /*  Value would overflow the requested type. */
+    if (value < min || value > max) {
+        goto VALUE_NOT_SET_RETURN_EARLY;
+    }
+
+    if (*flat) {
+        /*  Platform-independent big-endian byte order used for flattened data. */
+        switch (t) {
+
+        case iB:
+        case uB:
+            (*(LStrHandle)val)->str[0] = (uChar) ((value >> 0x00) & 0xFF);
+            break;
+
+        case iW:
+        case uW:
+            (*(LStrHandle)val)->str[0] = (uChar) ((value >> 0x08) & 0xFF);
+            (*(LStrHandle)val)->str[1] = (uChar) ((value >> 0x00) & 0xFF);
+            break;
+
+        case iL:
+        case uL:
+            (*(LStrHandle)val)->str[0] = (uChar) ((value >> 0x18) & 0xFF);
+            (*(LStrHandle)val)->str[1] = (uChar) ((value >> 0x10) & 0xFF);
+            (*(LStrHandle)val)->str[2] = (uChar) ((value >> 0x08) & 0xFF);
+            (*(LStrHandle)val)->str[3] = (uChar) ((value >> 0x00) & 0xFF);
+            break;
+
+        case iQ:
+        case uQ:
+            (*(LStrHandle)val)->str[0] = (uChar) ((value >> 0x38) & 0xFF);
+            (*(LStrHandle)val)->str[1] = (uChar) ((value >> 0x30) & 0xFF);
+            (*(LStrHandle)val)->str[2] = (uChar) ((value >> 0x28) & 0xFF);
+            (*(LStrHandle)val)->str[3] = (uChar) ((value >> 0x20) & 0xFF);
+            (*(LStrHandle)val)->str[4] = (uChar) ((value >> 0x18) & 0xFF);
+            (*(LStrHandle)val)->str[5] = (uChar) ((value >> 0x10) & 0xFF);
+            (*(LStrHandle)val)->str[6] = (uChar) ((value >> 0x08) & 0xFF);
+            (*(LStrHandle)val)->str[7] = (uChar) ((value >> 0x00) & 0xFF);
+            break;
+
+        default:
+            ftw_assert_unreachable("Function should have already returned with error code.");
+            break;
+        }
+    }
+    else {
+        switch (t) {
+
+        case iB:
+            *(int8*)val = (int8)value;
+            break;
+
+        case iW:
+            *(int16*)val = (int16)value;
+            break;
+
+        case iL:
+            *(int32*)val = (int32)value;
+            break;
+
+        case iQ:
+            *(int64*)val = (int64)value;
+            break;
+
+        case uB:
+            *(uInt8*)val = (uInt8)value;
+            break;
+
+        case uW:
+            *(uInt16*)val = (uInt16)value;
+            break;
+
+        case uL:
+            *(uInt32*)val = (uInt32)value;
+            break;
+
+        case uQ:
+            *(uInt64*)val = (uInt64)value;
+            break;
+
+        default:
+            ftw_assert_unreachable("Function should have already returned with error code.");
+            break;
+        }
+    }
+
+    VALUE_NOT_SET_RETURN_EARLY:
+
+    if (*remove) {
+        json_decref(element);
+    }
+
+    return EFTWOK;
+}
+
+ftwrc ftw_json_get_scalar_double(json_t *element, const char *path, double *val, uint8_t *type, LVBoolean *remove)
+{
+    if (element == NULL)
+        return EFTWARG;
+
+    switch (*type = json_typeof(element)) {
+    case JSON_INTEGER:
+        *val = (double)json_integer_value(element);
+        break;
+    case JSON_REAL:
+        *val = json_real_value(element);
+        break;
+    case JSON_NULL:
+        *val = FTW_NaN;
+        break;
+    default:
+        return EFTWARG;
+    }
+
+    if (*remove != LVBooleanFalse) {
+        json_decref(element);
+    }
+
+    return EFTWOK;
+}
+
+ftwrc ftw_json_get_scalar_string(json_t *element, const char *path, LStrHandle val, uint8_t *type, LVBoolean *remove)
 {
     const char *buf;
     size_t len;
     ftwrc rc;
 
-    buf = json_string_value(val);
-    len = json_string_length(val);
+    if (element == NULL)
+        return EFTWARG;
 
-    rc = ftw_support_buffer_to_LStrHandle(&string, buf, len);
+    switch (*type = json_typeof(element)) {
+    case JSON_STRING:
+        buf = json_string_value(element);
+        len = json_string_length(element);
+        rc = ftw_support_buffer_to_LStrHandle(&val, buf, len, 0);
+        break;
+    default:
+        buf = json_dumps(element, JSON_ENCODE_ANY);
+        len = StrLen(buf);
+        rc = ftw_support_buffer_to_LStrHandle(&val, buf, len, 0);
+        break;
+    }
 
-    return rc;
-}
+    if (rc != EFTWOK) {
+        return rc;
+    }
 
-double ftw_json_val_double (const json_t *val)
-{
-    return json_number_value(val);
+    if (*remove != LVBooleanFalse) {
+        json_decref(element);
+    }
+
+    return EFTWOK;
 }
 
 ftwrc ftw_json_object_join(enum json_join_mode *mode, json_t *object, json_t *obj_to_join)

@@ -45,19 +45,20 @@ extern "C" {
     FTW_EXPORT void ftw_json_get_boolean(json_t *obj, uint8_t *type, const char *key, LVBoolean *remove, LVBoolean *value);
     FTW_EXPORT void ftw_json_get_float64(json_t *obj, uint8_t *type, const char *key, LVBoolean *remove, float64 *value);
     FTW_EXPORT void ftw_json_get_string(json_t *obj, uint8_t *type, const char *key, LVBoolean *remove, LStrHandle value);
-    
+
     FTW_EXPORT ftwrc ftw_json_set_integer(json_t *obj, const char *key, int64_t *value);
     FTW_EXPORT ftwrc ftw_json_set_boolean(json_t *obj, const char *key, LVBoolean *value);
     FTW_EXPORT ftwrc ftw_json_set_float64(json_t *obj, const char *key, float64 *value);
     FTW_EXPORT ftwrc ftw_json_set_string(json_t *obj, const char *key, LStrHandle value);
     FTW_EXPORT ftwrc ftw_json_set_null(json_t *obj, const char *key);
 
-    FTW_EXPORT json_t *ftw_json_object_get(const json_t *obj, const char *key);
-    FTW_EXPORT ftwrc ftw_json_array_elements(const json_t *array, PointerArray **items);
+    FTW_EXPORT json_t *ftw_json_array_element(const json_t *array, size_t index);
 
-    FTW_EXPORT int64_t ftw_json_val_integer (const json_t *val);
-    FTW_EXPORT double ftw_json_val_double (const json_t *val);
-    FTW_EXPORT ftwrc ftw_json_val_string (const json_t *val, LStrHandle string);
+    FTW_EXPORT ftwrc ftw_json_get_flat_boolean(json_t *element, const char *path, uint8_t *actual_type, LVBoolean *remove, LStrHandle flatval);
+    FTW_EXPORT ftwrc ftw_json_get_flat_string(json_t *element, const char *path, uint8_t *actual_type, LVBoolean *remove, LStrHandle flatval, LVBoolean *prepend_len, size_t flags);
+    FTW_EXPORT ftwrc ftw_json_get_int(json_t *element, const char *path, uint8_t *actual_type, LVBoolean *remove, void *val, uint8_t *type_code, LVBoolean *flat);
+    FTW_EXPORT ftwrc ftw_json_get_scalar_string(json_t *element, const char *path, LStrHandle val, uint8_t *type, LVBoolean *remove);
+    FTW_EXPORT ftwrc ftw_json_traverse(json_t **element, const char *path, uint8_t *actual_type, LVBoolean *remove, uint32_t *size);
 
     FTW_EXPORT ftwrc ftw_json_object_join(enum json_join_mode *mode, json_t *object, json_t *obj_to_join);
     FTW_EXPORT void ftw_json_object_equal(json_t *object, json_t *other, LVBoolean *equal);
