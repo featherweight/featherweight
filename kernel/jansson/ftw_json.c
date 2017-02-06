@@ -334,7 +334,7 @@ void ftw_json_get_string(json_t *obj, uint8_t *type, const char *key, LVBoolean 
 ftwrc ftw_json_set_integer(json_t *obj, const char *key, int64_t *value)
 {
     if (value == NULL)
-        return -1;
+        return EFTWARG;
 
     return json_object_set_new(obj, key, json_integer(*value));
 }
@@ -342,7 +342,7 @@ ftwrc ftw_json_set_integer(json_t *obj, const char *key, int64_t *value)
 ftwrc ftw_json_set_boolean(json_t *obj, const char *key, LVBoolean *value)
 {
     if (value == NULL)
-        return -1;
+        return EFTWARG;
 
     return json_object_set_new(obj, key, json_boolean(*value == LVBooleanTrue));
 }
@@ -352,10 +352,10 @@ ftwrc ftw_json_set_float64(json_t *obj, const char *key, float64 *value)
     json_t *newval;
 
     if (value == NULL)
-        return -1;
+        return EFTWARG;
 
     if (isinf(*value))
-        return -1;
+        return EFTWARG;
 
     newval = (isnan(*value) ? json_null() : json_real(*value));
 
@@ -365,7 +365,7 @@ ftwrc ftw_json_set_float64(json_t *obj, const char *key, float64 *value)
 ftwrc ftw_json_set_string(json_t *obj, const char *key, LStrHandle value)
 {
     if (value == NULL)
-        return -1;
+        return EFTWARG;
 
     return json_object_set_new(obj, key, json_stringn(LHStrBuf(value), LHStrLen(value)));
 }
@@ -428,8 +428,9 @@ ftwrc ftw_json_object_keys(json_t *element, const char *path, LStrHandleArray **
 
 void ftw_json_element_type(json_t *element, uint8_t *type)
 {
-    if (element == NULL)
+    if (element == NULL) {
         return;
+    }
 
     *type = json_typeof(element);
 
@@ -471,7 +472,7 @@ ftwrc ftw_json_serialize_and_destroy(json_t *json, size_t flags, LStrHandle seri
 
 void ftw_json_destroy(json_t *value)
 {
-    json_decref (value);
+    json_decref(value);
 
     return;
 }
@@ -550,17 +551,17 @@ ftwrc ftw_json_object_join(enum json_join_mode *mode, json_t *object, json_t *ob
     int rc;
 
     if (mode == NULL)
-        return -1;
+        return EFTWARG;
 
     switch (*mode) {
     case UPSERT:
-        rc = json_object_update (object, obj_to_join);
+        rc = json_object_update(object, obj_to_join);
         break;
     case UPDATE:
-        rc = json_object_update_existing (object, obj_to_join);
+        rc = json_object_update_existing(object, obj_to_join);
         break;
     case INSERT:
-        rc = json_object_update_missing (object, obj_to_join);
+        rc = json_object_update_missing(object, obj_to_join);
         break;
     default:
         rc = -1;
