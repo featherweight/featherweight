@@ -127,7 +127,7 @@ typedef intptr_t ftwrc;
 
 /*  Featherweight support functions. */
 char *ftw_support_LStrHandle_to_CStr(LStrHandle src);
-ftwrc ftw_support_buffer_to_LStrHandle(LStrHandle *dest, const void *src, size_t length);
+ftwrc ftw_support_buffer_to_LStrHandle(LStrHandle *dest, const void *src, size_t length, size_t offset);
 ftwrc ftw_support_CStr_to_LStrHandle(LStrHandle *dest, const char *src, size_t max_length);
 ftwrc ftw_support_expand_LStrHandleArray(LStrHandleArray ***arr, size_t elements);
 ftwrc ftw_support_expand_PointerArray(PointerArray ***arr, size_t elements);

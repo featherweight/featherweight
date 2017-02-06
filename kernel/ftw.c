@@ -59,7 +59,7 @@ char *ftw_support_LStrHandle_to_CStr(LStrHandle src)
     return s;
 }
 
-ftwrc ftw_support_buffer_to_LStrHandle(LStrHandle *dest, const void *src, size_t length)
+ftwrc ftw_support_buffer_to_LStrHandle(LStrHandle *dest, const void *src, size_t length, size_t offset)
 {
     MgErr lvrc;
     size_t sz;
@@ -68,16 +68,16 @@ ftwrc ftw_support_buffer_to_LStrHandle(LStrHandle *dest, const void *src, size_t
         return EFTWARG;
     }
 
-    lvrc = NumericArrayResize(uB, 1, (UHandle *)dest, length);
+    lvrc = NumericArrayResize(uB, 1, (UHandle *)dest, length + offset);
     if (lvrc != mgNoErr) {
         return ELVMGRBASE + lvrc;
     }
 
     ftw_assert(dest && *dest);
     sz = DSGetHandleSize(*dest);
-    ftw_assert(sz == length + 4);
-    MoveBlock(src, LHStrBuf(*dest), length);
-    (**dest)->cnt = (int32)length;
+    ftw_assert(sz == length + offset + sizeof(int32));
+    MoveBlock(src, LHStrBuf(*dest) + offset, length);
+    (**dest)->cnt = (int32) (length + offset);
 
     return EFTWOK;
 }
@@ -92,7 +92,7 @@ ftwrc ftw_support_CStr_to_LStrHandle(LStrHandle *dest, const char *src, size_t m
     }
 
     len = strnlen(src, max_length);
-    rc = ftw_support_buffer_to_LStrHandle(dest, src, len);
+    rc = ftw_support_buffer_to_LStrHandle(dest, src, len, 0);
 
     return rc;
 }

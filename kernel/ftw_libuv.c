@@ -193,7 +193,7 @@ ftwrc ftw_libuv_lib_path(LStrHandle path)
         return rc;
     }
 
-    rc = ftw_support_buffer_to_LStrHandle(&path, buffer, sz);
+    rc = ftw_support_buffer_to_LStrHandle(&path, buffer, sz, 0);
 
     return rc;
 }

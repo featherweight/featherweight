@@ -319,7 +319,7 @@ void ftw_json_get_string(json_t *obj, uint8_t *type, const char *key, LVBoolean 
 
     *type = json_typeof(element);
 
-    rc = ftw_support_buffer_to_LStrHandle(&value, json_string_value(element), json_string_length(element));
+    rc = ftw_support_buffer_to_LStrHandle(&value, json_string_value(element), json_string_length(element), 0);
 
     if (rc != EFTWOK)
         return;

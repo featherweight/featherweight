@@ -89,7 +89,7 @@ static void ftw_subscriber_async_recv_thread(void *arg)
         }
 
         msg_sent_to_lv = (LStrHandle)DSNewHandle(rc);
-        lvrc = ftw_support_buffer_to_LStrHandle(&msg_sent_to_lv, recv_buf, rc);
+        lvrc = ftw_support_buffer_to_LStrHandle(&msg_sent_to_lv, recv_buf, rc, 0);
         if (lvrc)
             continue;
 
@@ -237,7 +237,7 @@ ftwrc ftw_actor_connector_ask(struct ftw_socket ** const sock, int send_timeout,
         return errno;
     }
 
-    allocrc = ftw_support_buffer_to_LStrHandle(&response, recv_buf, rc);
+    allocrc = ftw_support_buffer_to_LStrHandle(&response, recv_buf, rc, 0);
 
     ftw_assert_ok(nn_freemsg(recv_buf));
 
