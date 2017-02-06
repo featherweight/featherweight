@@ -47,6 +47,192 @@ json_t *ftw_json_new_from_string(const LStrHandle string, size_t flags, int64 *e
     return parsed;
 }
 
+FTW_PRIVATE_SUPPORT ftwrc ftw_json_traverse_path(json_t **node, const char *path, LVBoolean *remove)
+{
+    const char *start;
+    const char *pos;
+    size_t index, len;
+    json_type t;
+    void *iter;
+
+    if (path == NULL) {
+        return EFTWARG;
+    }
+
+    /*  Return early as a silent no-op if the node doesn't exist. */
+    if (*node == NULL) {
+        return EFTWOK;
+    }
+
+    /*  Return early as a "select self" when path is empty. */
+    if (path[0] == '\0') {
+        if (remove) {
+            *remove = LVBooleanFalse;
+        }
+        return EFTWOK;
+    }
+
+    pos = path;
+    while (*node && pos[0] != '\0') {
+
+        t = json_typeof(*node);
+
+        switch (pos[0]) {
+        case '.':
+            /*  Dot-notation only works for objects. */
+            if (t != JSON_OBJECT) {
+                *node = NULL;
+                return EFTWARG;
+            }
+            pos++;
+            /*  Dot-notation requires a node name to come after the dot. */
+            if (pos[0] == '\0' || pos[0] == '[') {
+                *node = NULL;
+                return EFTWARG;
+            }
+
+            break;
+
+        case '[':
+            /*  Bracket-index notation is enabled for both arrays and objects. */
+            if (t != JSON_ARRAY && t != JSON_OBJECT) {
+                *node = NULL;
+                return EFTWARG;
+            }
+            pos++;
+            /*  Bracket-index notation requires an unsigned integer between brackets. */
+            if (pos[0] < '0' || pos[0] > '9') {
+                *node = NULL;
+                return EFTWARG;
+            }
+
+            index = 0;
+            len = 0;
+            while ('0' <= pos[0] && pos[0] <= '9') {
+                index = index * 10 + pos[0] - '0';
+                pos++;
+            }
+
+            /*  Bracket-notation requires closing bracket. */
+            if (pos[0] != ']') {
+                *node = NULL;
+                return EFTWARG;
+            }
+
+            pos++;
+
+            /* Continue parsing if more string remains -OR- finished parsing and ready to return borrowed reference. */
+            if ((pos[0] != '\0') || (remove == NULL || *remove == LVBooleanFalse)) {
+                switch (t) {
+                case JSON_ARRAY:
+                    *node = json_array_get(*node, index);
+                    break;
+                case JSON_OBJECT:
+                    for(iter = json_object_iter(*node); iter && index > 0; iter = json_object_iter_next(*node, iter)) {
+                        index --;
+                    }
+                    *node = json_object_iter_value (iter);
+                    break;
+                default:
+                    ftw_assert_unreachable("Function should have already returned with error code.");
+                    break;
+                }
+            }
+            else {
+                /*  Finished parsing; prepare to return stolen reference. */
+                switch (t) {
+                case JSON_ARRAY:
+                    *node = json_array_steal(*node, index);
+                    break;
+                case JSON_OBJECT:
+                    for(iter = json_object_iter(*node); iter && index > 0; iter = json_object_iter_next(*node, iter)) {
+                        index --;
+                    }
+                    *node = json_object_steal(*node, json_object_iter_key(iter));
+                    break;
+                default:
+                    ftw_assert_unreachable("Function should have already returned with error code.");
+                    break;
+                }
+                *remove = (*node ? LVBooleanTrue : LVBooleanFalse);
+
+            }
+
+            break;
+
+        case '"':
+            /*  Addressing by key only works for objects. */
+            if (t != JSON_OBJECT) {
+                *node = NULL;
+                return EFTWARG;
+            }
+
+            pos++;
+            len = 0;
+            start = pos;
+            while (pos[0] != '\0' && pos[0] != '"') {
+                pos++;
+                len++;
+            }
+
+            /*  Quoting a key name requires an end quote. */
+            if (pos[0] == '\0') {
+                *node = NULL;
+                return EFTWARG;
+            }
+
+            ftw_assert(pos[0] == '"');
+            pos++;
+
+            if (pos[0] != '\0') {
+                /* Continue parsing. */
+                *node = json_object_getn(*node, start, len);
+            }
+            else if (remove == NULL || *remove == LVBooleanFalse) {
+                /*  Finished parsing; prepare to return borrowed reference. */
+                *node = json_object_getn(*node, start, len);
+            }
+            else {
+                /*  Finished parsing; prepare to return stolen reference. */
+                *node = json_object_stealn(*node, start, len);
+                *remove = (*node ? LVBooleanTrue : LVBooleanFalse);
+            }
+
+            break;
+
+        default:
+            /*  This starting character must be a key to an object. */
+            if (t != JSON_OBJECT) {
+                *node = NULL;
+                return EFTWARG;
+            }
+            len = 0;
+            start = pos;
+            while (pos[0] != '\0' && pos[0] != '.' && pos[0] != '[') {
+                pos++;
+                len++;
+            }
+
+            if (pos[0] != '\0') {
+                /* Continue parsing. */
+                *node = json_object_getn(*node, start, len);
+            }
+            else if (remove == NULL || *remove == LVBooleanFalse) {
+                /*  Finished parsing; prepare to return borrowed reference. */
+                *node = json_object_getn(*node, start, len);
+            }
+            else {
+                /*  Finished parsing; prepare to return stolen reference. */
+                *node = json_object_stealn(*node, start, len);
+                *remove = (*node ? LVBooleanTrue : LVBooleanFalse);
+            }
+
+            break;
+        }
+    }
+
+    return EFTWOK;
+}
 
 void ftw_json_get_integer(json_t *obj, uint8_t *type, const char *key, LVBoolean *remove, int64_t *value)
 {
