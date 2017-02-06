@@ -375,27 +375,26 @@ ftwrc ftw_json_set_null(json_t *obj, const char *key)
     return json_object_set(obj, key, json_null());
 }
 
-ftwrc ftw_json_object_keys(json_t *object, LStrHandleArray **keys)
+ftwrc ftw_json_object_keys(json_t *element, const char *path, LStrHandleArray **keys)
 {
     const char *key;
     void *iterator;
-    int count;
+    size_t count;
     int i;
     ftwrc rc;
 
-    if (object == NULL) {
-        return EFTWARG;
+    rc = ftw_json_traverse_path(&element, path, NULL);
+    if (rc != EFTWOK) {
+        ftw_assert(element == NULL);
+        return rc;
     }
 
-    iterator = json_object_iter(object);
-
-    count = 0;
-
-    while (iterator) {
-        count++;
-        iterator = json_object_iter_next(object, iterator);
+    /*  Path is valid, but there was no element there. */
+    if (element == NULL) {
+        return EFTWOK;
     }
 
+    count = json_object_size(element);
     if (count == 0) {
         return EFTWOK;
     }
@@ -406,7 +405,7 @@ ftwrc ftw_json_object_keys(json_t *object, LStrHandleArray **keys)
     }
 
     i = 0;
-    iterator = json_object_iter(object);
+    iterator = json_object_iter(element);
 
     while (iterator)
     {
@@ -421,7 +420,7 @@ ftwrc ftw_json_object_keys(json_t *object, LStrHandleArray **keys)
         i++;
         (*keys)->dimsize = i;
 
-        iterator = json_object_iter_next(object, iterator);
+        iterator = json_object_iter_next(element, iterator);
     }
 
     return rc;

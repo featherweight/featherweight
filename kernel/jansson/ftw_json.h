@@ -61,7 +61,7 @@ extern "C" {
 
     FTW_EXPORT ftwrc ftw_json_object_join(enum json_join_mode *mode, json_t *object, json_t *obj_to_join);
     FTW_EXPORT void ftw_json_object_equal(json_t *object, json_t *other, LVBoolean *equal);
-    FTW_EXPORT ftwrc ftw_json_object_keys(json_t *object, LStrHandleArray **keys);
+    FTW_EXPORT ftwrc ftw_json_object_keys(json_t *object, const char *path, LStrHandleArray **keys);
     FTW_EXPORT ftwrc ftw_json_object_clear(json_t *object);
     FTW_EXPORT ftwrc ftw_json_object_delete(json_t *object, const char *key);
 
