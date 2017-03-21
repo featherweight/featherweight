@@ -49,56 +49,52 @@ json_t *ftw_json_new_from_string(const LStrHandle string, size_t flags, int64 *e
 
 FTW_PRIVATE_SUPPORT ftwrc ftw_json_traverse_path(json_t **node, const char *path, LVBoolean *remove)
 {
+    enum {START, EXPECT_NEW_LEVEL_DELIMITER, EXPECT_OBJECT_KEY, FINISHED} state;
     const char *start;
     const char *pos;
-    size_t index, len;
+    size_t index;
+    size_t new_index;
+    size_t len;
     json_type t;
     void *iter;
 
-    if (path == NULL) {
-        return EFTWARG;
-    }
+    ftw_assert (node != NULL && path != NULL);
 
-    /*  Return early as a silent no-op if the node doesn't exist. */
-    if (*node == NULL) {
-        return EFTWOK;
-    }
-
-    /*  Return early as a "select self" when path is empty. */
-    if (path[0] == '\0') {
+    /*  Return early as a "select self" when path is empty, or a silent no-op if the node doesn't exist. */
+    if (path[0] == '\0' || *node == NULL) {
         if (remove) {
             *remove = LVBooleanFalse;
         }
         return EFTWOK;
     }
 
+    state = START;
     pos = path;
-    while (*node && pos[0] != '\0') {
+    while (*node) {
 
         t = json_typeof(*node);
 
         switch (pos[0]) {
+
         case '.':
-            /*  Dot-notation only works for objects. */
-            if (t != JSON_OBJECT) {
+            /*  Validate path syntax. Note that a path is allowed to start with this. */
+            if (state != START && state != EXPECT_NEW_LEVEL_DELIMITER) {
                 *node = NULL;
                 return EFTWARG;
             }
+
             pos++;
-            /*  Dot-notation requires a node name to come after the dot. */
-            if (pos[0] == '\0' || pos[0] == '[') {
-                *node = NULL;
-                return EFTWARG;
-            }
+            state = EXPECT_OBJECT_KEY;
 
             break;
 
         case '[':
-            /*  Bracket-index notation is enabled for both arrays and objects. */
-            if (t != JSON_ARRAY && t != JSON_OBJECT) {
+            /*  Validate path syntax. */
+            if (state != START && state != EXPECT_NEW_LEVEL_DELIMITER) {
                 *node = NULL;
                 return EFTWARG;
             }
+
             pos++;
             /*  Bracket-index notation requires an unsigned integer between brackets. */
             if (pos[0] < '0' || pos[0] > '9') {
@@ -107,9 +103,14 @@ FTW_PRIVATE_SUPPORT ftwrc ftw_json_traverse_path(json_t **node, const char *path
             }
 
             index = 0;
-            len = 0;
             while ('0' <= pos[0] && pos[0] <= '9') {
-                index = index * 10 + pos[0] - '0';
+                new_index = index * 10 + pos[0] - '0';
+                if (new_index < index) {
+                    /*  Integer overflow detected. */
+                    *node = NULL;
+                    return EFTWARG;
+                }
+                index = new_index;
                 pos++;
             }
 
@@ -120,9 +121,10 @@ FTW_PRIVATE_SUPPORT ftwrc ftw_json_traverse_path(json_t **node, const char *path
             }
 
             pos++;
+            state = (pos[0] == '\0' ? FINISHED : EXPECT_NEW_LEVEL_DELIMITER);
 
-            /* Continue parsing if more string remains -OR- finished parsing and ready to return borrowed reference. */
-            if ((pos[0] != '\0') || (remove == NULL || *remove == LVBooleanFalse)) {
+            if ((state != FINISHED) || (remove == NULL || *remove == LVBooleanFalse)) {
+                /* Continue parsing with borrowed reference. */
                 switch (t) {
                 case JSON_ARRAY:
                     *node = json_array_get(*node, index);
@@ -131,10 +133,10 @@ FTW_PRIVATE_SUPPORT ftwrc ftw_json_traverse_path(json_t **node, const char *path
                     for(iter = json_object_iter(*node); iter && index > 0; iter = json_object_iter_next(*node, iter)) {
                         index --;
                     }
-                    *node = json_object_iter_value (iter);
+                    *node = json_object_iter_value(iter);
                     break;
                 default:
-                    ftw_assert_unreachable("Function should have already returned with error code.");
+                    *node = NULL;
                     break;
                 }
             }
@@ -151,18 +153,17 @@ FTW_PRIVATE_SUPPORT ftwrc ftw_json_traverse_path(json_t **node, const char *path
                     *node = json_object_steal(*node, json_object_iter_key(iter));
                     break;
                 default:
-                    ftw_assert_unreachable("Function should have already returned with error code.");
+                    *node = NULL;
                     break;
                 }
                 *remove = (*node ? LVBooleanTrue : LVBooleanFalse);
-
             }
 
             break;
 
         case '"':
-            /*  Addressing by key only works for objects. */
-            if (t != JSON_OBJECT) {
+            /*  Validate path syntax. */
+            if (state != START && state != EXPECT_OBJECT_KEY) {
                 *node = NULL;
                 return EFTWARG;
             }
@@ -170,6 +171,7 @@ FTW_PRIVATE_SUPPORT ftwrc ftw_json_traverse_path(json_t **node, const char *path
             pos++;
             len = 0;
             start = pos;
+            /*  Search until the end of the string -OR- until a closing quote. */
             while (pos[0] != '\0' && pos[0] != '"') {
                 pos++;
                 len++;
@@ -183,13 +185,15 @@ FTW_PRIVATE_SUPPORT ftwrc ftw_json_traverse_path(json_t **node, const char *path
 
             ftw_assert(pos[0] == '"');
             pos++;
+            state = (pos[0] == '\0' ? FINISHED : EXPECT_NEW_LEVEL_DELIMITER);
 
-            if (pos[0] != '\0') {
-                /* Continue parsing. */
-                *node = json_object_getn(*node, start, len);
+
+            if (t != JSON_OBJECT) {
+                /*  Addressing by key only works for objects. */
+                *node = NULL;
             }
-            else if (remove == NULL || *remove == LVBooleanFalse) {
-                /*  Finished parsing; prepare to return borrowed reference. */
+            else if ((state != FINISHED) || (remove == NULL || *remove == LVBooleanFalse)) {
+                /* Continue parsing with borrowed reference. */
                 *node = json_object_getn(*node, start, len);
             }
             else {
@@ -200,12 +204,27 @@ FTW_PRIVATE_SUPPORT ftwrc ftw_json_traverse_path(json_t **node, const char *path
 
             break;
 
-        default:
-            /*  This starting character must be a key to an object. */
-            if (t != JSON_OBJECT) {
+        case '\0':
+            /*  Entire path is valid (yet this does not necessarily mean the final node in the path was found). */
+            if (state == FINISHED) {
+                return EFTWOK;
+            }
+
+            if (state == EXPECT_OBJECT_KEY) {
                 *node = NULL;
                 return EFTWARG;
             }
+
+            ftw_assert_unreachable("Parsing loop should have already exited.");
+            break;
+
+        default:
+            /*  Validate path syntax. */
+            if (state != START && state != EXPECT_OBJECT_KEY) {
+                *node = NULL;
+                return EFTWARG;
+            }
+
             len = 0;
             start = pos;
             while (pos[0] != '\0' && pos[0] != '.' && pos[0] != '[') {
@@ -213,12 +232,14 @@ FTW_PRIVATE_SUPPORT ftwrc ftw_json_traverse_path(json_t **node, const char *path
                 len++;
             }
 
-            if (pos[0] != '\0') {
-                /* Continue parsing. */
-                *node = json_object_getn(*node, start, len);
+            state = (pos[0] == '\0' ? FINISHED : EXPECT_NEW_LEVEL_DELIMITER);
+
+            if (t != JSON_OBJECT) {
+                /*  Addressing by key only works for objects. */
+                *node = NULL;
             }
-            else if (remove == NULL || *remove == LVBooleanFalse) {
-                /*  Finished parsing; prepare to return borrowed reference. */
+            else if ((state != FINISHED) || (remove == NULL || *remove == LVBooleanFalse)) {
+                /* Continue parsing with borrowed reference. */
                 *node = json_object_getn(*node, start, len);
             }
             else {
@@ -231,6 +252,8 @@ FTW_PRIVATE_SUPPORT ftwrc ftw_json_traverse_path(json_t **node, const char *path
         }
     }
 
+    /*  Path parsing has stopped early because a requested node doesn't exist. The rest of the path is not necessarily valid. */
+    ftw_assert (*node == NULL);
     return EFTWOK;
 }
 
