@@ -41,12 +41,12 @@ extern "C" {
 
 /*  FTW Kernel error codes. */
 #define EFTWOK         0x00000000
-#define EFTWBASE       0xDEAD0000
-#define ELVMGRBASE     0xDEAD1000
+#define EFTWBASE       0xBAD00000
+#define ELVMGRBASE     0xBAD10000
 
-#define EFTWARG        0xDEAD0001
-#define EFTWNOMEM      0xDEAD0002
-#define EFTWBOGUS      0xDEAD4242
+#define EFTWARG        0xBAD00001
+#define EFTWNOMEM      0xBAD00002
+#define EFTWBOGUS      0xBAD04242
 
 
 /*  Featherweight export declarations. */
