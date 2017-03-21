@@ -41,11 +41,6 @@ extern "C" {
         int64 *err_column, int64 *err_position, LStrHandle err_source, LStrHandle err_hint);
     FTW_EXPORT json_t *ftw_json_deep_copy(const json_t *value);
 
-    FTW_EXPORT void ftw_json_get_integer(json_t *obj, uint8_t *type, const char *key, LVBoolean *remove, int64_t *value);
-    FTW_EXPORT void ftw_json_get_boolean(json_t *obj, uint8_t *type, const char *key, LVBoolean *remove, LVBoolean *value);
-    FTW_EXPORT void ftw_json_get_float64(json_t *obj, uint8_t *type, const char *key, LVBoolean *remove, float64 *value);
-    FTW_EXPORT void ftw_json_get_string(json_t *obj, uint8_t *type, const char *key, LVBoolean *remove, LStrHandle value);
-
     FTW_EXPORT ftwrc ftw_json_set_integer(json_t *obj, const char *key, int64_t *value);
     FTW_EXPORT ftwrc ftw_json_set_boolean(json_t *obj, const char *key, LVBoolean *value);
     FTW_EXPORT ftwrc ftw_json_set_float64(json_t *obj, const char *key, float64 *value);
