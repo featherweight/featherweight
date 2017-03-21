@@ -459,7 +459,7 @@ ftwrc ftw_json_traverse(json_t **element, const char *path, uint8_t *actual_type
     return EFTWOK;
 }
 
-ftwrc ftw_json_get_flat_boolean(json_t *element, const char *path, uint8_t *actual_type, LVBoolean *remove, LStrHandle flatval)
+ftwrc ftw_json_fetch_boolean(json_t *element, const char *path, uint8_t *actual_type, LVBoolean *remove, const LVBoolean *flat, void *val)
 {
     ftwrc rc;
 
@@ -478,10 +478,20 @@ ftwrc ftw_json_get_flat_boolean(json_t *element, const char *path, uint8_t *actu
 
     switch (*actual_type = json_typeof(element)) {
     case JSON_TRUE:
-        (*flatval)->str[0] = LVBooleanTrue;
+        if (*flat) {
+            (*(LStrHandle)val)->str[0] = LVBooleanTrue;
+        }
+        else {
+            *((LVBoolean *)val) = LVBooleanTrue;
+        }
         break;
     case JSON_FALSE:
-        (*flatval)->str[0] = LVBooleanFalse;
+        if (*flat) {
+            (*(LStrHandle)val)->str[0] = LVBooleanFalse;
+        }
+        else {
+            *((LVBoolean *)val) = LVBooleanFalse;
+        }
         break;
     default:
         /*  Element exists but is not of expected type. */
@@ -495,7 +505,7 @@ ftwrc ftw_json_get_flat_boolean(json_t *element, const char *path, uint8_t *actu
     return EFTWOK;
 }
 
-ftwrc ftw_json_get_flat_string(json_t *element, const char *path, uint8_t *actual_type, LVBoolean *remove, LStrHandle flatval, LVBoolean *prepend_len, size_t flags)
+ftwrc ftw_json_fetch_string(json_t *element, const char *path, uint8_t *actual_type, LVBoolean *remove, const LVBoolean *flat, LStrHandle flatval, size_t flags)
 {
     size_t len, offset;
     ftwrc rc;
@@ -513,7 +523,7 @@ ftwrc ftw_json_get_flat_string(json_t *element, const char *path, uint8_t *actua
         return EFTWOK;
     }
 
-    offset = *prepend_len ? sizeof (int32) : 0;
+    offset = *flat ? sizeof (int32) : 0;
 
     switch (*actual_type = json_typeof(element)) {
 
@@ -540,7 +550,7 @@ ftwrc ftw_json_get_flat_string(json_t *element, const char *path, uint8_t *actua
         break;
     }
 
-    if (rc == EFTWOK && *prepend_len) {
+    if (rc == EFTWOK && *flat) {
         (*flatval)->str[0] = (uChar) ((len >> 0x18) & 0xFF);
         (*flatval)->str[1] = (uChar) ((len >> 0x10) & 0xFF);
         (*flatval)->str[2] = (uChar) ((len >> 0x08) & 0xFF);
@@ -554,7 +564,7 @@ ftwrc ftw_json_get_flat_string(json_t *element, const char *path, uint8_t *actua
     return rc;
 }
 
-ftwrc ftw_json_get_int(json_t *element, const char *path, uint8_t *actual_type, LVBoolean *remove, void *val, uint8_t *type_code, LVBoolean *flat)
+ftwrc ftw_json_fetch_integer(json_t *element, const char *path, uint8_t *actual_type, LVBoolean *remove, const LVBoolean *flat, void *val, uint8_t *type_code)
 {
     json_int_t value;
     json_int_t max, min;
@@ -724,8 +734,7 @@ ftwrc ftw_json_get_int(json_t *element, const char *path, uint8_t *actual_type, 
         }
     }
 
-    VALUE_NOT_SET_RETURN_EARLY:
-
+VALUE_NOT_SET_RETURN_EARLY:
     if (*remove) {
         json_decref(element);
     }
@@ -733,59 +742,112 @@ ftwrc ftw_json_get_int(json_t *element, const char *path, uint8_t *actual_type, 
     return EFTWOK;
 }
 
-ftwrc ftw_json_get_scalar_double(json_t *element, const char *path, double *val, uint8_t *type, LVBoolean *remove)
+ftwrc ftw_json_fetch_float(json_t *element, const char *path, uint8_t *actual_type, LVBoolean *remove, const LVBoolean *flat, void *val, uint8_t *type_code)
 {
-    if (element == NULL)
-        return EFTWARG;
-
-    switch (*type = json_typeof(element)) {
-    case JSON_INTEGER:
-        *val = (double)json_integer_value(element);
-        break;
-    case JSON_REAL:
-        *val = json_real_value(element);
-        break;
-    case JSON_NULL:
-        *val = FTW_NaN;
-        break;
-    default:
-        return EFTWARG;
-    }
-
-    if (*remove != LVBooleanFalse) {
-        json_decref(element);
-    }
-
-    return EFTWOK;
-}
-
-ftwrc ftw_json_get_scalar_string(json_t *element, const char *path, LStrHandle val, uint8_t *type, LVBoolean *remove)
-{
-    const char *buf;
-    size_t len;
+    double value64;
+    NumType t;
     ftwrc rc;
 
-    if (element == NULL)
-        return EFTWARG;
+    t = (NumType) *type_code;
 
-    switch (*type = json_typeof(element)) {
-    case JSON_STRING:
-        buf = json_string_value(element);
-        len = json_string_length(element);
-        rc = ftw_support_buffer_to_LStrHandle(&val, buf, len, 0);
-        break;
-    default:
-        buf = json_dumps(element, JSON_ENCODE_ANY);
-        len = StrLen(buf);
-        rc = ftw_support_buffer_to_LStrHandle(&val, buf, len, 0);
-        break;
+    /*  Note that specifically fX is not supported at this layer due to non-standard platform differences.
+        At a higher layer (in G), floatExt may be supported with the limited range of float64. */
+    if (t != fS && t != fD) {
+        return EFTWARG;
     }
 
+    rc = ftw_json_traverse_path(&element, path, remove);
     if (rc != EFTWOK) {
+        ftw_assert(element == NULL);
+        *remove = LVBooleanFalse;
         return rc;
     }
 
-    if (*remove != LVBooleanFalse) {
+    /*  Path is valid, but there was no element there. */
+    if (element == NULL) {
+        *remove = LVBooleanFalse;
+        return EFTWOK;
+    }
+
+    switch (*actual_type = json_typeof(element)) {
+    case JSON_INTEGER:
+        value64 = (double)json_integer_value(element);
+        break;
+
+    case JSON_REAL:
+        value64 = json_real_value(element);
+        break;
+
+    case JSON_TRUE:
+        value64 = 1;
+        break;
+
+    case JSON_FALSE:
+        value64 = 0;
+        break;
+
+    case JSON_NULL:
+        value64 = FTW_NaN;
+        break;
+
+    default:
+        /*  Element exists but is not of expected type. */
+        goto VALUE_NOT_SET_RETURN_EARLY;
+    }
+
+    if (*flat) {
+        /*  Platform-independent big-endian byte order used for flattened data. */
+        switch (t) {
+
+        case fS:
+            {
+                float value32 = (float32)value64;
+                uChar *type_punned = (uChar *) &value32;
+                (*(LStrHandle)val)->str[0] = type_punned[3];
+                (*(LStrHandle)val)->str[1] = type_punned[2];
+                (*(LStrHandle)val)->str[2] = type_punned[1];
+                (*(LStrHandle)val)->str[3] = type_punned[0];
+            }
+            break;
+
+        case fD:
+            {
+                uChar *type_punned = (uChar *) &value64;
+                (*(LStrHandle)val)->str[0] = type_punned[7];
+                (*(LStrHandle)val)->str[1] = type_punned[6];
+                (*(LStrHandle)val)->str[2] = type_punned[5];
+                (*(LStrHandle)val)->str[3] = type_punned[4];
+                (*(LStrHandle)val)->str[4] = type_punned[3];
+                (*(LStrHandle)val)->str[5] = type_punned[2];
+                (*(LStrHandle)val)->str[6] = type_punned[1];
+                (*(LStrHandle)val)->str[7] = type_punned[0];
+            }
+            break;
+
+        default:
+            ftw_assert_unreachable("Function should have already returned with error code.");
+            break;
+        }
+    }
+    else {
+        switch (t) {
+
+        case fS:
+            *(float32*)val = (float32)value64;
+            break;
+
+        case fD:
+            *(float64*)val = (float64)value64;
+            break;
+
+        default:
+            ftw_assert_unreachable("Function should have already returned with error code.");
+            break;
+        }
+    }
+
+VALUE_NOT_SET_RETURN_EARLY:
+    if (*remove) {
         json_decref(element);
     }
 

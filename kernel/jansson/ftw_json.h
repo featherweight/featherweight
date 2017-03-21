@@ -49,10 +49,10 @@ extern "C" {
 
     FTW_EXPORT json_t *ftw_json_array_element(const json_t *array, size_t index);
 
-    FTW_EXPORT ftwrc ftw_json_get_flat_boolean(json_t *element, const char *path, uint8_t *actual_type, LVBoolean *remove, LStrHandle flatval);
-    FTW_EXPORT ftwrc ftw_json_get_flat_string(json_t *element, const char *path, uint8_t *actual_type, LVBoolean *remove, LStrHandle flatval, LVBoolean *prepend_len, size_t flags);
-    FTW_EXPORT ftwrc ftw_json_get_int(json_t *element, const char *path, uint8_t *actual_type, LVBoolean *remove, void *val, uint8_t *type_code, LVBoolean *flat);
-    FTW_EXPORT ftwrc ftw_json_get_scalar_string(json_t *element, const char *path, LStrHandle val, uint8_t *type, LVBoolean *remove);
+    FTW_EXPORT ftwrc ftw_json_fetch_boolean(json_t *element, const char *path, uint8_t *actual_type, LVBoolean *remove, const LVBoolean *flat, void *val);
+    FTW_EXPORT ftwrc ftw_json_fetch_integer(json_t *element, const char *path, uint8_t *actual_type, LVBoolean *remove, const LVBoolean *flat, void *val, uint8_t *type_code);
+    FTW_EXPORT ftwrc ftw_json_fetch_float(json_t *element, const char *path, uint8_t *actual_type, LVBoolean *remove, const LVBoolean *flat, void *val, uint8_t *type_code);
+    FTW_EXPORT ftwrc ftw_json_fetch_string(json_t *element, const char *path, uint8_t *actual_type, LVBoolean *remove, const LVBoolean *flat, LStrHandle flatval, size_t flags);
     FTW_EXPORT ftwrc ftw_json_traverse(json_t **element, const char *path, uint8_t *actual_type, LVBoolean *remove, uint32_t *size);
 
     FTW_EXPORT ftwrc ftw_json_object_join(enum json_join_mode *mode, json_t *object, json_t *obj_to_join);
