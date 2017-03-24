@@ -3,6 +3,7 @@
 	<Property Name="NI.LV.All.SourceOnly" Type="Bool">true</Property>
 	<Property Name="NI.Project.Description" Type="Str"></Property>
 	<Item Name="My Computer" Type="My Computer">
+		<Property Name="NI.SortType" Type="Int">1</Property>
 		<Property Name="server.app.propertiesEnabled" Type="Bool">true</Property>
 		<Property Name="server.control.propertiesEnabled" Type="Bool">true</Property>
 		<Property Name="server.tcp.enabled" Type="Bool">false</Property>
@@ -13,27 +14,37 @@
 		<Property Name="server.vi.propertiesEnabled" Type="Bool">true</Property>
 		<Property Name="specify.custom.address" Type="Bool">false</Property>
 		<Item Name="_codegen" Type="Folder">
-			<Item Name="codegen" Type="Folder">
-				<Item Name="FTW-CodeGen-ChooseImplementation.vi" Type="VI" URL="../codegen/FTW-CodeGen-ChooseImplementation.vi"/>
-				<Item Name="FTW-CodeGen-CleanUpWires.vi" Type="VI" URL="../codegen/FTW-CodeGen-CleanUpWires.vi"/>
-				<Item Name="FTW-CodeGen-FindGObject.vi" Type="VI" URL="../codegen/FTW-CodeGen-FindGObject.vi"/>
-				<Item Name="FTW-CodeGen-FindGObjects-Callback.vi" Type="VI" URL="../codegen/FTW-CodeGen-FindGObjects-Callback.vi"/>
-				<Item Name="FTW-CodeGen-FindGObjects.vi" Type="VI" URL="../codegen/FTW-CodeGen-FindGObjects.vi"/>
-				<Item Name="FTW-CodeGen-FindGObjectTaggedForScripting.vi" Type="VI" URL="../codegen/FTW-CodeGen-FindGObjectTaggedForScripting.vi"/>
-				<Item Name="FTW-CodeGen-FindTerminalByID.vi" Type="VI" URL="../codegen/FTW-CodeGen-FindTerminalByID.vi"/>
-				<Item Name="FTW-CodeGen-FindTerminalTypeByID.vi" Type="VI" URL="../codegen/FTW-CodeGen-FindTerminalTypeByID.vi"/>
-				<Item Name="FTW-CodeGen-GetTerminals.vi" Type="VI" URL="../codegen/FTW-CodeGen-GetTerminals.vi"/>
-				<Item Name="FTW-CodeGen-GetTypeInfo.vi" Type="VI" URL="../codegen/FTW-CodeGen-GetTypeInfo.vi"/>
-				<Item Name="FTW-CodeGen-GetTypeInfoRemote.vi" Type="VI" URL="../codegen/FTW-CodeGen-GetTypeInfoRemote.vi"/>
-				<Item Name="FTW-CodeGen-OneGObjectOrNone.vi" Type="VI" URL="../codegen/FTW-CodeGen-OneGObjectOrNone.vi"/>
-				<Item Name="FTW-CodeGen-RegenerateAfterAdapt.vi" Type="VI" URL="../codegen/FTW-CodeGen-RegenerateAfterAdapt.vi"/>
-				<Item Name="FTW-CodeGen-RelinkTerminals.vi" Type="VI" URL="../codegen/FTW-CodeGen-RelinkTerminals.vi"/>
-				<Item Name="FTW-CodeGen-SetConstantValue.vi" Type="VI" URL="../codegen/FTW-CodeGen-SetConstantValue.vi"/>
-				<Item Name="FTW-CodeGen-XNodeReply.vi" Type="VI" URL="../codegen/FTW-CodeGen-XNodeReply.vi"/>
-				<Item Name="FTW-CodeGen-XNodeReplyType.ctl" Type="VI" URL="../codegen/FTW-CodeGen-XNodeReplyType.ctl"/>
-				<Item Name="FTW-CodeGen-XNodeUpdateState.vi" Type="VI" URL="../codegen/FTW-CodeGen-XNodeUpdateState.vi"/>
+			<Item Name="framework" Type="Folder">
+				<Item Name="FTW-CodeGen-ChooseImplementation.vi" Type="VI" URL="../codegen/framework/FTW-CodeGen-ChooseImplementation.vi"/>
+				<Item Name="FTW-CodeGen-FindGObject.vi" Type="VI" URL="../codegen/framework/FTW-CodeGen-FindGObject.vi"/>
+				<Item Name="FTW-CodeGen-FindGObjects.vi" Type="VI" URL="../codegen/framework/FTW-CodeGen-FindGObjects.vi"/>
+				<Item Name="FTW-CodeGen-FindTerm-Adaptive.vi" Type="VI" URL="../codegen/framework/FTW-CodeGen-FindTerm-Adaptive.vi"/>
+				<Item Name="FTW-CodeGen-FindTerm-Ref.vi" Type="VI" URL="../codegen/framework/FTW-CodeGen-FindTerm-Ref.vi"/>
+				<Item Name="FTW-CodeGen-FindTerm-Variant.vi" Type="VI" URL="../codegen/framework/FTW-CodeGen-FindTerm-Variant.vi"/>
+				<Item Name="FTW-CodeGen-FindTerm.vi" Type="VI" URL="../codegen/framework/FTW-CodeGen-FindTerm.vi"/>
+				<Item Name="FTW-CodeGen-GetErrors.vi" Type="VI" URL="../codegen/framework/FTW-CodeGen-GetErrors.vi"/>
+				<Item Name="FTW-CodeGen-GetTerminals.vi" Type="VI" URL="../codegen/framework/FTW-CodeGen-GetTerminals.vi"/>
+				<Item Name="FTW-CodeGen-InitializeCache.vi" Type="VI" URL="../codegen/framework/FTW-CodeGen-InitializeCache.vi"/>
+				<Item Name="FTW-CodeGen-RelinkTerminals.vi" Type="VI" URL="../codegen/framework/FTW-CodeGen-RelinkTerminals.vi"/>
+				<Item Name="FTW-CodeGen-SetConstantValue.vi" Type="VI" URL="../codegen/framework/FTW-CodeGen-SetConstantValue.vi"/>
+				<Item Name="FTW-CodeGen-TerminalTypeAdaption.vi" Type="VI" URL="../codegen/framework/FTW-CodeGen-TerminalTypeAdaption.vi"/>
+				<Item Name="FTW-CodeGen-TraverseGObjects.vi" Type="VI" URL="../codegen/framework/FTW-CodeGen-TraverseGObjects.vi"/>
+				<Item Name="FTW-CodeGen-UpdateCodegenCache.vi" Type="VI" URL="../codegen/framework/FTW-CodeGen-UpdateCodegenCache.vi"/>
+				<Item Name="FTW-CodeGen-XNodeAdaptiveTerminal-Controller.ctl" Type="VI" URL="../codegen/framework/FTW-CodeGen-XNodeAdaptiveTerminal-Controller.ctl"/>
+				<Item Name="FTW-CodeGen-XNodeAdaptiveTerminal-ControllerBehavior.ctl" Type="VI" URL="../codegen/framework/FTW-CodeGen-XNodeAdaptiveTerminal-ControllerBehavior.ctl"/>
+				<Item Name="FTW-CodeGen-XNodeAdaptiveTerminal-Dependent.ctl" Type="VI" URL="../codegen/framework/FTW-CodeGen-XNodeAdaptiveTerminal-Dependent.ctl"/>
+				<Item Name="FTW-CodeGen-XNodeAdaptiveTerminal.ctl" Type="VI" URL="../codegen/framework/FTW-CodeGen-XNodeAdaptiveTerminal.ctl"/>
+				<Item Name="FTW-CodeGen-XNodeCommonState.ctl" Type="VI" URL="../codegen/framework/FTW-CodeGen-XNodeCommonState.ctl"/>
+				<Item Name="FTW-CodeGen-XNodeReply.vi" Type="VI" URL="../codegen/framework/FTW-CodeGen-XNodeReply.vi"/>
+				<Item Name="FTW-CodeGen-XNodeReplyType.ctl" Type="VI" URL="../codegen/framework/FTW-CodeGen-XNodeReplyType.ctl"/>
+				<Item Name="FTW-CodeGen-XNodeUpdateState.vi" Type="VI" URL="../codegen/framework/FTW-CodeGen-XNodeUpdateState.vi"/>
 			</Item>
 			<Item Name="support" Type="Folder">
+				<Item Name="FTW-CodeGen-Callback-FindGObject.vi" Type="VI" URL="../codegen/support/FTW-CodeGen-Callback-FindGObject.vi"/>
+				<Item Name="FTW-CodeGen-Callback-FindGObjects.vi" Type="VI" URL="../codegen/support/FTW-CodeGen-Callback-FindGObjects.vi"/>
+				<Item Name="FTW-CodeGen-EnumerateVIServerClassHierarchy.vi" Type="VI" URL="../codegen/support/FTW-CodeGen-EnumerateVIServerClassHierarchy.vi"/>
+				<Item Name="FTW-CodeGen-GetTypeInfo.vi" Type="VI" URL="../codegen/support/FTW-CodeGen-GetTypeInfo.vi"/>
+				<Item Name="FTW-CodeGen-GetTypeInfoRemote.vi" Type="VI" URL="../codegen/support/FTW-CodeGen-GetTypeInfoRemote.vi"/>
 				<Item Name="FTW-CodeGen-Image-AppendToPicture.vi" Type="VI" URL="../codegen/support/FTW-CodeGen-Image-AppendToPicture.vi"/>
 				<Item Name="FTW-CodeGen-Image-Rectangle.vi" Type="VI" URL="../codegen/support/FTW-CodeGen-Image-Rectangle.vi"/>
 				<Item Name="FTW-CodeGen-Image-Subset.vi" Type="VI" URL="../codegen/support/FTW-CodeGen-Image-Subset.vi"/>
@@ -53,6 +64,10 @@
 			<Item Name="FTW-KernelFilepath.vi" Type="VI" URL="../lib/FTW-KernelFilepath.vi"/>
 			<Item Name="ftw32.dll" Type="Document" URL="../lib/ftw32.dll"/>
 		</Item>
+		<Item Name="_static" Type="Folder">
+			<Item Name="FTW-CodeGen-StaticLinks.lvclass" Type="LVClass" URL="../codegen/static/FTW-CodeGen-StaticLinks.lvclass"/>
+			<Item Name="FTW-TestBootstrapper.lvclass" Type="LVClass" URL="../tests/bootstrapper/FTW-TestBootstrapper.lvclass"/>
+		</Item>
 		<Item Name="_utils" Type="Folder">
 			<Item Name="linker" Type="Folder">
 				<Item Name="FTW-Linker-DecodeBitmap.vi" Type="VI" URL="../utils/linker/FTW-Linker-DecodeBitmap.vi"/>
@@ -67,6 +82,10 @@
 				<Item Name="FTW-Linker-LVFileStaticLinks.vi" Type="VI" URL="../utils/linker/FTW-Linker-LVFileStaticLinks.vi"/>
 			</Item>
 			<Item Name="metrics" Type="Folder">
+				<Item Name="FTW-DevUtil-CLFNPrototype.ctl" Type="VI" URL="../utils/metrics/FTW-DevUtil-CLFNPrototype.ctl"/>
+				<Item Name="FTW-DevUtil-CLFNPrototypes.vi" Type="VI" URL="../utils/metrics/FTW-DevUtil-CLFNPrototypes.vi"/>
+				<Item Name="FTW-DevUtil-StaticLinks.vi" Type="VI" URL="../utils/metrics/FTW-DevUtil-StaticLinks.vi"/>
+				<Item Name="FTW-DevUtil-VIMetrics.ctl" Type="VI" URL="../utils/metrics/FTW-DevUtil-VIMetrics.ctl"/>
 				<Item Name="FTW-DevUtil-VIMetrics.vi" Type="VI" URL="../utils/metrics/FTW-DevUtil-VIMetrics.vi"/>
 			</Item>
 			<Item Name="FTW-DevUtil-FrontPanelCleanup.vi" Type="VI" URL="../utils/FTW-DevUtil-FrontPanelCleanup.vi"/>
@@ -99,7 +118,6 @@
 					<Item Name="FTW-Publisher-Publish.vi" Type="VI" URL="../src/socket/publisher/FTW-Publisher-Publish.vi"/>
 				</Item>
 				<Item Name="request" Type="Folder">
-					<Property Name="NI.SortType" Type="Int">3</Property>
 					<Item Name="core" Type="Folder">
 						<Item Name="FTW-Request-Core-InterpretResponse.vi" Type="VI" URL="../src/actor/request/core/FTW-Request-Core-InterpretResponse.vi"/>
 					</Item>
@@ -126,7 +144,11 @@
 				</Item>
 				<Item Name="support" Type="Folder">
 					<Item Name="FTW-Actor-CloneName.vi" Type="VI" URL="../src/actor/support/FTW-Actor-CloneName.vi"/>
+					<Item Name="FTW-Actor-Core-SpawnHandshake.vi" Type="VI" URL="../src/actor/core/FTW-Actor-Core-SpawnHandshake.vi"/>
+					<Item Name="FTW-Actor-Core-SpawnOptions.ctl" Type="VI" URL="../src/actor/core/FTW-Actor-Core-SpawnOptions.ctl"/>
+					<Item Name="FTW-Actor-Core-SpawnPrelude.vi" Type="VI" URL="../src/actor/core/FTW-Actor-Core-SpawnPrelude.vi"/>
 					<Item Name="FTW-Actor-DynamicLaunchOptions.vi" Type="VI" URL="../src/actor/support/FTW-Actor-DynamicLaunchOptions.vi"/>
+					<Item Name="FTW-Connector-Core-Ask-Unvalidated.vi" Type="VI" URL="../src/socket/connector/core/FTW-Connector-Core-Ask-Unvalidated.vi"/>
 					<Item Name="FTW-Socket-Core-ReturnCode.vi" Type="VI" URL="../src/socket/support/FTW-Socket-Core-ReturnCode.vi"/>
 					<Item Name="FTW-Socket-Core-TransportScheme.ctl" Type="VI" URL="../src/socket/support/FTW-Socket-Core-TransportScheme.ctl"/>
 					<Item Name="FTW-Socket-Core-ValidateAddress.vi" Type="VI" URL="../src/socket/support/FTW-Socket-Core-ValidateAddress.vi"/>
@@ -232,6 +254,9 @@
 				<Item Name="core" Type="Folder">
 					<Item Name="FTW-JSON-Core-ElementType.vi" Type="VI" URL="../src/json/core/FTW-JSON-Core-ElementType.vi"/>
 					<Item Name="FTW-JSON-Core-EncodingFlags.vi" Type="VI" URL="../src/json/core/FTW-JSON-Core-EncodingFlags.vi"/>
+					<Item Name="FTW-JSON-Core-GetFlattenedValue.vi" Type="VI" URL="../codegen/xnode/json/fetch/FTW-JSON-Core-GetFlattenedValue.vi"/>
+					<Item Name="FTW-JSON-Core-LibraryReturnValue.vi" Type="VI" URL="../src/json/core/FTW-JSON-Core-LibraryReturnValue.vi"/>
+					<Item Name="FTW-JSON-Core-NumericType.vi" Type="VI" URL="../src/json/core/FTW-JSON-Core-NumericType.vi"/>
 					<Item Name="FTW-JSON-Core-Type.ctl" Type="VI" URL="../src/json/core/FTW-JSON-Core-Type.ctl"/>
 				</Item>
 				<Item Name="FTW-JSON-CompareEquality.vi" Type="VI" URL="../src/json/FTW-JSON-CompareEquality.vi"/>
@@ -239,13 +264,10 @@
 				<Item Name="FTW-JSON-Construct-NewObject.vi" Type="VI" URL="../src/json/FTW-JSON-Construct-NewObject.vi"/>
 				<Item Name="FTW-JSON-Destroy.vi" Type="VI" URL="../src/json/FTW-JSON-Destroy.vi"/>
 				<Item Name="FTW-JSON-Duplicate.vi" Type="VI" URL="../src/json/FTW-JSON-Duplicate.vi"/>
+				<Item Name="FTW-JSON-GetElementInfo.vi" Type="VI" URL="../src/json/FTW-JSON-GetElementInfo.vi"/>
 				<Item Name="FTW-JSON-JoinMode.ctl" Type="VI" URL="../src/json/FTW-JSON-JoinMode.ctl"/>
 				<Item Name="FTW-JSON-Object-DeleteAllElements.vi" Type="VI" URL="../src/json/FTW-JSON-Object-DeleteAllElements.vi"/>
 				<Item Name="FTW-JSON-Object-DeleteElement.vi" Type="VI" URL="../src/json/FTW-JSON-Object-DeleteElement.vi"/>
-				<Item Name="FTW-JSON-Object-GetElement-Bool.vi" Type="VI" URL="../src/json/FTW-JSON-Object-GetElement-Bool.vi"/>
-				<Item Name="FTW-JSON-Object-GetElement-DBL.vi" Type="VI" URL="../src/json/FTW-JSON-Object-GetElement-DBL.vi"/>
-				<Item Name="FTW-JSON-Object-GetElement-Integer.vi" Type="VI" URL="../src/json/FTW-JSON-Object-GetElement-Integer.vi"/>
-				<Item Name="FTW-JSON-Object-GetElement-String.vi" Type="VI" URL="../src/json/FTW-JSON-Object-GetElement-String.vi"/>
 				<Item Name="FTW-JSON-Object-Join-String.vi" Type="VI" URL="../src/json/FTW-JSON-Object-Join-String.vi"/>
 				<Item Name="FTW-JSON-Object-Join.vi" Type="VI" URL="../src/json/FTW-JSON-Object-Join.vi"/>
 				<Item Name="FTW-JSON-Object-Keys.vi" Type="VI" URL="../src/json/FTW-JSON-Object-Keys.vi"/>
@@ -275,11 +297,13 @@
 				<Item Name="FTW-Reflection-Array.vi" Type="VI" URL="../src/reflection/FTW-Reflection-Array.vi"/>
 				<Item Name="FTW-Reflection-Cluster.vi" Type="VI" URL="../src/reflection/FTW-Reflection-Cluster.vi"/>
 				<Item Name="FTW-Reflection-ConPaneInterface.vi" Type="VI" URL="../src/reflection/FTW-Reflection-ConPaneInterface.vi"/>
+				<Item Name="FTW-Reflection-Core-FlatEnum.vi" Type="VI" URL="../src/reflection/core/FTW-Reflection-Core-FlatEnum.vi"/>
 				<Item Name="FTW-Reflection-Enum.vi" Type="VI" URL="../src/reflection/FTW-Reflection-Enum.vi"/>
 				<Item Name="FTW-Reflection-FTWObject.vi" Type="VI" URL="../src/reflection/FTW-Reflection-FTWObject.vi"/>
 				<Item Name="FTW-Reflection-Type.vi" Type="VI" URL="../src/reflection/FTW-Reflection-Type.vi"/>
 				<Item Name="FTW-Reflection-TypeDescriptorToDefaultData.vi" Type="VI" URL="../src/reflection/FTW-Reflection-TypeDescriptorToDefaultData.vi"/>
 				<Item Name="FTW-Reflection-Types.ctl" Type="VI" URL="../src/reflection/FTW-Reflection-Types.ctl"/>
+				<Item Name="FTW-Reflection-VIServer.vi" Type="VI" URL="../src/reflection/FTW-Reflection-VIServer.vi"/>
 			</Item>
 			<Item Name="regex" Type="Folder">
 				<Item Name="FTW-Regex-CapturingGroups.vi" Type="VI" URL="../src/regex/FTW-Regex-CapturingGroups.vi"/>
@@ -426,7 +450,6 @@
 			<Item Name="core" Type="Folder" URL="../tests/core">
 				<Property Name="NI.DISK" Type="Bool">true</Property>
 			</Item>
-			<Item Name="FTW-TestBootstrapper.lvclass" Type="LVClass" URL="../tests/bootstrapper/FTW-TestBootstrapper.lvclass"/>
 		</Item>
 		<Item Name="FTW-Test.json" Type="Document" URL="../tests/FTW-Test.json"/>
 		<Item Name="FTW-Test.vi" Type="VI" URL="../tests/FTW-Test.vi"/>
@@ -437,7 +460,6 @@
 			<Item Name="DOMUserDefRef.dll" Type="Document" URL="DOMUserDefRef.dll">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
-			<Item Name="FTW-JSON-Core-GetFlattenedValue.vi" Type="VI" URL="../codegen/xnode/json/fetch/FTW-JSON-Core-GetFlattenedValue.vi"/>
 			<Item Name="mscorlib" Type="VI" URL="mscorlib">
 				<Property Name="NI.PreserveRelativePath" Type="Bool">true</Property>
 			</Item>
