@@ -1,22 +1,28 @@
 {
-  "Tests Directory":       "<DirOfThisVI>:\\.",
+  "Tests Directory": "<DirOfThisVI>:\\.",
   "Test Worker Pool Size": 4,
-  "Show UI":               true,
-  "Randomize Test Order":  true,
-  "Test Configuration": {
+  "Show UI": true,
+  "Randomize Test Order": true,
+  "Skip Non-Idempotent Tests": false,
+  "Tests": {
     "Default": {
-      "Enable": true,
+      "Idempotent": true,
+      "Skip": false,
       "Iterations": 10
     },
     "Actor-Ask": {
+      "Idempotent": false
+    },
+    "Actor-InboxConfiguration": {
     },
     "Actor-Stress": {
-      "Iterations": 1
+      "Idempotent": false
     },
     "Array-Shuffle": {
     },
     "dotNET-SQLFetch": {
-      "Enable": true,
+      "Idempotent": false,
+      "Skip": true,
       "Iterations": 1
     },
     "Expressions-Booleanish": {
@@ -29,6 +35,10 @@
     },
     "JSON-Fuzz": {
     },
+    "JSON-IntegerOverflow": {
+    },
+    "JSON-InvalidPath": {
+    },
     "JSON-ObjectDelete": {
     },
     "JSON-ObjectJoin": {
@@ -37,7 +47,14 @@
     },
     "JSON-Parallelization": {
     },
+    "JSON-Path": {
+    },
     "JSON-Stress": {
+    },
+    "JSON-TypeCoerce-Numeric": {
+    },
+    "JSON-Units": {
+      "Skip": true
     },
     "MessagePipe": {
     },
@@ -49,21 +66,30 @@
     },
     "Reflection-Datatypes": {
     },
+    "Reflection-VIServer": {
+      "Iterations": 1
+    },
     "Regex-BasicUsage": {
     },
     "Socket-Stress-InboxConnector": {
+      "Idempotent": false,
       "Iterations": 1
     },
     "Socket-Stress-InboxShutdown": {
+      "Idempotent": false,
       "Iterations": 1
     },
     "Socket-Stress-PublisherShutdown": {
+      "Idempotent": false,
       "Iterations": 1
     },
     "Socket-Stress-PubSub": {
+      "Idempotent": false,
       "Iterations": 1
     },
     "SQLite-BasicQuery": {
+    },
+    "SQLite-FloatingPoint": {
     },
     "SQLite-JSON": {
     },
@@ -74,6 +100,7 @@
     "String-Random": {
     },
     "Supervisor": {
+      "Idempotent": false,
       "Iterations": 1
     },
     "Timer": {
