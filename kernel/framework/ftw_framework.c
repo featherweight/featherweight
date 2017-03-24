@@ -26,7 +26,7 @@ FTW_PRIVATE_SUPPORT void ftw_socket_inbox_async_recv_worker(void *arg);
 
 const char *ftw_version(void)
 {
-    return "0.9.0";
+    return "0.10.0";
 }
 
 
