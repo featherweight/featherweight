@@ -43,11 +43,18 @@ extern "C" {
         size_t hdr_len;
     };
 
+    /*  Finite states of the FTW Inbox. */
+    typedef enum {UNINITIALIZED, ACTIVE, ZOMBIFIED} ftw_inbox_state;
+
     /*  Actual structure of an incoming request to an Inbox; packaged as an opaque pointer for LabVIEW. */
     struct ftw_socket_inbox {
 
         /*  Socket ID assigned by nanomsg. */
         int id;
+
+        /*  Object lifetime management. */
+        ftw_inbox_state state;
+        uv_mutex_t lock;
 
         /*  Asynchronous receive parameters. */
         LVUserEventRef incoming_msg_notifier_event;
@@ -55,7 +62,6 @@ extern "C" {
         struct nn_sem initialized;
         struct nn_sem deinitialized;
         struct nn_sem msg_acknowledged;
-        uv_mutex_t sending;
     };
 
 

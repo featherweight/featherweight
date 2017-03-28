@@ -153,6 +153,13 @@ ftwrc ftw_actor_inbox_construct(struct ftw_socket_inbox **inst, LVUserEventRef *
     /*  Preconditions expected of LabVIEW. */
     ftw_assert(inst && *inst && addresses && *addresses && msg_to_lv_event && sock);
 
+    /*  Preconditions expected of FTW. The vast majority of normal operating cases, state will be UNINITIALIZED, yet it's possible
+        to contrive rare instances of ZOMBIFIED. Here, the Inbox would need to be destroyed by an Actor Instance that immediately
+        shuts down after launch, and when the scheduler has chosen to do so even prior to its async Inbox being fully initialized,
+        which only happens when the CPU is under extreme duress and the execution system threads are exhausted. Even then, anecdotally
+        it takes an even more contrived source of stress, such as turning on Profile Performance and Memory to further exacerbate the race. */
+    ftw_assert((*inst)->state != ACTIVE);
+
     rcs = nn_socket(AF_SP_RAW, NN_REP);
 
     /*  Socket creation failure? */
@@ -187,12 +194,14 @@ ftwrc ftw_actor_inbox_construct(struct ftw_socket_inbox **inst, LVUserEventRef *
     nn_sem_init(&(*inst)->deinitialized);
     nn_sem_init(&(*inst)->initialized);
     nn_sem_init(&(*inst)->msg_acknowledged);
-    rc = uv_mutex_init(&(*inst)->sending);
-    ftw_assert_ok(rc);
     nn_thread_init(&(*inst)->async_recv_thread, ftw_socket_inbox_async_recv_worker, *inst);
     nn_sem_wait(&(*inst)->initialized);
 
+    uv_mutex_lock(&(*inst)->lock);
+    ftw_assert((*inst)->state == UNINITIALIZED);
+    (*inst)->state = ACTIVE;
     *sock = *inst;
+    uv_mutex_unlock(&(*inst)->lock);
 
     return EFTWOK;
 }
@@ -276,13 +285,20 @@ ftwrc ftw_actor_inbox_reply(json_t *response, struct ftw_incoming_request *req, 
     hdr.msg_control = hdr_ptr;
     hdr.msg_controllen = hdr_len;
 
-    uv_mutex_lock(&s->sending);
+    uv_mutex_lock(&s->lock);
+
+    if (s->state != ACTIVE) {
+        free(buffer);
+        nn_freemsg(hdr_ptr);
+        uv_mutex_unlock(&s->lock);
+        return EBADF;
+    }
 
     rc = nn_setsockopt(s->id, NN_SOL_SOCKET, NN_SNDTIMEO, &timeout, sizeof(timeout));
     if (rc < 0) {
         free(buffer);
         nn_freemsg(hdr_ptr);
-        uv_mutex_unlock(&s->sending);
+        uv_mutex_unlock(&s->lock);
         return errno;
     }
 
@@ -291,7 +307,7 @@ ftwrc ftw_actor_inbox_reply(json_t *response, struct ftw_incoming_request *req, 
     free(buffer);
     nn_freemsg(hdr_ptr);
 
-    uv_mutex_unlock(&s->sending);
+    uv_mutex_unlock(&s->lock);
 
     return (rc ? errno : EFTWOK);
 }
@@ -311,10 +327,12 @@ ftwrc ftw_actor_inbox_shutdown(struct ftw_socket_inbox ** const sock)
     }
 
     time = uv_hrtime();
+    uv_mutex_lock(&(*sock)->lock);
+    (*sock)->state = ZOMBIFIED;
+    uv_mutex_unlock(&(*sock)->lock);
     rc = nn_close((*sock)->id);
     nn_sem_post(&(*sock)->deinitialized);
     nn_thread_term(&(*sock)->async_recv_thread);
-    uv_mutex_destroy(&(*sock)->sending);
     nn_sem_term(&(*sock)->msg_acknowledged);
     nn_sem_term(&(*sock)->initialized);
     nn_sem_term(&(*sock)->deinitialized);
@@ -333,8 +351,16 @@ MgErr ftw_actor_inbox_reserve(struct ftw_socket_inbox **inst)
 
     ftw_debug("Reserving ActorInbox.");
     *inst = ftw_malloc(sizeof(struct ftw_socket_inbox));
+    if (*inst == NULL) {
+        return mFullErr;
+    }
+    
+    ftw_assert_ok(uv_mutex_init(&(*inst)->lock));
+    ftw_assert_ok(uv_mutex_trylock(&(*inst)->lock));
+    (*inst)->state = UNINITIALIZED;
+    uv_mutex_unlock(&(*inst)->lock);
 
-    return (*inst == NULL ? mZoneErr : mgNoErr);
+    return mgNoErr;
 }
 
 
@@ -346,6 +372,10 @@ MgErr ftw_actor_inbox_unreserve(struct ftw_socket_inbox **inst)
     /*  LabVIEW retains the lifetime of this pointer as long as the DLL remains loaded. */
     if (*inst) {
         ftw_debug("Unreserving ActorInbox.");
+        uv_mutex_lock(&(*inst)->lock);
+        ftw_assert((*inst)->state == UNINITIALIZED || (*inst)->state == ZOMBIFIED);
+        uv_mutex_unlock(&(*inst)->lock);
+        uv_mutex_destroy(&(*inst)->lock);
         ftw_assert_ok(ftw_free(*inst));
         *inst = NULL;
     }
