@@ -35,6 +35,8 @@ extern "C" {
 
 #include "extcode.h"
 
+#define FTW_VERSION_TEXT "0.10.1"
+
 #define FTW_DEBUG_WINDOW 0
 
 #define FTW_NaN NAN
