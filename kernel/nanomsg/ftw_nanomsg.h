@@ -34,10 +34,9 @@ extern "C" {
 #include "upstream/src/utils/chunk.h"
 #include "upstream/src/utils/cont.h"
 #include "upstream/src/utils/err.h"
-#include "upstream/src/utils/sem.h"
 #include "upstream/src/utils/list.h"
-#include "upstream/src/utils/mutex.h"
-#include "upstream/src/utils/thread.h"
+
+#include "../ftw_libuv.h"
 
 /*  InstanceDataPtr types for nanomsg sockets. The list keeps up with all active
     sockets created per each callsite. This bookkeeping ensures each socket created
@@ -52,7 +51,7 @@ struct ftw_socket_callsite {
     struct nn_list active_sockets;
 
     /*  Protect manipulation of active socket list across threads. */
-    struct nn_mutex sync;
+    uv_mutex_t lock;
 
     /*  Total number of lifetime sockets created. */
     int lifetime_sockets;
@@ -69,8 +68,8 @@ struct ftw_socket {
 
     /*  Asynchronous receive parameters. */
     LVUserEventRef incoming_msg_notifier_event;
-    struct nn_thread async_recv_thread;
-    struct nn_sem async_recv_ready;
+    uv_thread_t async_recv_thread;
+    uv_sem_t async_recv_ready;
 
     /*  This is just used by the List API to maintain position of this item. */
     struct nn_list_item item;

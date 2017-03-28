@@ -31,7 +31,6 @@ extern "C" {
 #include "../jansson/ftw_json.h"
 #include "../nanomsg/ftw_nanomsg.h"
 #include "../pcre/ftw_pcre.h"
-#define _SSIZE_T_DEFINED
 #include "../ftw_libuv.h"
 
     /*  Actual structure of an incoming request to an Inbox; packaged as an opaque pointer for LabVIEW. */
@@ -58,10 +57,10 @@ extern "C" {
 
         /*  Asynchronous receive parameters. */
         LVUserEventRef incoming_msg_notifier_event;
-        struct nn_thread async_recv_thread;
-        struct nn_sem initialized;
-        struct nn_sem deinitialized;
-        struct nn_sem msg_acknowledged;
+        uv_thread_t async_recv_thread;
+        uv_sem_t initialized;
+        uv_sem_t deinitialized;
+        uv_sem_t msg_acknowledged;
     };
 
 

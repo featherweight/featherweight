@@ -80,7 +80,7 @@ void ftw_socket_inbox_async_recv_worker(void *arg)
     /*  Notify launching process this thread is constructed. */
     ftw_assert(arg);
     self = (struct ftw_socket_inbox *) arg;
-    nn_sem_post(&self->initialized);
+    uv_sem_post(&self->initialized);
 
     lvrc = mgNoErr;
     socket_err = EFTWOK;
@@ -120,7 +120,7 @@ void ftw_socket_inbox_async_recv_worker(void *arg)
                 applies no backpressure since the event queue cannot be limited for dynamic
                 events. For this reason, a semaphore is introduced to simulate blocking backpressure,
                 where the semaphore is posted once the Inbox Message Router receives the message. */
-            nn_sem_wait(&self->msg_acknowledged);
+            uv_sem_wait(&self->msg_acknowledged);
         }
         else {
             /*  Treat timeouts as non-fatal. Anything else will stop this thread. */
@@ -134,7 +134,7 @@ void ftw_socket_inbox_async_recv_worker(void *arg)
     ftw_assert(lvrc == mgNoErr);
 
     /*  Wait for the Message Router to unload. */
-    nn_sem_wait(&self->deinitialized);
+    uv_sem_wait(&self->deinitialized);
 
     return;
 }
@@ -203,11 +203,11 @@ ftwrc ftw_actor_inbox_construct(struct ftw_socket_inbox **inst, LVUserEventRef *
     (*inst)->id = rcs;
 
     /*  Launch thread and wait for it to initialize. */
-    nn_sem_init(&(*inst)->deinitialized);
-    nn_sem_init(&(*inst)->initialized);
-    nn_sem_init(&(*inst)->msg_acknowledged);
-    nn_thread_init(&(*inst)->async_recv_thread, ftw_socket_inbox_async_recv_worker, *inst);
-    nn_sem_wait(&(*inst)->initialized);
+    ftw_assert_ok(uv_sem_init(&(*inst)->deinitialized, 0));
+    ftw_assert_ok(uv_sem_init(&(*inst)->initialized, 0));
+    ftw_assert_ok(uv_sem_init(&(*inst)->msg_acknowledged, 0));
+    uv_thread_create(&(*inst)->async_recv_thread, ftw_socket_inbox_async_recv_worker, *inst);
+    uv_sem_wait(&(*inst)->initialized);
 
     (*inst)->state = ACTIVE;
     *sock = *inst;
@@ -228,7 +228,7 @@ ftwrc ftw_actor_inbox_recv(struct ftw_incoming_request *incoming, json_t **json_
     ftw_assert(incoming && incoming->msg_ptr && incoming->inbox && json_msg);
 
     /*  Notify async receive thread that it can pipeline the next message into the LVEvent. */
-    nn_sem_post(&incoming->inbox->msg_acknowledged);
+    uv_sem_post(&incoming->inbox->msg_acknowledged);
 
     *json_msg = json_loadb(incoming->msg_ptr, incoming->msg_len, flags, &err);
 
@@ -358,17 +358,17 @@ ftwrc ftw_actor_inbox_shutdown(struct ftw_socket_inbox ** const sock)
 
 
     /*  Let async inbox thread know it's OK to unload since LV will no longer be using its stack-allocated memory. */
-    nn_sem_post(&(*sock)->deinitialized);
+    uv_sem_post(&(*sock)->deinitialized);
 
     /*  Wait for async inbox thread to complete, so that we know it's not using any of the inbox object's members. */
-    nn_thread_term(&(*sock)->async_recv_thread);
+    ftw_assert_ok(uv_thread_join(&(*sock)->async_recv_thread));
 
     /*  Acquire lock a final time, since closing the socket should guarantee that no more async I/O is in progress.
         Destroy inbox resources and mark the object allocation as unused. It may be reused again if LV chooses to reuse a clone VI. */
     uv_mutex_lock(&(*sock)->lock);
-    nn_sem_term(&(*sock)->msg_acknowledged);
-    nn_sem_term(&(*sock)->initialized);
-    nn_sem_term(&(*sock)->deinitialized);
+    uv_sem_destroy(&(*sock)->msg_acknowledged);
+    uv_sem_destroy(&(*sock)->initialized);
+    uv_sem_destroy(&(*sock)->deinitialized);
     (*sock)->state = UNINITIALIZED;
     uv_mutex_unlock(&(*sock)->lock);
 

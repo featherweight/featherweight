@@ -28,6 +28,14 @@ extern "C" {
 #endif
 
 #include "ftw.h"
+
+#ifndef ssize_t
+#define ssize_t intptr_t
+#endif
+#ifndef _SSIZE_T_DEFINED
+#define _SSIZE_T_DEFINED
+#endif
+
 #include "libuv/include/uv.h"
 
 /*  InstanceDataPtr types for libuv callsites that create an event loop. */
