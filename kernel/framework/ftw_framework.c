@@ -187,6 +187,18 @@ ftwrc ftw_actor_inbox_construct(struct ftw_socket_inbox **inst, LVUserEventRef *
         }
     }
 
+    /*  Locking the object has been deferred as long as possible until this point. */
+    uv_mutex_lock(&(*inst)->lock);
+
+    /*  Early return in the unlikely race when an inbox is destroyed in a concurrent thread immediately after being created. */
+    if ((*inst)->state == ZOMBIFIED) {
+        uv_mutex_unlock(&(*inst)->lock);
+        *sock = NULL;
+        return EBADF;
+    }
+
+    ftw_assert((*inst)->state == UNINITIALIZED);
+
     (*inst)->incoming_msg_notifier_event = *msg_to_lv_event;
     (*inst)->id = rcs;
 
@@ -197,19 +209,12 @@ ftwrc ftw_actor_inbox_construct(struct ftw_socket_inbox **inst, LVUserEventRef *
     nn_thread_init(&(*inst)->async_recv_thread, ftw_socket_inbox_async_recv_worker, *inst);
     nn_sem_wait(&(*inst)->initialized);
 
-    uv_mutex_lock(&(*inst)->lock);
-    if ((*inst)->state == UNINITIALIZED) {
-        (*inst)->state = ACTIVE;
-        *sock = *inst;
-        rc = EFTWOK;
-    }
-    else {
-        ftw_assert((*inst)->state == ZOMBIFIED);
-        rc = EBADF;
-    }
+    (*inst)->state = ACTIVE;
+    *sock = *inst;
+
     uv_mutex_unlock(&(*inst)->lock);
 
-    return rc;
+    return EFTWOK;
 }
 
 
@@ -291,6 +296,7 @@ ftwrc ftw_actor_inbox_reply(json_t *response, struct ftw_incoming_request *req, 
     hdr.msg_control = hdr_ptr;
     hdr.msg_controllen = hdr_len;
 
+    /* Acquire the lock to guarantee the socket is still active. */
     uv_mutex_lock(&s->lock);
 
     if (s->state != ACTIVE) {
@@ -333,15 +339,39 @@ ftwrc ftw_actor_inbox_shutdown(struct ftw_socket_inbox ** const sock)
     }
 
     time = uv_hrtime();
+
+    /*  Wait until any concurrent operations have completed by obtaining the lock. */
     uv_mutex_lock(&(*sock)->lock);
+
+    /*  Socket shutdown was requested even before initialization was complete, so return early since no resources need to be destroyed. */
+    if ((*sock)->state == UNINITIALIZED) {
+        ftw_debug("Uninitialized Inbox abandoned.");
+        uv_mutex_unlock(&(*sock)->lock);
+        return EFTWOK;
+    }
+
+    /*  With lock still held, zombify then close the socket. */
+    ftw_assert((*sock)->state == ACTIVE);
     (*sock)->state = ZOMBIFIED;
-    uv_mutex_unlock(&(*sock)->lock);
     rc = nn_close((*sock)->id);
+    uv_mutex_unlock(&(*sock)->lock);
+
+
+    /*  Let async inbox thread know it's OK to unload since LV will no longer be using its stack-allocated memory. */
     nn_sem_post(&(*sock)->deinitialized);
+
+    /*  Wait for async inbox thread to complete, so that we know it's not using any of the inbox object's members. */
     nn_thread_term(&(*sock)->async_recv_thread);
+
+    /*  Acquire lock a final time, since closing the socket should guarantee that no more async I/O is in progress.
+        Destroy inbox resources and mark the object allocation as unused. It may be reused again if LV chooses to reuse a clone VI. */
+    uv_mutex_lock(&(*sock)->lock);
     nn_sem_term(&(*sock)->msg_acknowledged);
     nn_sem_term(&(*sock)->initialized);
     nn_sem_term(&(*sock)->deinitialized);
+    (*sock)->state = UNINITIALIZED;
+    uv_mutex_unlock(&(*sock)->lock);
+
     time = uv_hrtime() - time;
     elapsed_time = time / 1000000000.0;
     ftw_debug("Inbox Shutdown time: %.3fsec", elapsed_time);
