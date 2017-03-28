@@ -11,12 +11,14 @@
       "Iterations": 10
     },
     "Actor-Ask": {
-      "Idempotent": false
+      "Idempotent": false,
+      "Iterations": 1
     },
     "Actor-InboxConfiguration": {
     },
     "Actor-Stress": {
-      "Idempotent": false
+      "Idempotent": false,
+      "Iterations": 1
     },
     "Array-Shuffle": {
     },

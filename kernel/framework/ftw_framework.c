@@ -198,12 +198,18 @@ ftwrc ftw_actor_inbox_construct(struct ftw_socket_inbox **inst, LVUserEventRef *
     nn_sem_wait(&(*inst)->initialized);
 
     uv_mutex_lock(&(*inst)->lock);
-    ftw_assert((*inst)->state == UNINITIALIZED);
-    (*inst)->state = ACTIVE;
-    *sock = *inst;
+    if ((*inst)->state == UNINITIALIZED) {
+        (*inst)->state = ACTIVE;
+        *sock = *inst;
+        rc = EFTWOK;
+    }
+    else {
+        ftw_assert((*inst)->state == ZOMBIFIED);
+        rc = EBADF;
+    }
     uv_mutex_unlock(&(*inst)->lock);
 
-    return EFTWOK;
+    return rc;
 }
 
 
