@@ -28,12 +28,10 @@ extern "C" {
 #endif
 
 #include "../ftw.h"
-    
+
 #include "upstream/src/nn.h"
-#include "upstream/src/reqrep.h"
 #include "upstream/src/utils/chunk.h"
 #include "upstream/src/utils/cont.h"
-#include "upstream/src/utils/err.h"
 #include "upstream/src/utils/list.h"
 
 #include "../ftw_libuv.h"

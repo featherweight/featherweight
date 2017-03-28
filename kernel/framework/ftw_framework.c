@@ -21,6 +21,7 @@
 */
 
 #include "ftw_framework.h"
+#include "../nanomsg/upstream/src/reqrep.h"
 
 FTW_PRIVATE_SUPPORT void ftw_socket_inbox_async_recv_worker(void *arg);
 

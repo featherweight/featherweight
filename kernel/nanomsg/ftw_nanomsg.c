@@ -22,6 +22,7 @@
 
 #include "ftw_nanomsg.h"
 
+#include "upstream/src/reqrep.h"
 #include "upstream/src/pubsub.h"
 #include "upstream/src/pipeline.h"
 

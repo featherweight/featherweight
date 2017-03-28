@@ -35,7 +35,7 @@ extern "C" {
 
 #include "extcode.h"
 
-#define FTW_VERSION_TEXT "0.10.2"
+#define FTW_VERSION_TEXT "0.10.3"
 
 #define FTW_DEBUG_WINDOW 0
 
